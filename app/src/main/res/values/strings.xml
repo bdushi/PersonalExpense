@@ -1,7 +1,33 @@
 <resources>
     <string name="app_name">FinancaIme</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_cloud">Cloud</string>
+    <string name="title_budget">Buxheti</string>
+    <string name="title_expense">Shpenzimet</string>
+    <string name="title_expense_log">Historiku</string>
+    <string name="title_map">Harta</string>
+    <string name="title_youtube">Youtube</string>
+    <string name="title_statistics">Statistika</string>
+    <string name="title_settings">Cilesimet</string>
+    <string name="cancel">Anulo</string>
+    <string name="save">Ruaj</string>
+    <string name="add_value">Shto</string>
+    <string name="add_your_budget">Shto Buxhet</string>
+    <string name="add_your_incomes">Shto te Ardhura</string>
+    <string name="budget">Buxhet</string>
+    <string name="out_of_incomes">Out of incomes</string>
+
+    <string name="incomes">Te Ardhura</string>
+    <string name="edit">Modifiko</string>
+    <string name="add_exp">Shtop Shpenzim</string>
+    <string name="value">Vlera</string>
+    <string name="add_budget_hint">"Buxheti: "</string>
+    <string name="total">"Totali"</string>
+    <string-array name="category_arrays">
+        <item>Rent</item>
+        <item>Food</item>
+        <item>Shopping</item>
+        <item>Transport</item>
+        <item>Other</item>
+        <item>Fixed</item>
+    </string-array>
 </resources>
