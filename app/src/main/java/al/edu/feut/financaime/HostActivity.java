@@ -45,7 +45,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         });
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YoutubeFragment) {
+                if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YouTubePlayerSupportFragment) {
                     navigation.setVisibility(View.GONE);
                 }
                 else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof GoogleMapFragment) {
@@ -84,8 +84,6 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId())
         {
             case R.id.youtube:
-
-
                 /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new YoutubeFragment())
                         .addToBackStack("YOUTUBE_FRAGMENT")
@@ -96,6 +94,8 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                         youTubePlayer.loadVideo("a4NT5iBFuZs");
+                        //youTubePlayer.setShowFullscreenButton(false);
+                        //youTubePlayer.setFullscreen(false);
                     }
 
                     @Override
