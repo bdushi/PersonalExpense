@@ -36,6 +36,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_CATEGORY_TABLE);
         db.execSQL(CREATE_EXPENSE_TABLE);
         db.execSQL(CREATE_SETTINGS_TABLE);
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Shopping")));
     }
 
     @Override

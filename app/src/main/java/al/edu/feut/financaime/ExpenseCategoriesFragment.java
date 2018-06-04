@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import al.edu.feut.financaime.dialog.EditCategory;
+
 
 /**
  * Created by bruno on 24-Jul-17.
@@ -40,5 +42,11 @@ public class ExpenseCategoriesFragment extends Fragment
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        view.findViewById(R.id.category_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new EditCategory.Builder().build().show(getFragmentManager(), "EDIT_CATEGORY");
+            }
+        });
     }
 }

@@ -55,14 +55,14 @@ public class Settings {
     public static abstract class SettingTable implements BaseColumns {
 
         //emri i tabeles
-        public static final String SETTINGS_TABLE = "ic_expense_white_36dp";
+        public static final String SETTINGS_TABLE = "settings";
 
         //emrat e kolonave te tabeles
         public static final String INCOMES = "_incomes";
         public static final String BUGDET = "_budget";
 
 
-        public static String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTO INCREMENT NOT NULL, "
+        public static String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + INCOMES + " REAL, "
                 + BUGDET + " REAL "
                 + ")";

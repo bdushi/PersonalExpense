@@ -102,13 +102,13 @@ public class Budget implements Parcelable {
 
     public static abstract class BudgetTable implements BaseColumns{
 
-        public static final String BUDGET_TABLE = "ic_budget_white_36dp";
+        public static final String BUDGET_TABLE = "budget";
 
         public static final String BUDGET = "_budget";
         public static final String INCOMES = "_incomes";
         public static final String DATE = "_date";
 
-        public static String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTO INCREMENT NOT NULL, "
+        public static String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + BUDGET + " REAL, "
                 + INCOMES + " REAL, "
                 + DATE + " REAL "

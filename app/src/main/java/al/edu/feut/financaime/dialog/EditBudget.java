@@ -69,8 +69,8 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
         edit = view.findViewById(R.id.edit);
         edit.addTextChangedListener(this);
 
-        textInputLayout = (TextInputLayout) view.findViewById(R.id.text_input_layout);
-        AppCompatTextView title = (AppCompatTextView) view.findViewById(R.id.title);
+        textInputLayout = view.findViewById(R.id.text_input_layout);
+        AppCompatTextView title = view.findViewById(R.id.title);
         title.setText(R.string.add_your_budget);
         textInputLayout.setHint(getString(R.string.budget));
 
@@ -100,40 +100,19 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
                     }
                     else
                         textInputLayout.setError(getString(R.string.add_value));
-                }
-                else if(!edit.getText().toString().isEmpty())
-                {
-                    /*if(budget.getIncomes() >= budgetVal && (budget.getIncomesTemp() + budgetVal) <= budget.getIncomes())
-                    {
-                        budget.setBudget(budgetVal);
-                        budget.setIncomesTemp(budget.getIncomesTemp() + budgetVal);
-                        dialogCallBack.onClickSave(budget);
-                        dismiss();
-                    }*/
+                } else if(!edit.getText().toString().isEmpty()) {
                     double budgetVal = Double.parseDouble(edit.getText().toString());
-                    if(budget.getIncomes() >= budgetVal)
-                    {
+                    if(budget.getIncomes() >= budgetVal) {
                         budget.setBudget(budgetVal);
                         dialogCallBack.onClickSave(budget);
                         dismiss();
                     }
-                    else
-                    {
+                    else {
                         textInputLayout.setError(getString(R.string.out_of_incomes));
                     }
-                }
-                else
-                {
+                } else {
                     textInputLayout.setError(getString(R.string.add_value));
                 }
-                /*else if(Utilities.month(budget.getDate()) == Utilities.month())
-                {
-
-                }
-                else
-                {
-                    textInputLayout.setError(getString(R.string.out_of_month));
-                }*/
                 break;
             case R.id.cancel:
                 dismiss();

@@ -9,15 +9,14 @@ import android.provider.BaseColumns;
 public class Category implements Parcelable {
     private long id;
     private String category;
-    //ignore
-    private String operation;
-    //ignore
-    private boolean loadingLeft;
-    //ignore
-    private boolean loadingRight;
+
 
     public Category() {
     }
+    public Category(String category) {
+        this.category = category;
+    }
+
 
     protected Category(Parcel in)
     {
@@ -79,39 +78,6 @@ public class Category implements Parcelable {
         return category;
     }
 
-    public boolean isLoadingLeft()
-    {
-        return loadingLeft;
-    }
-
-    public void setLoadingLeft(boolean loadingLeft) {
-        this.loadingLeft = loadingLeft;
-    }
-
-    public boolean isLoadingRight()
-    {
-        return loadingRight;
-    }
-
-    public void setLoadingRight(boolean loadingRight) {
-        this.loadingRight = loadingRight;
-    }
-
-    public boolean isLoading()
-    {
-        return loadingRight || loadingLeft;
-    }
-
-    public String getOperation()
-    {
-        return operation;
-    }
-
-    public void setOperation(String operation)
-    {
-        this.operation = operation;
-    }
-
     //DDL
 
     public static abstract class CategoryTable implements BaseColumns{
@@ -119,7 +85,7 @@ public class Category implements Parcelable {
 
         public static final String CATEGORY= "_category";
 
-        public static String CREATE_CATEGORY_TABLE= "CREATE TABLE " + CATEGORY_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTO INCREMENT NOT NULL, "
+        public static String CREATE_CATEGORY_TABLE= "CREATE TABLE " + CATEGORY_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + CATEGORY + " TEXT" +")";
 
         public static ContentValues contentCategory(Category category)

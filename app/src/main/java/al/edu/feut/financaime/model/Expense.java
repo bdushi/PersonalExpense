@@ -109,7 +109,7 @@ public class Expense implements Parcelable
     public static abstract class ExpenseTable implements BaseColumns {
 
         //emri i tabeles
-        public static final String EXPENSE_TABLE = "ic_expense_white_36dp";
+        public static final String EXPENSE_TABLE = "expense";
 
         //emrat e kolonave te tabeles
         public static final String EXPENSE_NAME = "expenseName";
@@ -117,7 +117,7 @@ public class Expense implements Parcelable
         public static final String DATE= "_date";
 
 
-        public static String CREATE_EXPENSE_TABLE = "CREATE TABLE " + EXPENSE_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTO INCREMENT NOT NULL, "
+        public static String CREATE_EXPENSE_TABLE = "CREATE TABLE " + EXPENSE_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + EXPENSE_NAME + " TEXT, "
                 + EXPENSE + " REAL, "
                 + DATE + " REAL "
