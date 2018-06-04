@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1011668962080",
+    "firebase_url": "https://financaime-206208.firebaseio.com",
+    "project_id": "financaime-206208",
+    "storage_bucket": "financaime-206208.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011668962080:android:bba2d4754ef05a0f",
+        "android_client_info": {
+          "package_name": "al.edu.feut.financaime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011668962080-ch8i05r728s0bjeq3nfef1la9jdju2kp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "al.edu.feut.financaime",
+            "certificate_hash": "d88ae9c9223086c69d36135f1bd4b0d47ba93cd1"
+          }
+        },
+        {
+          "client_id": "1011668962080-5nrpks9ep3fe0b6qlconca1740d6v16n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV_QmuyUHIhDbvM5_qGiLLlqGSswpz2Vw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011668962080-5nrpks9ep3fe0b6qlconca1740d6v16n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
