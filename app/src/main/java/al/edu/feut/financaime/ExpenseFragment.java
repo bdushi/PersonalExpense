@@ -18,5 +18,15 @@ public class ExpenseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.edit_category).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.host, new ExpenseCategoriesFragment())
+                        .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
+                        .commit();
+            }
+        });
     }
 }

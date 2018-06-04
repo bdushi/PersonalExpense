@@ -22,6 +22,9 @@
     <string name="value">Vlera</string>
     <string name="add_budget_hint">"Buxheti: "</string>
     <string name="total">"Totali"</string>
+    <string name="google_maps_key">"AIzaSyDyFNWFiwtR73k3WeLiH8ic026UD6M3I3E"</string>
+    <string name="general">"general"</string>
+    <string name="expense_categories">"Kategorit"</string>
     <string-array name="category_arrays">
         <item>Rent</item>
         <item>Food</item>

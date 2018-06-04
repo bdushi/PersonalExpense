@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -36,13 +36,15 @@ android {
         implementation 'com.android.support:cardview-v7:27.1.1'
         implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
-        implementation 'com.google.android.gms:play-services-maps:15.0.0'
-        implementation 'com.google.android.gms:play-services-location:15.0.0'
+        // google analitics
+        implementation 'com.google.android.gms:play-services-analytics:9.0.0'
+        //google map
+        implementation 'com.google.android.gms:play-services-maps:9.0.0'
+        implementation 'com.google.android.gms:play-services-location:9.0.0'
 
         implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.2'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     }
-    apply plugin: 'com.google.gms.google-services'
 }

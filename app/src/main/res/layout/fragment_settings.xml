@@ -1,6 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_24">
+    <android.support.v7.widget.AppCompatTextView
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/general"
+        android:textColor="@color/colorAccent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/incomes"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"/>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/incomes_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edit_default_incomes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:hint="@string/edit"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/budget"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"/>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/budget_input_layout"
+            android:layout_width="0pt"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/edit_default_budget"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:hint="@string/edit"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 </LinearLayout>

@@ -1,4 +1,6 @@
 package al.edu.feut.financaime;
 
-public class YoutubeFragment {
+import android.support.v4.app.Fragment;
+
+public class YoutubeFragment extends Fragment{
 }
