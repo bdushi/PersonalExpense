@@ -3,7 +3,6 @@ package al.edu.feut.financaime;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +11,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import al.edu.feut.financaime.model.Database;
 
@@ -82,8 +84,29 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId())
         {
             case R.id.youtube:
-                getSupportFragmentManager().beginTransaction()
+
+
+                /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new YoutubeFragment())
+                        .addToBackStack("YOUTUBE_FRAGMENT")
+                        .commit();*/
+                //YouTubePlayerSupportFragment youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_view);
+                YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+                YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                        youTubePlayer.loadVideo("a4NT5iBFuZs");
+                    }
+
+                    @Override
+                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                    }
+                };
+
+                youTubePlayerFragment.initialize("AIzaSyDFcMlEuBkzdu-bqfdrdbl7-HInFn8i63I" ,onInitializedListener);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.host, youTubePlayerFragment)
                         .addToBackStack("YOUTUBE_FRAGMENT")
                         .commit();
                 break;
