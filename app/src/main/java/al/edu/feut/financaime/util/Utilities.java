@@ -57,6 +57,15 @@ public class Utilities
         return String.format("%s", calendar.get(Calendar.YEAR));
     }
 
+    public static Calendar incrementAndDecrement(Calendar calendar, int date) {
+        calendar.add(Calendar.DATE, date);
+        return calendar;
+    }
+
+    public static String format(Calendar calendar) {
+        return String.format("%s %s %s", calendar.get(Calendar.DATE), getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
+    }
+
     public static Date date()
     {
         Calendar calendar = Calendar.getInstance();
@@ -84,7 +93,7 @@ public class Utilities
 
     public static String getMonth (int month)
     {
-        String[] monthStr = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        String[] monthStr = {"Janare", "Shkurte", "Marse", "Prill", "Maj", "Quershor", "Korrik", "Gusht", "Shtatore", "Tetor", "Nentore", "Dhjetore"};
         return monthStr[month];
     }
 
