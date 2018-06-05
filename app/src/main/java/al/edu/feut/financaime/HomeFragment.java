@@ -14,8 +14,7 @@ import java.util.Calendar;
 import al.edu.feut.financaime.util.Utilities;
 
 public class HomeFragment extends Fragment {
-    private
-    Calendar calendar = Calendar.getInstance();
+    private Calendar calendar = Calendar.getInstance();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

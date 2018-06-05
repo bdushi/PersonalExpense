@@ -20,10 +20,11 @@ public class Expense implements Parcelable
     public Expense() {
     }
 
-    public Expense(String expenseName, double expense, Date date) {
+    public Expense(String expenseName, double expense, Date date, long id) {
         this.expenseName = expenseName;
         this.expense = expense;
         this.date = date;
+        this.id = id;
     }
 
     protected Expense(Parcel in) {

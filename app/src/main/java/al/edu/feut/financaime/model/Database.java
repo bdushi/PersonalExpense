@@ -110,7 +110,22 @@ public class Database extends SQLiteOpenHelper {
         return expenses;
     }
 
-    List<Date> date() {
+    public List<Expense> expense(String month, String year) {
+        List<Expense> expenses = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM expense " +
+                "WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = ? " +
+                "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ? " +
+                "GROUP BY TRIM(_expense_name)", new String[]{month, year});
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            expenses.add(expenseCursor(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return expenses;
+    }
+
+    public List<Date> date() {
         List<Date> dates = new ArrayList<>();
         Cursor cursor = getReadableDatabase().rawQuery("SELECT _date FROM expense", null);
         cursor.moveToFirst();
@@ -128,9 +143,10 @@ public class Database extends SQLiteOpenHelper {
                         "_id, " +
                         "_expense_name, " +
                         "_expense, " +
+                        "_date, " +
                         "(SELECT sum(_expense) FROM expense WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? " +
                             "AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? " +
-                            "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ?) AS total " +
+                            "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ?) AS _total " +
                         "FROM expense " +
                         "WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ? " +
                         "ORDER BY _expense_name ASC", new String[]{date, month, year, date, month, year});
@@ -173,7 +189,7 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().delete(SETTINGS_TABLE, "_id=?", new String[]{String.valueOf(settings.getId())});
     }
 
-    public Settings settings (long id) {
+    public Settings settings () {
         Settings settings = null;
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM settings", null);
         cursor.moveToFirst();

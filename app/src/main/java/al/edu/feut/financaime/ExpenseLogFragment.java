@@ -26,6 +26,7 @@ import al.edu.feut.financaime.model.Category;
 import al.edu.feut.financaime.model.Database;
 import al.edu.feut.financaime.model.Expense;
 import al.edu.feut.financaime.model.ExpenseMaster;
+import al.edu.feut.financaime.util.EventDecorator;
 import al.edu.feut.financaime.util.Utilities;
 
 import static al.edu.feut.financaime.util.Utilities.calendar;
@@ -52,16 +53,33 @@ public class ExpenseLogFragment extends Fragment {
         Calendar calendar = calendar();
         ExpenseMaster expenseMaster =
                 new Database(getContext()).expenseMaster(
-                        String.valueOf(calendar.get(Calendar.DATE)),
+                        Utilities.date(calendar.get(Calendar.DATE)),
                         Utilities.month(calendar.get(Calendar.MONTH)),
                         String.valueOf(calendar.get(Calendar.YEAR)));
         expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+        if(expenseMaster.getTotal().equals("0"))
+            total.setVisibility(View.GONE);
+        else {
+            total.setVisibility(View.VISIBLE);
+            total.setText(expenseMaster.getTotal());
+        }
         total.setText(expenseMaster.getTotal());
-
+        expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
         expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
+                ExpenseMaster expenseMaster =
+                        new Database(getContext()).expenseMaster(
+                                Utilities.date(date.getDay()),
+                                Utilities.month(date.getMonth()),
+                                String.valueOf(date.getYear()));
+                expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+                if(expenseMaster.getTotal().equals("0"))
+                    total.setVisibility(View.GONE);
+                else {
+                    total.setVisibility(View.VISIBLE);
+                    total.setText(expenseMaster.getTotal());
+                }
             }
         });
     }

@@ -26,8 +26,7 @@ public class Utilities
         return euro.format(value);
     }
 
-    public static String dateFormat(Date date)
-    {
+    public static String dateFormat(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         return dateFormat.format(date.getTime());
     }
@@ -62,9 +61,18 @@ public class Utilities
         return calendar;
     }
 
+    public static Calendar monthIncrementAndDecrement(Calendar calendar, int month) {
+        calendar.add(Calendar.MONTH, month);
+        return calendar;
+    }
+
     public static String format(Calendar calendar) {
         return String.format("%s %s %s", calendar.get(Calendar.DATE), getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
     }
+    public static String monthFormat(Calendar calendar) {
+        return String.format("%s %s", getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
+    }
+
     public static Date date() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 0);

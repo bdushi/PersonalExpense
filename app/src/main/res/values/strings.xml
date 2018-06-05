@@ -33,6 +33,8 @@
     <string name="category">Kategori</string>
 
     <string name="alert">Ju lutem vendosni nje vlere</string>
+
+    <string name="budget_grater_than_incomes">Budget must not be grater then Incomes</string>
     <string-array name="category_arrays">
         <item>Rent</item>
         <item>Food</item>
