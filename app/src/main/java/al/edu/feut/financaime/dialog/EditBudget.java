@@ -85,10 +85,8 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
         switch (view.getId())
         {
             case R.id.save:
-                if(budget == null)
-                {
-                    if(!edit.getText().toString().isEmpty())
-                    {
+                if(budget == null) {
+                    if(!edit.getText().toString().isEmpty()) {
                         double data = Double.parseDouble(edit.getText().toString());
                         Calendar calendar = Calendar.getInstance();
                         Budget budget = new Budget();
@@ -97,8 +95,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
                         budget.setDate(calendar.getTime());
                         dialogCallBack.onClickSave(budget);
                         dismiss();
-                    }
-                    else
+                    } else
                         textInputLayout.setError(getString(R.string.add_value));
                 } else if(!edit.getText().toString().isEmpty()) {
                     double budgetVal = Double.parseDouble(edit.getText().toString());

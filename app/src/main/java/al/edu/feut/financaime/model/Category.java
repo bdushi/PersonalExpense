@@ -9,24 +9,21 @@ import android.provider.BaseColumns;
 public class Category implements Parcelable {
     private long id;
     private String category;
-
-
     public Category() {
     }
+
     public Category(String category) {
         this.category = category;
     }
 
 
-    protected Category(Parcel in)
-    {
+    protected Category(Parcel in) {
         id = in.readLong();
         category = in.readString();
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags)
-    {
+    public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(category);
     }
@@ -67,9 +64,9 @@ public class Category implements Parcelable {
         return category;
     }
 
-    public void setCategory(String category)
-    {
+    public Category setCategory(String category) {
         this.category = category;
+        return this;
     }
 
     @Override
@@ -85,7 +82,7 @@ public class Category implements Parcelable {
 
         public static final String CATEGORY= "_category";
 
-        public static String CREATE_CATEGORY_TABLE= "CREATE TABLE " + CATEGORY_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+        public static final String CREATE_CATEGORY_TABLE= "CREATE TABLE " + CATEGORY_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + CATEGORY + " TEXT" +")";
 
         public static ContentValues contentCategory(Category category)
@@ -99,6 +96,7 @@ public class Category implements Parcelable {
         public static Category categoryCursor (Cursor cursor)
         {
          Category category= new Category();
+         category.setId(cursor.getLong(cursor.getColumnIndex(_ID)));
          category.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)));
 
          return category;

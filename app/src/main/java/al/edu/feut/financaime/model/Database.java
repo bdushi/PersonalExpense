@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import static al.edu.feut.financaime.model.Budget.BudgetTable.BUDGET_TABLE;
@@ -16,6 +19,7 @@ import static al.edu.feut.financaime.model.Category.CategoryTable.CREATE_CATEGOR
 import static al.edu.feut.financaime.model.Category.CategoryTable.categoryCursor;
 import static al.edu.feut.financaime.model.Category.CategoryTable.contentCategory;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.CREATE_EXPENSE_TABLE;
+import static al.edu.feut.financaime.model.Expense.ExpenseTable.DATE;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.EXPENSE_TABLE;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.contentExpense;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.expenseCursor;
@@ -56,9 +60,9 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().delete(BUDGET_TABLE, "_id =?", new String[]{String.valueOf(budget.getId())});
     }
 
-    public Budget budget (long id) {
+    public Budget budget (String month) {
         Budget budget = null;
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM budget", null);
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM budget WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = ?", new String[]{month});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             budget = budgetCursor(cursor);
@@ -94,6 +98,44 @@ public class Database extends SQLiteOpenHelper {
         return expense;
     }
 
+    public List<Expense> expense (String month) {
+        List<Expense> expenses = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT _id, _expense_name, SUM(_expense) AS _expense, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = ? GROUP BY TRIM(_expense_name)", new String[]{month});
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            expenses.add(expenseCursor(cursor));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return expenses;
+    }
+
+    List<Date> date() {
+        List<Date> dates = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT _date FROM expense", null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            dates.add(new Date(cursor.getLong(cursor.getColumnIndex(DATE))));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return dates;
+    }
+
+    public ExpenseMaster expenseMaster(String date, String month, String year) {
+        Cursor cursor = getReadableDatabase()
+                .rawQuery("SELECT " +
+                        "_id, " +
+                        "_expense_name, " +
+                        "_expense, " +
+                        "(SELECT sum(_expense) FROM expense WHERE strftime('%d', datetime(date/1000, 'unixepoch')) = ? " +
+                            "AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? " +
+                            "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ?) AS total " +
+                        "FROM expense " +
+                        "WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ? " +
+                        "ORDER BY _expense_name ASC", new String[]{date, month, year, date, month, year});
+        return new ExpenseMaster(cursor);
+    }
 
     public long insertCategory(Category category) {
         return getWritableDatabase().insert(CATEGORY_TABLE,null,contentCategory(category));
@@ -107,16 +149,16 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().delete(CATEGORY_TABLE, "_id=?", new String[]{String.valueOf(category.getId())});
     }
 
-    public Category category (long id) {
-        Category category = null;
+    public List<Category> categories () {
+        List<Category> categories = new ArrayList<>();
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM category", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            category = categoryCursor(cursor);
+            categories.add(categoryCursor(cursor));
             cursor.moveToNext();
         }
         cursor.close();
-        return category;
+        return categories;
     }
 
     public long insertSettings(Settings settings) {

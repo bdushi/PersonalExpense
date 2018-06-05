@@ -14,7 +14,10 @@
     <string name="add_your_budget">Shto Buxhet</string>
     <string name="add_your_incomes">Shto te Ardhura</string>
     <string name="budget">Buxhet</string>
-    <string name="out_of_incomes">Out of incomes</string>
+    <string name="out_of_incomes">Jashte te ardhurave</string>
+    <string name="out_of_budget">Jashte te buxhetit</string>
+    <string name="success">Transaksion i Skusesshem</string>
+    <string name="fail">Transaksioni Deshtoi</string>
 
     <string name="incomes">Te Ardhura</string>
     <string name="edit">Modifiko</string>
@@ -25,6 +28,11 @@
     <string name="google_maps_key">"AIzaSyDyFNWFiwtR73k3WeLiH8ic026UD6M3I3E"</string>
     <string name="general">"general"</string>
     <string name="expense_categories">"Kategorit"</string>
+    <string name="incomes_alert">"Te ardhurat nuk mund te jen me te vogela se buxheti"</string>
+    <string name="add_category">Kategori Shpenzimesh</string>
+    <string name="category">Kategori</string>
+
+    <string name="alert">Ju lutem vendosni nje vlere</string>
     <string-array name="category_arrays">
         <item>Rent</item>
         <item>Food</item>

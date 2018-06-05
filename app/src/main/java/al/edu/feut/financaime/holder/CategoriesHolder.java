@@ -7,11 +7,10 @@ import android.view.View;
 import al.edu.feut.financaime.R;
 import al.edu.feut.financaime.callback.RecyclerViewOnClickListener;
 
-public class ExpenseCategoriesHolder extends RecyclerView.ViewHolder {
-    private AppCompatTextView category;
-    private RecyclerViewOnClickListener recyclerViewOnClickListener;
+public class CategoriesHolder extends RecyclerView.ViewHolder {
+    public AppCompatTextView category;
 
-    public ExpenseCategoriesHolder(View itemView, RecyclerViewOnClickListener recyclerViewOnClickListener) {
+    public CategoriesHolder(View itemView, RecyclerViewOnClickListener recyclerViewOnClickListener) {
         super(itemView);
         category = itemView.findViewById(R.id.category);
         itemView.setOnClickListener(new View.OnClickListener() {

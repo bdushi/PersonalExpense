@@ -66,14 +66,14 @@ public class Utilities
         return String.format("%s %s %s", calendar.get(Calendar.DATE), getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
     }
 
-    public static Date date()
+    public static Calendar date()
     {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+        return calendar;
     }
     public static Date date(Calendar calendar)
     {

@@ -5,10 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import al.edu.feut.financaime.adapter.LogAdapter;
 import al.edu.feut.financaime.callback.DialogCallBack;
 import al.edu.feut.financaime.dialog.EditBudget;
 import al.edu.feut.financaime.dialog.EditIncomes;
@@ -25,7 +31,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBudget = new Budget();
+        mBudget = new Database(getContext()).budget(Utilities.month(Utilities.month()));
     }
 
     @Nullable
@@ -43,11 +49,17 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         budgetTv = view.findViewById(R.id.budget);
         incomesTv = view.findViewById(R.id.incomes);
 
-        budgetTv.setText(Utilities.format(mBudget.getBudget()));
-        incomesTv.setText(Utilities.format(mBudget.getIncomes()));
+        budgetTv.setText(Utilities.format(mBudget != null ? mBudget.getBudget() : 0));
+        incomesTv.setText(Utilities.format(mBudget != null ? mBudget.getIncomes() : 0));
 
         editIncomes.setOnClickListener(this);
         editBudget.setOnClickListener(this);
+
+        RecyclerView log = view.findViewById(R.id.log);
+        log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        log.setItemAnimator(new DefaultItemAnimator());
+        //log.addItemDecoration(new DividerItemDecoration(getActivity(), GridLayoutManager.DEFAULT_SPAN_COUNT));
+        log.setAdapter(new LogAdapter(new Database(getContext()).expense(Utilities.month(Utilities.month())), R.layout.log_single_item));
     }
 
     @Override
@@ -62,8 +74,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickSave(Budget budget) {
                                 if(new Database(getActivity()).insertBudget(budget) != -1) {
-                                    budgetTv.setText(Utilities.format(mBudget.getBudget()));
-                                    incomesTv.setText(Utilities.format(mBudget.getIncomes()));
+                                    budgetTv.setText(Utilities.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }
@@ -79,8 +91,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickSave(Budget budget) {
                                 if(new Database(getActivity()).insertBudget(budget) != -1) {
-                                    budgetTv.setText(Utilities.format(mBudget.getBudget()));
-                                    incomesTv.setText(Utilities.format(mBudget.getIncomes()));
+                                    budgetTv.setText(Utilities.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }

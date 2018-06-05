@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 import java.util.Date;
 
-import al.edu.feut.financaime.util.Converters;
+import al.edu.feut.financaime.util.Utilities;
 
 public class Budget implements Parcelable {
     private long id;
@@ -24,6 +24,7 @@ public class Budget implements Parcelable {
         id = in.readLong();
         budget = in.readDouble();
         incomes = in.readDouble();
+        date = new Date(in.readLong());
         expense = in.readParcelable(Expense.class.getClassLoader());
     }
 
@@ -32,6 +33,7 @@ public class Budget implements Parcelable {
         dest.writeLong(id);
         dest.writeDouble(budget);
         dest.writeDouble(incomes);
+        dest.writeLong(date.getTime());
         dest.writeParcelable(expense, flags);
     }
 
@@ -108,7 +110,7 @@ public class Budget implements Parcelable {
         public static final String INCOMES = "_incomes";
         public static final String DATE = "_date";
 
-        public static String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+        public static final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + BUDGET + " REAL, "
                 + INCOMES + " REAL, "
                 + DATE + " REAL "
@@ -118,7 +120,7 @@ public class Budget implements Parcelable {
             ContentValues contentValues = new ContentValues();
             contentValues.put(BUDGET, budget.getBudget());
             contentValues.put(INCOMES, budget.getIncomes());
-            contentValues.put(DATE, Converters.dateToTimestamp(budget.getDate()));
+            contentValues.put(DATE, Utilities.dateToTimestamp(budget.getDate()));
             return contentValues;
         }
         public static Budget budgetCursor(Cursor cursor) {
@@ -126,7 +128,7 @@ public class Budget implements Parcelable {
             budget.setId(cursor.getLong(cursor.getColumnIndex(_ID)));
             budget.setBudget(cursor.getDouble(cursor.getColumnIndex(BUDGET)));
             budget.setIncomes(cursor.getDouble(cursor.getColumnIndex(INCOMES)));
-            budget.setDate(Converters.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))));
+            budget.setDate(Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))));
             return budget;
         }
     }

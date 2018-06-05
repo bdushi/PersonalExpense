@@ -89,18 +89,16 @@ public class EditIncomes extends DialogFragment implements View.OnClickListener,
         switch (view.getId())
         {
             case R.id.save:
-                if(!edit.getText().toString().isEmpty())
-                {
-                    if(budget != null)
-                    {
+                if(!edit.getText().toString().isEmpty()) {
+                    if(budget != null) {
                         if(Double.parseDouble(edit.getText().toString()) >= budget.getBudget()) {
                             budget.setIncomes(Double.parseDouble(edit.getText().toString()));
                             dialogCallBack.onClickSave(budget);
                             dismiss();
+                        } else {
+                            textInputLayout.setError(getString(R.string.incomes_alert));
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Calendar calendar = Calendar.getInstance();
                         Budget budget = new Budget();
                         budget.setIncomes(Double.parseDouble(edit.getText().toString()));
@@ -109,9 +107,7 @@ public class EditIncomes extends DialogFragment implements View.OnClickListener,
                         dialogCallBack.onClickSave(budget);
                         dismiss();
                     }
-                }
-                else
-                {
+                } else {
                     textInputLayout.setError(getString(R.string.add_value));
                 }
                 break;

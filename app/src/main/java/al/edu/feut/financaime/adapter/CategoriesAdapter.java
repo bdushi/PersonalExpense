@@ -4,38 +4,42 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
 import al.edu.feut.financaime.callback.RecyclerViewOnClickListener;
-import al.edu.feut.financaime.holder.ExpenseCategoriesHolder;
+import al.edu.feut.financaime.holder.CategoriesHolder;
 import al.edu.feut.financaime.model.Category;
 
-public class ExpenseCategoriesAdapter extends RecyclerView.Adapter<ExpenseCategoriesHolder> {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesHolder> {
 
     private List<Category> categories;
     private int resources;
     private RecyclerViewOnClickListener recyclerViewOnClickListener;
 
-    public ExpenseCategoriesAdapter(List<Category> categories, int resources, RecyclerViewOnClickListener recyclerViewOnClickListener) {
+    public CategoriesAdapter(List<Category> categories, int resources, RecyclerViewOnClickListener recyclerViewOnClickListener) {
         this.categories = categories;
         this.resources = resources;
         this.recyclerViewOnClickListener = recyclerViewOnClickListener;
     }
     @NonNull
     @Override
-    public ExpenseCategoriesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ExpenseCategoriesHolder(LayoutInflater.from(parent.getContext()).inflate(resources, parent, false), recyclerViewOnClickListener);
+    public CategoriesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CategoriesHolder(LayoutInflater.from(parent.getContext()).inflate(resources, parent, false), recyclerViewOnClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExpenseCategoriesHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoriesHolder holder, int position) {
         Category category = categories.get(position);
+        holder.category.setText(category.getCategory());
     }
 
     @Override
     public int getItemCount() {
         return categories.size();
+    }
+
+    public Category getItem(int position) {
+        return categories.get(position);
     }
 }

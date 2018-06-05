@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 
 import java.util.Date;
 
-import al.edu.feut.financaime.util.Converters;
 import al.edu.feut.financaime.util.Utilities;
 
 public class Expense implements Parcelable
@@ -21,10 +20,17 @@ public class Expense implements Parcelable
     public Expense() {
     }
 
+    public Expense(String expenseName, double expense, Date date) {
+        this.expenseName = expenseName;
+        this.expense = expense;
+        this.date = date;
+    }
+
     protected Expense(Parcel in) {
         id = in.readLong();
         expenseName = in.readString();
         expense = in.readDouble();
+        date = new Date(in.readLong());
     }
 
     @Override
@@ -32,6 +38,7 @@ public class Expense implements Parcelable
         dest.writeLong(id);
         dest.writeString(expenseName);
         dest.writeDouble(expense);
+        dest.writeLong(date.getTime());
     }
 
     @Override
@@ -112,12 +119,12 @@ public class Expense implements Parcelable
         public static final String EXPENSE_TABLE = "expense";
 
         //emrat e kolonave te tabeles
-        public static final String EXPENSE_NAME = "expenseName";
+        public static final String EXPENSE_NAME = "_expense_name";
         public static final String EXPENSE = "_expense";
         public static final String DATE= "_date";
 
 
-        public static String CREATE_EXPENSE_TABLE = "CREATE TABLE " + EXPENSE_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+        public static final String CREATE_EXPENSE_TABLE = "CREATE TABLE " + EXPENSE_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + EXPENSE_NAME + " TEXT, "
                 + EXPENSE + " REAL, "
                 + DATE + " REAL "
@@ -127,7 +134,7 @@ public class Expense implements Parcelable
             ContentValues contentValues = new ContentValues();
             contentValues.put(EXPENSE_NAME, expense.getExpenseName());
             contentValues.put(EXPENSE, expense.getExpense());
-            contentValues.put(DATE, Converters.dateToTimestamp(expense.getDate()));
+            contentValues.put(DATE, Utilities.dateToTimestamp(expense.getDate()));
             return contentValues;
         }
         public static Expense expenseCursor(Cursor cursor) {
@@ -135,7 +142,7 @@ public class Expense implements Parcelable
             expense.setId(cursor.getLong(cursor.getColumnIndex(_ID)));
             expense.setExpenseName(cursor.getString(cursor.getColumnIndex(EXPENSE_NAME)));
             expense.setExpense(cursor.getDouble(cursor.getColumnIndex(EXPENSE)));
-            expense.setDate(Converters.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))));
+            expense.setDate(Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))));
             return expense;
         }
 

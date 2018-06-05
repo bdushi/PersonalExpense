@@ -5,9 +5,6 @@ import android.database.Cursor;
 import android.provider.BaseColumns;
 
 import java.text.DecimalFormat;
-import java.util.Set;
-
-import al.edu.feut.financaime.util.Converters;
 
 public class Settings {
     private long id;
@@ -62,7 +59,7 @@ public class Settings {
         public static final String BUGDET = "_budget";
 
 
-        public static String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+        public static final String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + INCOMES + " REAL, "
                 + BUGDET + " REAL "
                 + ")";
