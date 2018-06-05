@@ -128,7 +128,7 @@ public class Database extends SQLiteOpenHelper {
                         "_id, " +
                         "_expense_name, " +
                         "_expense, " +
-                        "(SELECT sum(_expense) FROM expense WHERE strftime('%d', datetime(date/1000, 'unixepoch')) = ? " +
+                        "(SELECT sum(_expense) FROM expense WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? " +
                             "AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? " +
                             "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ?) AS total " +
                         "FROM expense " +

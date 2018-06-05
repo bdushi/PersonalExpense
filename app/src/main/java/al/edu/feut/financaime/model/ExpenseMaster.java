@@ -1,6 +1,7 @@
 package al.edu.feut.financaime.model;
 import android.database.Cursor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import al.edu.feut.financaime.util.Utilities;
@@ -13,7 +14,7 @@ import static al.edu.feut.financaime.util.Utilities.format;
 //ignore
 public class ExpenseMaster {
     private String total;
-    private List<Expense> expenses;
+    private List<Expense> expenses = new ArrayList<>();
 
     public ExpenseMaster(List<Expense> expenses) {
         this.expenses = expenses;

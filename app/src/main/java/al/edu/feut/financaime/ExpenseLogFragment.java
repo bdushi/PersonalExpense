@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import al.edu.feut.financaime.model.Expense;
 import al.edu.feut.financaime.model.ExpenseMaster;
 import al.edu.feut.financaime.util.Utilities;
 
+import static al.edu.feut.financaime.util.Utilities.calendar;
 import static al.edu.feut.financaime.util.Utilities.date;
 
 public class ExpenseLogFragment extends Fragment {
@@ -41,13 +43,21 @@ public class ExpenseLogFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView expenseLog = view.findViewById(R.id.expense_log);
+        AppCompatTextView total = view.findViewById(R.id.total);
+        MaterialCalendarView expenseLogCalendarView = view.findViewById(R.id.expense_log_calendar_view);
+
         expenseLog.setLayoutManager(new LinearLayoutManager(getActivity()));
         expenseLog.setItemAnimator(new DefaultItemAnimator());
         expenseLog.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Calendar calendar = date();
-        ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(String.valueOf(calendar.get(Calendar.DATE)), String.valueOf(calendar.get(Calendar.MONTH)),String.valueOf(calendar.get(Calendar.YEAR)));
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item);
-        MaterialCalendarView expenseLogCalendarView = view.findViewById(R.id.expense_log_calendar_view);
+        Calendar calendar = calendar();
+        ExpenseMaster expenseMaster =
+                new Database(getContext()).expenseMaster(
+                        String.valueOf(calendar.get(Calendar.DATE)),
+                        Utilities.month(calendar.get(Calendar.MONTH)),
+                        String.valueOf(calendar.get(Calendar.YEAR)));
+        expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+        total.setText(expenseMaster.getTotal());
+
         expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {

@@ -29,6 +29,7 @@
             style="@style/TextAppearance.AppCompat"
             android:text="@string/total"/>
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/total"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

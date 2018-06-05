@@ -65,9 +65,16 @@ public class Utilities
     public static String format(Calendar calendar) {
         return String.format("%s %s %s", calendar.get(Calendar.DATE), getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR));
     }
+    public static Date date() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
 
-    public static Calendar date()
-    {
+    public static Calendar calendar() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 0);
