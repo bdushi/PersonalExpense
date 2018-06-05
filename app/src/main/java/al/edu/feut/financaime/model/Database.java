@@ -24,7 +24,9 @@ import static al.edu.feut.financaime.model.Expense.ExpenseTable.EXPENSE_TABLE;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.contentExpense;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.expenseCursor;
 import static al.edu.feut.financaime.model.Settings.SettingTable.CREATE_SETTINGS_TABLE;
+import static al.edu.feut.financaime.model.Settings.SettingTable.INSERT_OR_REPLACE;
 import static al.edu.feut.financaime.model.Settings.SettingTable.SETTINGS_TABLE;
+import static al.edu.feut.financaime.model.Settings.SettingTable.bindItem;
 import static al.edu.feut.financaime.model.Settings.SettingTable.contentSettings;
 import static al.edu.feut.financaime.model.Settings.SettingTable.settingsCursor;
 
@@ -181,6 +183,10 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().insert(SETTINGS_TABLE,null,contentSettings(settings));
     }
 
+    public long insertOrReplaceSettings(Settings settings) {
+        return bindItem(getWritableDatabase().compileStatement(INSERT_OR_REPLACE), settings);
+    }
+
     public int updateSettings(Settings settings){
         return getWritableDatabase().update(SETTINGS_TABLE,contentSettings(settings),"_id=?",new String[]{String.valueOf(settings.getId())});
     }
@@ -190,7 +196,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public Settings settings () {
-        Settings settings = null;
+        Settings settings = new Settings();
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM settings", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

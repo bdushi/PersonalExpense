@@ -29,14 +29,14 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.incrementAndDecrement(calendar,-1);
+                calendar = Utilities.monthIncrementAndDecrement(calendar,-1);
                 date.setText(Utilities.format(calendar));
             }
         });
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.incrementAndDecrement(calendar,+1);
+                calendar = Utilities.monthIncrementAndDecrement(calendar,+1);
                 date.setText(Utilities.format(calendar));
             }
         });

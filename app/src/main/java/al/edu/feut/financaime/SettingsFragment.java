@@ -27,49 +27,43 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         Settings mSettings = new Database(getContext()).settings();
+
         AppCompatEditText editDefaultIncomes = view.findViewById(R.id.edit_default_incomes);
         AppCompatEditText editDefaultBudget = view.findViewById(R.id.edit_default_budget);
 
         TextInputLayout incomesInputLayout = view.findViewById(R.id.incomes_input_layout);
         TextInputLayout budgetInputLayout = view.findViewById(R.id.budget_input_layout);
 
-        editDefaultIncomes.setText(mSettings != null ? mSettings.getIncomesStr() : "0");
-        editDefaultBudget.setText(mSettings != null ? mSettings.getBudgetStr() : "0");
+        editDefaultIncomes.setText( mSettings.getIncomesStr());
+        editDefaultBudget.setText(mSettings.getBudgetStr());
         editDefaultIncomes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.toString().isEmpty())
-                {
-                    if (Float.parseFloat(charSequence.toString()) < mSettings.getBudget())
-                    {
+                if(!charSequence.toString().isEmpty()) {
+                    if (Float.parseFloat(charSequence.toString()) < mSettings.getBudget()) {
                         incomesInputLayout.setErrorEnabled(true);
                         incomesInputLayout.setError(getString(R.string.budget_grater_than_incomes));
-                    }
-                    else
-                    {
+                    } else {
                         mSettings.setIncomes(Float.parseFloat(charSequence.toString()));
-                        ///new Handler().postDelayed(() -> settings.start(), 1000);
+                        new Handler().postDelayed(() ->new Database(getContext()).insertOrReplaceSettings(mSettings), 1000);
                         incomesInputLayout.setErrorEnabled(false);
                         incomesInputLayout.setError(null);
                     }
-                }
-                else
-                {
+                } else {
                     mSettings.setIncomes(0);
-                    //new Handler().postDelayed(() -> settings.start(), 1000);
+                    new Handler().postDelayed(() -> new Database(getContext()).insertOrReplaceSettings(mSettings), 1000);
                     editDefaultIncomes.setText(String.valueOf(0));
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
 
@@ -80,25 +74,19 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.toString().isEmpty())
-                {
-                    if (Float.parseFloat(charSequence.toString()) > mSettings.getIncomes())
-                    {
+                if(!charSequence.toString().isEmpty()) {
+                    if (Float.parseFloat(charSequence.toString()) > mSettings.getIncomes()) {
                         budgetInputLayout.setErrorEnabled(true);
                         budgetInputLayout.setError(getString(R.string.budget_grater_than_incomes));
-                    }
-                    else
-                    {
+                    } else {
                         mSettings.setBudget(Float.parseFloat(charSequence.toString()));
-                        //new Handler().postDelayed(() -> settings.start(), 1000);
+                        new Handler().postDelayed(() ->new Database(getContext()).insertOrReplaceSettings(mSettings), 1000);
                         budgetInputLayout.setErrorEnabled(false);
                         budgetInputLayout.setError(null);
                     }
-                }
-                else
-                {
+                } else {
                     mSettings.setBudget(0);
-                    //new Handler().postDelayed(() -> settings.start(), 1000);
+                    new Handler().postDelayed(() ->new Database(getContext()).insertOrReplaceSettings(mSettings), 1000);
                     editDefaultBudget.setText(String.valueOf(0));
                 }
             }

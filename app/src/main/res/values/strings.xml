@@ -31,6 +31,7 @@
     <string name="incomes_alert">"Te ardhurat nuk mund te jen me te vogela se buxheti"</string>
     <string name="add_category">Kategori Shpenzimesh</string>
     <string name="category">Kategori</string>
+    <string name="expense">Shpenzime</string>
 
     <string name="alert">Ju lutem vendosni nje vlere</string>
 
