@@ -113,7 +113,7 @@ public class Budget implements Parcelable {
         public static final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + BUDGET + " REAL, "
                 + INCOMES + " REAL, "
-                + DATE + " REAL "
+                + DATE + " INTEGER "
                 + ")";
 
         public static ContentValues contentBudget(Budget budget) {
@@ -123,6 +123,19 @@ public class Budget implements Parcelable {
             contentValues.put(DATE, Utilities.dateToTimestamp(budget.getDate()));
             return contentValues;
         }
+
+        public static ContentValues updateContentBudgetValue(Budget budget) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(BUDGET, budget.getBudget());
+            return contentValues;
+        }
+
+        public static ContentValues updateContentIncomesValue(Budget budget) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(INCOMES, budget.getIncomes());
+            return contentValues;
+        }
+
         public static Budget budgetCursor(Cursor cursor) {
             Budget budget = new Budget();
             budget.setId(cursor.getLong(cursor.getColumnIndex(_ID)));

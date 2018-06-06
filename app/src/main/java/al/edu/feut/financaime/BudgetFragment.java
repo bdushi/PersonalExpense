@@ -72,8 +72,17 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .build()
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
-                            public void onClickSave(Budget budget) {
+                            public void onClickInsert(Budget budget) {
                                 if(new Database(getActivity()).insertBudget(budget) != -1) {
+                                    budgetTv.setText(Utilities.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    mBudget = budget;
+                                }
+                            }
+
+                            @Override
+                            public void onClickUpdate(Budget budget) {
+                                if(new Database(getActivity()).updateIncomesValue(budget) != -1) {
                                     budgetTv.setText(Utilities.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;
@@ -89,8 +98,17 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .build()
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
-                            public void onClickSave(Budget budget) {
+                            public void onClickInsert(Budget budget) {
                                 if(new Database(getActivity()).insertBudget(budget) != -1) {
+                                    budgetTv.setText(Utilities.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    mBudget = budget;
+                                }
+                            }
+
+                            @Override
+                            public void onClickUpdate(Budget budget) {
+                                if(new Database(getActivity()).updateBudgetValue(budget) != 0) {
                                     budgetTv.setText(Utilities.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;

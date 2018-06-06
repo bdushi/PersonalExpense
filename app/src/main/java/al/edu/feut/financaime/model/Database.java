@@ -1,5 +1,6 @@
 package al.edu.feut.financaime.model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +15,8 @@ import static al.edu.feut.financaime.model.Budget.BudgetTable.BUDGET_TABLE;
 import static al.edu.feut.financaime.model.Budget.BudgetTable.CREATE_BUDGET_TABLE;
 import static al.edu.feut.financaime.model.Budget.BudgetTable.budgetCursor;
 import static al.edu.feut.financaime.model.Budget.BudgetTable.contentBudget;
+import static al.edu.feut.financaime.model.Budget.BudgetTable.updateContentBudgetValue;
+import static al.edu.feut.financaime.model.Budget.BudgetTable.updateContentIncomesValue;
 import static al.edu.feut.financaime.model.Category.CategoryTable.CATEGORY_TABLE;
 import static al.edu.feut.financaime.model.Category.CategoryTable.CREATE_CATEGORY_TABLE;
 import static al.edu.feut.financaime.model.Category.CategoryTable.categoryCursor;
@@ -54,8 +57,12 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().insert(BUDGET_TABLE, null, contentBudget(budget));
     }
 
-    public int updateBudget(Budget budget) {
-        return getWritableDatabase().update(BUDGET_TABLE, contentBudget(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+    public int updateBudgetValue(Budget budget) {
+        return getWritableDatabase().update(BUDGET_TABLE, updateContentBudgetValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+    }
+
+    public int updateIncomesValue(Budget budget) {
+        return getWritableDatabase().update(BUDGET_TABLE, updateContentIncomesValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
     }
 
     public int deleteBudget(Budget budget) {
@@ -153,6 +160,16 @@ public class Database extends SQLiteOpenHelper {
                         "WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ? " +
                         "ORDER BY _expense_name ASC", new String[]{date, month, year, date, month, year});
         return new ExpenseMaster(cursor);
+    }
+
+    public BudgetMaster budgetMaster(String month, String year) {
+        Cursor cursor = getReadableDatabase()
+                .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._budget - SUM(e._expense) AS _balance, e._date AS _date " +
+                        "FROM budget AS b  LEFT JOIN expense AS e ON b._id = e._id_budget " +
+                        "WHERE strftime('%m',datetime(b._date/1000, 'unixepoch')) = ? " +
+                        "AND strftime('%Y', datetime(b._date/1000, 'unixepoch')) = ? " +
+                        "GROUP BY TRIM(_expense_name)", new String[]{month, year});
+        return new BudgetMaster(cursor);
     }
 
     public long insertCategory(Category category) {

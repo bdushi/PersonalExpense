@@ -34,6 +34,9 @@
     <string name="expense">Shpenzime</string>
 
     <string name="alert">Ju lutem vendosni nje vlere</string>
+    <string name="summary">Permbledhie</string>
+    <string name="balance">BALANCA</string>
+    <string name="remaining">MBETUR</string>
 
     <string name="budget_grater_than_incomes">Budget must not be grater then Incomes</string>
     <string-array name="category_arrays">

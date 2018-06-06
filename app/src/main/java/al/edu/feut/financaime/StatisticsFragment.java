@@ -39,7 +39,11 @@ public class StatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         BarChart barChart = view.findViewById(R.id.chart);
-        onChanged(new Database(getContext()).expense(Utilities.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+        onChanged(new Database(getContext())
+                .expense(
+                        Utilities.month(calendar.get(Calendar.MONTH)),
+                        String.valueOf(calendar.get(Calendar.YEAR))),
+                barChart);
 
         AppCompatTextView date = view.findViewById(R.id.date);
         date.setText(Utilities.monthFormat(calendar));

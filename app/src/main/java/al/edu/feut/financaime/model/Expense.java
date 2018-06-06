@@ -16,6 +16,7 @@ public class Expense implements Parcelable
     private String expenseName;
     private double expense;
     private Date date;
+    private long idBudget;
 
     public Expense() {
     }
@@ -32,6 +33,7 @@ public class Expense implements Parcelable
         expenseName = in.readString();
         expense = in.readDouble();
         date = new Date(in.readLong());
+        idBudget = in.readLong();
     }
 
     @Override
@@ -40,6 +42,7 @@ public class Expense implements Parcelable
         dest.writeString(expenseName);
         dest.writeDouble(expense);
         dest.writeLong(date.getTime());
+        dest.writeLong(idBudget);
     }
 
     @Override
@@ -113,6 +116,13 @@ public class Expense implements Parcelable
         return Utilities.dateFormat(date);
     }
 
+    public long getIdBudget() {
+        return idBudget;
+    }
+
+    public void setIdBudget(long idBudget) {
+        this.idBudget = idBudget;
+    }
 
     public static abstract class ExpenseTable implements BaseColumns {
 
@@ -123,12 +133,14 @@ public class Expense implements Parcelable
         public static final String EXPENSE_NAME = "_expense_name";
         public static final String EXPENSE = "_expense";
         public static final String DATE= "_date";
+        public static final String ID_BUDGET = "_id_budget";
 
 
         public static final String CREATE_EXPENSE_TABLE = "CREATE TABLE " + EXPENSE_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + EXPENSE_NAME + " TEXT, "
                 + EXPENSE + " REAL, "
-                + DATE + " REAL "
+                + DATE + " INTEGER, "
+                + ID_BUDGET + " INTEGER REFERENCES budget(_id)"
                 + ")";
 
         public static ContentValues contentExpense(Expense expense) {
@@ -136,6 +148,7 @@ public class Expense implements Parcelable
             contentValues.put(EXPENSE_NAME, expense.getExpenseName());
             contentValues.put(EXPENSE, expense.getExpense());
             contentValues.put(DATE, Utilities.dateToTimestamp(expense.getDate()));
+            contentValues.put(ID_BUDGET, expense.getIdBudget());
             return contentValues;
         }
         public static Expense expenseCursor(Cursor cursor) {

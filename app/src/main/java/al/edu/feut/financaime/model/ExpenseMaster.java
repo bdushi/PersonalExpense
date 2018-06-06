@@ -14,7 +14,7 @@ import static al.edu.feut.financaime.util.Utilities.format;
 
 //ignore
 public class ExpenseMaster {
-    private String total;
+    private String total = "0";
     private long id = 1;
     private List<Expense> expenses = new ArrayList<>();
 

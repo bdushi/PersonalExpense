@@ -39,7 +39,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Permbledhie"
+        android:text="@string/summary"
         android:layout_marginStart="@dimen/margin_10"
         android:layout_marginEnd="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_5"
@@ -54,6 +54,7 @@
         android:layout_marginTop="@dimen/margin_5"
         android:layout_marginBottom="@dimen/margin_5">
         <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -66,30 +67,25 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BALANCA"
-                style="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:text="@string/balance"
+                style="@style/Base.TextAppearance.AppCompat.Body2" />
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LEk"
-                style="@style/Base.TextAppearance.AppCompat.Large" />
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="123123123"
                 style="@style/Base.TextAppearance.AppCompat.Large" />
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_20"
-                android:text="Te mbetura"
-                style="@style/Base.TextAppearance.AppCompat.Medium" />
+                android:text="@string/remaining"
+                style="@style/Base.TextAppearance.AppCompat.Body2" />
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/remaining"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5"
-                android:text="0.00 LEk"
-                style="@style/Base.TextAppearance.AppCompat.Medium" />
+                style="@style/Base.TextAppearance.AppCompat.Body2" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -108,12 +104,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/expense"
                 android:padding="@dimen/padding_5"
-                android:gravity="center"/>
+                android:gravity="center"
+                style="@style/Base.TextAppearance.AppCompat.Body2"/>
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/expense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_5"
-                android:gravity="center"/>
+                android:gravity="center"
+                style="@style/Base.TextAppearance.AppCompat.Body2"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,12 +125,15 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_5"
                 android:gravity="center"
-                android:text="@string/incomes"/>
+                android:text="@string/incomes"
+                style="@style/Base.TextAppearance.AppCompat.Body2"/>
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/incomes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_5"
-                android:gravity="center"/>
+                android:gravity="center"
+                style="@style/Base.TextAppearance.AppCompat.Body2"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

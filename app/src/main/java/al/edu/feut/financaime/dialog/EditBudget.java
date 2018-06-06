@@ -32,8 +32,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
         return this;
     }
 
-    public static class Builder
-    {
+    public static class Builder {
         private Budget budget;
         public EditBudget.Builder setBudget(Budget budget)
         {
@@ -47,9 +46,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
         }
     }
 
-    public static EditBudget newInstance(Budget budget)
-    {
-
+    public static EditBudget newInstance(Budget budget) {
         Bundle args = new Bundle();
         args.putParcelable("BUDGET", budget);
         EditBudget fragment = new EditBudget();
@@ -93,7 +90,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
                         budget.setIncomes(data);
                         budget.setBudget(data);
                         budget.setDate(calendar.getTime());
-                        dialogCallBack.onClickSave(budget);
+                        dialogCallBack.onClickInsert(budget);
                         dismiss();
                     } else
                         textInputLayout.setError(getString(R.string.add_value));
@@ -101,10 +98,9 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
                     double budgetVal = Double.parseDouble(edit.getText().toString());
                     if(budget.getIncomes() >= budgetVal) {
                         budget.setBudget(budgetVal);
-                        dialogCallBack.onClickSave(budget);
+                        dialogCallBack.onClickUpdate(budget);
                         dismiss();
-                    }
-                    else {
+                    } else {
                         textInputLayout.setError(getString(R.string.out_of_incomes));
                     }
                 } else {

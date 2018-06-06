@@ -93,7 +93,7 @@ public class EditIncomes extends DialogFragment implements View.OnClickListener,
                     if(budget != null) {
                         if(Double.parseDouble(edit.getText().toString()) >= budget.getBudget()) {
                             budget.setIncomes(Double.parseDouble(edit.getText().toString()));
-                            dialogCallBack.onClickSave(budget);
+                            dialogCallBack.onClickUpdate(budget);
                             dismiss();
                         } else {
                             textInputLayout.setError(getString(R.string.incomes_alert));
@@ -104,7 +104,7 @@ public class EditIncomes extends DialogFragment implements View.OnClickListener,
                         budget.setIncomes(Double.parseDouble(edit.getText().toString()));
                         budget.setBudget(0);
                         budget.setDate(calendar.getTime());
-                        dialogCallBack.onClickSave(budget);
+                        dialogCallBack.onClickInsert(budget);
                         dismiss();
                     }
                 } else {
