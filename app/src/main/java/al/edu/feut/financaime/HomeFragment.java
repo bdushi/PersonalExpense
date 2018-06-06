@@ -11,13 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -89,14 +93,21 @@ public class HomeFragment extends Fragment {
 
     private void setData(PieChart mChart, BudgetMaster budgetMaster) {
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry((float) budgetMaster.getExpense()));
-        entries.add(new PieEntry((float) budgetMaster.getBalance()));
+        entries.add(new PieEntry((float) (budgetMaster.getExpense() / budgetMaster.getIncomes()) * 100));
+        entries.add(new PieEntry((float) (budgetMaster.getBalance() / budgetMaster.getIncomes()) * 100));
         PieDataSet dataSet = new PieDataSet(entries, Utilities.getMonth(Utilities.month(budgetMaster.getDate())));
 
+        DecimalFormat format = new DecimalFormat("### %");
         dataSet.setDrawIcons(false);
         dataSet.setSliceSpace(3f);
         dataSet.setIconsOffset(new MPPointF(0, 40));
         dataSet.setSelectionShift(5f);
+        dataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return format.format(value);
+            }
+        });
 
         List<Integer> colors = new ArrayList<>();
 
