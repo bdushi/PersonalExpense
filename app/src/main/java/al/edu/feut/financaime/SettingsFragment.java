@@ -16,13 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import java.util.Set;
-
+import al.edu.feut.financaime.callback.Schedule;
 import al.edu.feut.financaime.model.Database;
 import al.edu.feut.financaime.model.Settings;
 
 public class SettingsFragment extends Fragment {
     private Settings mSettings;
+
+    private Schedule schedule;
+    public SettingsFragment OnSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        return this;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,10 +53,14 @@ public class SettingsFragment extends Fragment {
         if(mSettings != null) {
             editDefaultIncomes.setEnabled(mSettings.isAuto());
             editDefaultBudget.setEnabled(mSettings.isAuto());
-            if(mSettings.isAuto())
+            if(mSettings.isAuto()) {
                 autoExpenseLabel.setText(R.string.automatic_expense);
-            else
+                schedule.schedule(true);
+            }
+            else {
                 autoExpenseLabel.setText(R.string.manual_expense);
+                schedule.schedule(false);
+            }
         }
 
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -58,10 +68,14 @@ public class SettingsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 editDefaultIncomes.setEnabled(b);
                 editDefaultBudget.setEnabled(b);
-                if(b)
+                if(b) {
                     autoExpenseLabel.setText(R.string.automatic_expense);
-                else
+                    schedule.schedule(true);
+                }
+                else {
                     autoExpenseLabel.setText(R.string.manual_expense);
+                    schedule.schedule(false);
+                }
                 if(mSettings == null) {
                     Settings settings = new Settings();
                     settings.setAuto(b);

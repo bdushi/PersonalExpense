@@ -15,11 +15,10 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
+import al.edu.feut.financaime.callback.Schedule;
 import al.edu.feut.financaime.model.Database;
 
-public class HostActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-
-    private TextView mTextMessage;
+public class HostActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, Schedule {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,6 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                 .beginTransaction()
                 .replace(R.id.host, new HomeFragment())
                 .commit();
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
         new Database(this);
@@ -124,7 +122,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.settings:
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.host, new SettingsFragment())
+                        .replace(R.id.host, new SettingsFragment().OnSchedule(this))
                         .addToBackStack("SETTINGS_FRAGMENT")
                         .commit();
                 break;
@@ -168,4 +166,32 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    @Override
+    public void schedule(boolean schedule) {
+
+    }
+
+    //if (c.get(Calendar.DAY_OF_MONTH) == 1) {
+    /*public void schedule() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
+        // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
+        //Intent intent = new Intent(this, LocationReceiver.class);
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
+        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }*/
+   /* public void cancel() {
+        Intent intent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
+    }*/
 }
