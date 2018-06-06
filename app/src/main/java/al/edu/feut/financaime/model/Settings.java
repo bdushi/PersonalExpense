@@ -11,6 +11,7 @@ public class Settings {
     private long id;
     private double budget;
     private double incomes;
+    private boolean auto;
 
     //ignore
     private DecimalFormat format = new DecimalFormat("###.###");
@@ -50,6 +51,15 @@ public class Settings {
         return format.format(budget);
     }
 
+    public boolean isAuto() {
+        return auto;
+    }
+
+    public Settings setAuto(boolean auto) {
+        this.auto = auto;
+        return this;
+    }
+
     public static abstract class SettingTable implements BaseColumns {
 
         //emri i tabeles
@@ -57,12 +67,14 @@ public class Settings {
 
         //emrat e kolonave te tabeles
         public static final String INCOMES = "_incomes";
-        public static final String BUGDET = "_budget";
+        public static final String BUDGET = "_budget";
+        public static final String AUTO = "_auto";
 
 
-        public static final String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-                + INCOMES + " REAL UNIQUE, "
-                + BUGDET + " REAL UNIQUE"
+        public static final String CREATE_SETTINGS_TABLE = "CREATE TABLE " + SETTINGS_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, "
+                + INCOMES + " REAL, "
+                + BUDGET + " REAL, "
+                + AUTO + " INTEGER"
                 + ")";
 
         public static long bindItem(SQLiteStatement sqLiteStatement, Settings settings) {
@@ -73,13 +85,28 @@ public class Settings {
 
         public static final String INSERT_OR_REPLACE = "INSERT OR REPLACE INTO " + SETTINGS_TABLE + "("
                 + INCOMES + ", "
-                + BUGDET + ")"
+                + BUDGET + ")"
                 + " VALUES(?1, ?2)";
 
         public static ContentValues contentSettings(Settings settings) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(INCOMES, settings.getIncomes());
-            contentValues.put(BUGDET, settings.getBudget());
+            contentValues.put(BUDGET, settings.getBudget());
+            return contentValues;
+        }
+        public static ContentValues contentBudgetSettings(Settings settings) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(BUDGET, settings.getBudget());
+            return contentValues;
+        }
+        public static ContentValues contentIncomesSettings(Settings settings) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(INCOMES, settings.getIncomes());
+            return contentValues;
+        }
+        public static ContentValues contentAutoSettings(Settings settings) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(AUTO, settings.isAuto());
             return contentValues;
         }
 
@@ -87,7 +114,8 @@ public class Settings {
             Settings settings = new Settings();
             settings.setId(cursor.getLong(cursor.getColumnIndex(_ID)));
             settings.setIncomes(cursor.getDouble(cursor.getColumnIndex(INCOMES)));
-            settings.setBudget(cursor.getDouble(cursor.getColumnIndex(BUGDET)));
+            settings.setBudget(cursor.getDouble(cursor.getColumnIndex(BUDGET)));
+            settings.setAuto(cursor.getShort(cursor.getColumnIndex(AUTO)) > 0);
             return settings;
         }
     }

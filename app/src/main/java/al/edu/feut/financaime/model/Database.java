@@ -30,6 +30,9 @@ import static al.edu.feut.financaime.model.Settings.SettingTable.CREATE_SETTINGS
 import static al.edu.feut.financaime.model.Settings.SettingTable.INSERT_OR_REPLACE;
 import static al.edu.feut.financaime.model.Settings.SettingTable.SETTINGS_TABLE;
 import static al.edu.feut.financaime.model.Settings.SettingTable.bindItem;
+import static al.edu.feut.financaime.model.Settings.SettingTable.contentAutoSettings;
+import static al.edu.feut.financaime.model.Settings.SettingTable.contentBudgetSettings;
+import static al.edu.feut.financaime.model.Settings.SettingTable.contentIncomesSettings;
 import static al.edu.feut.financaime.model.Settings.SettingTable.contentSettings;
 import static al.edu.feut.financaime.model.Settings.SettingTable.settingsCursor;
 
@@ -162,6 +165,17 @@ public class Database extends SQLiteOpenHelper {
         return new ExpenseMaster(cursor);
     }
 
+    public ExpenseMaster expenseMaster(long date) {
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT " +
+                        "_id, " +
+                        "_expense_name, " +
+                        "_expense, " +
+                        "_date, " +
+                        "(SELECT sum(_expense) FROM expense WHERE _date = ?) AS _total " +
+                        "FROM expense WHERE _date = ? ORDER BY _expense_name ASC", new String[]{String.valueOf(date), String.valueOf(date)});
+        return new ExpenseMaster(cursor);
+    }
+
     public BudgetMaster budgetMaster(String month, String year) {
         Cursor cursor = getReadableDatabase()
                 .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._budget - SUM(e._expense) AS _balance, e._date AS _date " +
@@ -197,7 +211,16 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public long insertSettings(Settings settings) {
-        return getWritableDatabase().insert(SETTINGS_TABLE,null,contentSettings(settings));
+        return getWritableDatabase().insert(SETTINGS_TABLE,null, contentSettings(settings));
+    }
+    public long updateBudgetSettings(Settings settings) {
+        return getWritableDatabase().update(SETTINGS_TABLE, contentBudgetSettings(settings), null, null);
+    }
+    public long updateIncomesSettings(Settings settings) {
+        return getWritableDatabase().update(SETTINGS_TABLE, contentIncomesSettings(settings), null, null);
+    }
+    public long updateAutoSettings(Settings settings) {
+        return getWritableDatabase().update(SETTINGS_TABLE, contentAutoSettings(settings), null, null);
     }
 
     public long insertOrReplaceSettings(Settings settings) {
@@ -213,7 +236,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public Settings settings () {
-        Settings settings = new Settings();
+        Settings settings = null;
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM settings", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
