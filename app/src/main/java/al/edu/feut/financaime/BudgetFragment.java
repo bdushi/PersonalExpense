@@ -73,7 +73,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
                             public void onClickInsert(Budget budget) {
-                                if(new Database(getActivity()).insertBudget(budget) != -1) {
+                                if(budget.setId(new Database(getActivity()).insertBudget(budget) )!= -1) {
                                     budgetTv.setText(Utilities.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;
@@ -99,7 +99,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
                             public void onClickInsert(Budget budget) {
-                                if(new Database(getActivity()).insertBudget(budget) != -1) {
+                                if(budget.setId(new Database(getActivity()).insertBudget(budget)) != -1) {
                                     budgetTv.setText(Utilities.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.format(budget.getIncomes()));
                                     mBudget = budget;

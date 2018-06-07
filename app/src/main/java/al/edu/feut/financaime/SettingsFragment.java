@@ -53,6 +53,10 @@ public class SettingsFragment extends Fragment {
             else {
                 autoExpenseLabel.setText(R.string.manual_expense);
             }
+        } else {
+            editDefaultIncomes.setEnabled(false);
+            editDefaultBudget.setEnabled(false);
+            autoExpenseLabel.setText(R.string.manual_expense);
         }
 
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -70,13 +74,13 @@ public class SettingsFragment extends Fragment {
                     Settings settings = new Settings();
                     settings.setAuto(b);
                     new Handler().postDelayed(() -> {
-                        if(new Database(getContext()).insertSettings(settings) != -1)
+                        if(settings.setId(new Database(getContext()).insertSettings(settings)) != -1)
                             mSettings = settings;
-                    }, 1000);
+                    }, 500);
                 } else {
                     new Handler().postDelayed(() -> {
                         new Database(getContext()).updateAutoSettings(mSettings.setAuto(b));
-                    }, 1000);
+                    }, 500);
                 }
             }
         });
@@ -94,7 +98,7 @@ public class SettingsFragment extends Fragment {
                     Settings settings = new Settings();
                     settings.setIncomes(Float.parseFloat(charSequence.toString()));
                     new Handler().postDelayed(() -> {
-                        if(new Database(getContext()).insertSettings(settings) != 0)
+                        if(settings.setId(new Database(getContext()).insertSettings(settings)) != 0)
                             mSettings = settings;
                     }, 1000);
                     incomesInputLayout.setErrorEnabled(false);
@@ -134,7 +138,7 @@ public class SettingsFragment extends Fragment {
                     Settings settings = new Settings();
                     settings.setBudget(Float.parseFloat(charSequence.toString()));
                     new Handler().postDelayed(() -> {
-                        if(new Database(getContext()).insertSettings(settings) != 0)
+                        if(settings.setId(new Database(getContext()).insertSettings(settings)) != 0)
                             mSettings = settings;
                         }, 1000);
                     budgetInputLayout.setErrorEnabled(false);

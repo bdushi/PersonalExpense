@@ -72,28 +72,29 @@ public class ExpenseFragment extends Fragment {
         view.findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spinner.getSelectedItem().toString().isEmpty() || inputExpValue.getText().toString().isEmpty())
+                if (budget == null) {
+                    Toast.makeText(getActivity(), R.string.out_of_budget, Toast.LENGTH_SHORT).show();
+                } else if (spinner.getSelectedItem().toString().isEmpty() || inputExpValue.getText().toString().isEmpty()) {
                     inputExpTextInputLayout.setError(getString(R.string.alert));
-                else if (budget.getBudget() >= Double.parseDouble(inputExpValue.getText().toString())) {
+                } else if (budget.getBudget() >= Double.parseDouble(inputExpValue.getText().toString())) {
                     Expense expense = new Expense();
                     expense.setExpenseName(spinner.getSelectedItem().toString());
                     expense.setExpense(Double.parseDouble(inputExpValue.getText().toString()));
                     expense.setDate(Utilities.date());
                     expense.setIdBudget(budget.getId());
                     budget.setExpense(expense);
-                    if(new Database(getContext()).insertExpense(expense) != -1) {
+                    if (new Database(getContext()).insertExpense(expense) != -1) {
                         budget.setBudget(budget.getBudget() - budget.getExpense().getExpense());
-                        if(new Database(getContext()).updateBudgetValue(budget) != -1) {
-                            Toast.makeText(getActivity(), R.string.success,Toast.LENGTH_SHORT).show();
+                        if (new Database(getContext()).updateBudgetValue(budget) != -1) {
+                            Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_SHORT).show();
                             spinner.setSelection(0);
                             budgetHint.setText(Utilities.format(budget.getBudget()));
                             inputExpValue.setText("");
                             inputExpValue.clearFocus();
                         } else
-                            Toast.makeText(getActivity(), R.string.fail,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.fail, Toast.LENGTH_SHORT).show();
                     }
-                }
-                else
+                } else
                     Toast.makeText(getActivity(), R.string.out_of_budget, Toast.LENGTH_SHORT).show();
             }
         });

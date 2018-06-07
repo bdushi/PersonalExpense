@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
                         new Database(getContext()).budgetMaster(Utilities.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
                 setData(pieChart, budgetMaster.setDate(Utilities.date(calendar)));
                 balance.setText(Utilities.format(budgetMaster.getBalance()));
-                remaining.setText(Utilities.format(budgetMaster.getBudget()));
+                remaining.setText(Utilities.format(budgetMaster.getIncomes() - budgetMaster.getBudget()));
                 expense.setText(Utilities.format(budgetMaster.getExpense()));
                 incomes.setText(Utilities.format(budgetMaster.getIncomes()));
             }
@@ -93,9 +93,9 @@ public class HomeFragment extends Fragment {
 
     private void setData(PieChart mChart, BudgetMaster budgetMaster) {
         List<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry((float) (budgetMaster.getExpense() / budgetMaster.getIncomes()) * 100));
-        entries.add(new PieEntry((float) (budgetMaster.getBalance() / budgetMaster.getIncomes()) * 100));
-        PieDataSet dataSet = new PieDataSet(entries, Utilities.getMonth(Utilities.month(budgetMaster.getDate())));
+        entries.add(new PieEntry((float) (budgetMaster.getExpense() / budgetMaster.getIncomes()) * 100, getString(R.string.expense)));
+        entries.add(new PieEntry((float) (budgetMaster.getBalance() / budgetMaster.getIncomes()) * 100, getString(R.string.balance)));
+        PieDataSet dataSet = new PieDataSet(entries, "");
 
         DecimalFormat format = new DecimalFormat("### %");
         dataSet.setDrawIcons(false);

@@ -59,9 +59,10 @@ public class Budget implements Parcelable {
         return id;
     }
 
-    public void setId(long id)
+    public long setId(long id)
     {
         this.id = id;
+        return id;
     }
 
     public double getBudget()

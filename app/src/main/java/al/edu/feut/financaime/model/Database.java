@@ -108,7 +108,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Expense expense (long id) {
         Expense expense = null;
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM expense", null);
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM expense WHERE _id =? ", new String[]{String.valueOf(id)});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             expense = expenseCursor(cursor);
@@ -186,11 +186,11 @@ public class Database extends SQLiteOpenHelper {
 
     public BudgetMaster budgetMaster(String month, String year) {
         Cursor cursor = getReadableDatabase()
-                .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._budget - SUM(e._expense) AS _balance, e._date AS _date " +
+                .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._budget - SUM(e._expense) AS _balance, b._budget - b._incomes AS _remaining " +
                         "FROM budget AS b  LEFT JOIN expense AS e ON b._id = e._id_budget " +
                         "WHERE strftime('%m',datetime(b._date/1000, 'unixepoch')) = ? " +
                         "AND strftime('%Y', datetime(b._date/1000, 'unixepoch')) = ? " +
-                        "GROUP BY TRIM(_expense_name)", new String[]{month, year});
+                        "GROUP BY e._id_budget", new String[]{month, year});
         return new BudgetMaster(cursor);
     }
 

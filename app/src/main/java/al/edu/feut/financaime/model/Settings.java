@@ -23,8 +23,9 @@ public class Settings {
         return id;
     }
 
-    public void setId(long id) {
+    public long setId(long id) {
         this.id = id;
+        return id;
     }
 
     public double getBudget() {
@@ -92,6 +93,7 @@ public class Settings {
             ContentValues contentValues = new ContentValues();
             contentValues.put(INCOMES, settings.getIncomes());
             contentValues.put(BUDGET, settings.getBudget());
+            contentValues.put(AUTO, settings.isAuto());
             return contentValues;
         }
         public static ContentValues contentBudgetSettings(Settings settings) {
