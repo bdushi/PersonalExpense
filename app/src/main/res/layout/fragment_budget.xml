@@ -18,14 +18,14 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
+                android:paddingBottom="@dimen/padding_5"
                 android:text="@string/incomes"
-                android:textSize="18sp" />
+                style="@style/TextAppearance.AppCompat.Large"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/incomes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp" />
+                style="@style/TextAppearance.AppCompat.Small"/>
         </LinearLayout>
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/edit_incomes"
@@ -50,13 +50,14 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
+                android:paddingBottom="@dimen/padding_5"
                 android:text="@string/budget"
-                android:textSize="18sp" />
+                style="@style/TextAppearance.AppCompat.Large"/>
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/budget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Small"/>
         </LinearLayout>
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/edit_budget"

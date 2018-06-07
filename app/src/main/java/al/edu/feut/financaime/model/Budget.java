@@ -15,7 +15,7 @@ public class Budget implements Parcelable {
     private double budget;
     private double incomes;
     private Date date;
-    private Expense expense;
+    private double expense;
 
     public Budget() {
     }
@@ -25,7 +25,7 @@ public class Budget implements Parcelable {
         budget = in.readDouble();
         incomes = in.readDouble();
         date = new Date(in.readLong());
-        expense = in.readParcelable(Expense.class.getClassLoader());
+        expense = in.readDouble();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Budget implements Parcelable {
         dest.writeDouble(budget);
         dest.writeDouble(incomes);
         dest.writeLong(date.getTime());
-        dest.writeParcelable(expense, flags);
+        dest.writeDouble(expense);
     }
 
     @Override
@@ -95,11 +95,11 @@ public class Budget implements Parcelable {
         this.date = date;
     }
 
-    public Expense getExpense() {
+    public double getExpense() {
         return expense;
     }
 
-    public void setExpense(Expense expense) {
+    public void setExpense(double expense) {
         this.expense = expense;
     }
 
@@ -109,6 +109,7 @@ public class Budget implements Parcelable {
 
         public static final String BUDGET = "_budget";
         public static final String INCOMES = "_incomes";
+        public static final String EXPENSE = "_expense";
         public static final String DATE = "_date";
 
         public static final String CREATE_BUDGET_TABLE = "CREATE TABLE " + BUDGET_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
@@ -143,6 +144,7 @@ public class Budget implements Parcelable {
             budget.setBudget(cursor.getDouble(cursor.getColumnIndex(BUDGET)));
             budget.setIncomes(cursor.getDouble(cursor.getColumnIndex(INCOMES)));
             budget.setDate(Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))));
+            budget.setExpense(cursor.getDouble(cursor.getColumnIndex(EXPENSE)));
             return budget;
         }
     }

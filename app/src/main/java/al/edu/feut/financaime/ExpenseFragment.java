@@ -82,9 +82,8 @@ public class ExpenseFragment extends Fragment {
                     expense.setExpense(Double.parseDouble(inputExpValue.getText().toString()));
                     expense.setDate(Utilities.date());
                     expense.setIdBudget(budget.getId());
-                    budget.setExpense(expense);
                     if (new Database(getContext()).insertExpense(expense) != -1) {
-                        budget.setBudget(budget.getBudget() - budget.getExpense().getExpense());
+                        budget.setBudget(budget.getBudget() - expense.getExpense());
                         if (new Database(getContext()).updateBudgetValue(budget) != -1) {
                             Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_SHORT).show();
                             spinner.setSelection(0);

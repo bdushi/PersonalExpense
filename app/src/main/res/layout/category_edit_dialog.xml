@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginBottom="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_10">
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/category_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/margin_10"
             android:drawablePadding="@dimen/padding_5"
             android:drawableStart="@drawable/ic_alert_outline_red_36dp"/>
         <android.support.design.widget.TextInputLayout

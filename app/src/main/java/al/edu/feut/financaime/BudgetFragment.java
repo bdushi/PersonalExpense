@@ -52,13 +52,21 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         budgetTv.setText(Utilities.format(mBudget != null ? mBudget.getBudget() : 0));
         incomesTv.setText(Utilities.format(mBudget != null ? mBudget.getIncomes() : 0));
 
-        editIncomes.setOnClickListener(this);
-        editBudget.setOnClickListener(this);
+        if(mBudget == null) {
+            editBudget.setOnClickListener(this);
+            editBudget.setText(R.string.edit);
+        } else if(mBudget.getIncomes() - mBudget.getExpense() == 0){
+            editBudget.setOnClickListener(null);
+            editBudget.setText(R.string.out_of_incomes_alert);
+        } else {
+            editBudget.setOnClickListener(this);
+            editBudget.setText(R.string.edit);
+        }
+        editIncomes.setOnClickListener(mBudget == null ? this : null);
 
         RecyclerView log = view.findViewById(R.id.log);
         log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         log.setItemAnimator(new DefaultItemAnimator());
-        //log.addItemDecoration(new DividerItemDecoration(getActivity(), GridLayoutManager.DEFAULT_SPAN_COUNT));
         log.setAdapter(new LogAdapter(new Database(getContext()).expense(Utilities.month(Utilities.month())), R.layout.log_single_item));
     }
 

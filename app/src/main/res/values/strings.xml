@@ -14,6 +14,7 @@
     <string name="add_your_budget">Shto Buxhet</string>
     <string name="add_your_incomes">Shto te Ardhura</string>
     <string name="budget">Buxhet</string>
+    <string name="out_of_incomes_alert">I keni shpenzuar te ardhurave</string>
     <string name="out_of_incomes">Jashte te ardhurave</string>
     <string name="out_of_budget">Jashte te buxhetit</string>
     <string name="success">Transaksion i Skusesshem</string>

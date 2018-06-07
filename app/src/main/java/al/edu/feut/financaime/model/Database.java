@@ -76,13 +76,12 @@ public class Database extends SQLiteOpenHelper {
         return getWritableDatabase().update(BUDGET_TABLE, updateContentIncomesValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
     }
 
-    public int deleteBudget(Budget budget) {
-        return getWritableDatabase().delete(BUDGET_TABLE, "_id =?", new String[]{String.valueOf(budget.getId())});
-    }
-
     public Budget budget (String month) {
         Budget budget = null;
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM budget WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = ?", new String[]{month});
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT b._id AS _id, b._budget AS _budget, b._incomes AS _incomes, b._date AS _date , SUM(e._expense) AS _expense " +
+                "FROM budget AS b LEFT JOIN expense AS e ON b._id = e._id_budget " +
+                "WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = ? " +
+                "GROUP BY e._id_budget", new String[]{month});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             budget = budgetCursor(cursor);
@@ -96,14 +95,6 @@ public class Database extends SQLiteOpenHelper {
 
     public long insertExpense(Expense expense) {
         return getWritableDatabase().insert(EXPENSE_TABLE,null,contentExpense(expense));
-    }
-
-    public int updateExpense(Expense expense){
-        return getWritableDatabase().update(EXPENSE_TABLE,contentExpense(expense),"_id=?",new String[]{String.valueOf(expense.getId())});
-    }
-
-    public int deleteExpense(Expense expense){
-        return getWritableDatabase().delete(EXPENSE_TABLE, "_id=?", new String[]{String.valueOf(expense.getId())});
     }
 
     public Expense expense (long id) {
@@ -186,8 +177,8 @@ public class Database extends SQLiteOpenHelper {
 
     public BudgetMaster budgetMaster(String month, String year) {
         Cursor cursor = getReadableDatabase()
-                .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._budget - SUM(e._expense) AS _balance, b._budget - b._incomes AS _remaining " +
-                        "FROM budget AS b  LEFT JOIN expense AS e ON b._id = e._id_budget " +
+                .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._incomes - SUM(e._expense) AS _balance " +
+                        "FROM budget AS b LEFT JOIN expense AS e ON b._id = e._id_budget " +
                         "WHERE strftime('%m',datetime(b._date/1000, 'unixepoch')) = ? " +
                         "AND strftime('%Y', datetime(b._date/1000, 'unixepoch')) = ? " +
                         "GROUP BY e._id_budget", new String[]{month, year});
@@ -229,18 +220,6 @@ public class Database extends SQLiteOpenHelper {
     }
     public long updateAutoSettings(Settings settings) {
         return getWritableDatabase().update(SETTINGS_TABLE, contentAutoSettings(settings), null, null);
-    }
-
-    public long insertOrReplaceSettings(Settings settings) {
-        return bindItem(getWritableDatabase().compileStatement(INSERT_OR_REPLACE), settings);
-    }
-
-    public int updateSettings(Settings settings){
-        return getWritableDatabase().update(SETTINGS_TABLE,contentSettings(settings),"_id=?",new String[]{String.valueOf(settings.getId())});
-    }
-
-    public int deleteSettings(Settings settings){
-        return getWritableDatabase().delete(SETTINGS_TABLE, "_id=?", new String[]{String.valueOf(settings.getId())});
     }
 
     public Settings settings () {

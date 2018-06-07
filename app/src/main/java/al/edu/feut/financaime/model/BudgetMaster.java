@@ -8,14 +8,12 @@ import static al.edu.feut.financaime.model.BudgetMaster.BudgetMasterTable.BALANC
 import static al.edu.feut.financaime.model.BudgetMaster.BudgetMasterTable.BUDGET;
 import static al.edu.feut.financaime.model.BudgetMaster.BudgetMasterTable.EXPENSE;
 import static al.edu.feut.financaime.model.BudgetMaster.BudgetMasterTable.INCOMES;
-import static al.edu.feut.financaime.model.BudgetMaster.BudgetMasterTable.REMAINING;
 
 public class BudgetMaster {
     private double budget = 0;
     private double incomes = 0;
     private double expense = 0;
     private double balance = 0;
-    private double remaining = 0;
     private Date date;
 
     public BudgetMaster(Cursor cursor) {
@@ -25,7 +23,6 @@ public class BudgetMaster {
             incomes = cursor.getDouble(cursor.getColumnIndex(INCOMES));
             expense = cursor.getDouble(cursor.getColumnIndex(EXPENSE));
             balance = cursor.getDouble(cursor.getColumnIndex(BALANCE));
-            remaining = cursor.getDouble(cursor.getColumnIndex(REMAINING));
             cursor.moveToNext();
         }
         cursor.close();
@@ -67,14 +64,6 @@ public class BudgetMaster {
         this.balance = balance;
     }
 
-    public double getRemaining() {
-        return remaining;
-    }
-
-    public void setRemaining(double remaining) {
-        this.remaining = remaining;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -89,6 +78,5 @@ public class BudgetMaster {
         public static final String INCOMES = "_incomes";
         public static final String EXPENSE = "_expense";
         public static final String BALANCE = "_balance";
-        public static final String REMAINING= "_remaining";
     }
 }

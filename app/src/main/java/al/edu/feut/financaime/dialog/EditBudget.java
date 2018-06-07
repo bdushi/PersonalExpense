@@ -94,7 +94,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
                         dismiss();
                     } else {
                         double budgetVal = Double.parseDouble(edit.getText().toString());
-                        if (budget.getIncomes() >= budgetVal) {
+                        if (budgetVal <= (budget.getIncomes() - budget.getExpense())) {
                             budget.setBudget(budgetVal);
                             dialogCallBack.onClickUpdate(budget);
                             dismiss();

@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
                         new Database(getContext()).budgetMaster(Utilities.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
                 setData(pieChart, budgetMaster.setDate(Utilities.date(calendar)));
                 balance.setText(Utilities.format(budgetMaster.getBalance()));
-                remaining.setText(Utilities.format(budgetMaster.getIncomes() - budgetMaster.getBudget()));
+                remaining.setText(Utilities.format(budgetMaster.getBudget()));
                 expense.setText(Utilities.format(budgetMaster.getExpense()));
                 incomes.setText(Utilities.format(budgetMaster.getIncomes()));
             }
