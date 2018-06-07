@@ -1,0 +1,5 @@
+<resources>
+    <!--<string name="ga_trackingId" translatable="false">${YOUR_TRACKING_ID}</string>-->
+    <string name="ga_trackingId">UA-107392123-1</string>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+</resources>

@@ -27,14 +27,16 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         //google analitics
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(HostActivity.class.getName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        //inflater home fragment
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.host, new HomeFragment())
                 .commit();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-        new Database(this);
 
         //Lambda Expression
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
