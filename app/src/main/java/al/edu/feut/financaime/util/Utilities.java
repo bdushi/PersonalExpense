@@ -1,5 +1,7 @@
 package al.edu.feut.financaime.util;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,9 +70,21 @@ public class Utilities
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
     }
+    public static Calendar calendar(CalendarDay date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, date.getDay());
+        calendar.set(Calendar.MONTH, date.getMonth());
+        calendar.set(Calendar.YEAR, date.getYear());
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
     public static Date date(Calendar calendar)
     {
-        calendar.set(Calendar.HOUR, 12);
+        calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);

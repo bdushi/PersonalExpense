@@ -50,8 +50,7 @@ public class ExpenseLogFragment extends Fragment {
         expenseLog.setLayoutManager(new LinearLayoutManager(getActivity()));
         expenseLog.setItemAnimator(new DefaultItemAnimator());
         expenseLog.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Calendar calendar = calendar();
-        ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar.getTimeInMillis());
+        ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
         expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
         if(expenseMaster.getTotal().equals("0"))
             view.findViewById(R.id.total_layout).setVisibility(View.GONE);
@@ -64,7 +63,7 @@ public class ExpenseLogFragment extends Fragment {
         expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(date.getCalendar().getTimeInMillis());
+                ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
                 expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
                 if(expenseMaster.getTotal().equals("0"))
                     view.findViewById(R.id.total_layout).setVisibility(View.GONE);
