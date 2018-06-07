@@ -1,6 +1,5 @@
 package al.edu.feut.financaime.model;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import static al.edu.feut.financaime.model.Budget.BudgetTable.BUDGET_TABLE;
 import static al.edu.feut.financaime.model.Budget.BudgetTable.CREATE_BUDGET_TABLE;
@@ -27,9 +25,7 @@ import static al.edu.feut.financaime.model.Expense.ExpenseTable.EXPENSE_TABLE;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.contentExpense;
 import static al.edu.feut.financaime.model.Expense.ExpenseTable.expenseCursor;
 import static al.edu.feut.financaime.model.Settings.SettingTable.CREATE_SETTINGS_TABLE;
-import static al.edu.feut.financaime.model.Settings.SettingTable.INSERT_OR_REPLACE;
 import static al.edu.feut.financaime.model.Settings.SettingTable.SETTINGS_TABLE;
-import static al.edu.feut.financaime.model.Settings.SettingTable.bindItem;
 import static al.edu.feut.financaime.model.Settings.SettingTable.contentAutoSettings;
 import static al.edu.feut.financaime.model.Settings.SettingTable.contentBudgetSettings;
 import static al.edu.feut.financaime.model.Settings.SettingTable.contentIncomesSettings;

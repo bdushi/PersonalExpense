@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import al.edu.feut.financaime.holder.ExpenseHolder;
 import al.edu.feut.financaime.holder.LogHolder;
 import al.edu.feut.financaime.model.Expense;
 

@@ -2,7 +2,6 @@ package al.edu.feut.financaime.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 
 import java.text.DecimalFormat;
@@ -77,17 +76,6 @@ public class Settings {
                 + BUDGET + " REAL, "
                 + AUTO + " INTEGER"
                 + ")";
-
-        public static long bindItem(SQLiteStatement sqLiteStatement, Settings settings) {
-            sqLiteStatement.bindDouble(1, settings.getBudget());
-            sqLiteStatement.bindDouble(2, settings.getIncomes());
-            return sqLiteStatement.executeInsert();
-        }
-
-        public static final String INSERT_OR_REPLACE = "INSERT OR REPLACE INTO " + SETTINGS_TABLE + "("
-                + INCOMES + ", "
-                + BUDGET + ")"
-                + " VALUES(?1, ?2)";
 
         public static ContentValues contentSettings(Settings settings) {
             ContentValues contentValues = new ContentValues();

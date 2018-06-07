@@ -1,21 +1,10 @@
 package al.edu.feut.financaime.util;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by bruno on 12/06/2017.
- */
 
 public class Utilities
 {
@@ -48,17 +37,6 @@ public class Utilities
     {
         String[] monthStr  = {"01","02","03","04","05","06","07","08","09","10","11","12"};
         return monthStr[month];
-    }
-
-    public static String year()
-    {
-        Calendar calendar = Calendar.getInstance();
-        return String.format("%s", calendar.get(Calendar.YEAR));
-    }
-
-    public static Calendar incrementAndDecrement(Calendar calendar, int date) {
-        calendar.add(Calendar.DATE, date);
-        return calendar;
     }
 
     public static Calendar monthIncrementAndDecrement(Calendar calendar, int month) {
@@ -108,7 +86,7 @@ public class Utilities
 
     public static String getMonth (int month)
     {
-        String[] monthStr = {"Janare", "Shkurte", "Marse", "Prill", "Maj", "Quershor", "Korrik", "Gusht", "Shtatore", "Tetor", "Nentore", "Dhjetore"};
+        String[] monthStr = {"Janare", "Shkurte", "Marse", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtatore", "Tetor", "Nentore", "Dhjetore"};
         return monthStr[month];
     }
 
