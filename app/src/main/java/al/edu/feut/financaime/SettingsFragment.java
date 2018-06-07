@@ -16,18 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import al.edu.feut.financaime.callback.Schedule;
 import al.edu.feut.financaime.model.Database;
 import al.edu.feut.financaime.model.Settings;
 
 public class SettingsFragment extends Fragment {
-    private Settings mSettings;
 
-    private Schedule schedule;
-    public SettingsFragment OnSchedule(Schedule schedule) {
-        this.schedule = schedule;
-        return this;
-    }
+    private Settings mSettings;
 
     @Nullable
     @Override
@@ -55,11 +49,9 @@ public class SettingsFragment extends Fragment {
             editDefaultBudget.setEnabled(mSettings.isAuto());
             if(mSettings.isAuto()) {
                 autoExpenseLabel.setText(R.string.automatic_expense);
-                schedule.schedule(true);
             }
             else {
                 autoExpenseLabel.setText(R.string.manual_expense);
-                schedule.schedule(false);
             }
         }
 
@@ -70,11 +62,9 @@ public class SettingsFragment extends Fragment {
                 editDefaultBudget.setEnabled(b);
                 if(b) {
                     autoExpenseLabel.setText(R.string.automatic_expense);
-                    schedule.schedule(true);
                 }
                 else {
                     autoExpenseLabel.setText(R.string.manual_expense);
-                    schedule.schedule(false);
                 }
                 if(mSettings == null) {
                     Settings settings = new Settings();

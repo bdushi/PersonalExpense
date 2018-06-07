@@ -48,7 +48,15 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_CATEGORY_TABLE);
         db.execSQL(CREATE_EXPENSE_TABLE);
         db.execSQL(CREATE_SETTINGS_TABLE);
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Shopping")));
+        //
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Pazar")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Transport")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Ushqim")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Qera")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Shkola")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Pushimet")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Kohe e lire")));
+        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Te tjera")));
     }
 
     @Override
