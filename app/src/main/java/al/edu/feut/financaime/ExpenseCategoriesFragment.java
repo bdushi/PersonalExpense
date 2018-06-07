@@ -30,10 +30,7 @@ public class ExpenseCategoriesFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        setHasOptionsMenu(true);
-        getActivity().setTitle(R.string.expense_categories);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_categories_expense, container, false);
     }
 

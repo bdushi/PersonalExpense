@@ -32,8 +32,12 @@ android {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
         implementation 'com.android.support:appcompat-v7:27.1.1'
         implementation 'com.android.support:design:27.1.1'
-        implementation 'com.android.support:support-vector-drawable:27.1.1'
+
+        //calendar view
         implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+
+        //charts
+        implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
         // google analitics
         implementation 'com.google.android.gms:play-services-analytics:9.0.0'
@@ -45,11 +49,5 @@ android {
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.2'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-        debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
     }
-}
-
-dependencies {
-    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 }
