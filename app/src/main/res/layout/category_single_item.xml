@@ -5,6 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:layout_marginLeft="@dimen/padding_5"
-    android:layout_marginRight="@dimen/padding_5"
-    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+    android:background="@color/white"
+    style="@style/TextAppearance.AppCompat.Large"/>

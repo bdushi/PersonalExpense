@@ -52,6 +52,7 @@ public class ExpenseLogFragment extends Fragment {
         expenseLog.setLayoutManager(new LinearLayoutManager(getActivity()));
         expenseLog.setItemAnimator(new DefaultItemAnimator());
         expenseLog.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
         new Handler().postDelayed(() -> {
             ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
             expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));

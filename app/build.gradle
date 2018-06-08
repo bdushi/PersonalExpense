@@ -37,7 +37,7 @@ android {
         //google map
         implementation 'com.google.android.gms:play-services-maps:9.0.0'
         implementation 'com.google.android.gms:play-services-location:9.0.0'
-        //
+        //firebase core
         implementation 'com.google.firebase:firebase-core:9.0.0'
 
         //charts
