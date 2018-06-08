@@ -8,7 +8,7 @@
         android:id="@+id/expense_log_calendar_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/calendar_layout_height"/>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expense_log"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -23,14 +23,14 @@
         android:padding="@dimen/padding_5"
         android:layout_marginStart="@dimen/padding_24"
         android:layout_marginEnd="@dimen/padding_24">
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/white"
             style="@style/TextAppearance.AppCompat"
             android:text="@string/total"/>
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/total"
             android:layout_width="0dp"
             android:layout_height="match_parent"

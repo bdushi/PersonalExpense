@@ -1,7 +1,7 @@
 package al.bruno.financaime.holder;
 
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import al.bruno.financaime.R;

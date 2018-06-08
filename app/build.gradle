@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "al.bruno.financaime"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -23,13 +23,13 @@ android {
     }
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation 'com.android.support:appcompat-v7:26.1.0'
-        implementation 'com.android.support:design:26.1.0'
+        implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
+        implementation 'com.google.android.material:material:1.0.0-alpha3'
 
         //calendar view
         implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
-        //charts
+        //youtube
         implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
         // google analitics
@@ -38,8 +38,9 @@ android {
         implementation 'com.google.android.gms:play-services-maps:9.0.0'
         implementation 'com.google.android.gms:play-services-location:9.0.0'
         //
-        compile 'com.google.firebase:firebase-core:9.0.0'
+        implementation 'com.google.firebase:firebase-core:9.0.0'
 
+        //charts
         implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.2'

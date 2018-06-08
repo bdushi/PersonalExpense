@@ -1,14 +1,16 @@
 package al.bruno.financaime;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,27 +52,31 @@ public class ExpenseLogFragment extends Fragment {
         expenseLog.setLayoutManager(new LinearLayoutManager(getActivity()));
         expenseLog.setItemAnimator(new DefaultItemAnimator());
         expenseLog.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
-        expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
-        if(expenseMaster.getTotal().equals("0"))
-            view.findViewById(R.id.total_layout).setVisibility(View.GONE);
-        else {
-            view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
-            total.setText(expenseMaster.getTotal());
-        }
-        total.setText(expenseMaster.getTotal());
-        expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
+        new Handler().postDelayed(() -> {
+            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
+            expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+            if(expenseMaster.getTotal().equals("0"))
+                view.findViewById(R.id.total_layout).setVisibility(View.GONE);
+            else {
+                view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
+                total.setText(expenseMaster.getTotal());
+            }
+            expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
+        }, 1000);
+
         expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
-                expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
-                if(expenseMaster.getTotal().equals("0"))
-                    view.findViewById(R.id.total_layout).setVisibility(View.GONE);
-                else {
-                    view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
-                    total.setText(expenseMaster.getTotal());
-                }
+                new Handler().postDelayed(() -> {
+                    ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
+                    expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+                    if(expenseMaster.getTotal().equals("0"))
+                        view.findViewById(R.id.total_layout).setVisibility(View.GONE);
+                    else {
+                        view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
+                        total.setText(expenseMaster.getTotal());
+                    }
+                }, 1000);
             }
         });
     }
