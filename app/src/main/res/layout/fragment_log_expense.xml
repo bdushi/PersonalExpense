@@ -6,8 +6,9 @@
     android:layout_height="match_parent">
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/expense_log_calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/calendar_layout_height"/>
+        android:layout_width="@dimen/calendar_layout_height"
+        android:layout_height="250dp"
+        android:layout_gravity="center"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expense_log"
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:visibility="gone"
         android:padding="@dimen/padding_5"
         android:layout_marginStart="@dimen/padding_24"
         android:layout_marginEnd="@dimen/padding_24">
