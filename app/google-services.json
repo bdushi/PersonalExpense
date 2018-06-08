@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "1011668962080",
-    "firebase_url": "https://financaime-206208.firebaseio.com",
-    "project_id": "financaime-206208",
-    "storage_bucket": "financaime-206208.appspot.com"
+    "project_number": "490369727690",
+    "firebase_url": "https://locationserviceu-1494858263115.firebaseio.com",
+    "project_id": "locationserviceu-1494858263115",
+    "storage_bucket": "locationserviceu-1494858263115.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1011668962080:android:bba2d4754ef05a0f",
+        "mobilesdk_app_id": "1:490369727690:android:2d03282a04b575d5",
         "android_client_info": {
-          "package_name": "al.edu.feut.financaime"
+          "package_name": "al.bruno.financaime"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1011668962080-ch8i05r728s0bjeq3nfef1la9jdju2kp.apps.googleusercontent.com",
+          "client_id": "490369727690-h5nv4bvqmpbk46r1aero7gjjhpkjmslf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "al.edu.feut.financaime",
+            "package_name": "al.bruno.financaime",
             "certificate_hash": "d88ae9c9223086c69d36135f1bd4b0d47ba93cd1"
           }
         },
         {
-          "client_id": "1011668962080-5nrpks9ep3fe0b6qlconca1740d6v16n.apps.googleusercontent.com",
+          "client_id": "490369727690-6hd49bfnc2d14nqbo8kh6u4a1ipi7uv6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBV_QmuyUHIhDbvM5_qGiLLlqGSswpz2Vw"
+          "current_key": "AIzaSyDxvX6LaX7RVu-6LWCJt__za0zXGlfA14M"
         }
       ],
       "services": {
@@ -38,12 +38,7 @@
         },
         "appinvite_service": {
           "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1011668962080-5nrpks9ep3fe0b6qlconca1740d6v16n.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2
