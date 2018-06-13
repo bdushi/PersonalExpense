@@ -63,7 +63,7 @@ public class ExpenseLogFragment extends Fragment {
                 total.setText(expenseMaster.getTotal());
             }
             expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
-        }, 1000);
+        }, 100);
 
         expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -77,7 +77,7 @@ public class ExpenseLogFragment extends Fragment {
                         view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
                         total.setText(expenseMaster.getTotal());
                     }
-                }, 1000);
+                }, 100);
             }
         });
     }

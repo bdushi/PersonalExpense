@@ -27,7 +27,9 @@ android {
         implementation 'com.google.android.material:material:1.0.0-alpha3'
 
         //calendar view
-        implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+        //compile 'com.github.BlackBoxVision:material-calendar-view:v1.5.7'
+        //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+        implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
 
         //youtube
         implementation files('libs/YouTubeAndroidPlayerApi.jar')
@@ -39,6 +41,8 @@ android {
         implementation 'com.google.android.gms:play-services-location:9.0.0'
         //firebase core
         implementation 'com.google.firebase:firebase-core:9.0.0'
+        //Crash Reporting
+        implementation 'com.google.firebase:firebase-crash:9.0.0'
 
         //charts
         implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'

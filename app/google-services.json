@@ -15,6 +15,10 @@
       },
       "oauth_client": [
         {
+          "client_id": "490369727690-6hd49bfnc2d14nqbo8kh6u4a1ipi7uv6.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "490369727690-h5nv4bvqmpbk46r1aero7gjjhpkjmslf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -38,7 +42,12 @@
         },
         "appinvite_service": {
           "status": 2,
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "490369727690-6hd49bfnc2d14nqbo8kh6u4a1ipi7uv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
