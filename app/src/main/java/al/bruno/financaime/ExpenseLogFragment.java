@@ -15,24 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 import al.bruno.financaime.adapter.ExpenseAdapter;
-import al.bruno.financaime.model.Category;
 import al.bruno.financaime.model.Database;
-import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.model.ExpenseMaster;
 import al.bruno.financaime.util.EventDecorator;
-import al.bruno.financaime.util.Utilities;
 
 import static al.bruno.financaime.util.Utilities.calendar;
-import static al.bruno.financaime.util.Utilities.date;
 
 public class ExpenseLogFragment extends Fragment {
 
@@ -51,9 +43,9 @@ public class ExpenseLogFragment extends Fragment {
 
         expenseLog.setLayoutManager(new LinearLayoutManager(getActivity()));
         expenseLog.setItemAnimator(new DefaultItemAnimator());
-        expenseLog.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        expenseLog.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
 
-        new Handler().postDelayed(() -> {
+        new Handler().post(() -> {
             ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
             expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
             if(expenseMaster.getTotal().equals("0"))
@@ -63,22 +55,17 @@ public class ExpenseLogFragment extends Fragment {
                 total.setText(expenseMaster.getTotal());
             }
             expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
-        }, 100);
-
-        expenseLogCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
-            @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                new Handler().postDelayed(() -> {
-                    ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
-                    expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
-                    if(expenseMaster.getTotal().equals("0"))
-                        view.findViewById(R.id.total_layout).setVisibility(View.GONE);
-                    else {
-                        view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
-                        total.setText(expenseMaster.getTotal());
-                    }
-                }, 100);
-            }
         });
+
+        expenseLogCalendarView.setOnDateChangedListener((widget, date, selected) -> new Handler().post(() -> {
+            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
+            expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+            if(expenseMaster.getTotal().equals("0"))
+                view.findViewById(R.id.total_layout).setVisibility(View.GONE);
+            else {
+                view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
+                total.setText(expenseMaster.getTotal());
+            }
+        }));
     }
 }

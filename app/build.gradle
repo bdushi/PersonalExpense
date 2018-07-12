@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.0'
+    buildToolsVersion '28.0.1'
     defaultConfig {
         applicationId "al.bruno.financaime"
         minSdkVersion 19
@@ -23,26 +23,25 @@ android {
     }
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
-        implementation 'com.google.android.material:material:1.0.0-alpha3'
+        implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+        implementation 'com.google.android.material:material:1.0.0-beta01'
 
         //calendar view
         //compile 'com.github.BlackBoxVision:material-calendar-view:v1.5.7'
         //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-        implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
+        implementation 'com.github.prolificinteractive:material-calendarview:1.6.0'
 
         //youtube
         implementation files('libs/YouTubeAndroidPlayerApi.jar')
-
         // google analitics
-        implementation 'com.google.android.gms:play-services-analytics:16.0.0'
+        implementation 'com.google.android.gms:play-services-analytics:16.0.1'
         //google map
         implementation 'com.google.android.gms:play-services-maps:15.0.1'
         implementation 'com.google.android.gms:play-services-location:15.0.1'
         //firebase core
-        implementation 'com.google.firebase:firebase-core:16.0.0'
+        implementation 'com.google.firebase:firebase-core:16.0.1'
         //Crash Reporting
-        implementation 'com.google.firebase:firebase-crash:16.0.0'
+        implementation 'com.google.firebase:firebase-crash:16.0.1'
 
         //charts
         implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
