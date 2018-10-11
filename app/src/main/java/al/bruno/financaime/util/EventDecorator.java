@@ -5,6 +5,9 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
+import org.threeten.bp.DateTimeUtils;
+import org.threeten.bp.ZoneId;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,10 +17,9 @@ public class EventDecorator implements DayViewDecorator {
     private final HashSet<CalendarDay> dates;
 
     public EventDecorator(int color, /*Collection<CalendarDay> dates*/List<Date> dateList) {
-
         this.dates = new HashSet<>();
-        for(Date date : dateList){
-            dates.add(CalendarDay.from(date));
+        for(Date date : dateList) {
+            dates.add(CalendarDay.from(DateTimeUtils.toInstant(date).atZone(ZoneId.systemDefault()).toLocalDate()));
         }
         this.color = color;
     }
