@@ -10,8 +10,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "category")
-class Category : Parcelable {
+@Entity(tableName = "categories")
+class Categories : Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
@@ -43,7 +43,7 @@ class Category : Parcelable {
         return category
     }
 
-    fun setCategory(category: String): Category {
+    fun setCategory(category: String): Categories {
         this.category = category
         return this
     }
@@ -63,15 +63,15 @@ class Category : Parcelable {
             val CREATE_CATEGORY_TABLE = ("CREATE TABLE " + CATEGORY_TABLE + "(" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                     + CATEGORY + " TEXT" + ")")
 
-            fun contentCategory(category: Category): ContentValues {
+            fun contentCategory(categories: Categories): ContentValues {
                 val contentValues = ContentValues()
-                contentValues.put(CATEGORY, category.getCategory())
+                contentValues.put(CATEGORY, categories.getCategory())
 
                 return contentValues
             }
 
-            fun categoryCursor(cursor: Cursor): Category {
-                val category = Category()
+            fun categoryCursor(cursor: Cursor): Categories {
+                val category = Categories()
                 category.id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
                 category.setCategory(cursor.getString(cursor.getColumnIndex(CATEGORY)))
 
@@ -80,12 +80,12 @@ class Category : Parcelable {
         }
     }
 
-    companion object CREATOR : Parcelable.Creator<Category> {
-        override fun createFromParcel(parcel: Parcel): Category {
-            return Category(parcel)
+    companion object CREATOR : Parcelable.Creator<Categories> {
+        override fun createFromParcel(parcel: Parcel): Categories {
+            return Categories(parcel)
         }
 
-        override fun newArray(size: Int): Array<Category?> {
+        override fun newArray(size: Int): Array<Categories?> {
             return arrayOfNulls(size)
         }
     }

@@ -32,7 +32,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBudget = new Database(getContext()).budget(Utilities.month(Utilities.month()));
+        mBudget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
     }
 
     @Nullable
@@ -50,8 +50,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         budgetTv = view.findViewById(R.id.budget);
         incomesTv = view.findViewById(R.id.incomes);
 
-        budgetTv.setText(Utilities.format(mBudget != null ? mBudget.getBudget() : 0));
-        incomesTv.setText(Utilities.format(mBudget != null ? mBudget.getIncomes() : 0));
+        budgetTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getBudget() : 0));
+        incomesTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getIncomes() : 0));
 
         if(mBudget == null) {
             editBudget.setOnClickListener(this);
@@ -68,7 +68,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         RecyclerView log = view.findViewById(R.id.log);
         log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         log.setItemAnimator(new DefaultItemAnimator());
-        log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.month(Utilities.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
+        log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
     }
 
     @Override
@@ -83,8 +83,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickInsert(Budget budget) {
                                 if(budget.setId(new Database(getActivity()).insertBudget(budget) )!= -1) {
-                                    budgetTv.setText(Utilities.format(budget.getBudget()));
-                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }
@@ -92,8 +92,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickUpdate(Budget budget) {
                                 if(new Database(getActivity()).updateIncomesValue(budget) != -1) {
-                                    budgetTv.setText(Utilities.format(budget.getBudget()));
-                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }
@@ -109,8 +109,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickInsert(Budget budget) {
                                 if(budget.setId(new Database(getActivity()).insertBudget(budget)) != -1) {
-                                    budgetTv.setText(Utilities.format(budget.getBudget()));
-                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }
@@ -118,8 +118,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                             @Override
                             public void onClickUpdate(Budget budget) {
                                 if(new Database(getActivity()).updateBudgetValue(budget) != 0) {
-                                    budgetTv.setText(Utilities.format(budget.getBudget()));
-                                    incomesTv.setText(Utilities.format(budget.getIncomes()));
+                                    budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
+                                    incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
                                 }
                             }

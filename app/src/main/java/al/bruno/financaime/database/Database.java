@@ -11,7 +11,7 @@ import java.util.List;
 
 import al.bruno.financaime.model.Budget;
 import al.bruno.financaime.model.BudgetMaster;
-import al.bruno.financaime.model.Category;
+import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.model.ExpenseMaster;
 import al.bruno.financaime.model.Settings;
@@ -25,18 +25,18 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Budget.BudgetTable.Companion.getCREATE_BUDGET_TABLE());
-        db.execSQL(Category.CategoryTable.Companion.getCREATE_CATEGORY_TABLE());
+        db.execSQL(Categories.CategoryTable.Companion.getCREATE_CATEGORY_TABLE());
         db.execSQL(Expense.ExpenseTable.Companion.getCREATE_EXPENSE_TABLE());
         db.execSQL(Settings.SettingTable.Companion.getCREATE_SETTINGS_TABLE());
         //
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Pazar")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Transport")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Ushqim")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Qera")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Shkola")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Pushimet")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Kohe e lire")));
-        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Te tjera")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Pazar")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Transport")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Ushqim")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Qera")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Shkola")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Pushimet")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Kohe e lire")));
+        db.insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), null, Categories.CategoryTable.Companion.contentCategory(new Categories("Te tjera")));
     }
 
     @Override
@@ -45,11 +45,20 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public long insertBudget(Budget budget) {
-        return getWritableDatabase().insert(Budget.BudgetTable.Companion.getBUDGET_TABLE(), null, Budget.BudgetTable.Companion.contentBudget(budget));
+        return getWritableDatabase()
+                .insert(
+                        Budget.BudgetTable.Companion.getBUDGET_TABLE(),
+                        null,
+                        Budget.BudgetTable.Companion.contentBudget(budget));
     }
 
     public int updateBudgetValue(Budget budget) {
-        return getWritableDatabase().update(Budget.BudgetTable.Companion.getBUDGET_TABLE(), Budget.BudgetTable.Companion.updateContentBudgetValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+        return getWritableDatabase()
+                .update(
+                        Budget.BudgetTable.Companion.getBUDGET_TABLE(),
+                        Budget.BudgetTable.Companion.updateContentBudgetValue(budget),
+                        "_id =?",
+                        new String[]{String.valueOf(budget.getId())});
     }
 
     public int updateIncomesValue(Budget budget) {
@@ -72,7 +81,6 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //DML
-
     public long insertExpense(Expense expense) {
         return getWritableDatabase().insert(Expense.ExpenseTable.Companion.getEXPENSE_TABLE(),null, Expense.ExpenseTable.Companion.contentExpense(expense));
     }
@@ -166,24 +174,24 @@ public class Database extends SQLiteOpenHelper {
         return new BudgetMaster(cursor);
     }
 
-    public long insertCategory(Category category) {
-        return getWritableDatabase().insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(),null, Category.CategoryTable.Companion.contentCategory(category));
+    public long insertCategory(Categories categories) {
+        return getWritableDatabase().insert(Categories.CategoryTable.Companion.getCATEGORY_TABLE(),null, Categories.CategoryTable.Companion.contentCategory(categories));
     }
 
-    public int updateCategory(Category category){
-        return getWritableDatabase().update(Category.CategoryTable.Companion.getCATEGORY_TABLE(), Category.CategoryTable.Companion.contentCategory(category),"_id=?",new String[]{String.valueOf(category.getId())});
+    public int updateCategory(Categories categories){
+        return getWritableDatabase().update(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), Categories.CategoryTable.Companion.contentCategory(categories),"_id=?",new String[]{String.valueOf(categories.getId())});
     }
 
-    public int deleteCategory(Category category){
-        return getWritableDatabase().delete(Category.CategoryTable.Companion.getCATEGORY_TABLE(), "_id=?", new String[]{String.valueOf(category.getId())});
+    public int deleteCategory(Categories categories){
+        return getWritableDatabase().delete(Categories.CategoryTable.Companion.getCATEGORY_TABLE(), "_id=?", new String[]{String.valueOf(categories.getId())});
     }
 
-    public List<Category> categories () {
-        List<Category> categories = new ArrayList<>();
+    public List<Categories> categories () {
+        List<Categories> categories = new ArrayList<>();
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM category", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            categories.add(Category.CategoryTable.Companion.categoryCursor(cursor));
+            categories.add(Categories.CategoryTable.Companion.categoryCursor(cursor));
             cursor.moveToNext();
         }
         cursor.close();

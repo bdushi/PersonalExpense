@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import al.bruno.financaime.model.Budget;
-import al.bruno.financaime.model.Category;
+import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.database.Database;
 import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.util.Utilities;
@@ -41,14 +41,14 @@ public class ExpenseFragment extends Fragment {
         TextInputLayout inputExpTextInputLayout = view.findViewById(R.id.input_exp_text_input_layout);
 
         //Get Data from local db
-        Budget budget = new Database(getContext()).budget(Utilities.month(Utilities.month()));
-        List<Category> categories = new Database(getContext()).categories();
+        Budget budget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
+        List<Categories> categories = new Database(getContext()).categories();
 
         //Spinner adapter
-        ArrayAdapter<Category> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categories);
+        ArrayAdapter<Categories> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categories);
         spinner.setAdapter(adapter);
 
-        budgetHint.setText(Utilities.format(budget != null ? budget.getBudget() : 0));
+        budgetHint.setText(Utilities.INSTANCE.format(budget != null ? budget.getBudget() : 0));
 
         inputExpValue.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,14 +78,14 @@ public class ExpenseFragment extends Fragment {
                     Expense expense = new Expense();
                     expense.setExpenseName(spinner.getSelectedItem().toString());
                     expense.setExpense(Double.parseDouble(inputExpValue.getText().toString()));
-                    expense.setDate(Utilities.date());
+                    expense.setDate(Utilities.INSTANCE.date());
                     expense.setIdBudget(budget.getId());
                     if (new Database(getContext()).insertExpense(expense) != -1) {
                         budget.setBudget(budget.getBudget() - expense.getExpense());
                         if (new Database(getContext()).updateBudgetValue(budget) != -1) {
                             Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_SHORT).show();
                             spinner.setSelection(0);
-                            budgetHint.setText(Utilities.format(budget.getBudget()));
+                            budgetHint.setText(Utilities.INSTANCE.format(budget.getBudget()));
                             inputExpValue.setText("");
                             inputExpValue.clearFocus();
                         } else

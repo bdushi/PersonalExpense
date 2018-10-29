@@ -41,26 +41,26 @@ public class StatisticsFragment extends Fragment {
         BarChart barChart = view.findViewById(R.id.chart);
         onChanged(new Database(getContext())
                 .expense(
-                        Utilities.month(calendar.get(Calendar.MONTH)),
+                        Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)),
                         String.valueOf(calendar.get(Calendar.YEAR))),
                 barChart);
 
         AppCompatTextView date = view.findViewById(R.id.date);
-        date.setText(Utilities.monthFormat(calendar));
+        date.setText(Utilities.INSTANCE.monthFormat(calendar));
         view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.monthIncrementAndDecrement(calendar,-1);
-                date.setText(Utilities.monthFormat(calendar));
-                onChanged(new Database(getContext()).expense(Utilities.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
+                date.setText(Utilities.INSTANCE.monthFormat(calendar));
+                onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.monthIncrementAndDecrement(calendar,+1);
-                date.setText(Utilities.monthFormat(calendar));
-                onChanged(new Database(getContext()).expense(Utilities.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,+1);
+                date.setText(Utilities.INSTANCE.monthFormat(calendar));
+                onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
     }
@@ -92,7 +92,7 @@ public class StatisticsFragment extends Fragment {
             barEntryList.add(barEntry);
             i++;
         }
-        BarDataSet barDataSet = new BarDataSet(barEntryList, Utilities.getMonth(Utilities.month(expenses.get(0).getDate())));
+        BarDataSet barDataSet = new BarDataSet(barEntryList, Utilities.INSTANCE.getMonth(Utilities.INSTANCE.month(expenses.get(0).getDate())));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet);

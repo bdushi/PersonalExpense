@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import al.bruno.financaime.dialog.EditCategory;
-import al.bruno.financaime.model.Category;
+import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.database.Database;
 
 public class ExpenseCategoriesFragment extends Fragment {
@@ -41,22 +41,22 @@ public class ExpenseCategoriesFragment extends Fragment {
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        List<Category> categories = new Database(getContext()).categories();
+        List<Categories> categories = new Database(getContext()).categories();
 
-        CustomAdapter<Category, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categories, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
+        CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categories, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
             categorySingleItemBinding.setCategory(category);
-            categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Category>() {
+            categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Categories>() {
                 @Override
-                public void onItemClick(Category category) {
+                public void onItemClick(Categories category) {
                     new EditCategory
                             .Builder()
-                            .setCategory(category)
+                            .setCategories(category)
                             .setHint(getString(R.string.category))
                             .setTitle(getString(R.string.add_category))
                             .build()
                             .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
                                 @Override
-                                public void onSave(Category category) {
+                                public void onSave(Categories category) {
                                     /*categories.set(position, category);
                                     categoriesAdapter.notifyItemChanged(position, categories);*/
                                 }
@@ -64,7 +64,7 @@ public class ExpenseCategoriesFragment extends Fragment {
                 }
 
                 @Override
-                public boolean onLongItemClick(Category category) {
+                public boolean onLongItemClick(Categories category) {
                     return false;
                 }
             });
@@ -82,8 +82,8 @@ public class ExpenseCategoriesFragment extends Fragment {
                         .build()
                         .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
                             @Override
-                            public void onSave(Category category) {
-                                categories.add(category);
+                            public void onSave(Categories categories) {
+                                categories.add(categories);
                                 //categoriesAdapter.notifyDataSetChanged();
                             }
                         }).show(getFragmentManager(), "EDIT_CATEGORY");

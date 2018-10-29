@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="category"
-            type="al.bruno.financaime.model.Category"/>
+            name="categories"
+            type="al.bruno.financaime.model.Categories"/>
         <variable
             name="onItemClickListener"
-            type="al.bruno.financaime.callback.OnItemClickListener&lt;al.bruno.financaime.model.Category&gt;"/>
+            type="al.bruno.financaime.callback.OnItemClickListener&lt;al.bruno.financaime.model.Categories&gt;"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/category"
+        android:id="@+id/categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@color/white"
-        android:text="@{category.category}"
-        android:onClick="@{(v) ->onItemClickListener.onLongItemClick(category)}"
+        android:text="@{categories.categories}"
+        android:onClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
         style="@style/TextAppearance.AppCompat.Large"/>
 </layout>

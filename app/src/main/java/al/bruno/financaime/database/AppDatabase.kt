@@ -10,7 +10,7 @@ import androidx.room.migration.Migration
 
 
 
-@Database(entities = arrayOf(User::class, Budget::class, Category::class, Settings::class, Expense::class), version = 1)
+@Database(entities = arrayOf(User::class, Budget::class, Categories::class, Settings::class, Expense::class), version = 1)
 @TypeConverters(Converters::class)
 public abstract class AppDatabase : RoomDatabase() {
 

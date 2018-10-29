@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import al.bruno.financaime.R;
-import al.bruno.financaime.model.Category;
+import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.database.Database;
 
 public class EditCategory extends DialogFragment implements View.OnClickListener, TextWatcher
 {
-    private Category category;
+    private Categories categories;
     private AppCompatEditText categoryEdit;
     private TextInputLayout categoryTextInputLayout;
     private EditCategoryListener editCategoryListener;
@@ -28,7 +28,7 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
     public static class Builder {
         private CharSequence hint;
         private CharSequence title;
-        private Category category;
+        private Categories categories;
 
         public EditCategory.Builder setHint(CharSequence hint)
         {
@@ -41,15 +41,15 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
             return this;
         }
 
-        public EditCategory.Builder setCategory(Category category)
+        public EditCategory.Builder setCategories(Categories categories)
         {
-            this.category = category;
+            this.categories = categories;
             return this;
         }
 
         public EditCategory build()
         {
-            return newInstance(hint, title, category);
+            return newInstance(hint, title, categories);
         }
     }
 
@@ -57,12 +57,12 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
         this.editCategoryListener = editCategoryListener;
         return this;
     }
-    public static EditCategory newInstance(CharSequence hint, CharSequence title, Category category)
+    public static EditCategory newInstance(CharSequence hint, CharSequence title, Categories categories)
     {
         Bundle args = new Bundle();
         args.putCharSequence("HINT", hint);
         args.putCharSequence("TITLE", title);
-        args.putParcelable("CATEGORY", category);
+        args.putParcelable("CATEGORY", categories);
         EditCategory fragment = new EditCategory();
         fragment.setArguments(args);
         return fragment;
@@ -90,9 +90,9 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
         {
             categoryTextInputLayout.setHint(bundle.getCharSequence("HINT"));
             categoryTitle.setText(bundle.getCharSequence("TITLE"));
-            category = bundle.getParcelable("CATEGORY");
-            if(category != null)
-                categoryEdit.setText(category.getCategory());
+            categories = bundle.getParcelable("CATEGORY");
+            if(categories != null)
+                categoryEdit.setText(categories.getCategory());
         }
 
         view.findViewById(R.id.category_save).setOnClickListener(this);
@@ -106,23 +106,23 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
         switch (view.getId())
         {
             case R.id.category_save:
-                if(category == null) {
+                if(categories == null) {
                     if(categoryEdit.getText().toString().isEmpty()) {
                         categoryTextInputLayout.setError(getString(R.string.add_value));
                     } else {
-                        Category category = new Category();
-                        category.setCategory(categoryEdit.getText().toString());
-                        if(new Database(getContext()).insertCategory(category) != -1) {
-                            editCategoryListener.onSave(category);
+                        Categories categories = new Categories();
+                        categories.setCategory(categoryEdit.getText().toString());
+                        if(new Database(getContext()).insertCategory(categories) != -1) {
+                            editCategoryListener.onSave(categories);
                         }
                     }
                 } else {
                     if(categoryEdit.getText().toString().isEmpty()) {
                         categoryTextInputLayout.setError(getString(R.string.add_value));
                     } else {
-                        category.setCategory(categoryEdit.getText().toString());
-                        if(new Database(getContext()).updateCategory(category) != 0) {
-                            editCategoryListener.onSave(category);
+                        categories.setCategory(categoryEdit.getText().toString());
+                        if(new Database(getContext()).updateCategory(categories) != 0) {
+                            editCategoryListener.onSave(categories);
                         }
                     }
                 }
@@ -153,6 +153,6 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
     }
 
     public interface EditCategoryListener {
-        void onSave(Category category);
+        void onSave(Categories categories);
     }
 }
