@@ -1,6 +1,11 @@
 package al.bruno.financaime;
 
 import android.os.Bundle;
+
+import al.bruno.financaime.adapter.CustomAdapter;
+import al.bruno.financaime.callback.BindingData;
+import al.bruno.financaime.databinding.ExpenseSingleItemBinding;
+import al.bruno.financaime.model.Expense;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,9 +22,10 @@ import android.view.ViewGroup;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-import al.bruno.financaime.adapter.ExpenseAdapter;
 import al.bruno.financaime.model.Database;
 import al.bruno.financaime.model.ExpenseMaster;
 import al.bruno.financaime.util.EventDecorator;
@@ -47,7 +53,12 @@ public class ExpenseLogFragment extends Fragment {
 
         new Handler().post(() -> {
             ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
-            expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
+                @Override
+                public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
+                    expenseSingleItemBinding.setExpense(expense);
+                }
+            }));
             if(expenseMaster.getTotal().equals("0"))
                 view.findViewById(R.id.total_layout).setVisibility(View.GONE);
             else {
@@ -59,7 +70,12 @@ public class ExpenseLogFragment extends Fragment {
 
         expenseLogCalendarView.setOnDateChangedListener((widget, date, selected) -> new Handler().post(() -> {
             ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
-            expenseLog.setAdapter(new ExpenseAdapter(expenseMaster.getExpenses(), R.layout.expense_single_item));
+            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
+                @Override
+                public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
+                    expenseSingleItemBinding.setExpense(expense);
+                }
+            }));
             if(expenseMaster.getTotal().equals("0"))
                 view.findViewById(R.id.total_layout).setVisibility(View.GONE);
             else {

@@ -1,20 +1,24 @@
 package al.bruno.financaime;
 
 import android.os.Bundle;
+
+import al.bruno.financaime.adapter.CustomAdapter;
+import al.bruno.financaime.callback.BindingData;
+import al.bruno.financaime.databinding.LogSingleItemBinding;
+import al.bruno.financaime.model.Expense;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import al.bruno.financaime.adapter.LogAdapter;
+import org.jetbrains.annotations.NotNull;
+
 import al.bruno.financaime.callback.DialogCallBack;
 import al.bruno.financaime.dialog.EditBudget;
 import al.bruno.financaime.dialog.EditIncomes;
@@ -67,7 +71,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         RecyclerView log = view.findViewById(R.id.log);
         log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         log.setItemAnimator(new DefaultItemAnimator());
-        log.setAdapter(new LogAdapter(new Database(getContext()).expense(Utilities.month(Utilities.month())), R.layout.log_single_item));
+        log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.month(Utilities.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
     }
 
     @Override

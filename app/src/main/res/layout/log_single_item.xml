@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/name"
+<layout>
+    <data>
+        <variable
+            name="expense"
+            type="al.bruno.financaime.model.Expense"/>
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@id/expense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{expense.expenseName}"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@id/expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{expense.expensesStr}"/>
+    </LinearLayout>
+</layout>

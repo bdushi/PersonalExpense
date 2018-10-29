@@ -1,6 +1,11 @@
 package al.bruno.financaime;
 
 import android.os.Bundle;
+
+import al.bruno.financaime.adapter.CustomAdapter;
+import al.bruno.financaime.callback.BindingData;
+import al.bruno.financaime.callback.OnItemClickListener;
+import al.bruno.financaime.databinding.CategorySingleItemBinding;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,17 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-import al.bruno.financaime.adapter.CategoriesAdapter;
 import al.bruno.financaime.callback.RecyclerViewOnClickListener;
 import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Category;
 import al.bruno.financaime.model.Database;
 
-public class ExpenseCategoriesFragment extends Fragment
-{
-    private CategoriesAdapter categoriesAdapter;
+public class ExpenseCategoriesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,25 +44,34 @@ public class ExpenseCategoriesFragment extends Fragment
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
         List<Category> categories = new Database(getContext()).categories();
 
-        categoriesAdapter = new CategoriesAdapter(categories, R.layout.category_single_item, new RecyclerViewOnClickListener() {
-            @Override
-            public void OnClickListener(View view, int position) {
-                new EditCategory
-                        .Builder()
-                        .setCategory(categoriesAdapter.getItem(position))
-                        .setHint(getString(R.string.category))
-                        .setTitle(getString(R.string.add_category))
-                        .build()
-                        .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
-                            @Override
-                            public void onSave(Category category) {
-                                categories.set(position, category);
-                                categoriesAdapter.notifyItemChanged(position, categories);
-                            }
-                        }).show(getFragmentManager(), "EDIT_CATEGORY");
-            }
+        CustomAdapter<Category, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categories, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
+            categorySingleItemBinding.setCategory(category);
+            categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Category>() {
+                @Override
+                public void onItemClick(Category category) {
+                    new EditCategory
+                            .Builder()
+                            .setCategory(category)
+                            .setHint(getString(R.string.category))
+                            .setTitle(getString(R.string.add_category))
+                            .build()
+                            .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
+                                @Override
+                                public void onSave(Category category) {
+                                    /*categories.set(position, category);
+                                    categoriesAdapter.notifyItemChanged(position, categories);*/
+                                }
+                            }).show(getFragmentManager(), "EDIT_CATEGORY");
+                }
+
+                @Override
+                public boolean onLongItemClick(Category category) {
+                    return false;
+                }
+            });
         });
 
         categoryRecyclerView.setAdapter(categoriesAdapter);
@@ -75,7 +88,7 @@ public class ExpenseCategoriesFragment extends Fragment
                             @Override
                             public void onSave(Category category) {
                                 categories.add(category);
-                                categoriesAdapter.notifyDataSetChanged();
+                                //categoriesAdapter.notifyDataSetChanged();
                             }
                         }).show(getFragmentManager(), "EDIT_CATEGORY");
             }

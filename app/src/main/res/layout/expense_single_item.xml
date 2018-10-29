@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:baselineAligned="false">
-    <LinearLayout
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="expense"
+            type="al.bruno.financaime.model.Expense"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="8">
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/id"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:text="@{expense.idStr}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/expense_name"
+            app:layout_constraintHorizontal_weight="1"
             style="@style/Base.TextAppearance.AppCompat.Small"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/expense_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@{expense.expenseName}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/expense_value"
+            app:layout_constraintHorizontal_weight="8"
             style="@style/Base.TextAppearance.AppCompat.Medium"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/expense_value"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/expense_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Base.TextAppearance.AppCompat.Small"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/Base.TextAppearance.AppCompat.Small"/>
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+            android:text="@{expense.expensesStr}"
+            app:layout_constraintStart_toStartOf="@id/expense_name"
+            app:layout_constraintTop_toBottomOf="@id/expense_name"
+            app:layout_constraintEnd_toStartOf="@id/date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Base.TextAppearance.AppCompat.Small"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{expense.dateStr}"
+            app:layout_constraintTop_toTopOf="@id/expense_value"
+            app:layout_constraintStart_toEndOf="@+id/expense_value"
+            app:layout_constraintBottom_toBottomOf="@id/expense_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/Base.TextAppearance.AppCompat.Small"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
