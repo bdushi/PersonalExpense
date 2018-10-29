@@ -3,7 +3,6 @@ package al.bruno.financaime;
 import android.os.Bundle;
 
 import al.bruno.financaime.adapter.CustomAdapter;
-import al.bruno.financaime.callback.BindingData;
 import al.bruno.financaime.callback.OnItemClickListener;
 import al.bruno.financaime.databinding.CategorySingleItemBinding;
 import androidx.annotation.NonNull;
@@ -17,14 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-import al.bruno.financaime.callback.RecyclerViewOnClickListener;
 import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Category;
-import al.bruno.financaime.model.Database;
+import al.bruno.financaime.database.Database;
 
 public class ExpenseCategoriesFragment extends Fragment {
     @Override

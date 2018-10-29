@@ -1,4 +1,4 @@
-package al.bruno.financaime.model;
+package al.bruno.financaime.database;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,28 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static al.bruno.financaime.model.Budget.BudgetTable.BUDGET_TABLE;
-import static al.bruno.financaime.model.Budget.BudgetTable.CREATE_BUDGET_TABLE;
-import static al.bruno.financaime.model.Budget.BudgetTable.budgetCursor;
-import static al.bruno.financaime.model.Budget.BudgetTable.contentBudget;
-import static al.bruno.financaime.model.Budget.BudgetTable.updateContentBudgetValue;
-import static al.bruno.financaime.model.Budget.BudgetTable.updateContentIncomesValue;
-import static al.bruno.financaime.model.Category.CategoryTable.CATEGORY_TABLE;
-import static al.bruno.financaime.model.Category.CategoryTable.CREATE_CATEGORY_TABLE;
-import static al.bruno.financaime.model.Category.CategoryTable.categoryCursor;
-import static al.bruno.financaime.model.Category.CategoryTable.contentCategory;
-import static al.bruno.financaime.model.Expense.ExpenseTable.CREATE_EXPENSE_TABLE;
-import static al.bruno.financaime.model.Expense.ExpenseTable.DATE;
-import static al.bruno.financaime.model.Expense.ExpenseTable.EXPENSE_TABLE;
-import static al.bruno.financaime.model.Expense.ExpenseTable.contentExpense;
-import static al.bruno.financaime.model.Expense.ExpenseTable.expenseCursor;
-import static al.bruno.financaime.model.Settings.SettingTable.CREATE_SETTINGS_TABLE;
-import static al.bruno.financaime.model.Settings.SettingTable.SETTINGS_TABLE;
-import static al.bruno.financaime.model.Settings.SettingTable.contentAutoSettings;
-import static al.bruno.financaime.model.Settings.SettingTable.contentBudgetSettings;
-import static al.bruno.financaime.model.Settings.SettingTable.contentIncomesSettings;
-import static al.bruno.financaime.model.Settings.SettingTable.contentSettings;
-import static al.bruno.financaime.model.Settings.SettingTable.settingsCursor;
+import al.bruno.financaime.model.Budget;
+import al.bruno.financaime.model.BudgetMaster;
+import al.bruno.financaime.model.Category;
+import al.bruno.financaime.model.Expense;
+import al.bruno.financaime.model.ExpenseMaster;
+import al.bruno.financaime.model.Settings;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -40,19 +24,19 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_BUDGET_TABLE);
-        db.execSQL(CREATE_CATEGORY_TABLE);
-        db.execSQL(CREATE_EXPENSE_TABLE);
-        db.execSQL(CREATE_SETTINGS_TABLE);
+        db.execSQL(Budget.BudgetTable.Companion.getCREATE_BUDGET_TABLE());
+        db.execSQL(Category.CategoryTable.Companion.getCREATE_CATEGORY_TABLE());
+        db.execSQL(Expense.ExpenseTable.Companion.getCREATE_EXPENSE_TABLE());
+        db.execSQL(Settings.SettingTable.Companion.getCREATE_SETTINGS_TABLE());
         //
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Pazar")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Transport")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Ushqim")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Qera")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Shkola")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Pushimet")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Kohe e lire")));
-        db.insert(CATEGORY_TABLE, null, contentCategory(new Category("Te tjera")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Pazar")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Transport")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Ushqim")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Qera")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Shkola")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Pushimet")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Kohe e lire")));
+        db.insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(), null, Category.CategoryTable.Companion.contentCategory(new Category("Te tjera")));
     }
 
     @Override
@@ -61,15 +45,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public long insertBudget(Budget budget) {
-        return getWritableDatabase().insert(BUDGET_TABLE, null, contentBudget(budget));
+        return getWritableDatabase().insert(Budget.BudgetTable.Companion.getBUDGET_TABLE(), null, Budget.BudgetTable.Companion.contentBudget(budget));
     }
 
     public int updateBudgetValue(Budget budget) {
-        return getWritableDatabase().update(BUDGET_TABLE, updateContentBudgetValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+        return getWritableDatabase().update(Budget.BudgetTable.Companion.getBUDGET_TABLE(), Budget.BudgetTable.Companion.updateContentBudgetValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
     }
 
     public int updateIncomesValue(Budget budget) {
-        return getWritableDatabase().update(BUDGET_TABLE, updateContentIncomesValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+        return getWritableDatabase().update(Budget.BudgetTable.Companion.getBUDGET_TABLE(), Budget.BudgetTable.Companion.updateContentIncomesValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
     }
 
     public Budget budget (String month) {
@@ -80,7 +64,7 @@ public class Database extends SQLiteOpenHelper {
                 "GROUP BY e._id_budget", new String[]{month});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            budget = budgetCursor(cursor);
+            budget = Budget.BudgetTable.Companion.budgetCursor(cursor);
             cursor.moveToNext();
         }
         cursor.close();
@@ -90,7 +74,7 @@ public class Database extends SQLiteOpenHelper {
     //DML
 
     public long insertExpense(Expense expense) {
-        return getWritableDatabase().insert(EXPENSE_TABLE,null,contentExpense(expense));
+        return getWritableDatabase().insert(Expense.ExpenseTable.Companion.getEXPENSE_TABLE(),null, Expense.ExpenseTable.Companion.contentExpense(expense));
     }
 
     public Expense expense (long id) {
@@ -98,7 +82,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM expense WHERE _id =? ", new String[]{String.valueOf(id)});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            expense = expenseCursor(cursor);
+            expense = Expense.ExpenseTable.Companion.expenseCursor(cursor);
             cursor.moveToNext();
         }
         cursor.close();
@@ -110,7 +94,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT _id, _expense_name, SUM(_expense) AS _expense, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = ? GROUP BY TRIM(_expense_name)", new String[]{month});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            expenses.add(expenseCursor(cursor));
+            expenses.add(Expense.ExpenseTable.Companion.expenseCursor(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -125,7 +109,7 @@ public class Database extends SQLiteOpenHelper {
                 "GROUP BY TRIM(_expense_name)", new String[]{month, year});
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            expenses.add(expenseCursor(cursor));
+            expenses.add(Expense.ExpenseTable.Companion.expenseCursor(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -137,7 +121,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT _date FROM expense", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dates.add(new Date(cursor.getLong(cursor.getColumnIndex(DATE))));
+            dates.add(new Date(cursor.getLong(cursor.getColumnIndex(Expense.ExpenseTable.Companion.getDATE()))));
             cursor.moveToNext();
         }
         cursor.close();
@@ -183,15 +167,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public long insertCategory(Category category) {
-        return getWritableDatabase().insert(CATEGORY_TABLE,null,contentCategory(category));
+        return getWritableDatabase().insert(Category.CategoryTable.Companion.getCATEGORY_TABLE(),null, Category.CategoryTable.Companion.contentCategory(category));
     }
 
     public int updateCategory(Category category){
-        return getWritableDatabase().update(CATEGORY_TABLE,contentCategory(category),"_id=?",new String[]{String.valueOf(category.getId())});
+        return getWritableDatabase().update(Category.CategoryTable.Companion.getCATEGORY_TABLE(), Category.CategoryTable.Companion.contentCategory(category),"_id=?",new String[]{String.valueOf(category.getId())});
     }
 
     public int deleteCategory(Category category){
-        return getWritableDatabase().delete(CATEGORY_TABLE, "_id=?", new String[]{String.valueOf(category.getId())});
+        return getWritableDatabase().delete(Category.CategoryTable.Companion.getCATEGORY_TABLE(), "_id=?", new String[]{String.valueOf(category.getId())});
     }
 
     public List<Category> categories () {
@@ -199,7 +183,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM category", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            categories.add(categoryCursor(cursor));
+            categories.add(Category.CategoryTable.Companion.categoryCursor(cursor));
             cursor.moveToNext();
         }
         cursor.close();
@@ -207,16 +191,16 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public long insertSettings(Settings settings) {
-        return getWritableDatabase().insert(SETTINGS_TABLE,null, contentSettings(settings));
+        return getWritableDatabase().insert(Settings.SettingTable.Companion.getSETTINGS_TABLE(),null, Settings.SettingTable.Companion.contentSettings(settings));
     }
     public long updateBudgetSettings(Settings settings) {
-        return getWritableDatabase().update(SETTINGS_TABLE, contentBudgetSettings(settings), null, null);
+        return getWritableDatabase().update(Settings.SettingTable.Companion.getSETTINGS_TABLE(), Settings.SettingTable.Companion.contentBudgetSettings(settings), null, null);
     }
     public long updateIncomesSettings(Settings settings) {
-        return getWritableDatabase().update(SETTINGS_TABLE, contentIncomesSettings(settings), null, null);
+        return getWritableDatabase().update(Settings.SettingTable.Companion.getSETTINGS_TABLE(), Settings.SettingTable.Companion.contentIncomesSettings(settings), null, null);
     }
     public long updateAutoSettings(Settings settings) {
-        return getWritableDatabase().update(SETTINGS_TABLE, contentAutoSettings(settings), null, null);
+        return getWritableDatabase().update(Settings.SettingTable.Companion.getSETTINGS_TABLE(), Settings.SettingTable.Companion.contentAutoSettings(settings), null, null);
     }
 
     public Settings settings () {
@@ -224,13 +208,10 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM settings", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            settings = settingsCursor(cursor);
+            settings = Settings.SettingTable.Companion.settingsCursor(cursor);
             cursor.moveToNext();
         }
         cursor.close();
         return settings;
     }
-
-
-
 }

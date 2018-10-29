@@ -1,6 +1,5 @@
 package al.bruno.financaime.dialog;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +16,7 @@ import android.view.Window;
 
 import al.bruno.financaime.R;
 import al.bruno.financaime.model.Category;
-import al.bruno.financaime.model.Database;
+import al.bruno.financaime.database.Database;
 
 public class EditCategory extends DialogFragment implements View.OnClickListener, TextWatcher
 {

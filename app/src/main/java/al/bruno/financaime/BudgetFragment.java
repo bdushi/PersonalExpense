@@ -3,7 +3,6 @@ package al.bruno.financaime;
 import android.os.Bundle;
 
 import al.bruno.financaime.adapter.CustomAdapter;
-import al.bruno.financaime.callback.BindingData;
 import al.bruno.financaime.databinding.LogSingleItemBinding;
 import al.bruno.financaime.model.Expense;
 import androidx.annotation.NonNull;
@@ -17,13 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
-
 import al.bruno.financaime.callback.DialogCallBack;
 import al.bruno.financaime.dialog.EditBudget;
 import al.bruno.financaime.dialog.EditIncomes;
 import al.bruno.financaime.model.Budget;
-import al.bruno.financaime.model.Database;
+import al.bruno.financaime.database.Database;
 import al.bruno.financaime.util.Utilities;
 
 public class BudgetFragment extends Fragment implements View.OnClickListener{

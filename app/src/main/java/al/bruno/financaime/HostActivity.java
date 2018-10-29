@@ -13,22 +13,13 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import al.bruno.financaime.model.Database;
-
 public class HostActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
-        FirebaseAnalytics.getInstance(this);
         //google analitics
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        application.trackScreenView(HostActivity.class.getName());
-        application.trackException(new ArithmeticException("/ by zero"));
-        /*Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(HostActivity.class.getName());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());*/
-
+        FirebaseAnalytics.getInstance(this);
         //inflater home fragment
         getSupportFragmentManager()
                 .beginTransaction()

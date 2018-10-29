@@ -26,9 +26,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import al.bruno.financaime.model.Budget;
 import al.bruno.financaime.model.BudgetMaster;
-import al.bruno.financaime.model.Database;
+import al.bruno.financaime.database.Database;
 import al.bruno.financaime.util.Utilities;
 
 import static al.bruno.financaime.util.Utilities.monthFormat;
