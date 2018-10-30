@@ -101,7 +101,7 @@ public class ExpenseFragment extends Fragment {
             public void onClick(View view) {
                 getFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.host, new ExpenseCategoriesFragment())
+                        .replace(R.id.host, new CategoriesFragment())
                         .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
                         .commit();
             }

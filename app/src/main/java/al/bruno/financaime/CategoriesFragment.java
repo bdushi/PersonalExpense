@@ -22,7 +22,7 @@ import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.database.Database;
 
-public class ExpenseCategoriesFragment extends Fragment {
+public class CategoriesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

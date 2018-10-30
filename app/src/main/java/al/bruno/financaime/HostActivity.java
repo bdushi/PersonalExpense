@@ -47,7 +47,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                 else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof SettingsFragment) {
                     navigation.setVisibility(View.GONE);
                 }
-                else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof ExpenseCategoriesFragment) {
+                else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof CategoriesFragment) {
                     navigation.setVisibility(View.GONE);
                 }
             } else {
@@ -146,7 +146,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.expense_log:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.host, new ExpenseLogFragment())
+                        .replace(R.id.host, new DetailsFragment())
                         .commit();
                 return true;
             default:

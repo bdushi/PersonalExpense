@@ -32,7 +32,7 @@ import al.bruno.financaime.util.EventDecorator;
 
 import static al.bruno.financaime.util.Utilities.calendar;
 
-public class ExpenseLogFragment extends Fragment {
+public class DetailsFragment extends Fragment {
 
     @Nullable
     @Override
