@@ -20,7 +20,7 @@ import java.util.List;
 
 import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.database.Database;
+import al.bruno.financaime.data.local.Database;
 
 public class CategoriesFragment extends Fragment {
     @Override

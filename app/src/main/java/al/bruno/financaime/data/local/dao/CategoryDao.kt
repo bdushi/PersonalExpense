@@ -1,4 +1,4 @@
-package al.bruno.financaime.database.dao
+package al.bruno.financaime.data.local.dao
 
 import al.bruno.financaime.model.Categories
 import androidx.room.*

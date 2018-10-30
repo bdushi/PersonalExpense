@@ -20,7 +20,7 @@ import java.util.List;
 
 import al.bruno.financaime.model.Budget;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.database.Database;
+import al.bruno.financaime.data.local.Database;
 import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.util.Utilities;
 

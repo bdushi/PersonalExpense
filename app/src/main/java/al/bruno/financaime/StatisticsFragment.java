@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import al.bruno.financaime.database.Database;
+import al.bruno.financaime.data.local.Database;
 import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.util.Utilities;
 

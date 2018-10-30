@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import al.bruno.financaime.database.Database;
+import al.bruno.financaime.data.local.Database;
 import al.bruno.financaime.model.ExpenseMaster;
 import al.bruno.financaime.util.EventDecorator;
 

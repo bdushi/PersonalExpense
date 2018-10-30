@@ -20,7 +20,7 @@ import al.bruno.financaime.callback.DialogCallBack;
 import al.bruno.financaime.dialog.EditBudget;
 import al.bruno.financaime.dialog.EditIncomes;
 import al.bruno.financaime.model.Budget;
-import al.bruno.financaime.database.Database;
+import al.bruno.financaime.data.local.Database;
 import al.bruno.financaime.util.Utilities;
 
 public class BudgetFragment extends Fragment implements View.OnClickListener{
