@@ -13,6 +13,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlin.math.exp
 
 @Entity(tableName = "budget")
 class Budget : Parcelable {
@@ -29,6 +30,13 @@ class Budget : Parcelable {
     var expense: Double = 0.toDouble()
 
     constructor() {}
+    constructor(id: Long, budget: Double, incomes: Double, date: Date, expense: Double) {
+        this.id = id;
+        this.budget = budget;
+        this.incomes = incomes;
+        this.date = date;
+        this.expense = expense
+    }
 
     protected constructor(`in`: Parcel) {
         id = `in`.readLong()

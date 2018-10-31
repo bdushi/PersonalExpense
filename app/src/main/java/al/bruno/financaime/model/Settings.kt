@@ -8,6 +8,7 @@ import androidx.room.ColumnInfo
 import java.text.DecimalFormat
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "settings")
@@ -20,16 +21,15 @@ class Settings {
     @ColumnInfo(name = "_incomes")
     var incomes: Double = 0.toDouble()
     @ColumnInfo(name = "_auto")
-    private var auto: Boolean = false
+    var auto: Boolean = false
 
-    //ignore
-    private val format = DecimalFormat("###.###")
-
-    val incomesStr: String
-        get() = format.format(incomes)
-
-    val budgetStr: String
-        get() = format.format(budget)
+    constructor(){}
+    constructor(id: Long, budget: Double, incomes: Double, auto: Boolean) {
+        this.id = id;
+        this.budget = budget;
+        this.incomes = incomes;
+        this.auto = auto;
+    }
 
     fun getId(): Long {
         return id
@@ -49,12 +49,19 @@ class Settings {
         return this
     }
 
+    //ignore
+    @Ignore
+    private val format = DecimalFormat("###.###")
+    val incomesStr: String
+        get() = format.format(incomes)
+
+    val budgetStr: String
+        get() = format.format(budget)
+
     abstract class SettingTable : BaseColumns {
         companion object {
-
             //emri i tabeles
             val SETTINGS_TABLE = "settings"
-
             //emrat e kolonave te tabeles
             val INCOMES = "_incomes"
             val BUDGET = "_budget"

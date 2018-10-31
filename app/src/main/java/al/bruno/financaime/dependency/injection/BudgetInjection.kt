@@ -6,7 +6,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 
 object BudgetInjection {
-    fun provideIBudgetInjection(@NonNull context: Context) {
-        BudgetRepository.getInstance(BudgetLocalDataSource.INSTANCE(context)!!)
+    fun provideBudgetInjection(@NonNull context: Context): BudgetRepository? {
+        return BudgetRepository.getInstance(BudgetLocalDataSource.INSTANCE(context)!!)
     }
 }

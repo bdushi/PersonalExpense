@@ -1,11 +1,13 @@
 package al.bruno.financaime.data.source.local
 
 import al.bruno.financaime.data.source.BudgetDataSource
+import al.bruno.financaime.model.Budget
 import android.content.Context
 import androidx.annotation.Nullable
+import androidx.lifecycle.LiveData
+import io.reactivex.Single
 
 class BudgetLocalDataSource : BudgetDataSource {
-
     private var DATABASE_INSTANCE :AppDatabase
 
     constructor(context: Context) {
@@ -16,15 +18,33 @@ class BudgetLocalDataSource : BudgetDataSource {
     }
     companion object {
         var INSTANCE: BudgetLocalDataSource? = null
+
         fun INSTANCE(DATABASE_INSTANCE: AppDatabase): BudgetLocalDataSource? {
             if (INSTANCE == null)
                 INSTANCE = BudgetLocalDataSource(DATABASE_INSTANCE)
             return INSTANCE
         }
+
         fun INSTANCE(context: Context): BudgetLocalDataSource? {
             if (INSTANCE == null)
                 INSTANCE = BudgetLocalDataSource(context)
             return INSTANCE
         }
+    }
+
+    override fun insert(budget: Budget): Single<Long> {
+        return DATABASE_INSTANCE.budgetDao().insert(budget)
+    }
+
+    override fun updateBudget(budget: Double, id: Long): Single<Long> {
+        return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
+    }
+
+    override fun updateIncomes(incomes: Double, id: Long): Single<Long> {
+        return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
+    }
+
+    override fun budget(month: String): LiveData<Budget> {
+        return DATABASE_INSTANCE.budgetDao().budget(month)
     }
 }

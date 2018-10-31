@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "al.bruno.financaime"
-        minSdkVersion 26
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -72,7 +72,10 @@ android {
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
         implementation 'androidx.room:room-runtime:2.1.0-alpha02'
-        annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
+        //annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
+        kapt 'androidx.room:room-compiler:2.1.0-alpha02'
+        //
+        kapt  "androidx.lifecycle:lifecycle-extensions:2.0.0"
         // optional - RxJava support for Room
         implementation 'androidx.room:room-rxjava2:2.1.0-alpha02'
         def paging_version = "2.1.0-alpha01"

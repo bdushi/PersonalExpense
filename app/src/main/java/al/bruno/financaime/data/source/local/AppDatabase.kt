@@ -1,6 +1,8 @@
 package al.bruno.financaime.data.source.local
 
+import al.bruno.financaime.data.source.local.dao.*
 import al.bruno.financaime.model.*
+import al.bruno.financaime.util.Converter
 import android.content.Context
 import androidx.databinding.adapters.Converters
 import androidx.room.*
@@ -14,9 +16,14 @@ import androidx.room.migration.Migration
         entities = arrayOf(User::class, Budget::class, Categories::class, Settings::class, Expense::class),
         views = arrayOf(BudgetDetails::class, ExpenseDetails::class),
         version = 1)
-@TypeConverters(Converters::class)
+@TypeConverters(Converter::class)
 public abstract class AppDatabase : RoomDatabase() {
-
+    abstract fun budgetDao(): BudgetDao
+    abstract fun budgetDetailsDao(): BudgetDetailsDao
+    abstract fun categoriesDao(): CategoriesDao
+    abstract fun expenseDao(): ExpenseDao
+    abstract fun expenseDetailsDao(): ExpenseDetailsDao
+    abstract fun settingsDao() : SettingsDao
     companion object {
         private var INSTANCE: AppDatabase? = null
 
