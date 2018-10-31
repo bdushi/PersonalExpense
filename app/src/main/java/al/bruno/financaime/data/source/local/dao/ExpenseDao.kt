@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import io.reactivex.Single
+import java.util.*
 
 @Dao
 interface ExpenseDao {
@@ -22,4 +23,6 @@ interface ExpenseDao {
             "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year " +
             "GROUP BY TRIM(_expense_name)")
     fun expenses(month: String, year: String) : LiveData<List<Expense>>
+    @Query("SELECT _date FROM expense")
+    fun date() : List<Date>
 }

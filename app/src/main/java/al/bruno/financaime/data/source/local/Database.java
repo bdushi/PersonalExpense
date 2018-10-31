@@ -10,10 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 import al.bruno.financaime.model.Budget;
-import al.bruno.financaime.model.BudgetMaster;
+import al.bruno.financaime.model.BudgetDetails;
 import al.bruno.financaime.model.Categories;
 import al.bruno.financaime.model.Expense;
-import al.bruno.financaime.model.ExpenseMaster;
+import al.bruno.financaime.model.ExpenseDetails;
 import al.bruno.financaime.model.Settings;
 
 public class Database extends SQLiteOpenHelper {
@@ -62,7 +62,11 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public int updateIncomesValue(Budget budget) {
-        return getWritableDatabase().update(Budget.BudgetTable.Companion.getBUDGET_TABLE(), Budget.BudgetTable.Companion.updateContentIncomesValue(budget), "_id =?", new String[]{String.valueOf(budget.getId())});
+        return getWritableDatabase().update(
+                Budget.BudgetTable.Companion.getBUDGET_TABLE(),
+                Budget.BudgetTable.Companion.updateContentIncomesValue(budget),
+                "_id =?",
+                new String[]{String.valueOf(budget.getId())});
     }
 
     public Budget budget (String month) {
@@ -136,7 +140,7 @@ public class Database extends SQLiteOpenHelper {
         return dates;
     }
 
-    public ExpenseMaster expenseMaster(String date, String month, String year) {
+    public ExpenseDetails expenseMaster(String date, String month, String year) {
         Cursor cursor = getReadableDatabase()
                 .rawQuery("SELECT " +
                         "_id, " +
@@ -149,10 +153,10 @@ public class Database extends SQLiteOpenHelper {
                         "FROM expense " +
                         "WHERE strftime('%d', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%m', datetime(_date/1000, 'unixepoch')) = ? AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = ? " +
                         "ORDER BY _expense_name ASC", new String[]{date, month, year, date, month, year});
-        return new ExpenseMaster(cursor);
+        return new ExpenseDetails(cursor);
     }
 
-    public ExpenseMaster expenseMaster(long date) {
+    public ExpenseDetails expenseMaster(long date) {
         Cursor cursor = getReadableDatabase().rawQuery("SELECT " +
                         "_id, " +
                         "_expense_name, " +
@@ -160,10 +164,10 @@ public class Database extends SQLiteOpenHelper {
                         "_date, " +
                         "(SELECT sum(_expense) FROM expense WHERE _date = ?) AS _total " +
                         "FROM expense WHERE _date = ? ORDER BY _expense_name ASC", new String[]{String.valueOf(date), String.valueOf(date)});
-        return new ExpenseMaster(cursor);
+        return new ExpenseDetails(cursor);
     }
 
-    public BudgetMaster budgetMaster(String month, String year) {
+    public BudgetDetails budgetMaster(String month, String year) {
         Cursor cursor = getReadableDatabase()
 
                 .rawQuery("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._incomes - SUM(e._expense) AS _balance " +
@@ -171,7 +175,7 @@ public class Database extends SQLiteOpenHelper {
                         "WHERE strftime('%m',datetime(b._date/1000, 'unixepoch')) = ? " +
                         "AND strftime('%Y', datetime(b._date/1000, 'unixepoch')) = ? " +
                         "GROUP BY e._id_budget", new String[]{month, year});
-        return new BudgetMaster(cursor);
+        return new BudgetDetails(cursor);
     }
 
     public long insertCategory(Categories categories) {

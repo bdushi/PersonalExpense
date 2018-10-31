@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import al.bruno.financaime.data.source.local.Database;
-import al.bruno.financaime.model.ExpenseMaster;
+import al.bruno.financaime.model.ExpenseDetails;
 import al.bruno.financaime.util.EventDecorator;
 
 public class DetailsFragment extends Fragment {
@@ -51,35 +51,35 @@ public class DetailsFragment extends Fragment {
         expenseLog.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
 
         new Handler().post(() -> {
-            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
-            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
+            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
+            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
                     expenseSingleItemBinding.setExpense(expense);
                 }
             }));
-            if(expenseMaster.getTotal().equals("0"))
+            if(expenseDetails.getTotal().equals("0"))
                 view.findViewById(R.id.total_layout).setVisibility(View.GONE);
             else {
                 view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
-                total.setText(expenseMaster.getTotal());
+                total.setText(expenseDetails.getTotal());
             }
             expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
         });
 
         expenseLogCalendarView.setOnDateChangedListener((widget, date, selected) -> new Handler().post(() -> {
-            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
-            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
+            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
+            expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
                     expenseSingleItemBinding.setExpense(expense);
                 }
             }));
-            if(expenseMaster.getTotal().equals("0"))
+            if(expenseDetails.getTotal().equals("0"))
                 view.findViewById(R.id.total_layout).setVisibility(View.GONE);
             else {
                 view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
-                total.setText(expenseMaster.getTotal());
+                total.setText(expenseDetails.getTotal());
             }
         }));
     }

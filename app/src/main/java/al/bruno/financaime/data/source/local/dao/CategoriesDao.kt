@@ -5,7 +5,7 @@ import androidx.room.*
 import io.reactivex.Single
 
 @Dao
-interface CategoryDao {
+interface CategoriesDao {
     @Insert
     fun insert(categories: Categories) : Single<Long>
     @Update

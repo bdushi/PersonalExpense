@@ -10,7 +10,7 @@ import java.text.DecimalFormat
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "expense")
+@Entity(tableName = "settings")
 class Settings {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
