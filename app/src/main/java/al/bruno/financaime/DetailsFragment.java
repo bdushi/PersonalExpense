@@ -6,6 +6,7 @@ import al.bruno.financaime.adapter.CustomAdapter;
 import al.bruno.financaime.callback.BindingData;
 import al.bruno.financaime.databinding.ExpenseSingleItemBinding;
 import al.bruno.financaime.model.Expense;
+import al.bruno.financaime.util.Utilities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,11 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import al.bruno.financaime.data.local.Database;
+import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.model.ExpenseMaster;
 import al.bruno.financaime.util.EventDecorator;
-
-import static al.bruno.financaime.util.Utilities.calendar;
 
 public class DetailsFragment extends Fragment {
 
@@ -52,7 +51,7 @@ public class DetailsFragment extends Fragment {
         expenseLog.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
 
         new Handler().post(() -> {
-            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar().getTimeInMillis());
+            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
@@ -69,7 +68,7 @@ public class DetailsFragment extends Fragment {
         });
 
         expenseLogCalendarView.setOnDateChangedListener((widget, date, selected) -> new Handler().post(() -> {
-            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(calendar(date).getTimeInMillis());
+            ExpenseMaster expenseMaster = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseMaster.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {

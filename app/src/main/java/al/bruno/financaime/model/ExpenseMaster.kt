@@ -31,7 +31,7 @@ class ExpenseMaster {
                 expenses.add(Expense(
                         cursor.getString(cursor.getColumnIndex(EXPENSE_NAME)),
                         cursor.getDouble(cursor.getColumnIndex(EXPENSE)),
-                        Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE))),
+                        Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE)))!!,
                         id++)
                 )
                 cursor.moveToNext()

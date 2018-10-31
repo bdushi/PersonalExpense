@@ -16,7 +16,7 @@ import android.view.Window;
 
 import al.bruno.financaime.R;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.data.local.Database;
+import al.bruno.financaime.data.source.local.Database;
 
 public class EditCategory extends DialogFragment implements View.OnClickListener, TextWatcher
 {

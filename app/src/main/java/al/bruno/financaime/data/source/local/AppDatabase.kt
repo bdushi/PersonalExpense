@@ -1,4 +1,4 @@
-package al.bruno.financaime.data.local
+package al.bruno.financaime.data.source.local
 
 import al.bruno.financaime.model.*
 import android.content.Context

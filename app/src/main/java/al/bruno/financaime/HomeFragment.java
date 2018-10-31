@@ -27,11 +27,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import al.bruno.financaime.model.BudgetMaster;
-import al.bruno.financaime.data.local.Database;
+import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.util.Utilities;
-
-import static al.bruno.financaime.util.Utilities.monthFormat;
-import static al.bruno.financaime.util.Utilities.monthIncrementAndDecrement;
 
 public class HomeFragment extends Fragment {
     private Calendar calendar = Calendar.getInstance();
@@ -52,14 +49,14 @@ public class HomeFragment extends Fragment {
         AppCompatTextView incomes = view.findViewById(R.id.incomes);
 
         PieChart pieChart = view.findViewById(R.id.pie_chart);
-        date.setText(monthFormat(calendar));
+        date.setText(Utilities.INSTANCE.monthFormat(calendar));
         BudgetMaster budgetMaster =
                 new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
         view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = monthIncrementAndDecrement(calendar,-1);
-                date.setText(monthFormat(calendar));
+                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
+                date.setText(Utilities.INSTANCE.monthFormat(calendar));
                 BudgetMaster budgetMaster =
                         new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
                 setData(pieChart, budgetMaster.setDate(Utilities.INSTANCE.date(calendar)));
@@ -72,8 +69,8 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = monthIncrementAndDecrement(calendar,+1);
-                date.setText(monthFormat(calendar));
+                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,+1);
+                date.setText(Utilities.INSTANCE.monthFormat(calendar));
                 BudgetMaster budgetMaster =
                         new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
                 setData(pieChart, budgetMaster.setDate(Utilities.INSTANCE.date(calendar)));

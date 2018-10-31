@@ -36,6 +36,8 @@ android {
         implementation 'androidx.appcompat:appcompat:1.0.0'
         implementation 'com.google.android.material:material:1.0.0'
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+        //implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+
 
         //calendar view
         //compile 'com.github.BlackBoxVision:material-calendar-view:v1.5.7'
@@ -61,12 +63,18 @@ android {
         //debug
         //implementation 'org.apache.commons:commons-lang3:3.8.1'
         //debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+        //debugImplementation'com.squareup.leakcanary:leakcanary-android:1.5.1'
+        //releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+        //testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+        //implementation 'pub.devrel:easypermissions:0.3.1'
+
 
         //Architecture component
-        implementation 'androidx.room:room-runtime:2.1.0-alpha01'
-        annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha01'
+        //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
+        implementation 'androidx.room:room-runtime:2.1.0-alpha02'
+        annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
         // optional - RxJava support for Room
-        implementation 'androidx.room:room-rxjava2:2.1.0-alpha01'
+        implementation 'androidx.room:room-rxjava2:2.1.0-alpha02'
         def paging_version = "2.1.0-alpha01"
         implementation "androidx.paging:paging-runtime:$paging_version" // use -ktx for Kotlin
         // optional - RxJava support

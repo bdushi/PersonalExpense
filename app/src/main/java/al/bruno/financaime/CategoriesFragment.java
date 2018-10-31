@@ -20,7 +20,7 @@ import java.util.List;
 
 import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.data.local.Database;
+import al.bruno.financaime.data.source.local.Database;
 
 public class CategoriesFragment extends Fragment {
     @Override
@@ -41,9 +41,9 @@ public class CategoriesFragment extends Fragment {
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        List<Categories> categories = new Database(getContext()).categories();
+        List<Categories> categoriesList = new Database(getContext()).categories();
 
-        CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categories, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
+        CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categoriesList, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
             categorySingleItemBinding.setCategory(category);
             categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Categories>() {
                 @Override
@@ -51,7 +51,7 @@ public class CategoriesFragment extends Fragment {
                     new EditCategory
                             .Builder()
                             .setCategories(category)
-                            .setHint(getString(R.string.category))
+                            .setHint(getString(R.string.categories))
                             .setTitle(getString(R.string.add_category))
                             .build()
                             .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
@@ -77,13 +77,13 @@ public class CategoriesFragment extends Fragment {
             public void onClick(View v) {
                 new EditCategory
                         .Builder()
-                        .setHint(getString(R.string.category))
+                        .setHint(getString(R.string.categories))
                         .setTitle(getString(R.string.add_category))
                         .build()
                         .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
                             @Override
                             public void onSave(Categories categories) {
-                                categories.add(categories);
+                                categoriesList.add(categories);
                                 //categoriesAdapter.notifyDataSetChanged();
                             }
                         }).show(getFragmentManager(), "EDIT_CATEGORY");

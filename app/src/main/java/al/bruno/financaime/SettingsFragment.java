@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import al.bruno.financaime.data.local.Database;
+import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.model.Settings;
 
 public class SettingsFragment extends Fragment {

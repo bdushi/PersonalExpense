@@ -9,6 +9,8 @@ import android.provider.BaseColumns
 import java.util.Date
 
 import al.bruno.financaime.util.Utilities
+import al.bruno.financaime.util.Utilities.dateFormat
+import al.bruno.financaime.util.Utilities.format
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -28,13 +30,13 @@ class Expense : Parcelable {
     var idBudget: Long = 0
 
     val expensesStr: String
-        get() = Utilities.format(expense)
+        get() = format(expense)
 
     val idStr: String
         get() = id.toString()
 
     val dateStr: String
-        get() = Utilities.dateFormat(date!!)
+        get() = dateFormat(date!!)
 
     constructor() {}
 

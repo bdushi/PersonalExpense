@@ -1,4 +1,4 @@
-package al.bruno.financaime.data.local.dao
+package al.bruno.financaime.data.source.local.dao
 
 import al.bruno.financaime.model.Budget
 import androidx.lifecycle.LiveData

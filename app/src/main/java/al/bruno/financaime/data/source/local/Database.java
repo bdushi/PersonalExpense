@@ -1,4 +1,4 @@
-package al.bruno.financaime.data.local;
+package al.bruno.financaime.data.source.local;
 
 import android.content.Context;
 import android.database.Cursor;
