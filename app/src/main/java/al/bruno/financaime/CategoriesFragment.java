@@ -44,7 +44,7 @@ public class CategoriesFragment extends Fragment {
         List<Categories> categoriesList = new Database(getContext()).categories();
 
         CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categoriesList, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
-            categorySingleItemBinding.setCategory(category);
+            categorySingleItemBinding.setCategories(category);
             categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Categories>() {
                 @Override
                 public void onItemClick(Categories category) {

@@ -8,7 +8,13 @@ import al.bruno.financaime.model.BudgetMaster.BudgetMasterTable.BALANCE
 import al.bruno.financaime.model.BudgetMaster.BudgetMasterTable.BUDGET
 import al.bruno.financaime.model.BudgetMaster.BudgetMasterTable.EXPENSE
 import al.bruno.financaime.model.BudgetMaster.BudgetMasterTable.INCOMES
+import androidx.room.DatabaseView
 
+@DatabaseView("SELECT b._budget AS _budget, b._incomes AS _incomes, SUM(e._expense) AS _expense, b._incomes - SUM(e._expense) AS _balance " +
+        "FROM budget AS b LEFT JOIN expense AS e ON b._id = e._id_budget " +
+        "WHERE strftime('%m',datetime(b._date/1000, 'unixepoch')) = ? " +
+        "AND strftime('%Y', datetime(b._date/1000, 'unixepoch')) = ? " +
+        "GROUP BY e._id_budget")
 class BudgetMaster {
     var budget = 0.0
     var incomes = 0.0

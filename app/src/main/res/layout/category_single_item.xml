@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@color/white"
-        android:text="@{categories.categories}"
+        android:text="@{categories.category}"
         android:onClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
         style="@style/TextAppearance.AppCompat.Large"/>
 </layout>

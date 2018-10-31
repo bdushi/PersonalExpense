@@ -11,8 +11,15 @@ import al.bruno.financaime.util.Utilities
 
 import al.bruno.financaime.model.ExpenseMaster.ExpenseMasterTable.TOTAL
 import al.bruno.financaime.util.Utilities.format
+import androidx.room.DatabaseView
 
-//ignore
+@DatabaseView("SELECT " +
+        "_id, " +
+        "_expense_name, " +
+        "_expense, " +
+        "_date, " +
+        "(SELECT sum(_expense) FROM expense WHERE _date = ?) AS _total " +
+        "FROM expense WHERE _date = ? ORDER BY _expense_name ASC")
 class ExpenseMaster {
     var total = "0"
     private var id: Long = 1
