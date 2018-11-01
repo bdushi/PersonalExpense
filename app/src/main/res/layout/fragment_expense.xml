@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/padding_24">
-    <LinearLayout
-        android:id="@+id/header_layout"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/budget_hint_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/margin_5">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_budget_hint" />
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/budget_hint"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-    </LinearLayout>
+        android:text="@string/add_budget_hint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/budget_hint"
+        app:layout_constraintBottom_toTopOf="@id/spinner"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/budget_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/budget_hint_label"
+        app:layout_constraintBottom_toBottomOf="@id/budget_hint_label"
+        app:layout_constraintStart_toEndOf="@id/budget_hint_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/TextAppearance.AppCompat.Small"/>
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner"
-        android:layout_below="@id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/category_arrays"
-        android:layout_marginBottom="@dimen/margin_5"/>
+        android:layout_marginTop="@dimen/margin_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/input_exp_text_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/budget_hint_label"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_exp_text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner"
-        android:layout_marginBottom="@dimen/margin_5">
+        android:layout_marginTop="@dimen/margin_5"
+        app:layout_constraintTop_toBottomOf="@id/spinner">
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/input_exp_value"
             android:layout_width="match_parent"
@@ -45,12 +52,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/input_exp_text_input_layout"
-        android:text="@string/add_exp" />
+        android:text="@string/add_exp"
+        android:layout_marginTop="@dimen/margin_5"
+        app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/edit_category"
@@ -60,5 +68,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="@dimen/margin_10"
         android:layout_marginEnd="@dimen/margin_20"
-        android:src="@drawable/ic_edit_white_24dp" />
-</RelativeLayout>
+        android:src="@drawable/ic_edit_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

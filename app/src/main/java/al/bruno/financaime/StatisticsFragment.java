@@ -87,7 +87,7 @@ public class StatisticsFragment extends Fragment {
         int i = 1;
         for (Expense expense : expenses)
         {
-            BarEntry barEntry = new BarEntry(i, (float) expense.getExpense());
+            BarEntry barEntry = new BarEntry(i, (float) expense.getValue());
             barEntryList.add(barEntry);
             i++;
         }
@@ -103,7 +103,7 @@ public class StatisticsFragment extends Fragment {
         String[] xAxis = new String[expenses.size()];
         for (int i = 0; i < expenses.size(); i++)
         {
-            xAxis[i] = expenses.get(i).getExpenseName();
+            xAxis[i] = expenses.get(i).getExpense();
         }
         return xAxis;
     }

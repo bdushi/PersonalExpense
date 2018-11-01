@@ -11,33 +11,36 @@ class Expense() {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
-    @ColumnInfo(name = "_expense_name")
-    var expenseName: String? = null
     @ColumnInfo(name = "_expense")
-    var expense: Double = 0.toDouble()
+    var expense: String? = null
+    @ColumnInfo(name = "_value")
+    var value: Double = 0.0
     @ColumnInfo(name = "_date")
     var date: Date? = null
-    //@ColumnInfo(name = "_id_budget")
-    @Ignore
+    @ColumnInfo(name = "_id_budget")
     var idBudget: Long = 0
 
-    fun expensesStr(): String {
-        return format(expense)
+    @Ignore
+    var valueStr: String = ""
+        get() {
+        return format(value)
     }
-
-    fun idStr() : String {
+    @Ignore
+    var idStr : String = ""
+    get() {
         return id.toString()
     }
-
-    fun dateStr() : String {
+    @Ignore
+    var dateStr : String = ""
+    get() {
         return dateFormat(date!!)
     }
 
     /*constructor() : this(0, "", 0.0, Date())
-    constructor(id: Long, expenseName: String, expense: Double, date: Date) {
+    constructor(id: Long, expense: String, value: Double, date: Date) {
         this.id = id
-        this.expenseName = expenseName
         this.expense = expense
+        this.value = value
         this.date = date
     }*/
 }

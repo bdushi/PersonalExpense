@@ -49,7 +49,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         budgetTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getBudget() : 0));
         incomesTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getIncomes() : 0));
 
-        if(mBudget == null) {
+        /*if(mBudget == null) {
             editBudget.setOnClickListener(this);
             editBudget.setText(R.string.edit);
         } else if(mBudget.getIncomes() - mBudget.getExpense() == 0){
@@ -58,13 +58,13 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         } else {
             editBudget.setOnClickListener(this);
             editBudget.setText(R.string.edit);
-        }
+        }*/
         editIncomes.setOnClickListener(mBudget == null ? this : null);
 
         RecyclerView log = view.findViewById(R.id.log);
         log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         log.setItemAnimator(new DefaultItemAnimator());
-        //log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
+        //log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (value, logSingleItemBinding) -> logSingleItemBinding.setValue(value)));
     }
 
     @Override

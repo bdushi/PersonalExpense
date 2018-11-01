@@ -7,10 +7,10 @@ import androidx.room.Ignore
 
 @DatabaseView("SELECT " +
         "e._id AS _id, " +
-        "e._expense_name AS _expense_name, " +
         "e._expense AS _expense, " +
+        "e._value AS _value, " +
         "e._date AS _date, " +
-        "(SELECT sum(_expense) FROM expense WHERE _date = e._date) AS _total " +
+        "(SELECT sum(_value) FROM expense WHERE _date = e._date) AS _total " +
         "FROM expense AS e", viewName = "expense_details")
 class ExpenseDetails() {
     var id: Long = 1

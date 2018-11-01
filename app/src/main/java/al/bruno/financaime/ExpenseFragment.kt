@@ -19,7 +19,7 @@ import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities
 import al.bruno.financaime.view.model.BudgetViewModel
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 
 class ExpenseFragment : Fragment() {
     var budget: Budget? = null
@@ -44,7 +44,8 @@ class ExpenseFragment : Fragment() {
             mBudget = budget;
         });*/
 
-        ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(Utilities.month(Utilities.month())).observe(this, Observer {
+
+        ViewModelProvider.of(this).get(BudgetViewModel::class.java).budget(Utilities.month(Utilities.month())).observe(this, Observer {
             mBudget -> {
             budget = mBudget
             budgetHint.text = Utilities.format(mBudget.budget)
@@ -78,8 +79,8 @@ class ExpenseFragment : Fragment() {
                 inputExpTextInputLayout.error = getString(R.string.alert)
             } else if (budget!!.budget >= java.lang.Double.parseDouble(inputExpValue.text!!.toString())) {
                 val expense = Expense()
-                expense.expenseName = spinner.selectedItem.toString()
-                expense.expense = java.lang.Double.parseDouble(inputExpValue.text!!.toString())
+                expense.expense = spinner.selectedItem.toString()
+                expense.value = java.lang.Double.parseDouble(inputExpValue.text!!.toString())
                 expense.date = Utilities.date()
                 expense.idBudget = budget!!.id
                 /*if (Database(context).insertExpense(expense) != -1) {
