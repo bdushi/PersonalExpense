@@ -21,10 +21,10 @@ class BudgetViewModel(application: Application) : AndroidViewModel(application) 
     fun insert(budget: Budget) : Single<Long> {
         return budgetRepository.insert(budget);
     }
-    fun updateBudget(budget: Double, id:Long) : Single<Long> {
+    fun updateBudget(budget: Double, id:Long) {
         return budgetRepository.updateBudget(budget, id)
     }
-    fun updateIncomes(incomes: Double, id:Long) : Single<Long> {
+    fun updateIncomes(incomes: Double, id:Long) {
         return budgetRepository.updateIncomes(incomes, id)
     }
 }

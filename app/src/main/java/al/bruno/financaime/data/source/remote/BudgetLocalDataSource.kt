@@ -6,15 +6,15 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 public class BudgetLocalDataSource : BudgetDataSource {
+    override fun updateBudget(budget: Double, id: Long) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun updateIncomes(incomes: Double, id: Long) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun insert(budget: Budget): Single<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateBudget(budget: Double, id: Long): Single<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateIncomes(incomes: Double, id: Long): Single<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

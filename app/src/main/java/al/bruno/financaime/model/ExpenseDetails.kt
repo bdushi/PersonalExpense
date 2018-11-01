@@ -1,64 +1,27 @@
 package al.bruno.financaime.model
 
-import al.bruno.financaime.model.Expense.ExpenseTable.Companion.DATE
-import al.bruno.financaime.model.Expense.ExpenseTable.Companion.EXPENSE
-import al.bruno.financaime.model.Expense.ExpenseTable.Companion.EXPENSE_NAME
-import android.database.Cursor
-
 import java.util.ArrayList
 
-import al.bruno.financaime.util.Utilities
-
-import al.bruno.financaime.model.ExpenseDetails.ExpenseMasterTable.TOTAL
-import al.bruno.financaime.util.Utilities.format
 import androidx.room.DatabaseView
+import androidx.room.Ignore
 
 @DatabaseView("SELECT " +
-        "_id, " +
-        "_expense_name, " +
-        "_expense, " +
-        "_date, " +
-        "(SELECT sum(_expense) FROM expense WHERE _date = ?) AS _total " +
-        "FROM expense " +
-        "ORDER BY _expense_name ASC")
-class ExpenseDetails {
+        "e._id AS _id, " +
+        "e._expense_name AS _expense_name, " +
+        "e._expense AS _expense, " +
+        "e._date AS _date, " +
+        "(SELECT sum(_expense) FROM expense WHERE _date = e._date) AS _total " +
+        "FROM expense AS e", viewName = "expense_details")
+class ExpenseDetails() {
+    var id: Long = 1
     var total = "0"
-    private var id: Long = 1
-    private var expenses: ArrayList<Expense> = ArrayList()
+    @Ignore
+    var expenses: ArrayList<Expense> = ArrayList()
 
-    constructor(expenses: ArrayList<Expense>) {
+    /*constructor() : this(0, "0", ArrayList())
+    constructor(id:Long, total:String, expenses: ArrayList<Expense>) {
+        this.id = id;
+        this.total = total
         this.expenses = expenses
-    }
-
-    constructor() {}
-    constructor(cursor: Cursor) {
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            total = format(cursor.getDouble(cursor.getColumnIndex(TOTAL)))
-            while (!cursor.isAfterLast) {
-                expenses.add(Expense(
-                        cursor.getString(cursor.getColumnIndex(EXPENSE_NAME)),
-                        cursor.getDouble(cursor.getColumnIndex(EXPENSE)),
-                        Utilities.fromTimestamp(cursor.getLong(cursor.getColumnIndex(DATE)))!!,
-                        id++)
-                )
-                cursor.moveToNext()
-            }
-            setExpenses(expenses)
-            cursor.moveToNext()
-        }
-        cursor.close()
-    }
-
-    fun getExpenses(): List<Expense> {
-        return expenses
-    }
-
-    fun setExpenses(expenses: ArrayList<Expense>) {
-        this.expenses = expenses
-    }
-
-    object ExpenseMasterTable {
-        val TOTAL = "_total"
-    }
+    }*/
 }

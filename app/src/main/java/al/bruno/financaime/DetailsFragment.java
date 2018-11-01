@@ -2,11 +2,6 @@ package al.bruno.financaime;
 
 import android.os.Bundle;
 
-import al.bruno.financaime.adapter.CustomAdapter;
-import al.bruno.financaime.callback.BindingData;
-import al.bruno.financaime.databinding.ExpenseSingleItemBinding;
-import al.bruno.financaime.model.Expense;
-import al.bruno.financaime.util.Utilities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,13 +18,7 @@ import android.view.ViewGroup;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
-
-import al.bruno.financaime.data.source.local.Database;
-import al.bruno.financaime.model.ExpenseDetails;
-import al.bruno.financaime.util.EventDecorator;
 
 public class DetailsFragment extends Fragment {
 
@@ -50,7 +39,7 @@ public class DetailsFragment extends Fragment {
         expenseLog.setItemAnimator(new DefaultItemAnimator());
         expenseLog.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()), LinearLayoutManager.VERTICAL));
 
-        new Handler().post(() -> {
+        /*new Handler().post(() -> {
             ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
@@ -65,10 +54,10 @@ public class DetailsFragment extends Fragment {
                 total.setText(expenseDetails.getTotal());
             }
             expenseLogCalendarView.addDecorator(new EventDecorator(R.color.red_a700, new Database(getActivity()).date()));
-        });
+        });*/
 
         expenseLogCalendarView.setOnDateChangedListener((widget, date, selected) -> new Handler().post(() -> {
-            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
+            /*ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
@@ -80,7 +69,7 @@ public class DetailsFragment extends Fragment {
             else {
                 view.findViewById(R.id.total_layout).setVisibility(View.VISIBLE);
                 total.setText(expenseDetails.getTotal());
-            }
+            }*/
         }));
     }
 }

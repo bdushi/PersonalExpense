@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import al.bruno.financaime.adapter.CustomAdapter;
 import al.bruno.financaime.callback.OnItemClickListener;
-import al.bruno.financaime.databinding.CategorySingleItemBinding;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,11 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import al.bruno.financaime.dialog.EditCategory;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.data.source.local.Database;
 
 public class CategoriesFragment extends Fragment {
     @Override
@@ -41,9 +39,9 @@ public class CategoriesFragment extends Fragment {
         categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         categoryRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
 
-        List<Categories> categoriesList = new Database(getContext()).categories();
+        /*List<Categories> categoriesList = new Database(getContext()).categories();*/
 
-        CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(categoriesList, R.layout.category_single_item, (category, categorySingleItemBinding) -> {
+        /*CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(new ArrayList<>(), R.layout.category_single_item, (category, categorySingleItemBinding) -> {
             categorySingleItemBinding.setCategories(category);
             categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Categories>() {
                 @Override
@@ -57,8 +55,8 @@ public class CategoriesFragment extends Fragment {
                             .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
                                 @Override
                                 public void onSave(Categories category) {
-                                    /*categories.set(position, category);
-                                    categoriesAdapter.notifyItemChanged(position, categories);*/
+                                    *//*categories.set(position, category);
+                                    categoriesAdapter.notifyItemChanged(position, categories);*//*
                                 }
                             }).show(getFragmentManager(), "EDIT_CATEGORY");
                 }
@@ -68,9 +66,9 @@ public class CategoriesFragment extends Fragment {
                     return false;
                 }
             });
-        });
+        });*/
 
-        categoryRecyclerView.setAdapter(categoriesAdapter);
+        //categoryRecyclerView.setAdapter(categoriesAdapter);
 
         view.findViewById(R.id.category_add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +81,7 @@ public class CategoriesFragment extends Fragment {
                         .OnEditCategoryListener(new EditCategory.EditCategoryListener() {
                             @Override
                             public void onSave(Categories categories) {
-                                categoriesList.add(categories);
+                                //categoriesList.add(categories);
                                 //categoriesAdapter.notifyDataSetChanged();
                             }
                         }).show(getFragmentManager(), "EDIT_CATEGORY");

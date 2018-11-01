@@ -35,10 +35,11 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         });
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YouTubePlayerSupportFragment) {
+                /*if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YouTubePlayerSupportFragment) {
                     navigation.setVisibility(View.GONE);
                 }
-                else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof GoogleMapFragment) {
+                else */
+                if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof GoogleMapFragment) {
                     navigation.setVisibility(View.GONE);
                 }
                 else if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof StatisticsFragment) {
@@ -71,13 +72,12 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
-        {
-            case R.id.youtube:
-                /*getSupportFragmentManager().beginTransaction()
+        switch (item.getItemId()) {
+           /* case R.id.youtube:
+                *//*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new YoutubeFragment())
                         .addToBackStack("YOUTUBE_FRAGMENT")
-                        .commit();*/
+                        .commit();*//*
                 //YouTubePlayerSupportFragment youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_view);
                 YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
                 YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
@@ -99,7 +99,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                         .replace(R.id.host, youTubePlayerFragment)
                         .addToBackStack("YOUTUBE_FRAGMENT")
                         .commit();
-                break;
+                break;*/
             case R.id.map:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new GoogleMapFragment())

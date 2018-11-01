@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.model.Expense;
 import al.bruno.financaime.util.Utilities;
 
@@ -39,11 +38,11 @@ public class StatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         BarChart barChart = view.findViewById(R.id.chart);
-        onChanged(new Database(getContext())
+        /*onChanged(new Database(getContext())
                 .expense(
                         Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)),
                         String.valueOf(calendar.get(Calendar.YEAR))),
-                barChart);
+                barChart);*/
 
         AppCompatTextView date = view.findViewById(R.id.date);
         date.setText(Utilities.INSTANCE.monthFormat(calendar));
@@ -52,7 +51,7 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
                 date.setText(Utilities.INSTANCE.monthFormat(calendar));
-                onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                //onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
@@ -60,7 +59,7 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,+1);
                 date.setText(Utilities.INSTANCE.monthFormat(calendar));
-                onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                //onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
     }

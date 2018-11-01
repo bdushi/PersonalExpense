@@ -2,9 +2,6 @@ package al.bruno.financaime;
 
 import android.os.Bundle;
 
-import al.bruno.financaime.adapter.CustomAdapter;
-import al.bruno.financaime.databinding.LogSingleItemBinding;
-import al.bruno.financaime.model.Expense;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,7 +17,6 @@ import al.bruno.financaime.callback.DialogCallBack;
 import al.bruno.financaime.dialog.EditBudget;
 import al.bruno.financaime.dialog.EditIncomes;
 import al.bruno.financaime.model.Budget;
-import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.util.Utilities;
 
 public class BudgetFragment extends Fragment implements View.OnClickListener{
@@ -32,7 +28,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBudget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
+        //mBudget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
     }
 
     @Nullable
@@ -68,7 +64,7 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         RecyclerView log = view.findViewById(R.id.log);
         log.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         log.setItemAnimator(new DefaultItemAnimator());
-        log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
+        //log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (expense, logSingleItemBinding) -> logSingleItemBinding.setExpense(expense)));
     }
 
     @Override
@@ -82,20 +78,20 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
                             public void onClickInsert(Budget budget) {
-                                if(budget.setId(new Database(getActivity()).insertBudget(budget) )!= -1) {
+                                /*if(new Database(getActivity()).insertBudget(budget) != -1) {
                                     budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
-                                }
+                                }*/
                             }
 
                             @Override
                             public void onClickUpdate(Budget budget) {
-                                if(new Database(getActivity()).updateIncomesValue(budget) != -1) {
+                                /*if(new Database(getActivity()).updateIncomesValue(budget) != -1) {
                                     budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
-                                }
+                                }*/
                             }
                         })
                         .show(getFragmentManager(), "INCOMES");
@@ -108,20 +104,20 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
                         .onDialogCallBack(new DialogCallBack() {
                             @Override
                             public void onClickInsert(Budget budget) {
-                                if(budget.setId(new Database(getActivity()).insertBudget(budget)) != -1) {
+                                /*if((new Database(getActivity()).insertBudget(budget)) != -1) {
                                     budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
-                                }
+                                }*/
                             }
 
                             @Override
                             public void onClickUpdate(Budget budget) {
-                                if(new Database(getActivity()).updateBudgetValue(budget) != 0) {
+                                /*if(new Database(getActivity()).updateBudgetValue(budget) != 0) {
                                     budgetTv.setText(Utilities.INSTANCE.format(budget.getBudget()));
                                     incomesTv.setText(Utilities.INSTANCE.format(budget.getIncomes()));
                                     mBudget = budget;
-                                }
+                                }*/
                             }
                         })
                         .show(getFragmentManager(), "BUDGET");

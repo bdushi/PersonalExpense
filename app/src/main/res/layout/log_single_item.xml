@@ -18,6 +18,6 @@
             android:id="@id/expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{expense.expensesStr}"/>
+            android:text="@{expense.expensesStr()}"/>
     </LinearLayout>
 </layout>

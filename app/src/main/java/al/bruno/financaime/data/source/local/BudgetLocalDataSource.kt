@@ -5,6 +5,7 @@ import al.bruno.financaime.model.Budget
 import android.content.Context
 import androidx.annotation.Nullable
 import androidx.lifecycle.LiveData
+import io.reactivex.Completable
 import io.reactivex.Single
 
 class BudgetLocalDataSource : BudgetDataSource {
@@ -36,13 +37,21 @@ class BudgetLocalDataSource : BudgetDataSource {
         return DATABASE_INSTANCE.budgetDao().insert(budget)
     }
 
-    override fun updateBudget(budget: Double, id: Long): Single<Long> {
+    override fun updateBudget(budget: Double, id: Long) {
         return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
     }
 
-    override fun updateIncomes(incomes: Double, id: Long): Single<Long> {
+    override fun updateIncomes(incomes: Double, id: Long) {
         return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
     }
+
+    /*override fun updateBudget(budget: Double, id: Long): Single<Int> {
+        return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
+    }
+
+    override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
+        return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
+    }*/
 
     override fun budget(month: String): LiveData<Budget> {
         return DATABASE_INSTANCE.budgetDao().budget(month)

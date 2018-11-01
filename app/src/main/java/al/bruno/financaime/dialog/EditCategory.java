@@ -16,7 +16,6 @@ import android.view.Window;
 
 import al.bruno.financaime.R;
 import al.bruno.financaime.model.Categories;
-import al.bruno.financaime.data.source.local.Database;
 
 public class EditCategory extends DialogFragment implements View.OnClickListener, TextWatcher
 {
@@ -62,7 +61,7 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
         Bundle args = new Bundle();
         args.putCharSequence("HINT", hint);
         args.putCharSequence("TITLE", title);
-        args.putParcelable("CATEGORY", categories);
+        //args.putParcelable("CATEGORY", categories);
         EditCategory fragment = new EditCategory();
         fragment.setArguments(args);
         return fragment;
@@ -112,18 +111,18 @@ public class EditCategory extends DialogFragment implements View.OnClickListener
                     } else {
                         Categories categories = new Categories();
                         categories.setCategory(categoryEdit.getText().toString());
-                        if(new Database(getContext()).insertCategory(categories) != -1) {
+                        /*if(new Database(getContext()).insertCategory(categories) != -1) {
                             editCategoryListener.onSave(categories);
-                        }
+                        }*/
                     }
                 } else {
                     if(categoryEdit.getText().toString().isEmpty()) {
                         categoryTextInputLayout.setError(getString(R.string.add_value));
                     } else {
                         categories.setCategory(categoryEdit.getText().toString());
-                        if(new Database(getContext()).updateCategory(categories) != 0) {
+                        /*if(new Database(getContext()).updateCategory(categories) != 0) {
                             editCategoryListener.onSave(categories);
-                        }
+                        }*/
                     }
                 }
                 dismiss();

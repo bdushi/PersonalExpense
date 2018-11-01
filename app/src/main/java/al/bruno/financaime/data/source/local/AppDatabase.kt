@@ -11,13 +11,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
 
 
-
 @Database(
         entities = arrayOf(User::class, Budget::class, Categories::class, Settings::class, Expense::class),
         views = arrayOf(BudgetDetails::class, ExpenseDetails::class),
         version = 1)
 @TypeConverters(Converter::class)
-public abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun budgetDao(): BudgetDao
     abstract fun budgetDetailsDao(): BudgetDetailsDao
     abstract fun categoriesDao(): CategoriesDao
@@ -32,13 +31,13 @@ public abstract class AppDatabase : RoomDatabase() {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room
-                            .databaseBuilder(context.applicationContext, AppDatabase::class.java, "financa.db")
-                            .addMigrations(object : Migration(1, 2) {
+                            .databaseBuilder(context, AppDatabase::class.java, "financa.db")
+                            /*.addMigrations(object : Migration(1, 2) {
                                 override fun migrate(database: SupportSQLiteDatabase) {
                                     // Since we didn’t alter the table, there’s nothing else
                                     // to do here.
                                 }
-                            })
+                            })*/
                             .build()
                 }
                 return INSTANCE!!

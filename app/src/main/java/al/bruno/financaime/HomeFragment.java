@@ -27,7 +27,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import al.bruno.financaime.model.BudgetDetails;
-import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.util.Utilities;
 
 public class HomeFragment extends Fragment {
@@ -50,9 +49,10 @@ public class HomeFragment extends Fragment {
 
         PieChart pieChart = view.findViewById(R.id.pie_chart);
         date.setText(Utilities.INSTANCE.monthFormat(calendar));
-        BudgetDetails budgetDetails =
-                new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
-        view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
+        /*BudgetDetails budgetDetails =
+                new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));*/
+
+        /*view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         balance.setText(Utilities.INSTANCE.format(budgetDetails.getBalance()));
         remaining.setText(Utilities.INSTANCE.format(budgetDetails.getBudget()));
         expense.setText(Utilities.INSTANCE.format(budgetDetails.getExpense()));
-        incomes.setText(Utilities.INSTANCE.format(budgetDetails.getIncomes()));
+        incomes.setText(Utilities.INSTANCE.format(budgetDetails.getIncomes()));*/
     }
 
     private void setData(PieChart mChart, BudgetDetails budgetDetails) {

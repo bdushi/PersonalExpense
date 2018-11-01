@@ -48,7 +48,7 @@ public class EditBudget extends DialogFragment implements View.OnClickListener, 
 
     public static EditBudget newInstance(Budget budget) {
         Bundle args = new Bundle();
-        args.putParcelable("BUDGET", budget);
+        //args.putParcelable("BUDGET", budget);
         EditBudget fragment = new EditBudget();
         fragment.setArguments(args);
         return fragment;

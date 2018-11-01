@@ -55,7 +55,7 @@ public class EditIncomes extends DialogFragment implements View.OnClickListener,
 
         Bundle args = new Bundle();
         EditIncomes fragment = new EditIncomes();
-        args.putParcelable("BUDGET", budget);
+        //args.putParcelable("BUDGET", budget);
         fragment.setArguments(args);
         return fragment;
     }

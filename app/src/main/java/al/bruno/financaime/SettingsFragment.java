@@ -1,7 +1,7 @@
 package al.bruno.financaime;
 
 import android.os.Bundle;
-import android.os.Handler;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.textfield.TextInputLayout;
@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import al.bruno.financaime.data.source.local.Database;
 import al.bruno.financaime.model.Settings;
 
 public class SettingsFragment extends Fragment {
@@ -33,7 +32,7 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mSettings = new Database(getContext()).settings();
+        //mSettings = new Database(getContext()).settings();
         SwitchCompat switchCompat = view.findViewById(R.id.auto_expense);
 
         AppCompatEditText editDefaultIncomes = view.findViewById(R.id.edit_default_incomes);
@@ -43,11 +42,11 @@ public class SettingsFragment extends Fragment {
 
         TextInputLayout incomesInputLayout = view.findViewById(R.id.incomes_input_layout);
         TextInputLayout budgetInputLayout = view.findViewById(R.id.budget_input_layout);
-        switchCompat.setChecked(mSettings != null && mSettings.isAuto());
+        switchCompat.setChecked(mSettings != null && mSettings.getAuto());
         if(mSettings != null) {
-            editDefaultIncomes.setEnabled(mSettings.isAuto());
-            editDefaultBudget.setEnabled(mSettings.isAuto());
-            if(mSettings.isAuto()) {
+            editDefaultIncomes.setEnabled(mSettings.getAuto());
+            editDefaultBudget.setEnabled(mSettings.getAuto());
+            if(mSettings.getAuto()) {
                 autoExpenseLabel.setText(R.string.automatic_expense);
             }
             else {
@@ -73,19 +72,19 @@ public class SettingsFragment extends Fragment {
                 if(mSettings == null) {
                     Settings settings = new Settings();
                     settings.setAuto(b);
-                    new Handler().postDelayed(() -> {
+                    /*new Handler().postDelayed(() -> {
                         if(settings.setId(new Database(getContext()).insertSettings(settings)) != -1)
                             mSettings = settings;
-                    }, 500);
+                    }, 500);*/
                 } else {
-                    new Handler().postDelayed(() -> {
+                    /*new Handler().postDelayed(() -> {
                         new Database(getContext()).updateAutoSettings(mSettings.setAuto(b));
-                    }, 500);
+                    }, 500);*/
                 }
             }
         });
-        editDefaultIncomes.setText(mSettings != null ? mSettings.getIncomesStr() : "0");
-        editDefaultBudget.setText(mSettings != null ? mSettings.getBudgetStr(): "0");
+        /*editDefaultIncomes.setText(mSettings != null ? mSettings.getIncomesStr() : "0");
+        editDefaultBudget.setText(mSettings != null ? mSettings.getBudgetStr(): "0");*/
 
         editDefaultIncomes.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,10 +96,10 @@ public class SettingsFragment extends Fragment {
                 if(mSettings == null) {
                     Settings settings = new Settings();
                     settings.setIncomes(Float.parseFloat(charSequence.toString()));
-                    new Handler().postDelayed(() -> {
+                    /*new Handler().postDelayed(() -> {
                         if(settings.setId(new Database(getContext()).insertSettings(settings)) != 0)
                             mSettings = settings;
-                    }, 1000);
+                    }, 1000);*/
                     incomesInputLayout.setErrorEnabled(false);
                     incomesInputLayout.setError(null);
                 } else {
@@ -110,13 +109,13 @@ public class SettingsFragment extends Fragment {
                             incomesInputLayout.setError(getString(R.string.budget_grater_than_incomes));
                         } else {
                             mSettings.setIncomes(Float.parseFloat(charSequence.toString()));
-                            new Handler().postDelayed(() -> new Database(getContext()).updateIncomesSettings(mSettings), 1000);
+                            //new Handler().postDelayed(() -> new Database(getContext()).updateIncomesSettings(mSettings), 1000);
                             incomesInputLayout.setErrorEnabled(false);
                             incomesInputLayout.setError(null);
                         }
                     } else {
                         mSettings.setIncomes(0);
-                        new Handler().postDelayed(() -> new Database(getContext()).updateIncomesSettings(mSettings), 1000);
+                        //new Handler().postDelayed(() -> new Database(getContext()).updateIncomesSettings(mSettings), 1000);
                         editDefaultIncomes.setText(String.valueOf(0));
                     }
                 }
@@ -137,10 +136,10 @@ public class SettingsFragment extends Fragment {
                 if(mSettings == null) {
                     Settings settings = new Settings();
                     settings.setBudget(Float.parseFloat(charSequence.toString()));
-                    new Handler().postDelayed(() -> {
+                    /*new Handler().postDelayed(() -> {
                         if(settings.setId(new Database(getContext()).insertSettings(settings)) != 0)
                             mSettings = settings;
-                        }, 1000);
+                        }, 1000);*/
                     budgetInputLayout.setErrorEnabled(false);
                     budgetInputLayout.setError(null);
                 } else {
@@ -150,13 +149,13 @@ public class SettingsFragment extends Fragment {
                             budgetInputLayout.setError(getString(R.string.budget_grater_than_incomes));
                         } else {
                             mSettings.setBudget(Float.parseFloat(charSequence.toString()));
-                            new Handler().postDelayed(() -> new Database(getContext()).updateBudgetSettings(mSettings), 1000);
+                            //new Handler().postDelayed(() -> new Database(getContext()).updateBudgetSettings(mSettings), 1000);
                             budgetInputLayout.setErrorEnabled(false);
                             budgetInputLayout.setError(null);
                         }
                     } else {
                         mSettings.setBudget(0);
-                        new Handler().postDelayed(() -> new Database(getContext()).updateBudgetSettings(mSettings), 1000);
+                        //new Handler().postDelayed(() -> new Database(getContext()).updateBudgetSettings(mSettings), 1000);
                         editDefaultBudget.setText(String.valueOf(0));
                     }
                 }

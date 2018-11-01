@@ -14,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -69,13 +70,17 @@ android {
         //implementation 'pub.devrel:easypermissions:0.3.1'
 
 
+        //DataBinding
+        kapt "androidx.databinding:databinding-compiler:3.2.1"
+
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
         implementation 'androidx.room:room-runtime:2.1.0-alpha02'
         //annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
         kapt 'androidx.room:room-compiler:2.1.0-alpha02'
         //
-        kapt  "androidx.lifecycle:lifecycle-extensions:2.0.0"
+        //kapt  "androidx.lifecycle:lifecycle-extensions:2.0.0"
+        implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
         // optional - RxJava support for Room
         implementation 'androidx.room:room-rxjava2:2.1.0-alpha02'
         def paging_version = "2.1.0-alpha01"

@@ -7,6 +7,6 @@ import io.reactivex.Single
 
 @Dao
 interface BudgetDetailsDao {
-    @Query("SELECT * FROM budget")
-    fun budgetDetails(month: String , year: String) : Single<BudgetDetails>
+    /*@Query("SELECT * FROM budget")
+    fun budgetDetails(month: String , year: String) : Single<BudgetDetails>*/
 }

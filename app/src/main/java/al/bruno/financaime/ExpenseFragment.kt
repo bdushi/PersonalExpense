@@ -13,16 +13,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 
-import al.bruno.financaime.model.Categories
-import al.bruno.financaime.data.source.local.Database
 import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities
 import al.bruno.financaime.view.model.BudgetViewModel
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 class ExpenseFragment : Fragment() {
@@ -33,30 +29,33 @@ class ExpenseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spinner = view.findViewById<AppCompatSpinner>(R.id.spinner)
+        val spinner:AppCompatSpinner = view.findViewById(R.id.spinner)
         val budgetHint = view.findViewById<AppCompatTextView>(R.id.budget_hint)
         val inputExpValue = view.findViewById<AppCompatEditText>(R.id.input_exp_value)
 
         val inputExpTextInputLayout = view.findViewById<TextInputLayout>(R.id.input_exp_text_input_layout)
         //Get Data from local db
         //Budget budget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
+
         /*ViewModelProviders.of(getActivity()).get(BudgetViewModel.class).findBudget(Utilities.month()).observe(this, budget ->
         {
             budgetTxt.setText(Utilities.format(budget != null ? budget.getBudget() : 0));
             expValue.setText(null);
             mBudget = budget;
         });*/
+
         ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(Utilities.month(Utilities.month())).observe(this, Observer {
-            mBudget -> { budget = mBudget }
+            mBudget -> {
+            budget = mBudget
+            budgetHint.text = Utilities.format(mBudget.budget)
+        }
         })
 
-        val categories = Database(context).categories()
+        //val categories = Database(context).categories()
 
         //Spinner adapter
-        val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, categories)
-        spinner.adapter = adapter
-
-        budgetHint.text = Utilities.format(budget!!.budget)
+        //val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, categories)
+        ///spinner.adapter = adapter
 
         inputExpValue.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -82,7 +81,7 @@ class ExpenseFragment : Fragment() {
                 expense.expenseName = spinner.selectedItem.toString()
                 expense.expense = java.lang.Double.parseDouble(inputExpValue.text!!.toString())
                 expense.date = Utilities.date()
-                expense.idBudget = budget!!.getId()
+                expense.idBudget = budget!!.id
                 /*if (Database(context).insertExpense(expense) != -1) {
                     budget!!.budget = budget!!.budget - expense.expense
                     if (Database(context).updateBudgetValue(budget) != -1) {
