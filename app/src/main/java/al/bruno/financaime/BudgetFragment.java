@@ -46,8 +46,8 @@ public class BudgetFragment extends Fragment implements View.OnClickListener{
         budgetTv = view.findViewById(R.id.budget);
         incomesTv = view.findViewById(R.id.incomes);
 
-        budgetTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getBudget() : 0));
-        incomesTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getIncomes() : 0));
+        budgetTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getBudget() : 0, 0));
+        incomesTv.setText(Utilities.INSTANCE.format(mBudget != null ? mBudget.getIncomes() : 0, 0));
 
         /*if(mBudget == null) {
             editBudget.setOnClickListener(this);

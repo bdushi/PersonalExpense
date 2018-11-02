@@ -18,6 +18,7 @@ class BudgetViewModel(application: Application) : AndroidViewModel(application) 
     fun budget (month: String) : LiveData<Budget> {
         return budgetRepository.budget(month);
     }
+
     fun insert(budget: Budget) : Single<Long> {
         return budgetRepository.insert(budget);
     }

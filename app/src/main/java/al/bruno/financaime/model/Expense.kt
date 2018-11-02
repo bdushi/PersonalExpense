@@ -23,7 +23,7 @@ class Expense() {
     @Ignore
     var valueStr: String = ""
         get() {
-        return format(value)
+        return format(value, 0)
     }
     @Ignore
     var idStr : String = ""

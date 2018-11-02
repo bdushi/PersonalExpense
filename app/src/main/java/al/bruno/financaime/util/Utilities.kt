@@ -9,9 +9,18 @@ import java.util.Date
 
 object Utilities {
 
-    fun format(value: Double): String {
-        val euro = DecimalFormat("LEK ###,###.###")
-        return euro.format(value)
+    fun format(value: Double, int: Int) : String {
+        return when (int) {
+            0 ->{
+                DecimalFormat("LEK ###,###.###").format(value)
+            }
+            1 ->{
+                DecimalFormat("###").format(value)
+            }
+            else -> {
+                ""
+            }
+        }
     }
 
     fun dateFormat(date: Date): String {
