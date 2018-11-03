@@ -5,7 +5,7 @@ import androidx.databinding.InverseMethod
 
 
 
-object Convert {
+object Converter {
     @InverseMethod("doubleToString")
     fun stringToDouble(quantity: Double): String {
         return format(quantity, 1)
@@ -14,7 +14,7 @@ object Convert {
         try {
             return java.lang.Double.parseDouble(quantity)
         } catch (ex: NumberFormatException) {
-            return 0.0
+            return 1.0
         }
 
     }

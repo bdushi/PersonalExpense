@@ -12,8 +12,11 @@
         <variable
             name="onClick"
             type="al.bruno.financaime.callback.OnClick"/>
+        <variable
+            name="spinnerAdapter"
+            type="al.bruno.financaime.adapter.CustomSpinnerAdapter"/>
 
-        <import type="al.bruno.financaime.binding.utils.Convert"/>
+        <import type="al.bruno.financaime.binding.utils.Converter"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -45,6 +48,8 @@
             android:layout_height="wrap_content"
             android:entries="@array/category_arrays"
             android:layout_marginTop="@dimen/margin_5"
+            android:adapter="@{spinnerAdapter}"
+            android:onItemSelected="@{budget::onItemSelected}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/input_exp_text_input_layout"
@@ -63,7 +68,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/value"
                 android:inputType="numberDecimal"
-                android:text="@={Convert.INSTANCE.stringToDouble(budget.value)}"
+                android:selectAllOnFocus="false"
+                android:focusable="true"
+                android:text="@={Converter.INSTANCE.stringToDouble(budget.value)}"
                 android:enabled="@{budget == null ? false : true}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +80,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_exp"
             android:layout_marginTop="@dimen/margin_5"
-            android:enabled="@{budget == null ? false : ((budget.budget >= budget.value || budget.value >= 0)? true : false)}"
+            android:enabled="@{budget == null ? false : ((budget.budget >= budget.value) ? (budget.value >= 1 ? true : false) : false)}"
             android:onClick="@{() -> onClickListener.onClick(budget)}"
             app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
             app:layout_constraintEnd_toEndOf="parent"

@@ -7,13 +7,13 @@ import io.reactivex.Single
 
 class BudgetRepository(budgetDataSource: BudgetDataSource) : BudgetDataSource {
 
-    val budgetDataSource: BudgetDataSource
+    private val budgetDataSource: BudgetDataSource
     init {
         this.budgetDataSource = budgetDataSource
     }
 
     companion object {
-        var INSTANCE: BudgetRepository? = null
+        private var INSTANCE: BudgetRepository? = null
         fun getInstance(budgetDataSource: BudgetDataSource) : BudgetRepository? {
             if(INSTANCE == null)
                 INSTANCE = BudgetRepository(budgetDataSource)

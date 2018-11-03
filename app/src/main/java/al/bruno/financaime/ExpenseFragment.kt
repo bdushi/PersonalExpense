@@ -1,31 +1,33 @@
 package al.bruno.financaime
 
-import al.bruno.financaime.callback.OnClick
+import al.bruno.financaime.adapter.CustomSpinnerAdapter
+import al.bruno.financaime.callback.*
 import al.bruno.financaime.databinding.FragmentExpenseBinding
-import al.bruno.financaime.generated.callback.OnClickListener
 import android.os.Bundle
 
 import al.bruno.financaime.model.Budget
-import com.google.android.material.textfield.TextInputLayout
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatSpinner
-import androidx.appcompat.widget.AppCompatTextView
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.financaime.util.Utilities.month
 import al.bruno.financaime.view.model.BudgetViewModel
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
+import al.bruno.financaime.databinding.CategoriesSpinnerItemBinding
+import al.bruno.financaime.model.Categories
+import al.bruno.financaime.model.Expense
+import al.bruno.financaime.util.Utilities
+import al.bruno.financaime.view.model.CategoriesViewModel
+import android.widget.Toast
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+
 class ExpenseFragment : Fragment() {
-    //var budget: Budget? = null
+    private val disposable : CompositeDisposable  = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentExpenseBinding : FragmentExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expense, container, false)
         ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(month(month())).observe(this, Observer {
@@ -33,40 +35,39 @@ class ExpenseFragment : Fragment() {
                 fragmentExpenseBinding.budget = it
             }
         })
-        return fragmentExpenseBinding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //Get Data from local db
-        //Budget budget = new Database(getContext()).budget(Utilities.INSTANCE.month(Utilities.INSTANCE.month()));
+        disposable.add(ViewModelProviders.of(this)
+                .get(CategoriesViewModel::class.java)
+                .categories()
+                .subscribeOn(Schedulers.io())
+                .subscribe(io.reactivex.functions.Consumer {
+                    fragmentExpenseBinding.spinnerAdapter =
+                            CustomSpinnerAdapter(activity!!, R.layout.categories_spinner_item, it, object : BindingData<Categories, CategoriesSpinnerItemBinding> {
+                                override fun bindData(t: Categories, vm: CategoriesSpinnerItemBinding) {
+                                    vm.categories = t
+                                }
+                            })
+                }))
 
-        /*ViewModelProviders.of(getActivity()).get(BudgetViewModel.class).findBudget(Utilities.month()).observe(this, budget ->
-        {
-            budgetTxt.setText(Utilities.format(budget != null ? budget.getBudget() : 0));
-            expValue.setText(null);
-            mBudget = budget;
-        });*/
+        fragmentExpenseBinding.onClick = object : OnClick {
+            override fun onClick(){
+                fragmentManager!!
+                        .beginTransaction()
+                        .replace(R.id.host, CategoriesFragment())
+                        .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
+                        .commit()
 
-        //var budgetViewModel : BudgetViewModel = ViewModelProviders.of(this).get(BudgetViewModel::class.java);
-        //val categories = Database(context).categories()
+            }
+        }
 
-        //Spinner adapter
-        //val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, categories)
-        ///spinner.adapter = adapter
-
-        /*view.findViewById<View>(R.id.btn_add).setOnClickListener {
-            if (budget == null) {
-                Toast.makeText(activity, R.string.out_of_budget, Toast.LENGTH_SHORT).show()
-            } else if (spinner.selectedItem.toString().isEmpty() || inputExpValue.text!!.toString().isEmpty()) {
-                inputExpTextInputLayout.error = getString(R.string.alert)
-            } else if (budget!!.budget >= java.lang.Double.parseDouble(inputExpValue.text!!.toString())) {
+        fragmentExpenseBinding.onClickListener = object : OnClickListener<Budget> {
+            override fun onClick(t: Budget) {
                 val expense = Expense()
-                expense.expense = spinner.selectedItem.toString()
-                expense.value = java.lang.Double.parseDouble(inputExpValue.text!!.toString())
+                expense.expense = t.expense
+                expense.value = t.value
                 expense.date = Utilities.date()
-                expense.idBudget = budget!!.id
-                if (Database(context).insertExpense(expense) != -1) {
+                expense.idBudget = t.id
+                /*if (Database(context).insertExpense(expense) != -1) {
                     budget!!.budget = budget!!.budget - expense.expense
                     if (Database(context).updateBudgetValue(budget) != -1) {
                         Toast.makeText(activity, R.string.success, Toast.LENGTH_SHORT).show()
@@ -75,10 +76,16 @@ class ExpenseFragment : Fragment() {
                         inputExpValue.setText("")
                         inputExpValue.clearFocus()
                     } else
-                        Toast.makeText(activity, R.string.fail, Toast.LENGTH_SHORT).show()
-                }
-            } else
-                Toast.makeText(activity, R.string.out_of_budget, Toast.LENGTH_SHORT).show()
-        }*/
+                }*/
+                Toast.makeText(activity, expense.expense + " " + expense.value + " " + expense.date, Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        return fragmentExpenseBinding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 }
