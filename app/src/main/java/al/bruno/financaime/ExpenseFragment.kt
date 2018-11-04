@@ -22,9 +22,13 @@ import al.bruno.financaime.model.Categories
 import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities
 import al.bruno.financaime.view.model.CategoriesViewModel
+import al.bruno.financaime.view.model.ExpenseViewModel
+import android.util.Log
 import android.widget.Toast
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.function.Consumer
 
 class ExpenseFragment : Fragment() {
     private val disposable : CompositeDisposable  = CompositeDisposable()
@@ -67,16 +71,22 @@ class ExpenseFragment : Fragment() {
                 expense.value = t.value
                 expense.date = Utilities.date()
                 expense.idBudget = t.id
-                /*if (Database(context).insertExpense(expense) != -1) {
-                    budget!!.budget = budget!!.budget - expense.expense
-                    if (Database(context).updateBudgetValue(budget) != -1) {
-                        Toast.makeText(activity, R.string.success, Toast.LENGTH_SHORT).show()
-                        spinner.setSelection(0)
-                        budgetHint.text = Utilities.format(budget!!.budget)
-                        inputExpValue.setText("")
-                        inputExpValue.clearFocus()
-                    } else
-                }*/
+                disposable.add(ViewModelProviders.of(activity!!)
+                        .get(ExpenseViewModel::class.java)
+                        .insert(expense)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            if(it != -1.toLong()) {
+                                t.value = 0.0
+                                Log.i(ExpenseFragment::class.java.name, "Success")
+                                //Toast.makeText(activity, R.string.success, Toast.LENGTH_SHORT).show()
+                            } else
+                                Log.i(ExpenseFragment::class.java.name, "Fail")
+                                //Toast.makeText(activity, R.string.fail, Toast.LENGTH_SHORT).show()
+                        }, {
+                            Log.i(ExpenseFragment::class.java.name, it.message)
+                            //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                        }))
                 Toast.makeText(activity, expense.expense + " " + expense.value + " " + expense.date, Toast.LENGTH_SHORT).show()
             }
 
