@@ -20,6 +20,6 @@ interface BudgetDao {
     @Query("UPDATE budget SET _incomes = :incomes WHERE _id = :id")
     fun updateIncomes(incomes: Double, id:Long) //: Completable //Single<Int>
 
-    @Query("SELECT b._id AS _id, (b._budget - (SELECT TOTAL(e._value) FROM budget AS b JOIN expense AS e WHERE e._id_budget = b._id GROUP BY e._id_budget)) AS _budget, b._incomes AS _incomes, b._date AS _date FROM budget AS b WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = :month")
+    @Query("SELECT b._id AS _id, b._budget - IFNULL((SELECT TOTAL(e._value) FROM expense AS e WHERE e._id_budget = b._id GROUP BY e._id_budget), 0) AS _budget, b._incomes AS _incomes, b._date AS _date FROM budget AS b WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = :month")
     fun budget(month: String) : LiveData<Budget>
 }
