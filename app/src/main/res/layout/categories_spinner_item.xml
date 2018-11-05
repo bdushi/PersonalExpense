@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
-        style="@style/Base.TextAppearance.AppCompat.Large"
-        android:text="@{categories.category}"/>
+        android:text="@{categories.category}"
+        android:padding="@dimen/padding_5"
+        style="@style/Base.TextAppearance.AppCompat.Large"/>
 </layout>
