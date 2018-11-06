@@ -72,7 +72,7 @@
                 android:focusableInTouchMode="true"
                 android:selectAllOnFocus="false"
                 android:focusable="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(budget.value)}"
+                android:text="@={Converter.INSTANCE.stringToDouble(budget.amount)}"
                 android:enabled="@{budget == null ? false : true}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_exp"
             android:layout_marginTop="@dimen/margin_5"
-            android:enabled="@{budget == null ? false : ((budget.budget >= budget.value) ? (budget.value >= 1 ? true : false) : false)}"
+            android:enabled="@{budget == null ? false : ((budget.budget >= budget.amount) ? (budget.amount >= 1 ? true : false) : false)}"
             android:onClick="@{() -> onClickListener.onClick(budget)}"
             app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
             app:layout_constraintEnd_toEndOf="parent"

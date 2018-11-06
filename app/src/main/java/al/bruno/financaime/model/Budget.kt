@@ -32,15 +32,15 @@ class Budget() : Observable, OnItemSelectedListener {
     private val propertyChangeRegistry = PropertyChangeRegistry()
 
     @Ignore
-    var value: Double = 1.0
+    var amount: Double = 1.0
         @Bindable
-        get() {
-            return field
-        }
+        get
         set(value) {
             field = value
-            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.value)
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.amount)
         }
+
+
     @Ignore
     var expense: String = ""
 

@@ -13,17 +13,17 @@ class Expense() {
     var id: Long = 0
     @ColumnInfo(name = "_expense")
     var expense: String? = null
-    @ColumnInfo(name = "_value")
-    var value: Double = 0.0
+    @ColumnInfo(name = "_amount")
+    var amount: Double = 0.0
     @ColumnInfo(name = "_date")
     var date: Date? = null
     @ColumnInfo(name = "_id_budget")
     var idBudget: Long = 0
 
     @Ignore
-    var valueStr: String = ""
+    var amountStr: String = ""
         get() {
-        return format(value, 0)
+        return format(amount, 0)
     }
     @Ignore
     var idStr : String = ""
@@ -34,6 +34,9 @@ class Expense() {
     var dateStr : String = ""
     get() {
         return dateFormat(date!!)
+    }
+    override fun toString(): String {
+        return expense + " " + amount + " " + date + " " + idBudget + " " + id
     }
 
     /*constructor() : this(0, "", 0.0, Date())

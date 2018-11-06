@@ -68,7 +68,7 @@ class ExpenseFragment : Fragment() {
             override fun onClick(t: Budget) {
                 val expense = Expense()
                 expense.expense = t.expense
-                expense.value = t.value
+                expense.amount = t.amount
                 expense.date = Utilities.date()
                 expense.idBudget = t.id
                 disposable.add(ViewModelProviders.of(activity!!)
@@ -77,7 +77,7 @@ class ExpenseFragment : Fragment() {
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             if(it != -1.toLong()) {
-                                t.value = 0.0
+                                t.amount = 0.0
                                 Log.i(ExpenseFragment::class.java.name, "Success")
                                 //Toast.makeText(activity, R.string.success, Toast.LENGTH_SHORT).show()
                             } else
@@ -87,7 +87,7 @@ class ExpenseFragment : Fragment() {
                             Log.i(ExpenseFragment::class.java.name, it.message)
                             //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                         }))
-                Toast.makeText(activity, expense.expense + " " + expense.value + " " + expense.date, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, expense.toString(), Toast.LENGTH_SHORT).show()
             }
 
         }

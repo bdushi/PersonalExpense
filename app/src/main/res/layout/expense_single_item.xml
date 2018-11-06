@@ -38,7 +38,7 @@
             android:id="@+id/expense_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{expense.valueStr}"
+            android:text="@{expense.amountStr}"
             app:layout_constraintStart_toStartOf="@id/expense_name"
             app:layout_constraintTop_toBottomOf="@id/expense_name"
             app:layout_constraintEnd_toStartOf="@id/date"

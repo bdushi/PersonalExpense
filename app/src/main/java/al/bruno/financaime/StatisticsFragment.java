@@ -87,7 +87,7 @@ public class StatisticsFragment extends Fragment {
         int i = 1;
         for (Expense expense : expenses)
         {
-            BarEntry barEntry = new BarEntry(i, (float) expense.getValue());
+            BarEntry barEntry = new BarEntry(i, (float) expense.getAmount());
             barEntryList.add(barEntry);
             i++;
         }
