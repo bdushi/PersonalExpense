@@ -10,7 +10,6 @@
             type="al.bruno.financaime.callback.OnItemClickListener&lt;al.bruno.financaime.model.Categories&gt;"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

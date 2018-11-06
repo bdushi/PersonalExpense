@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 @Dao
 interface CategoriesDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(categories: Categories) : Single<Long>
     @Update
     fun update(categories: Categories) : Single<Int>
