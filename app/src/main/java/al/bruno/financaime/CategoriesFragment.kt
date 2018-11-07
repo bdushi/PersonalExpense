@@ -56,6 +56,7 @@ class CategoriesFragment : Fragment() {
 
 
 
+
         view.findViewById<View>(R.id.categories_expense_add).setOnClickListener {
             val categories = Categories()
             categories.category = "Shopping"

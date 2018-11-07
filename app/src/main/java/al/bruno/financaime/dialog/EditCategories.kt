@@ -53,7 +53,6 @@ class EditCategories : DialogFragment(), TextWatcher {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // android:text="@={categories.category}"
         val categoriesEditDialogBinding: CategoriesEditDialogBinding =
                 DataBindingUtil.inflate(inflater, R.layout.categories_edit_dialog, container, false)
         return categoriesEditDialogBinding.root
