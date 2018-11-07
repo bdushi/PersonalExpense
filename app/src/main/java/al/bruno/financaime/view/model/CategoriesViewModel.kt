@@ -6,6 +6,7 @@ import al.bruno.financaime.dependency.injection.CategoriesInjection
 import al.bruno.financaime.model.Categories
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 class CategoriesViewModel(application: Application) : AndroidViewModel(application), CategoriesDataSource {
@@ -26,7 +27,7 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
         return categoriesRepository.delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
+    override fun categories(): LiveData<List<Categories>> {
         return categoriesRepository.categories()
     }
 }

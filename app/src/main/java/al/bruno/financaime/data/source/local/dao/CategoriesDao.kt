@@ -1,6 +1,7 @@
 package al.bruno.financaime.data.source.local.dao
 
 import al.bruno.financaime.model.Categories
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import io.reactivex.Single
 
@@ -13,5 +14,5 @@ interface CategoriesDao {
     @Delete
     fun delete(categories: Categories) : Single<Int>
     @Query("SELECT * FROM categories")
-    fun categories() : Single<List<Categories>>
+    fun categories() : LiveData<List<Categories>>
 }

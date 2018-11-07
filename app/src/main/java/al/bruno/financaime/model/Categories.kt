@@ -2,9 +2,9 @@ package al.bruno.financaime.model
 
 import androidx.room.*
 
-//, indices = arrayOf(Index(value = arrayOf("_category"), unique = true))
+//, indices = arrayOf(value = arrayOf("_category"), Index(unique = true))
 @Entity(tableName = "categories")
-class Categories {
+class Categories() {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
@@ -20,10 +20,6 @@ class Categories {
         propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.category)
     }*/
 
-    constructor(category: String) {
-        this.category = category
-    }
-    constructor()
     /*constructor() : this(0, "")
     constructor(id:Long, category: String) {
         this.id = id

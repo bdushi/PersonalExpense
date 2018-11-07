@@ -3,6 +3,7 @@ package al.bruno.financaime.data.source.local
 import al.bruno.financaime.data.source.CategoriesDataSource
 import al.bruno.financaime.model.Categories
 import android.content.Context
+import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 class CategoriesLocalDataSource(context: Context) : CategoriesDataSource {
@@ -33,7 +34,7 @@ class CategoriesLocalDataSource(context: Context) : CategoriesDataSource {
         return DATABASE_INSTANCE.categoriesDao().delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
+    override fun categories(): LiveData<List<Categories>> {
         return DATABASE_INSTANCE.categoriesDao().categories()
     }
 

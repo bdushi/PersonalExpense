@@ -1,6 +1,7 @@
 package al.bruno.financaime.data.source
 
 import al.bruno.financaime.model.Categories
+import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 class CategoriesRepository(categoriesDataSource: CategoriesDataSource) : CategoriesDataSource {
@@ -34,7 +35,7 @@ class CategoriesRepository(categoriesDataSource: CategoriesDataSource) : Categor
         return categoriesDataSource.delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
+    override fun categories(): LiveData<List<Categories>> {
         return categoriesDataSource.categories()
     }
 

@@ -40,18 +40,17 @@ class ExpenseFragment : Fragment() {
             }
         })
 
-        disposable.add(ViewModelProviders.of(this)
+        ViewModelProviders.of(this)
                 .get(CategoriesViewModel::class.java)
                 .categories()
-                .subscribeOn(Schedulers.io())
-                .subscribe(io.reactivex.functions.Consumer {
+                .observe(this, Observer {
                     fragmentExpenseBinding.spinnerAdapter =
                             CustomSpinnerAdapter(activity!!, R.layout.categories_spinner_item, it, object : BindingData<Categories, CategoriesSpinnerItemBinding> {
                                 override fun bindData(t: Categories, vm: CategoriesSpinnerItemBinding) {
                                     vm.categories = t
                                 }
                             })
-                }))
+                })
 
         fragmentExpenseBinding.onClick = object : OnClick {
             override fun onClick(){
