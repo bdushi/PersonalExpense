@@ -17,7 +17,7 @@ class BudgetDetails() {
     var budget:Double = 0.0
     @ColumnInfo(name = "_incomes")
     var incomes:Double = 0.0
-    @ColumnInfo(name = "_expense")
+    @ColumnInfo(name = "_amount")
     var expense:Double = 0.0
     @ColumnInfo(name = "_balance")
     var balance:Double = 0.0

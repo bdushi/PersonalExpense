@@ -1,9 +1,7 @@
 package al.bruno.financaime.dialog
 
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
 import androidx.fragment.app.DialogFragment
-import androidx.appcompat.widget.AppCompatTextView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -12,11 +10,12 @@ import android.view.ViewGroup
 
 import al.bruno.financaime.R
 import al.bruno.financaime.callback.OnEditListener
+import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
+import androidx.databinding.DataBindingUtil
 
 class EditCategories : DialogFragment(), TextWatcher {
     private var categories: Categories? = null
-    private var categoryTextInputLayout: TextInputLayout? = null
     private var onEditListener: OnEditListener<Categories>? = null
 
     class Builder {
@@ -54,16 +53,10 @@ class EditCategories : DialogFragment(), TextWatcher {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.categories_edit_dialog, container, false)
-        val categoryTitle = view.findViewById<AppCompatTextView>(R.id.category_title)
-        categoryTextInputLayout = view.findViewById(R.id.category_text_input_layout)
-        val bundle = arguments
-        if (bundle != null) {
-            categoryTextInputLayout!!.hint = bundle.getCharSequence("HINT")
-            categoryTitle.text = bundle.getCharSequence("TITLE")
-            //categories = bundle.getParcelable<Parcelable>("CATEGORY")
-        }
-        return view
+        // android:text="@={categories.category}"
+        val categoriesEditDialogBinding: CategoriesEditDialogBinding =
+                DataBindingUtil.inflate(inflater, R.layout.categories_edit_dialog, container, false)
+        return categoriesEditDialogBinding.root
     }
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
 
@@ -74,7 +67,6 @@ class EditCategories : DialogFragment(), TextWatcher {
     }
 
     override fun afterTextChanged(editable: Editable) {
-        categoryTextInputLayout!!.error = null
     }
 
     companion object {

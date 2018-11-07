@@ -33,7 +33,7 @@ android {
 
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
         implementation 'androidx.appcompat:appcompat:1.0.0'
         implementation 'com.google.android.material:material:1.0.0'
         implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -51,7 +51,7 @@ android {
         implementation 'com.google.android.gms:play-services-maps:16.0.0'
         implementation 'com.google.android.gms:play-services-location:16.0.0'
         //firebase core
-        implementation 'com.google.firebase:firebase-core:16.0.4'
+        implementation 'com.google.firebase:firebase-core:16.0.5'
         //Crash Reporting
         implementation 'com.google.firebase:firebase-crash:16.2.1'
 
@@ -85,7 +85,7 @@ android {
         //implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
         // optional - RxJava support for Room
         implementation 'androidx.room:room-rxjava2:2.1.0-alpha02'
-        def paging_version = "2.1.0-alpha01"
+        def paging_version = "2.1.0-beta01"
         implementation "androidx.paging:paging-runtime-ktx:$paging_version" // use -ktx for Kotlin
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin

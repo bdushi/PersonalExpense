@@ -1,11 +1,9 @@
 package al.bruno.financaime.model
 
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
 
-@Entity(tableName = "categories", indices = arrayOf(Index(value = arrayOf("_category"), unique = true)))
+//, indices = arrayOf(Index(value = arrayOf("_category"), unique = true))
+@Entity(tableName = "categories")
 class Categories {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")

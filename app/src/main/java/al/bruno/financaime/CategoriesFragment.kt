@@ -39,7 +39,7 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val categoryRecyclerView = view.findViewById<RecyclerView>(R.id.category_recycler_view)
+        val categoryRecyclerView = view.findViewById<RecyclerView>(R.id.categories_expense)
         categoryRecyclerView.layoutManager = LinearLayoutManager(activity)
         categoryRecyclerView.itemAnimator = DefaultItemAnimator()
         categoryRecyclerView.addItemDecoration(DividerItemDecoration(activity!!, LinearLayoutManager.VERTICAL))
@@ -58,47 +58,17 @@ class CategoriesFragment : Fragment() {
                             categoryRecyclerView.setAdapter(customAdapter);
                         }))
 
-        /*CustomAdapter<Categories, CategorySingleItemBinding> categoriesAdapter = new CustomAdapter<>(new ArrayList<>(), R.layout.category_single_item, (category, categorySingleItemBinding) -> {
-            categorySingleItemBinding.setCategories(category);
-            categorySingleItemBinding.setOnItemClickListener(new OnItemClickListener<Categories>() {
-                @Override
-                public void onItemClick(Categories category) {
-                    new EditCategories
-                            .Builder()
-                            .setCategories(category)
-                            .setHint(getString(R.string.categories))
-                            .setTitle(getString(R.string.add_category))
-                            .build()
-                            .OnEditCategoryListener(new EditCategories.EditCategoryListener() {
-                                @Override
-                                public void onSave(Categories category) {
-                                    *//*categories.set(position, category);
-                                    categoriesAdapter.notifyItemChanged(position, categories);*//*
-                                }
-                            }).show(getFragmentManager(), "EDIT_CATEGORY");
-                }
 
-                @Override
-                public boolean onLongItemClick(Categories category) {
-                    return false;
-                }
-            });
-        });*/
 
-        view.findViewById<View>(R.id.category_add).setOnClickListener {
-            val categories: Categories = Categories()
-            categories.category = "Shopping"
-            disposable.add(ViewModelProviders.of(this).get(CategoriesViewModel::class.java).insert(categories).subscribeOn(Schedulers.io()).subscribe(Consumer {
+        view.findViewById<View>(R.id.categories_expense_add).setOnClickListener {
+            disposable.add(ViewModelProviders
+                    .of(this)
+                    .get(CategoriesViewModel::class.java)
+                    .insert(Categories("Shopping"))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(Consumer {
 
-            }))
-           /* EditCategories.Builder()
-                    .setHint(getString(R.string.categories))
-                    .setTitle(getString(R.string.add_category))
-                    .build()
-                    .OnEditCategoryListener {
-                        //categoriesList.add(categories);
-                        //categoriesAdapter.notifyDataSetChanged();
-                    }.show(fragmentManager!!, "EDIT_CATEGORY")*/
+                    }))
         }
     }
     override fun onStop() {
