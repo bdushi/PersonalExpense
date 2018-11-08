@@ -12,12 +12,13 @@ import al.bruno.financaime.R
 import al.bruno.financaime.callback.OnClick
 import al.bruno.financaime.callback.OnClickListener
 import al.bruno.financaime.callback.OnEditListener
+import al.bruno.financaime.callback.OnTextChangedListener
 import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
 import androidx.databinding.DataBindingUtil
 
 class EditCategoriesDialog : DialogFragment(), TextWatcher {
-    private var categories: Categories? = Categories()
+    private var categories = Categories()
     private var onEditListener: OnEditListener<Categories>? = null
 
     class Builder {
@@ -80,6 +81,15 @@ class EditCategoriesDialog : DialogFragment(), TextWatcher {
             override fun onClick(t: Categories) {
                 onEditListener!!.onEdit(t)
                 dismiss()
+            }
+        }
+        categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(s.contains("bruno")) {
+                    categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
+                } else {
+                    categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
+                }
             }
         }
         return categoriesEditDialogBinding.root

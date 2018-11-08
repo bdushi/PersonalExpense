@@ -17,6 +17,9 @@
         <variable
             name="onClick"
             type="al.bruno.financaime.callback.OnClick"/>
+        <variable
+            name="onTextChangedListener"
+            type="al.bruno.financaime.callback.OnTextChangedListener"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
+                android:onTextChanged="@{onTextChangedListener::onTextChanged}"
                 android:text="@={categories.category}"
                 android:hint="@{hint}"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -68,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
+            android:enabled="@{categories.category.empty ? false : true}"
             android:onClick="@{() -> onClickListener.onClick(categories)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />
