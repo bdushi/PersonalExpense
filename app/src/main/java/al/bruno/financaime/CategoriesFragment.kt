@@ -44,12 +44,13 @@ class CategoriesFragment : Fragment(), OnEditListener<Categories> {
                 .get(CategoriesViewModel::class.java)
                 .categories()
                 .observe(this, Observer {
-                    categoriesExpense.adapter = CustomAdapter<Categories, CategoriesSingleItemBinding>(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
+                    categoriesExpense.adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
                             vm.categories = t
                         }
                     })
                 })
+
         view.findViewById<View>(R.id.categories_expense_add).setOnClickListener {
             EditCategoriesDialog
                     .Builder()
