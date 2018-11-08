@@ -14,7 +14,7 @@ import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
 import androidx.databinding.DataBindingUtil
 
-class EditCategories : DialogFragment(), TextWatcher {
+class EditCategoriesDialog : DialogFragment(), TextWatcher {
     private var categories: Categories? = null
     private var onEditListener: OnEditListener<Categories>? = null
 
@@ -23,33 +23,46 @@ class EditCategories : DialogFragment(), TextWatcher {
         private var title: CharSequence? = null
         private var categories: Categories? = null
 
-        fun setHint(hint: CharSequence): EditCategories.Builder {
+        fun setHint(hint: CharSequence): EditCategoriesDialog.Builder {
             this.hint = hint
             return this
         }
 
-        fun setTitle(title: CharSequence): EditCategories.Builder {
+        fun setTitle(title: CharSequence): EditCategoriesDialog.Builder {
             this.title = title
             return this
         }
 
-        fun setCategories(categories: Categories): EditCategories.Builder {
+        fun setCategories(categories: Categories): EditCategoriesDialog.Builder {
             this.categories = categories
             return this
         }
 
-        fun build(): EditCategories {
+        fun build(): EditCategoriesDialog {
             return newInstance(hint, title, categories)
         }
     }
 
-    fun OnCategoriesEditListener(onEditListener: OnEditListener<Categories>): EditCategories {
+    private companion object {
+        private fun newInstance(hint: CharSequence?, title: CharSequence?, categories: Categories?): EditCategoriesDialog {
+            val args = Bundle()
+            args.putCharSequence("HINT", hint)
+            args.putCharSequence("TITLE", title)
+            //args.putParcelable("CATEGORY", categories);
+            val fragment = EditCategoriesDialog()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    fun OnCategoriesEditListener(onEditListener: OnEditListener<Categories>): EditCategoriesDialog {
         this.onEditListener = onEditListener
         return this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -67,17 +80,5 @@ class EditCategories : DialogFragment(), TextWatcher {
     }
 
     override fun afterTextChanged(editable: Editable) {
-    }
-
-    companion object {
-        fun newInstance(hint: CharSequence?, title: CharSequence?, categories: Categories?): EditCategories {
-            val args = Bundle()
-            args.putCharSequence("HINT", hint)
-            args.putCharSequence("TITLE", title)
-            //args.putParcelable("CATEGORY", categories);
-            val fragment = EditCategories()
-            fragment.arguments = args
-            return fragment
-        }
     }
 }

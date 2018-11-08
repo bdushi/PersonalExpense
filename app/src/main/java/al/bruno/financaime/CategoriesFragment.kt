@@ -4,7 +4,9 @@ import android.os.Bundle
 
 import al.bruno.financaime.adapter.CustomAdapter
 import al.bruno.financaime.callback.BindingData
+import al.bruno.financaime.callback.OnEditListener
 import al.bruno.financaime.databinding.CategoriesSingleItemBinding
+import al.bruno.financaime.dialog.EditCategoriesDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,13 +24,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
-class CategoriesFragment : Fragment() {
+class CategoriesFragment : Fragment(), OnEditListener<Categories> {
 
     private val disposable : CompositeDisposable  = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_categories_expense, container, false)
@@ -46,28 +44,29 @@ class CategoriesFragment : Fragment() {
                 .get(CategoriesViewModel::class.java)
                 .categories()
                 .observe(this, Observer {
-                    val customAdapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
+                    categoriesExpense.adapter = CustomAdapter<Categories, CategoriesSingleItemBinding>(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
                             vm.categories = t
                         }
                     })
-                    categoriesExpense.setAdapter(customAdapter);
                 })
-
-
-
         view.findViewById<View>(R.id.categories_expense_add).setOnClickListener {
-            val categories = Categories()
-            categories.category = "Shopping"
-            disposable.add(ViewModelProviders
-                    .of(this)
-                    .get(CategoriesViewModel::class.java)
-                    .insert(categories)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(Consumer {
-
-                    }))
+            EditCategoriesDialog
+                    .Builder()
+                    .build()
+                    .OnCategoriesEditListener(this)
+                    .show(fragmentManager, CategoriesFragment::class.java.name)
         }
+    }
+    override fun onEdit(t: Categories) {
+        disposable.add(ViewModelProviders
+                .of(this)
+                .get(CategoriesViewModel::class.java)
+                .insert(t)
+                .subscribeOn(Schedulers.io())
+                .subscribe(Consumer {
+
+                }))
     }
     override fun onStop() {
         super.onStop()
