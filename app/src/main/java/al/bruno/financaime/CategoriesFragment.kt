@@ -26,6 +26,7 @@ import io.reactivex.schedulers.Schedulers
 
 class CategoriesFragment : Fragment(), OnEditListener<Categories> {
 
+    //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,6 +55,8 @@ class CategoriesFragment : Fragment(), OnEditListener<Categories> {
         view.findViewById<View>(R.id.categories_expense_add).setOnClickListener {
             EditCategoriesDialog
                     .Builder()
+                    .setHint(R.string.categories)
+                    .setTitle(R.string.add_categories)
                     .build()
                     .OnCategoriesEditListener(this)
                     .show(fragmentManager, CategoriesFragment::class.java.name)

@@ -30,7 +30,7 @@
     <string name="general">"Kryesor"</string>
     <string name="expense_categories">"Kategorit"</string>
     <string name="incomes_alert">"Te ardhurat nuk mund te jen me te vogela se buxheti"</string>
-    <string name="add_category">Kategori Shpenzimesh</string>
+    <string name="add_categories">Kategori Shpenzimesh</string>
     <string name="categories">Kategori</string>
     <string name="expense">Shpenzime</string>
 
