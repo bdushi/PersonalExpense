@@ -1,32 +1,114 @@
 package al.bruno.financaime
 
+import al.bruno.financaime.callback.OnSwipeItemListener
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.core.content.ContextCompat
+import android.graphics.drawable.Drawable
+
+class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+    private var xMarkMargin: Float = 0F
+
+    private var rightToLeftColor: Int = 0
+    private var rightToLeftIcon: Drawable? = null
+
+    private var leftToRightColor: Int = 0
+    private var leftToRightIcon: Drawable? = null
+
+    private var onSwipeItemListener: OnSwipeItemListener? = null
 
 
-class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, 0) {
+    class Builder {
+        private var xMarkMargin: Float = 0F
+        private var rightToLeftColor: Int = 0
+        private var rightToLeftIcon: Drawable? = null
+
+        private var leftToRightColor: Int = 0
+        private var leftToRightIcon: Drawable? = null
+
+        fun setXMarkMargin(float: Float): SimpleItemTouchHelper.Builder {
+            xMarkMargin = float
+            return this
+        }
+
+        fun setRightToLeftColor(int: Int): SimpleItemTouchHelper.Builder {
+            rightToLeftColor = int
+            return this
+        }
+        fun setRightToLeftIcon(drawable: Drawable): SimpleItemTouchHelper.Builder {
+            rightToLeftIcon = drawable
+            return this
+        }
+        fun setLeftToRightColor(int: Int): SimpleItemTouchHelper.Builder {
+            leftToRightColor = int
+            return this
+        }
+        fun setLeftToRightIcon(drawable: Drawable): SimpleItemTouchHelper.Builder {
+            leftToRightIcon = drawable
+            return this
+        }
+
+        fun build() : SimpleItemTouchHelper {
+            return newInstance(xMarkMargin, rightToLeftColor, rightToLeftIcon, leftToRightColor, leftToRightIcon)
+        }
+    }
+
+    companion object {
+        private fun newInstance(xMarkMargin: Float, rightToLeftColor: Int, rightToLeftIcon: Drawable?, leftToRightColor: Int, leftToRightIcon: Drawable?) : SimpleItemTouchHelper{
+            val simpleItemTouchHelper = SimpleItemTouchHelper()
+            simpleItemTouchHelper.xMarkMargin = xMarkMargin;
+            simpleItemTouchHelper.rightToLeftColor = rightToLeftColor;
+            simpleItemTouchHelper.rightToLeftIcon = rightToLeftIcon;
+            simpleItemTouchHelper.leftToRightColor = leftToRightColor;
+            simpleItemTouchHelper.leftToRightIcon = leftToRightIcon;
+            return simpleItemTouchHelper;
+        }
+    }
+
+    fun onSwipeItemListener(onSwipeItemListener: OnSwipeItemListener) : SimpleItemTouchHelper {
+        this.onSwipeItemListener = onSwipeItemListener
+        return this;
+    }
+
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false;
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        if (direction == ItemTouchHelper.LEFT) {
+            onSwipeItemListener!!.onItemSwipedLeft(position)
+        } else if (direction == ItemTouchHelper.RIGHT) {
+            onSwipeItemListener!!.onItemSwipedRight(position)
+        }
     }
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            val view = viewHolder.itemView
+            val itemView = viewHolder.itemView
+            val itemHeight = itemView.bottom - itemView.top
             if (dX < 0) {
-                var background = ColorDrawable(Color.parseColor("#b71c1c"))
-                var icon = ContextCompat.getDrawable(recyclerView.context, R.drawable.ic_alert_outline_red_36dp)
+                val background = ColorDrawable(rightToLeftColor)
+                background.setBounds((itemView.right + dX).toInt(), itemView.top, itemView.right, itemView.bottom)
+                background.draw(c)
 
-                background.setBounds((view.right + dX).toInt(), view.top, view.right, view.bottom)
-
+                val intrinsicWidth = rightToLeftIcon!!.intrinsicWidth
+                val intrinsicHeight = rightToLeftIcon!!.intrinsicHeight
+                val iconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                rightToLeftIcon!!.setBounds((itemView.right - xMarkMargin - intrinsicWidth).toInt(), iconTop, (itemView.right - xMarkMargin).toInt(), iconTop + intrinsicHeight)
+                rightToLeftIcon!!.draw(c)
             } else {
+                val background = ColorDrawable(leftToRightColor)
+                background.setBounds(itemView.left, itemView.top, dX.toInt(), itemView.bottom)
+                background.draw(c)
 
+                val intrinsicWidth = leftToRightIcon!!.getIntrinsicWidth()
+                val intrinsicHeight = leftToRightIcon!!.getIntrinsicWidth()
+
+                val iconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                leftToRightIcon!!.setBounds((itemView.left + xMarkMargin).toInt(), iconTop, (itemView.left + xMarkMargin + intrinsicWidth).toInt(), iconTop + intrinsicHeight)
+                leftToRightIcon!!.draw(c)
             }
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)

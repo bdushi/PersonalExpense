@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/padding_10">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_expense"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="customAdapter"
+            type="al.bruno.financaime.adapter.CustomAdapter"/>
+        <variable
+            name="onClick"
+            type="al.bruno.financaime.callback.OnClick"/>
+        <variable
+            name="onSwipeItemListener"
+            type="al.bruno.financaime.callback.OnSwipeItemListener"/>
+    </data>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/categories_expense_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/margin_20"
-        android:layout_marginBottom="@dimen/margin_20"
-        android:src="@drawable/ic_add_white_36dp"/>
-</RelativeLayout>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categories_expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adapter="@{customAdapter}"
+            bind:xmargin="@{@dimen/margin_5}"
+            bind:onSwipeItemListener="@{onSwipeItemListener}"
+            bind:drawableSwipeLeft="@{@drawable/ic_delete_black_36dp}"
+            bind:drawableSwipeRight="@{@drawable/ic_edit_white_36dp}"
+            bind:colorSwipeLeft="@{@color/red_a700}"
+            bind:colorSwipeRight="@{@color/colorPrimary}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/categories_expense_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:src="@drawable/ic_add_white_36dp"
+            android:onClick="@{() -> onClick.onClick()}"/>
+    </RelativeLayout>
 
+</layout>

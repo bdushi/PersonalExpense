@@ -12,8 +12,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:background="@color/white"
+        android:padding="@dimen/padding_10"
         android:text="@{categories.category}"
         android:onLongClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
         style="@style/TextAppearance.AppCompat.Large"/>
