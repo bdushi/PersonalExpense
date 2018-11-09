@@ -14,7 +14,7 @@ class Categories() : Observable, Parcelable {
     var id: Long = 0
 
     @ColumnInfo(name = "_category")
-    var category: String? = null
+    var category: String? = ""
     @Bindable
     get
     set(value) {
@@ -58,6 +58,4 @@ class Categories() : Observable, Parcelable {
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         propertyChangeRegistry.add(callback)
     }
-
-
 }
