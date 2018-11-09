@@ -12,11 +12,8 @@
             name="title"
             type="String"/>
         <variable
-            name="onClickListener"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Categories&gt;"/>
-        <variable
-            name="onClick"
-            type="al.bruno.financaime.callback.OnClick"/>
+            name="onEditListeners"
+            type="al.bruno.financaime.callback.OnEditListeners&lt;al.bruno.financaime.model.Categories&gt;"/>
         <variable
             name="onTextChangedListener"
             type="al.bruno.financaime.callback.OnTextChangedListener"/>
@@ -62,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:onClick="@{() -> onClick.onClick()}"
+            android:onClick="@{() -> onEditListeners.onDismiss(categories)}"
             app:layout_constraintEnd_toStartOf="@id/edit_categories_save"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />
 
@@ -73,7 +70,7 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:enabled="@{categories.category.empty ? false : true}"
-            android:onClick="@{() -> onClickListener.onClick(categories)}"
+            android:onClick="@{() -> onEditListeners.onEdit(categories)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>

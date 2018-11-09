@@ -3,23 +3,19 @@ package al.bruno.financaime.dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.financaime.R
-import al.bruno.financaime.callback.OnClick
-import al.bruno.financaime.callback.OnClickListener
-import al.bruno.financaime.callback.OnEditListener
-import al.bruno.financaime.callback.OnTextChangedListener
+import al.bruno.financaime.callback.*
 import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
 import androidx.databinding.DataBindingUtil
 
-class EditCategoriesDialog : DialogFragment(), TextWatcher {
+class EditCategoriesDialog : DialogFragment() {
     private var categories = Categories()
-    private var onEditListener: OnEditListener<Categories>? = null
+    private var onEditListeners: OnEditListeners<Categories>? = null
 
     class Builder {
         private var hint: Int = 0
@@ -58,8 +54,8 @@ class EditCategoriesDialog : DialogFragment(), TextWatcher {
         }
     }
 
-    fun OnCategoriesEditListener(onEditListener: OnEditListener<Categories>): EditCategoriesDialog {
-        this.onEditListener = onEditListener
+    fun OnCategoriesEditListener(onEditListeners: OnEditListeners<Categories>): EditCategoriesDialog {
+        this.onEditListeners = onEditListeners
         return this
     }
 
@@ -71,17 +67,20 @@ class EditCategoriesDialog : DialogFragment(), TextWatcher {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val categoriesEditDialogBinding: CategoriesEditDialogBinding =
                 DataBindingUtil.inflate(inflater, R.layout.categories_edit_dialog, container, false)
-        categoriesEditDialogBinding.categories = categories
-        categoriesEditDialogBinding.onClick = object : OnClick{
-            override fun onClick() {
+        categoriesEditDialogBinding.categories = arguments?.getParcelable("CATEGORY") ?: categories
+        categoriesEditDialogBinding.hint = getString(arguments!!.getInt("HINT"))
+        categoriesEditDialogBinding.title = getString(arguments!!.getInt("TITLE"))
+        categoriesEditDialogBinding.onEditListeners = object : OnEditListeners<Categories> {
+            override fun onEdit(t: Categories) {
+                onEditListeners!!.onEdit(t)
                 dismiss()
             }
-        }
-        categoriesEditDialogBinding.onClickListener = object : OnClickListener<Categories> {
-            override fun onClick(t: Categories) {
-                onEditListener!!.onEdit(t)
+            override fun onDismiss(t: Categories) {
+                onEditListeners!!.onDismiss(t)
                 dismiss()
             }
+
+
         }
         categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -93,15 +92,5 @@ class EditCategoriesDialog : DialogFragment(), TextWatcher {
             }
         }
         return categoriesEditDialogBinding.root
-    }
-    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-    }
-
-    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-    }
-
-    override fun afterTextChanged(editable: Editable) {
     }
 }

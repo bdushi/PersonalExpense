@@ -1,14 +1,11 @@
 package al.bruno.financaime
 
 import al.bruno.financaime.adapter.CustomAdapter
-import al.bruno.financaime.callback.BindingData
-import al.bruno.financaime.callback.OnClick
+import al.bruno.financaime.callback.*
 import android.os.Bundle
 
-import al.bruno.financaime.callback.OnEditListener
-import al.bruno.financaime.callback.OnSwipeItemListener
 import al.bruno.financaime.databinding.CategoriesSingleItemBinding
-import al.bruno.financaime.databinding.FragmentCategoriesExpenseBinding
+import al.bruno.financaime.databinding.FragmentCategoriesBinding
 import al.bruno.financaime.dialog.EditCategoriesDialog
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,42 +17,31 @@ import al.bruno.financaime.view.model.CategoriesViewModel
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
-class CategoriesFragment : Fragment(), OnEditListener<Categories>, OnClick {
-
+class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnItemSwipeSelectListener<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val fragmentCategoriesExpenseBinding = DataBindingUtil.inflate<FragmentCategoriesExpenseBinding>(inflater, R.layout.fragment_categories_expense, container, false);
+        val fragmentCategoriesBinding = DataBindingUtil.inflate<FragmentCategoriesBinding>(inflater, R.layout.fragment_categories, container, false);
         ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel::class.java)
                 .categories()
                 .observe(this, Observer {
-                    fragmentCategoriesExpenseBinding.customAdapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
+                    fragmentCategoriesBinding.customAdapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
                             vm.categories = t
                         }
                     })
                 })
-        fragmentCategoriesExpenseBinding.onClick = this
-        fragmentCategoriesExpenseBinding.onSwipeItemListener = object : OnSwipeItemListener {
-            override fun onItemSwipedLeft(position: Int) {
-            }
-
-            override fun onItemSwipedRight(position: Int) {
-            }
-
-        }
-        return fragmentCategoriesExpenseBinding.root
+        fragmentCategoriesBinding.onClick = this
+        fragmentCategoriesBinding.onItemSwipeSelectListener = this
+        //fragmentCategoriesExpenseBinding.onSwipeItemListener = object : OnItemSwipeSelectListener, OnSwipeItemListener {}
+        return fragmentCategoriesBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,14 +70,40 @@ class CategoriesFragment : Fragment(), OnEditListener<Categories>, OnClick {
                 .insert(t)
                 .subscribeOn(Schedulers.io())
                 .subscribe(Consumer {
-
+                    t.propertyChangeRegistry
                 }))
     }
+    override fun onDismiss(t: Categories) {
+    }
+
     override fun onClick() {
         EditCategoriesDialog
                 .Builder()
                 .setHint(R.string.categories)
                 .setTitle(R.string.add_categories)
+                .build()
+                .OnCategoriesEditListener(this)
+                .show(fragmentManager, CategoriesFragment::class.java.name)
+    }
+
+    override fun onItemSwipedLeft(t: Categories) {
+        disposable.add(ViewModelProviders
+                .of(this)
+                .get(CategoriesViewModel::class.java)
+                .delete(t)
+                .subscribeOn(Schedulers.io()).subscribe({
+
+                }, {
+
+                }))
+    }
+
+    override fun onItemSwipedRight(t: Categories) {
+        EditCategoriesDialog
+                .Builder()
+                .setHint(R.string.categories)
+                .setTitle(R.string.add_categories)
+                .setCategories(t)
                 .build()
                 .OnCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)

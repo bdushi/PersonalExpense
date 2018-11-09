@@ -10,8 +10,8 @@
             name="onClick"
             type="al.bruno.financaime.callback.OnClick"/>
         <variable
-            name="onSwipeItemListener"
-            type="al.bruno.financaime.callback.OnSwipeItemListener"/>
+            name="onItemSwipeSelectListener"
+            type="al.bruno.financaime.callback.OnItemSwipeSelectListener"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,11 +22,12 @@
             android:layout_height="wrap_content"
             android:adapter="@{customAdapter}"
             bind:xmargin="@{@dimen/margin_5}"
-            bind:onSwipeItemListener="@{onSwipeItemListener}"
             bind:drawableSwipeLeft="@{@drawable/ic_delete_black_36dp}"
             bind:drawableSwipeRight="@{@drawable/ic_edit_white_36dp}"
             bind:colorSwipeLeft="@{@color/red_a700}"
             bind:colorSwipeRight="@{@color/colorPrimary}"
+            bind:onLeftSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedLeft(customAdapter.item(p))}"
+            bind:onRightSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedRight(customAdapter.item(p))}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/categories_expense_add"

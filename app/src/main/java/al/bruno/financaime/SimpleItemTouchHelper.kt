@@ -16,7 +16,8 @@ class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.
     private var leftToRightColor: Int = 0
     private var leftToRightIcon: Drawable? = null
 
-    private var onSwipeItemListener: OnSwipeItemListener? = null
+    private var onLeftItemSwipeListener: OnSwipeItemListener? = null
+    private var onRightItemSwipeListener: OnSwipeItemListener? = null
 
 
     class Builder {
@@ -66,8 +67,12 @@ class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.
         }
     }
 
-    fun onSwipeItemListener(onSwipeItemListener: OnSwipeItemListener) : SimpleItemTouchHelper {
-        this.onSwipeItemListener = onSwipeItemListener
+    fun onLeftSwipeItemListener(onLeftItemSwipeListener: OnSwipeItemListener) : SimpleItemTouchHelper {
+        this.onLeftItemSwipeListener = onLeftItemSwipeListener
+        return this;
+    }
+    fun onRightSwipeItemListener(onRightItemSwipeListener: OnSwipeItemListener) : SimpleItemTouchHelper {
+        this.onRightItemSwipeListener = onRightItemSwipeListener
         return this;
     }
 
@@ -78,9 +83,9 @@ class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         if (direction == ItemTouchHelper.LEFT) {
-            onSwipeItemListener!!.onItemSwipedLeft(position)
+            onLeftItemSwipeListener!!.onItemSwiped(position)
         } else if (direction == ItemTouchHelper.RIGHT) {
-            onSwipeItemListener!!.onItemSwipedRight(position)
+            onRightItemSwipeListener!!.onItemSwiped(position)
         }
     }
 

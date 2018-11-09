@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Adapter {
-    @BindingAdapter(value = {"bind:xmargin", "bind:drawableSwipeLeft", "bind:drawableSwipeRight", "bind:colorSwipeLeft", "bind:colorSwipeRight", "bind:onSwipeItemListener"}, requireAll = false)
-    public static void swipeItem(RecyclerView recyclerView, float xmargin, Drawable drawableSwipeLeft, Drawable drawableSwipeRight, int colorSwipeLeft, int colorSwipeRight, OnSwipeItemListener onSwipeItemListener) {
+    @BindingAdapter(value = {"bind:xmargin", "bind:drawableSwipeLeft", "bind:drawableSwipeRight", "bind:colorSwipeLeft", "bind:colorSwipeRight", "bind:onLeftSwipeItemListener", "bind:onRightSwipeItemListener"}, requireAll = false)
+    public static void swipeItem(RecyclerView recyclerView, float xmargin, Drawable drawableSwipeLeft, Drawable drawableSwipeRight, int colorSwipeLeft, int colorSwipeRight, OnSwipeItemListener onLeftSwipeItemListener, OnSwipeItemListener onRightSwipeItemListener) {
         new ItemTouchHelper(new SimpleItemTouchHelper
                 .Builder()
                 .setXMarkMargin(xmargin)
@@ -19,7 +19,8 @@ public class Adapter {
                 .setRightToLeftColor(colorSwipeLeft)
                 .setRightToLeftIcon(drawableSwipeRight)
                 .build()
-                .onSwipeItemListener(onSwipeItemListener))
+                .onLeftSwipeItemListener(onLeftSwipeItemListener)
+                .onRightSwipeItemListener(onRightSwipeItemListener))
                 .attachToRecyclerView(recyclerView);
     }
 }

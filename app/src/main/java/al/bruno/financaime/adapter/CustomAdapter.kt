@@ -32,4 +32,7 @@ class CustomAdapter<T, VM: ViewDataBinding>(t:List<T>, r:Int, bindingData:Bindin
         viewHolder.bind(t.get(position))
     }
 
+    public fun item(position: Int) : T {
+        return t.get(position)
+    }
 }
