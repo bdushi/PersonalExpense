@@ -24,7 +24,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".HostActivity"
+            android:name="al.bruno.financaime.HostActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize">

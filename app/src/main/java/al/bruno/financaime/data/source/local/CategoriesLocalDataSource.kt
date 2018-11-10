@@ -34,7 +34,7 @@ class CategoriesLocalDataSource(context: Context) : CategoriesDataSource {
         return DATABASE_INSTANCE.categoriesDao().delete(categories)
     }
 
-    override fun categories(): LiveData<List<Categories>> {
+    override fun categories(): Single<List<Categories>> {
         return DATABASE_INSTANCE.categoriesDao().categories()
     }
 

@@ -54,7 +54,7 @@ class EditCategoriesDialog : DialogFragment() {
         }
     }
 
-    fun OnCategoriesEditListener(onEditListeners: OnEditListeners<Categories>): EditCategoriesDialog {
+    fun onCategoriesEditListener(onEditListeners: OnEditListeners<Categories>): EditCategoriesDialog {
         this.onEditListeners = onEditListeners
         return this
     }

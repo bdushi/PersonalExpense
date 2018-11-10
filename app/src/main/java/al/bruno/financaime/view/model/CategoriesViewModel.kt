@@ -27,7 +27,7 @@ class CategoriesViewModel(application: Application) : AndroidViewModel(applicati
         return categoriesRepository.delete(categories)
     }
 
-    override fun categories(): LiveData<List<Categories>> {
+    override fun categories(): Single<List<Categories>> {
         return categoriesRepository.categories()
     }
 }

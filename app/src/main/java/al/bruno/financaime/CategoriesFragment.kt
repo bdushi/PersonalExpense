@@ -13,67 +13,56 @@ import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.financaime.model.Categories
+import al.bruno.financaime.observer.Subject
 import al.bruno.financaime.view.model.CategoriesViewModel
+import android.os.Handler
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
-class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnItemSwipeSelectListener<Categories> {
+class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
+    private val registry = ArrayList<al.bruno.financaime.observer.Observer<Categories> >()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentCategoriesBinding = DataBindingUtil.inflate<FragmentCategoriesBinding>(inflater, R.layout.fragment_categories, container, false);
-        ViewModelProviders
+        disposable.add(ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel::class.java)
                 .categories()
-                .observe(this, Observer {
-                    fragmentCategoriesBinding.customAdapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    val adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
                             vm.categories = t
                         }
                     })
-                })
+                    registerObserver(adapter)
+                    fragmentCategoriesBinding.customAdapter = adapter
+                },{
+
+                }))
         fragmentCategoriesBinding.onClick = this
         fragmentCategoriesBinding.onItemSwipeSelectListener = this
         //fragmentCategoriesExpenseBinding.onSwipeItemListener = object : OnItemSwipeSelectListener, OnSwipeItemListener {}
         return fragmentCategoriesBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        /*val categoriesExpense = view.findViewById<RecyclerView>(R.id.categories_expense)
-        categoriesExpense.layoutManager = LinearLayoutManager(activity)
-        categoriesExpense.itemAnimator = DefaultItemAnimator()
-        categoriesExpense.addItemDecoration(DividerItemDecoration(activity!!, LinearLayoutManager.VERTICAL))
-        ViewModelProviders
-                .of(this)
-                .get(CategoriesViewModel::class.java)
-                .categories()
-                .observe(this, Observer {
-                    categoriesExpense.adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
-                        override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
-                            vm.categories = t
-                        }
-                    })
-                })*/
-    }
     override fun onEdit(t: Categories) {
         disposable.add(ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel::class.java)
                 .insert(t)
                 .subscribeOn(Schedulers.io())
-                .subscribe(Consumer {
-                    t.propertyChangeRegistry
-                }))
+                .doOnSubscribe {
+                    notifyObserverAdd(t)
+                }.subscribe())
     }
     override fun onDismiss(t: Categories) {
+        notifyObserver(t)
     }
 
     override fun onClick() {
@@ -82,20 +71,28 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnI
                 .setHint(R.string.categories)
                 .setTitle(R.string.add_categories)
                 .build()
-                .OnCategoriesEditListener(this)
+                .onCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)
     }
 
     override fun onItemSwipedLeft(t: Categories) {
-        disposable.add(ViewModelProviders
-                .of(this)
-                .get(CategoriesViewModel::class.java)
-                .delete(t)
-                .subscribeOn(Schedulers.io()).subscribe({
-
-                }, {
-
-                }))
+        val handler = Handler()
+        val runnable = Runnable {
+            //disposable.add()
+            ViewModelProviders
+                    .of(this)
+                    .get(CategoriesViewModel::class.java)
+                    .delete(t)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
+                    .dispose()
+        }
+        Snackbar.make(activity!!.findViewById(android.R.id.content), "DELETED", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            handler.removeCallbacks(runnable)
+            notifyObserverAdd(t)
+        }.show();
+        notifyObserverRemove(t)
+        handler.postDelayed(runnable, 3500)
     }
 
     override fun onItemSwipedRight(t: Categories) {
@@ -105,8 +102,33 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnI
                 .setTitle(R.string.add_categories)
                 .setCategories(t)
                 .build()
-                .OnCategoriesEditListener(this)
+                .onCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)
+    }
+    override fun registerObserver(o: al.bruno.financaime.observer.Observer<Categories>) {
+        registry.add(o)
+    }
+
+    override fun removeObserver(o: al.bruno.financaime.observer.Observer<Categories>) {
+        if(registry.indexOf(o) >= 0)
+            registry.remove(o);
+    }
+    override fun notifyObserverRemove(t: Categories) {
+        for (observer in registry) {
+            observer.remove(t)
+        }
+    }
+
+    override fun notifyObserverAdd(t: Categories) {
+        for (observer in registry) {
+            observer.add(t)
+        }
+    }
+
+    override fun notifyObserver(t: Categories) {
+        for (observer in registry) {
+            observer.update(t)
+        }
     }
     override fun onStop() {
         super.onStop()

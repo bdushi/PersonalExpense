@@ -14,5 +14,5 @@ interface CategoriesDao {
     @Delete
     fun delete(categories: Categories) : Single<Int>
     @Query("SELECT * FROM categories")
-    fun categories() : LiveData<List<Categories>>
+    fun categories() : Single<List<Categories>>
 }

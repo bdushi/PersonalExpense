@@ -1,7 +1,9 @@
 package al.bruno.financaime
 
+import al.bruno.financaime.adapter.CustomAdapter
 import al.bruno.financaime.adapter.CustomSpinnerAdapter
 import al.bruno.financaime.callback.*
+import al.bruno.financaime.databinding.CategoriesSingleItemBinding
 import al.bruno.financaime.databinding.FragmentExpenseBinding
 import android.os.Bundle
 
@@ -40,17 +42,21 @@ class ExpenseFragment : Fragment() {
             }
         })
 
-        ViewModelProviders.of(this)
+        disposable.add(ViewModelProviders
+                .of(this)
                 .get(CategoriesViewModel::class.java)
                 .categories()
-                .observe(this, Observer {
+                .subscribeOn(Schedulers.io())
+                .subscribe({
                     fragmentExpenseBinding.spinnerAdapter =
                             CustomSpinnerAdapter(activity!!, R.layout.categories_spinner_item, it, object : BindingData<Categories, CategoriesSpinnerItemBinding> {
                                 override fun bindData(t: Categories, vm: CategoriesSpinnerItemBinding) {
                                     vm.categories = t
                                 }
                             })
-                })
+                },{
+
+                }))
 
         fragmentExpenseBinding.onClick = object : OnClick {
             override fun onClick(){

@@ -8,18 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 public class HostActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
         //google analitics
-        FirebaseAnalytics.getInstance(this);
+        //FirebaseAnalytics.getInstance(this);
         //inflater home fragment
         getSupportFragmentManager()
                 .beginTransaction()
