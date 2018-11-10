@@ -38,6 +38,11 @@ class CustomAdapter<T, VM: ViewDataBinding>(t:List<T>, r:Int, bindingData:Bindin
         return t[position]
     }
 
+    public val items : List<T>
+    get() {
+        return t;
+    }
+
     override fun update(l: T) {
         notifyItemChanged(t.indexOf(l))
     }
@@ -45,8 +50,8 @@ class CustomAdapter<T, VM: ViewDataBinding>(t:List<T>, r:Int, bindingData:Bindin
     override fun remove(l: T) {
         // because item was removed and mismatch the index
         // val position:Int = t.indexOf(l)
+        notifyItemRemoved(t.indexOf(l))
         t.remove(l)
-        notifyItemRemoved(o.indexOf(l))
     }
 
     override fun add(l: T) {

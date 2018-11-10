@@ -2,7 +2,6 @@ package al.bruno.financaime.dialog
 
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,20 @@ import al.bruno.financaime.R
 import al.bruno.financaime.callback.*
 import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
+import android.os.Parcelable
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 
 class EditCategoriesDialog : DialogFragment() {
     private var categories = Categories()
+    private var categoriesList: List<Categories> = ArrayList()
     private var onEditListeners: OnEditListeners<Categories>? = null
 
     class Builder {
         private var hint: Int = 0
         private var title: Int = 0
         private var categories: Categories? = null
+        private var categoriesList: List<Categories> = ArrayList()
 
         fun setHint(hint: Int): EditCategoriesDialog.Builder {
             this.hint = hint
@@ -37,17 +40,23 @@ class EditCategoriesDialog : DialogFragment() {
             return this
         }
 
+        fun setCategoriesList(categoriesList: List<Categories>): EditCategoriesDialog.Builder {
+            this.categoriesList = categoriesList;
+            return this
+        }
+
         fun build(): EditCategoriesDialog {
-            return newInstance(hint, title, categories)
+            return newInstance(hint, title, categories, categoriesList)
         }
     }
 
     private companion object {
-        private fun newInstance(hint: Int, title: Int, categories: Categories?): EditCategoriesDialog {
+        private fun newInstance(hint: Int, title: Int, categories: Categories?, categoriesList: List<Categories>?): EditCategoriesDialog {
             val args = Bundle()
             args.putInt("HINT", hint)
             args.putInt("TITLE", title)
             args.putParcelable("CATEGORY", categories);
+            args.putParcelableArrayList("CATEGORIES", categoriesList as (ArrayList<out Parcelable>));
             val fragment = EditCategoriesDialog()
             fragment.arguments = args
             return fragment
@@ -70,6 +79,7 @@ class EditCategoriesDialog : DialogFragment() {
         categoriesEditDialogBinding.categories = arguments?.getParcelable("CATEGORY") ?: categories
         categoriesEditDialogBinding.hint = getString(arguments!!.getInt("HINT"))
         categoriesEditDialogBinding.title = getString(arguments!!.getInt("TITLE"))
+        categoriesList = arguments?.getParcelableArrayList("CATEGORIES")!!
         categoriesEditDialogBinding.onEditListeners = object : OnEditListeners<Categories> {
             override fun onEdit(t: Categories) {
                 onEditListeners!!.onEdit(t)
@@ -82,7 +92,20 @@ class EditCategoriesDialog : DialogFragment() {
 
 
         }
-        categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
+        categories.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                for (c: Categories  in categoriesList) {
+                    if (categories.category!!.contains(c.category!!)) {
+                        categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
+                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
+                    } else {
+                        categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
+                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = true
+                    }
+                }
+            }
+        })
+        /*categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if(s.contains("bruno")) {
                     categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
@@ -90,7 +113,7 @@ class EditCategoriesDialog : DialogFragment() {
                     categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
                 }
             }
-        }
+        }*/
         return categoriesEditDialogBinding.root
     }
 }

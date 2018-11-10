@@ -8,7 +8,7 @@
             type="al.bruno.financaime.adapter.CustomAdapter"/>
         <variable
             name="onClick"
-            type="al.bruno.financaime.callback.OnClick"/>
+            type="al.bruno.financaime.callback.OnClickListener&lt;java.util.List&lt;al.bruno.financaime.model.Categories&gt;&gt;"/>
         <variable
             name="onItemSwipeSelectListener"
             type="al.bruno.financaime.callback.OnItemSwipeSelectListener"/>
@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/margin_20"
             android:layout_marginBottom="@dimen/margin_20"
             android:src="@drawable/ic_add_white_36dp"
-            android:onClick="@{() -> onClick.onClick()}"/>
+            android:onClick="@{() -> onClick.onClick(customAdapter.items)}"/>
     </RelativeLayout>
 
 </layout>

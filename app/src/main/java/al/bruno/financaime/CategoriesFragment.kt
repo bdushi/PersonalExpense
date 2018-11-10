@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
+class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClickListener<List<Categories>>, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
     private val registry = ArrayList<al.bruno.financaime.observer.Observer<Categories> >()
@@ -47,7 +47,6 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnI
                 }))
         fragmentCategoriesBinding.onClick = this
         fragmentCategoriesBinding.onItemSwipeSelectListener = this
-        //fragmentCategoriesExpenseBinding.onSwipeItemListener = object : OnItemSwipeSelectListener, OnSwipeItemListener {}
         return fragmentCategoriesBinding.root
     }
 
@@ -65,11 +64,12 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClick, OnI
         notifyObserver(t)
     }
 
-    override fun onClick() {
+    override fun onClick(t: List<Categories>) {
         EditCategoriesDialog
                 .Builder()
                 .setHint(R.string.categories)
                 .setTitle(R.string.add_categories)
+                .setCategoriesList(t)
                 .build()
                 .onCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)
