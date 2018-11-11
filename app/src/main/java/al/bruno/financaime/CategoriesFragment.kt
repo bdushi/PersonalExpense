@@ -21,8 +21,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlin.collections.ArrayList
 
-class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClickListener<List<Categories>>, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
+class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListener<MutableList<Any?>>, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
     private val registry = ArrayList<al.bruno.financaime.observer.Observer<Categories> >()
@@ -64,16 +65,17 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>, OnClickListe
         notifyObserver(t)
     }
 
-    override fun onClick(t: List<Categories>) {
+    override fun onClick(t: MutableList<Any?>) {
         EditCategoriesDialog
                 .Builder()
                 .setHint(R.string.categories)
                 .setTitle(R.string.add_categories)
-                .setCategoriesList(t)
+                .setCategoriesList(t as ArrayList<Categories>)
                 .build()
                 .onCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)
     }
+
 
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()

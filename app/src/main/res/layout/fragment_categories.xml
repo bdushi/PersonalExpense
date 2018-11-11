@@ -8,7 +8,7 @@
             type="al.bruno.financaime.adapter.CustomAdapter"/>
         <variable
             name="onClick"
-            type="al.bruno.financaime.callback.OnClickListener&lt;java.util.List&lt;al.bruno.financaime.model.Categories&gt;&gt;"/>
+            type="al.bruno.financaime.callback.OnClickListener"/>
         <variable
             name="onItemSwipeSelectListener"
             type="al.bruno.financaime.callback.OnItemSwipeSelectListener"/>

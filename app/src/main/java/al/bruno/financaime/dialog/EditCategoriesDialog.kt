@@ -11,6 +11,8 @@ import al.bruno.financaime.callback.*
 import al.bruno.financaime.databinding.CategoriesEditDialogBinding
 import al.bruno.financaime.model.Categories
 import android.os.Parcelable
+import android.text.TextUtils
+import android.widget.Filter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 
@@ -89,13 +91,11 @@ class EditCategoriesDialog : DialogFragment() {
                 onEditListeners!!.onDismiss(t)
                 dismiss()
             }
-
-
         }
-        categories.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+        /*categories.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 for (c: Categories  in categoriesList) {
-                    if (categories.category!!.contains(c.category!!)) {
+                    if (TextUtils.equals(categories.category?.toLowerCase(), c.category.toString())) {
                         categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
                         categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
                     } else {
@@ -104,16 +104,20 @@ class EditCategoriesDialog : DialogFragment() {
                     }
                 }
             }
-        })
-        /*categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
+        })*/
+        categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if(s.contains("bruno")) {
-                    categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
-                } else {
-                    categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
+                for (c: Categories  in categoriesList) {
+                    if ((TextUtils.equals(s.toString().toLowerCase(), c.category!!.toLowerCase()))) {
+                        categoriesEditDialogBinding.editCategoriesInputLayout.error = "This Categories Exist"
+                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = true
+                    } else {
+                        categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
+                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
+                    }
                 }
             }
-        }*/
+        }
         return categoriesEditDialogBinding.root
     }
 }
