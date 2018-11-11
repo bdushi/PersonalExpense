@@ -3,6 +3,11 @@ package al.bruno.financaime;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +19,7 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
         //google analitics
-        //FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics.getInstance(this);
         //inflater home fragment
         getSupportFragmentManager()
                 .beginTransaction()
@@ -30,10 +35,10 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
         });
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                /*if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YouTubePlayerSupportFragment) {
+                if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof YouTubePlayerSupportFragment) {
                     navigation.setVisibility(View.GONE);
                 }
-                else */
+                else
                 if (getSupportFragmentManager().findFragmentById(R.id.host) instanceof GoogleMapFragment) {
                     navigation.setVisibility(View.GONE);
                 }
@@ -68,13 +73,13 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId()) {
-           /* case R.id.youtube:
-                *//*getSupportFragmentManager().beginTransaction()
+           case R.id.youtube:
+                /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new YoutubeFragment())
                         .addToBackStack("YOUTUBE_FRAGMENT")
-                        .commit();*//*
+                        .commit();*/
                 //YouTubePlayerSupportFragment youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_view);
-                YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+                /*YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
                 YouTubePlayer.OnInitializedListener onInitializedListener = new YouTubePlayer.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
@@ -87,14 +92,14 @@ public class HostActivity extends AppCompatActivity implements BottomNavigationV
                     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
 
                     }
-                };
+                };*/
 
-                youTubePlayerFragment.initialize(getString(R.string.google_maps_key) ,onInitializedListener);
+                /*youTubePlayerFragment.initialize(getString(R.string.google_maps_key) ,onInitializedListener);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, youTubePlayerFragment)
                         .addToBackStack("YOUTUBE_FRAGMENT")
-                        .commit();
-                break;*/
+                        .commit();*/
+                break;
             case R.id.map:
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host, new GoogleMapFragment())

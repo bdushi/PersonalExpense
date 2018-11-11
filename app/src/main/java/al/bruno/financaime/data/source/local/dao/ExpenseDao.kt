@@ -16,10 +16,9 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense WHERE _id = :id")
     fun expense(id: Long) : LiveData<Expense>
 
-    /*@Query("SELECT _id, _expense, SUM(_amount) AS _amount, _date FROM expense " +
-            "WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month " +
-            "GROUP BY TRIM(_expense)")*/
+    //@Query("SELECT _id, _expense, SUM(_amount) AS _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month GROUP BY TRIM(_expense)")
     @Query("SELECT * FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month")
+    //@Query("SELECT _id, _expense, _amount, _date FROM expense")
     fun expenses(month: String) : LiveData<List<Expense>>
 
    /* @Query("SELECT * FROM expense " +

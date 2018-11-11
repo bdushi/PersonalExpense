@@ -1,9 +1,7 @@
 package al.bruno.financaime
 
-import al.bruno.financaime.adapter.CustomAdapter
 import al.bruno.financaime.adapter.CustomSpinnerAdapter
 import al.bruno.financaime.callback.*
-import al.bruno.financaime.databinding.CategoriesSingleItemBinding
 import al.bruno.financaime.databinding.FragmentExpenseBinding
 import android.os.Bundle
 
@@ -27,10 +25,8 @@ import al.bruno.financaime.view.model.CategoriesViewModel
 import al.bruno.financaime.view.model.ExpenseViewModel
 import android.util.Log
 import android.widget.Toast
-import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.function.Consumer
 
 class ExpenseFragment : Fragment() {
     private val disposable : CompositeDisposable  = CompositeDisposable()

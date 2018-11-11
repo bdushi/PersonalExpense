@@ -1,5 +1,10 @@
 package al.bruno.financaime
 
+import al.bruno.financaime.R.string.value
+import al.bruno.financaime.adapter.CustomAdapter
+import al.bruno.financaime.callback.BindingData
+import al.bruno.financaime.callback.OnClickListener
+import al.bruno.financaime.callback.OnEditListeners
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,31 +12,105 @@ import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.financaime.databinding.FragmentBudgetBinding
+import al.bruno.financaime.databinding.LogSingleItemBinding
+import al.bruno.financaime.dialog.EditBudgetDialog
+import al.bruno.financaime.dialog.EditIncomesDialog
+import al.bruno.financaime.model.Budget
+import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities.month
 import al.bruno.financaime.view.model.BudgetViewModel
+import al.bruno.financaime.view.model.ExpenseViewModel
+import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 
 class BudgetFragment : Fragment() {
+    private val disposable : CompositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (value, logSingleItemBinding) -> logSingleItemBinding.setValue(value)));
         val fragmentBudgetBinding: FragmentBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_budget, container, false)
         ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(month(month())).observe(this, Observer {
             run {
-                fragmentBudgetBinding.budget = it
+                fragmentBudgetBinding.budget = it ?: Budget()
             }
         })
+        fragmentBudgetBinding.onClickListenerEditBudget = object: OnClickListener<Budget> {
+            override fun onClick(t: Budget) {
+                EditBudgetDialog
+                        .Builder()
+                        .setBudget(budget = t)
+                        .build()
+                        .onDialogEditListeners(object : OnEditListeners<Budget> {
+                            override fun onEdit(t: Budget) {
+                                disposable.add(ViewModelProviders
+                                        .of(this@BudgetFragment)
+                                        .get(BudgetViewModel::class.java)
+                                        .insert(t)
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe({
 
+                                        }, {
+
+                                        }))
+                            }
+                            override fun onDismiss(t: Budget) {
+                            }
+                        })
+                        .show(fragmentManager, BudgetFragment::class.java.name)
+            }
+        }
+        fragmentBudgetBinding.onClickListenerEditIncomes = object: OnClickListener<Budget> {
+            override fun onClick(t: Budget) {
+                EditIncomesDialog
+                        .Builder()
+                        .setBudget(budget = t)
+                        .build()
+                        .onDialogEditListeners(object : OnEditListeners<Budget>{
+                            override fun onEdit(t: Budget) {
+                                disposable.add(ViewModelProviders
+                                        .of(this@BudgetFragment)
+                                        .get(BudgetViewModel::class.java)
+                                        .insert(t)
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe({
+
+                                        }, {
+
+                                        }))
+                            }
+                            override fun onDismiss(t: Budget) {
+                            }
+
+                        }).show(fragmentManager, BudgetFragment::class.java.name)
+            }
+        }
+        ViewModelProviders.of(this)[ExpenseViewModel::class.java].expenses(month(month())).observe(this, Observer {
+            run {
+                fragmentBudgetBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
+                    override fun bindData(t: Expense, vm: LogSingleItemBinding) {
+                        vm.setExpense(t)
+                    }
+                })
+
+            }
+        })
         return fragmentBudgetBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //log.setAdapter(new CustomAdapter<Expense, LogSingleItemBinding>(new Database(getContext()).expense(Utilities.INSTANCE.month(Utilities.INSTANCE.month())), R.layout.log_single_item, (value, logSingleItemBinding) -> logSingleItemBinding.setValue(value)));
+    }
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 }

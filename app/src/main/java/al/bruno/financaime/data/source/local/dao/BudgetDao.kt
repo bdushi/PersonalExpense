@@ -1,17 +1,15 @@
 package al.bruno.financaime.data.source.local.dao
 
 import al.bruno.financaime.model.Budget
+import android.icu.text.Replaceable
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
 interface BudgetDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(budget: Budget) : Single<Long>
 
     @Query("UPDATE budget SET _budget = :budget WHERE _id = :id")

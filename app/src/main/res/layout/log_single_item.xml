@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="expense"
             type="al.bruno.financaime.model.Expense"/>
     </data>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <androidx.appcompat.widget.AppCompatTextView
+        android:layout_margin="@dimen/margin_2"
+        app:cardBackgroundColor="@color/transparent"
+        app:contentPadding="@dimen/padding_2"
+        app:cardElevation="@dimen/elevation_0"
+        app:cardMaxElevation="@dimen/elevation_1"
+        app:cardCornerRadius="@dimen/corner_radius_1">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{expense.expense}"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@id/expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{expense.amountStr}"/>
-    </LinearLayout>
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{expense.expense}"
+                style="@style/TextAppearance"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@id/expense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{expense.amountStr}"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

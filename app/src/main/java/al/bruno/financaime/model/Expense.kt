@@ -7,6 +7,7 @@ import al.bruno.financaime.util.Utilities.format
 import androidx.room.*
 
 @Entity(tableName = "expense",
+        indices = arrayOf(Index(value = arrayOf("_id_budget", "_date", "_id") , unique = true)),
         foreignKeys = arrayOf(ForeignKey(entity = Budget::class, parentColumns = arrayOf("_id"), childColumns = arrayOf("_id_budget"), onDelete = ForeignKey.NO_ACTION, onUpdate = ForeignKey.NO_ACTION)))
 class Expense() {
     @PrimaryKey(autoGenerate = true)
