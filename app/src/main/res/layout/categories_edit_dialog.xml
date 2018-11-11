@@ -9,6 +9,9 @@
             name="hint"
             type="String"/>
         <variable
+            name="enable"
+            type="Boolean"/>
+        <variable
             name="title"
             type="String"/>
         <variable
@@ -69,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
-            android:enabled="@{categories.category.empty ? false : true}"
+            android:enabled="@{categories.category.empty ? false : (enable ? false : true)}"
             android:onClick="@{() -> onEditListeners.onEdit(categories)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />

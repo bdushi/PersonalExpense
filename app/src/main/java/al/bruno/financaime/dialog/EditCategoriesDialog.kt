@@ -110,10 +110,11 @@ class EditCategoriesDialog : DialogFragment() {
                 for (c: Categories  in categoriesList) {
                     if ((TextUtils.equals(s.toString().toLowerCase(), c.category!!.toLowerCase()))) {
                         categoriesEditDialogBinding.editCategoriesInputLayout.error = "This Categories Exist"
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = true
+                        categoriesEditDialogBinding.enable = true
+                        break
                     } else {
                         categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
+                        categoriesEditDialogBinding.enable = false
                     }
                 }
             }
