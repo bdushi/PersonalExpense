@@ -31,7 +31,7 @@ class DetailsFragment : Fragment() {
 
         expenseLog.layoutManager = LinearLayoutManager(activity)
         expenseLog.itemAnimator = DefaultItemAnimator()
-        expenseLog.addItemDecoration(DividerItemDecoration(Objects.requireNonNull<FragmentActivity>(activity), LinearLayoutManager.VERTICAL))
+        expenseLog.addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
 
         /*new Handler().post(() -> {
             ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());

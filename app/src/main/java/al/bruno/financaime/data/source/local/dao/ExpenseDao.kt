@@ -16,16 +16,11 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense WHERE _id = :id")
     fun expense(id: Long) : LiveData<Expense>
 
-    //@Query("SELECT _id, _expense, SUM(_amount) AS _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month GROUP BY TRIM(_expense)")
-    @Query("SELECT * FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month")
-    //@Query("SELECT _id, _expense, _amount, _date FROM expense")
+    @Query("SELECT _id, _expense, TOTAL(_amount) AS _amount, _date, _id_budget FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month")
     fun expenses(month: String) : LiveData<List<Expense>>
 
-   /* @Query("SELECT * FROM expense " +
-            "WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month " +
-            "AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year " +
-            "GROUP BY TRIM(_expense)")*/
-    @Query("SELECT * FROM expense WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year ")
+    @Query("SELECT * FROM expense WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year GROUP BY TRIM(_expense)")
+    //@Query("SELECT * FROM expense WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year ")
     fun expenses(month: String, year: String) : LiveData<List<Expense>>
 
     @Query("SELECT _date FROM expense")
