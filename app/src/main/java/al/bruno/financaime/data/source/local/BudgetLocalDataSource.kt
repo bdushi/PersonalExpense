@@ -56,4 +56,7 @@ class BudgetLocalDataSource : BudgetDataSource {
     override fun budget(month: String): LiveData<Budget> {
         return DATABASE_INSTANCE.budgetDao().budget(month)
     }
+    override fun expense(month: String): LiveData<Budget> {
+        return DATABASE_INSTANCE.budgetDao().expense(month)
+    }
 }

@@ -1,10 +1,8 @@
 package al.bruno.financaime.data.source.local.dao
 
 import al.bruno.financaime.model.Budget
-import android.icu.text.Replaceable
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -18,6 +16,9 @@ interface BudgetDao {
     @Query("UPDATE budget SET _incomes = :incomes WHERE _id = :id")
     fun updateIncomes(incomes: Double, id:Long) //: Completable //Single<Int>
 
-    @Query("SELECT b._id AS _id, (b._budget - (SELECT TOTAL(e._amount) FROM expense AS e WHERE e._id_budget = b._id)) AS _budget, b._incomes AS _incomes, b._date AS _date FROM budget AS b WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = :month")
+    @Query("SELECT b._id AS _id, b._budget AS _budget, b._incomes AS _incomes, b._date AS _date FROM budget AS b WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = :month")
     fun budget(month: String) : LiveData<Budget>
+
+    @Query("SELECT b._id AS _id, (b._budget - (SELECT TOTAL(e._amount) FROM expense AS e WHERE e._id_budget = b._id)) AS _budget, b._incomes AS _incomes, b._date AS _date FROM budget AS b WHERE strftime('%m', datetime(b._date/1000, 'unixepoch')) = :month")
+    fun expense(month: String) : LiveData<Budget>
 }

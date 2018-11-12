@@ -12,4 +12,5 @@ interface BudgetDataSource {
     fun updateBudget(budget: Double, id:Long) //: Completable//Single<Int>
     fun updateIncomes(incomes: Double, id:Long) //: Completable//Single<Int>
     fun budget(month: String) : LiveData<Budget>
+    fun expense(month: String) : LiveData<Budget>
 }

@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:layout_marginTop="@dimen/margin_10"
-            android:enabled="@{budget.budget &gt;= 1 ? (budget.budget &lt;= (budget.incomes - local) ? true : false) : false}"
+            android:enabled="@{budget.budget &gt;= 0 ? (budget.budget &lt;= (budget.incomes - local) ? true : false) : false}"
             android:onClick="@{() -> onEditClickListener.onClick(budget)}"
             app:layout_constraintTop_toBottomOf="@id/dialog_edit_budget_input_layout"
             app:layout_constraintEnd_toEndOf="parent"

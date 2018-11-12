@@ -32,7 +32,7 @@ class ExpenseFragment : Fragment() {
     private val disposable : CompositeDisposable  = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentExpenseBinding : FragmentExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expense, container, false)
-        ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(month(month())).observe(this, Observer {
+        ViewModelProviders.of(this).get(BudgetViewModel::class.java).expense(month(month())).observe(this, Observer {
             run {
                 fragmentExpenseBinding.budget = it
             }

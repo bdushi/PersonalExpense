@@ -54,7 +54,7 @@ class EditIncomesDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val dialogEditIncomesDialog: DialogEditIncomesBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_incomes, container, false)
-        dialogEditIncomesDialog.budget = arguments?.getParcelable("CATEGORY")
+        dialogEditIncomesDialog.budget = arguments?.getParcelable("BUDGET")
         dialogEditIncomesDialog.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)
@@ -70,25 +70,4 @@ class EditIncomesDialog : DialogFragment() {
         }
         return dialogEditIncomesDialog.root
     }
-    /*if(!edit.getText().toString().isEmpty()) {
-           if(budget != null) {
-               if(Double.parseDouble(edit.getText().toString()) >= budget.getBudget()) {
-                   budget.setIncomes(Double.parseDouble(edit.getText().toString()));
-                   dialogCallBack.onClickUpdate(budget);
-                   dismiss();
-               } else {
-                   textInputLayout.setError(getString(R.string.incomes_alert));
-               }
-           } else {
-               Calendar calendar = Calendar.getInstance();
-               Budget budget = new Budget();
-               budget.setIncomes(Double.parseDouble(edit.getText().toString()));
-               budget.setBudget(0);
-               budget.setDate(calendar.getTime());
-               dialogCallBack.onClickInsert(budget);
-               dismiss();
-           }
-       } else {
-           textInputLayout.setError(getString(R.string.add_value));
-       }*/
 }

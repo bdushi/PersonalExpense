@@ -1,5 +1,6 @@
 package al.bruno.financaime.view.model
 
+import al.bruno.financaime.data.source.BudgetDataSource
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import al.bruno.financaime.data.source.BudgetRepository
@@ -9,23 +10,26 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 
-class BudgetViewModel(application: Application) : AndroidViewModel(application) {
+class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
     private val budgetRepository: BudgetRepository
     init {
         this.budgetRepository = BudgetInjection.provideBudgetInjection(application)!!;
     }
 
-    fun budget (month: String) : LiveData<Budget> {
+    override fun budget (month: String) : LiveData<Budget> {
         return budgetRepository.budget(month);
     }
+    override fun expense(month: String): LiveData<Budget> {
+        return budgetRepository.expense(month);
+    }
 
-    fun insert(budget: Budget) : Single<Long> {
+    override fun insert(budget: Budget) : Single<Long> {
         return budgetRepository.insert(budget);
     }
-    fun updateBudget(budget: Double, id:Long) {
+    override fun updateBudget(budget: Double, id:Long) {
         return budgetRepository.updateBudget(budget, id)
     }
-    fun updateIncomes(incomes: Double, id:Long) {
+    override fun updateIncomes(incomes: Double, id:Long) {
         return budgetRepository.updateIncomes(incomes, id)
     }
 }

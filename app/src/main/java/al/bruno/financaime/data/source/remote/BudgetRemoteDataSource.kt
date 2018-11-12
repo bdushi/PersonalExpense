@@ -5,7 +5,11 @@ import al.bruno.financaime.model.Budget
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
-public class BudgetLocalDataSource : BudgetDataSource {
+public class BudgetRemoteDataSource : BudgetDataSource {
+    override fun expense(month: String): LiveData<Budget> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun updateBudget(budget: Double, id: Long) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

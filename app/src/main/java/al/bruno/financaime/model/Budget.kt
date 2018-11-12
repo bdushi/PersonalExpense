@@ -19,7 +19,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
     @ColumnInfo(name = "_id")
     var id: Long = 0
     @ColumnInfo(name = "_budget")
-    var budget: Double = 0.toDouble()
+    var budget: Double = 0.0
         @Bindable
         get
         set(value){
@@ -27,7 +27,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
             propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.budget)
         }
     @ColumnInfo(name = "_incomes")
-    var incomes: Double = 0.toDouble()
+    var incomes: Double = 0.0
         @Bindable
         get
         set(value) {
