@@ -12,15 +12,14 @@ import al.bruno.financaime.callback.OnClick
 import al.bruno.financaime.callback.OnClickListener
 import al.bruno.financaime.callback.OnEditListeners
 import al.bruno.financaime.databinding.DialogEditBudgetBinding
+import al.bruno.financaime.databinding.DialogEditIncomesBinding
 import al.bruno.financaime.model.Budget
 import al.bruno.financaime.util.Utilities
 import al.bruno.financaime.util.Utilities.date
 import androidx.databinding.DataBindingUtil
 
 class EditIncomesDialog : DialogFragment() {
-    private  var budget = Budget()
     private var onEditListeners: OnEditListeners<Budget>? = null
-
     class Builder {
         private var budget: Budget? = null
 
@@ -54,23 +53,22 @@ class EditIncomesDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val dialogEditBudgetBinding: DialogEditBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_budget, container, false)
-        dialogEditBudgetBinding.budget = arguments?.getParcelable("CATEGORY") ?: budget
-        dialogEditBudgetBinding.onCancelClickListener = object : OnClickListener<Budget> {
+        val dialogEditIncomesDialog: DialogEditIncomesBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_incomes, container, false)
+        dialogEditIncomesDialog.budget = arguments?.getParcelable("CATEGORY")
+        dialogEditIncomesDialog.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)
                 dismiss()
             }
         }
-        dialogEditBudgetBinding.onEditClickListener = object : OnClickListener<Budget> {
-            override fun onClick(t: Budget) { val budget = Budget()
-                budget.incomes = t.amount
-                budget.date = date()
-                onEditListeners!!.onEdit(budget)
+        dialogEditIncomesDialog.onEditClickListener = object : OnClickListener<Budget> {
+            override fun onClick(t: Budget) {
+                t.date = date()
+                onEditListeners!!.onEdit(t)
                 dismiss()
             }
         }
-        return dialogEditBudgetBinding.root
+        return dialogEditIncomesDialog.root
     }
     /*if(!edit.getText().toString().isEmpty()) {
            if(budget != null) {

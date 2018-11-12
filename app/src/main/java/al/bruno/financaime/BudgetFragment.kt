@@ -1,6 +1,5 @@
 package al.bruno.financaime
 
-import al.bruno.financaime.R.string.value
 import al.bruno.financaime.adapter.CustomAdapter
 import al.bruno.financaime.callback.BindingData
 import al.bruno.financaime.callback.OnClickListener
@@ -20,13 +19,10 @@ import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities.month
 import al.bruno.financaime.view.model.BudgetViewModel
 import al.bruno.financaime.view.model.ExpenseViewModel
-import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
 class BudgetFragment : Fragment() {

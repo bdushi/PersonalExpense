@@ -17,7 +17,6 @@ import androidx.databinding.DataBindingUtil
 import java.util.*
 
 class EditBudgetDialog : DialogFragment() {
-    private  var budget = Budget()
     private var onEditListeners: OnEditListeners<Budget>? = null
 
     fun onDialogEditListeners(onEditListeners: OnEditListeners<Budget>): EditBudgetDialog {
@@ -52,8 +51,10 @@ class EditBudgetDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val dialogEditBudgetBinding: DialogEditBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_budget, container, false);
-        dialogEditBudgetBinding.budget = arguments?.getParcelable("CATEGORY") ?: budget
+        val dialogEditBudgetBinding: DialogEditBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_budget, container, false)
+        val budget:Budget = arguments!!.getParcelable("CATEGORY") ?: Budget()
+        dialogEditBudgetBinding.budget = budget
+        dialogEditBudgetBinding.local = budget.budget
         dialogEditBudgetBinding.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)
@@ -62,19 +63,20 @@ class EditBudgetDialog : DialogFragment() {
         }
         dialogEditBudgetBinding.onEditClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
-                val budget = Budget()
-                budget.budget = t.amount
-                //budget.incomes = t.amount
-                budget.date = date()
-                onEditListeners!!.onEdit(budget)
+                if(t.incomes == 0.0 && t.budget == 0.0) {
+                    t.incomes = t.budget
+                    t.date = date()
+                    onEditListeners!!.onEdit(t)
+                } else {
+                    onEditListeners!!.onEdit(t)
+                }
                 dismiss()
             }
         }
         return dialogEditBudgetBinding.root
     }
 
-    /*
-    *  R.id.save -> if (!edit!!.text!!.toString().isEmpty()) {
+    /*R.id.save -> if (!edit!!.text!!.toString().isEmpty()) {
                 if (budget == null) {
                     val data = java.lang.Double.parseDouble(edit!!.text!!.toString())
                     val calendar = Calendar.getInstance()

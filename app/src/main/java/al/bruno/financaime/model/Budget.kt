@@ -20,8 +20,20 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
     var id: Long = 0
     @ColumnInfo(name = "_budget")
     var budget: Double = 0.toDouble()
+        @Bindable
+        get
+        set(value){
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.budget)
+        }
     @ColumnInfo(name = "_incomes")
     var incomes: Double = 0.toDouble()
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.incomes)
+        }
     @ColumnInfo(name = "_date")
     var date: Date? = null
 
