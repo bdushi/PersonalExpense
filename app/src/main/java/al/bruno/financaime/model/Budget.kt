@@ -73,14 +73,6 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         expense = (p0!!.getItemAtPosition(p2) as Categories).category!!
     }
 
-    /*constructor() : this(0, 0.0, 0.0, Date(), 0.0)
-    constructor(id: Long, budget: Double, incomes: Double, date: Date, value: Double) {
-        this.id = id;
-        this.budget = budget;
-        this.incomes = incomes;
-        this.date = date;
-        this.value = value
-    }*/
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
         budget = parcel.readDouble()
