@@ -37,6 +37,9 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
     @ColumnInfo(name = "_date")
     var date: Date? = null
 
+    /*@Embedded(prefix = "_expense")
+    var expense: Expense? = null*/
+
     @Ignore
     var budgetStr: String = ""
     get() {
@@ -49,7 +52,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         }
 
     @Ignore
-    var expense: String = ""
+    var expenseStr: String = ""
 
     @Ignore
     var amount: Double = 1.0
@@ -70,7 +73,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         propertyChangeRegistry.add(callback)
     }
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        expense = (p0!!.getItemAtPosition(p2) as Categories).category!!
+        expenseStr = (p0!!.getItemAtPosition(p2) as Categories).category!!
     }
 
     constructor(parcel: Parcel) : this() {

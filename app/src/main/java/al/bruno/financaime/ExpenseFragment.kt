@@ -68,7 +68,7 @@ class ExpenseFragment : Fragment() {
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 val expense = Expense()
-                expense.expense = t.expense
+                expense.expense = t.expenseStr
                 expense.amount = t.amount
                 expense.date = Utilities.date()
                 expense.idBudget = t.id

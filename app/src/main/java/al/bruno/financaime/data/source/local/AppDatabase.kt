@@ -18,9 +18,10 @@ import androidx.room.migration.Migration
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun budgetDao(): BudgetDao
-    abstract fun budgetDetailsDao(): BudgetDetailsDao
-    abstract fun categoriesDao(): CategoriesDao
     abstract fun expenseDao(): ExpenseDao
+    abstract fun categoriesDao(): CategoriesDao
+    abstract fun budgetMasterDao(): BudgetMasterDao
+    abstract fun budgetDetailsDao(): BudgetDetailsDao
     abstract fun expenseDetailsDao(): ExpenseDetailsDao
     abstract fun settingsDao() : SettingsDao
     companion object {
