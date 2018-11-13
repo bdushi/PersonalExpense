@@ -15,8 +15,10 @@ import al.bruno.financaime.databinding.LogSingleItemBinding
 import al.bruno.financaime.dialog.EditBudgetDialog
 import al.bruno.financaime.dialog.EditIncomesDialog
 import al.bruno.financaime.model.Budget
+import al.bruno.financaime.model.BudgetMaster
 import al.bruno.financaime.model.Expense
 import al.bruno.financaime.util.Utilities.month
+import al.bruno.financaime.view.model.BudgetMasterViewModel
 import al.bruno.financaime.view.model.BudgetViewModel
 import al.bruno.financaime.view.model.ExpenseViewModel
 import androidx.databinding.DataBindingUtil
@@ -34,13 +36,13 @@ class BudgetFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentBudgetBinding: FragmentBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_budget, container, false)
-        ViewModelProviders.of(this).get(BudgetViewModel::class.java).budget(month(month())).observe(this, Observer {
-            run {
-                fragmentBudgetBinding.budget = it ?: Budget()
-            }
-        })
-        fragmentBudgetBinding.onClickListenerEditBudget = object: OnClickListener<Budget> {
-            override fun onClick(t: Budget) {
+        disposable.add(ViewModelProviders.of(this).get(BudgetMasterViewModel::class.java).budget(month(month())).subscribeOn(Schedulers.io()).subscribe({
+            fragmentBudgetBinding.budget = it
+        }, {
+
+        }))
+        fragmentBudgetBinding.onClickListenerEditBudget = object: OnClickListener<BudgetMaster> {
+            override fun onClick(t: BudgetMaster) {
                 EditBudgetDialog
                         .Builder()
                         .setBudget(budget = t)
@@ -64,8 +66,8 @@ class BudgetFragment : Fragment() {
                         .show(fragmentManager, BudgetFragment::class.java.name)
             }
         }
-        fragmentBudgetBinding.onClickListenerEditIncomes = object: OnClickListener<Budget> {
-            override fun onClick(t: Budget) {
+        fragmentBudgetBinding.onClickListenerEditIncomes = object: OnClickListener<BudgetMaster> {
+            override fun onClick(t: BudgetMaster) {
                 EditIncomesDialog
                         .Builder()
                         .setBudget(budget = t)

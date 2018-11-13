@@ -12,8 +12,8 @@ class BudgetRepository(budgetDataSource: BudgetDataSource) : BudgetDataSource {
     }
 
     companion object {
-        private var INSTANCE: BudgetRepository? = null
-        fun getInstance(budgetDataSource: BudgetDataSource) : BudgetRepository? {
+        private var INSTANCE: BudgetDataSource? = null
+        fun getInstance(budgetDataSource: BudgetDataSource) : BudgetDataSource? {
             if(INSTANCE == null)
                 INSTANCE = BudgetRepository(budgetDataSource)
             return INSTANCE

@@ -7,7 +7,7 @@ import android.content.Context
 import androidx.annotation.NonNull
 
 object ExpenseInjection {
-    fun providerExpenseInjection(@NonNull context: Context) : ExpenseRepository? {
+    fun providerExpenseInjection(@NonNull context: Context) : ExpenseDataSource? {
         return ExpenseRepository.newInstance(ExpenseLocalDataSource.INSTANCE(context)!!)
     }
 }

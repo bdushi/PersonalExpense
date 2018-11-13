@@ -6,16 +6,16 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
-class CategoriesLocalDataSource(context: Context) : CategoriesDataSource {
+class CategoriesLocalDataSource(context: Context): CategoriesDataSource {
     private var DATABASE_INSTANCE :AppDatabase
 
     init {
         DATABASE_INSTANCE = AppDatabase.getInstance(context)
     }
     companion object {
-        var INSTANCE: CategoriesLocalDataSource? = null
+        var INSTANCE: CategoriesDataSource? = null
 
-        fun INSTANCE (context: Context) : CategoriesLocalDataSource? {
+        fun INSTANCE (context: Context) : CategoriesDataSource? {
             if(INSTANCE == null)
                 INSTANCE = CategoriesLocalDataSource(context)
             return INSTANCE

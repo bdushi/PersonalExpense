@@ -11,7 +11,7 @@ import io.reactivex.Single
 
 
 class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
-    private val budgetRepository: BudgetRepository
+    private val budgetRepository: BudgetDataSource
     init {
         this.budgetRepository = BudgetInjection.provideBudgetInjection(application)!!;
     }

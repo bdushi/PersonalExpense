@@ -15,8 +15,8 @@ class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
     }
 
     companion object {
-        private var INSTANCE : ExpenseLocalDataSource? = null
-        fun INSTANCE(context: Context) : ExpenseLocalDataSource? {
+        private var INSTANCE : ExpenseDataSource? = null
+        fun INSTANCE(context: Context) : ExpenseDataSource? {
             if(INSTANCE == null)
                 INSTANCE = ExpenseLocalDataSource(context)
             return INSTANCE

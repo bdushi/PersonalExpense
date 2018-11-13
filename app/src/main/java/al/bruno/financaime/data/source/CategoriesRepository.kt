@@ -12,8 +12,8 @@ class CategoriesRepository(categoriesDataSource: CategoriesDataSource) : Categor
     }
 
     companion object {
-        private var INSTANCE : CategoriesRepository? = null
-        fun getInstance(categoriesDataSource: CategoriesDataSource) : CategoriesRepository? {
+        private var INSTANCE : CategoriesDataSource? = null
+        fun getInstance(categoriesDataSource: CategoriesDataSource) : CategoriesDataSource? {
             if(INSTANCE == null)
                 INSTANCE = CategoriesRepository(categoriesDataSource)
             return INSTANCE

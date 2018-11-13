@@ -5,16 +5,16 @@
     <data>
         <variable
             name="budget"
-            type="al.bruno.financaime.model.Budget"/>
+            type="al.bruno.financaime.model.BudgetMaster"/>
         <variable
             name="logAdapter"
             type="al.bruno.financaime.adapter.CustomAdapter"/>
         <variable
             name="onClickListenerEditIncomes"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Budget&gt;"/>
+            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.BudgetMaster&gt;"/>
         <variable
             name="onClickListenerEditBudget"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Budget&gt;"/>
+            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.BudgetMaster&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:id="@+id/budget_incomes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{budget.incomesStr}"
+            android:text="@{budget.budget.incomesStr}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/budget_edit_incomes"
             app:layout_constraintBottom_toBottomOf="@id/budget_edit_incomes"
@@ -66,7 +66,7 @@
             android:id="@+id/budget_budget"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{budget.budgetStr}"
+            android:text="@{budget.budget.budgetStr}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/budget_edit_budget"
             app:layout_constraintTop_toBottomOf="@id/budget_budget_label"

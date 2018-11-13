@@ -12,8 +12,8 @@ class ExpenseRepository(expenseDataSource: ExpenseDataSource) : ExpenseDataSourc
     }
 
     companion object {
-        private var INSTANCE: ExpenseRepository? = null
-        public fun newInstance (expenseDataSource: ExpenseDataSource) : ExpenseRepository? {
+        private var INSTANCE: ExpenseDataSource? = null
+        public fun newInstance (expenseDataSource: ExpenseDataSource) : ExpenseDataSource? {
             if(INSTANCE == null)
                 INSTANCE = ExpenseRepository(expenseDataSource)
             return INSTANCE

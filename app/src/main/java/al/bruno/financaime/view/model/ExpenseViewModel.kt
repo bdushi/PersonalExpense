@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.math.exp
 
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
-    private var expenseRepository: ExpenseRepository
+    private var expenseRepository: ExpenseDataSource
     init {
         expenseRepository = ExpenseInjection.providerExpenseInjection(application)!!
     }

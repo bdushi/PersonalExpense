@@ -13,15 +13,16 @@ class BudgetMasterLocalDataSource(context: Context) : BudgetMasterDataSource {
     }
 
     companion object {
-        var INSTANCE: BudgetMasterLocalDataSource? = null
-        fun INSTANCE(context: Context): BudgetMasterLocalDataSource {
-            if (INSTANCE == null)
+        var INSTANCE: BudgetMasterDataSource? = null
+        fun INSTANCE (context: Context) : BudgetMasterDataSource? {
+            if(INSTANCE == null)
                 INSTANCE = BudgetMasterLocalDataSource(context)
-            return INSTANCE as BudgetMasterLocalDataSource
+            return INSTANCE
         }
+
     }
 
-    override fun budget(month: String): Single<List<BudgetMaster>> {
-        return INSTANCE.budgetMasterDao().budget(month)
+    override fun budget(month: String): Single<BudgetMaster> {
+        return DATABASE_INSTANCE.budgetMasterDao().budget(month)
     }
 }

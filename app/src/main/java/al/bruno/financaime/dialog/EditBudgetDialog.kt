@@ -12,6 +12,7 @@ import al.bruno.financaime.callback.OnClickListener
 import al.bruno.financaime.callback.OnEditListeners
 import al.bruno.financaime.databinding.DialogEditBudgetBinding
 import al.bruno.financaime.model.Budget
+import al.bruno.financaime.model.BudgetMaster
 import al.bruno.financaime.util.Utilities.date
 import androidx.databinding.DataBindingUtil
 import java.util.*
@@ -25,8 +26,8 @@ class EditBudgetDialog : DialogFragment() {
     }
 
     class Builder {
-        private var budget: Budget? = null
-        fun setBudget(budget: Budget): EditBudgetDialog.Builder {
+        private var budget: BudgetMaster? = null
+        fun setBudget(budget: BudgetMaster): EditBudgetDialog.Builder {
             this.budget = budget
             return this
         }
@@ -36,7 +37,7 @@ class EditBudgetDialog : DialogFragment() {
         }
     }
     companion object {
-        private fun newInstance(budget: Budget?): EditBudgetDialog {
+        private fun newInstance(budget: BudgetMaster?): EditBudgetDialog {
             val args = Bundle()
             args.putParcelable("BUDGET", budget);
             val fragment = EditBudgetDialog()
@@ -52,9 +53,9 @@ class EditBudgetDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val dialogEditBudgetBinding: DialogEditBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_budget, container, false)
-        val budget:Budget = arguments!!.getParcelable("BUDGET") ?: Budget()
-        dialogEditBudgetBinding.budget = budget
-        dialogEditBudgetBinding.local = budget.budget
+        val budget:BudgetMaster = arguments!!.getParcelable("BUDGET") ?: BudgetMaster()
+        dialogEditBudgetBinding.budget = budget.budget
+        dialogEditBudgetBinding.local = budget.amount
         dialogEditBudgetBinding.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)

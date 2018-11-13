@@ -18,15 +18,15 @@ class BudgetLocalDataSource : BudgetDataSource {
         this.DATABASE_INSTANCE = DATABASE_INSTANCE
     }
     companion object {
-        var INSTANCE: BudgetLocalDataSource? = null
+        var INSTANCE: BudgetDataSource? = null
 
-        fun INSTANCE(DATABASE_INSTANCE: AppDatabase): BudgetLocalDataSource? {
+        fun INSTANCE(DATABASE_INSTANCE: AppDatabase): BudgetDataSource? {
             if (INSTANCE == null)
                 INSTANCE = BudgetLocalDataSource(DATABASE_INSTANCE)
             return INSTANCE
         }
 
-        fun INSTANCE(context: Context): BudgetLocalDataSource? {
+        fun INSTANCE(context: Context): BudgetDataSource? {
             if (INSTANCE == null)
                 INSTANCE = BudgetLocalDataSource(context)
             return INSTANCE

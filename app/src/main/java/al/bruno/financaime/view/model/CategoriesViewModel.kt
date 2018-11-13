@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 class CategoriesViewModel(application: Application) : AndroidViewModel(application), CategoriesDataSource {
-    private val categoriesRepository: CategoriesRepository
+    private val categoriesRepository: CategoriesDataSource
     init {
         categoriesRepository = CategoriesInjection.providerCategoriesInjection(application)!!
     }

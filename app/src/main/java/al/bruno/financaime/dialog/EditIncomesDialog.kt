@@ -14,6 +14,7 @@ import al.bruno.financaime.callback.OnEditListeners
 import al.bruno.financaime.databinding.DialogEditBudgetBinding
 import al.bruno.financaime.databinding.DialogEditIncomesBinding
 import al.bruno.financaime.model.Budget
+import al.bruno.financaime.model.BudgetMaster
 import al.bruno.financaime.util.Utilities
 import al.bruno.financaime.util.Utilities.date
 import androidx.databinding.DataBindingUtil
@@ -21,9 +22,9 @@ import androidx.databinding.DataBindingUtil
 class EditIncomesDialog : DialogFragment() {
     private var onEditListeners: OnEditListeners<Budget>? = null
     class Builder {
-        private var budget: Budget? = null
+        private var budget: BudgetMaster? = null
 
-        fun setBudget(budget: Budget): EditIncomesDialog.Builder {
+        fun setBudget(budget: BudgetMaster): EditIncomesDialog.Builder {
             this.budget = budget
             return this
         }
@@ -33,7 +34,7 @@ class EditIncomesDialog : DialogFragment() {
         }
     }
     companion object {
-        private fun newInstance(budget: Budget?): EditIncomesDialog {
+        private fun newInstance(budget: BudgetMaster?): EditIncomesDialog {
             val args = Bundle()
             val fragment = EditIncomesDialog()
             args.putParcelable("BUDGET", budget)
@@ -54,7 +55,8 @@ class EditIncomesDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val dialogEditIncomesDialog: DialogEditIncomesBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_incomes, container, false)
-        dialogEditIncomesDialog.budget = arguments?.getParcelable("BUDGET")
+        val budgetMaster: BudgetMaster = arguments!!.getParcelable("BUDGET") ?: BudgetMaster()
+        dialogEditIncomesDialog.budget = budgetMaster.budget
         dialogEditIncomesDialog.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)
