@@ -18,7 +18,7 @@ class CustomSpinnerAdapter<T, VM:ViewDataBinding>(context: Context, r: Int, t : 
 
     init {
         this.t = t
-        this.r = r;
+        this.r = r
         this.bindingInterface = bindingInterface
         themedSpinnerAdapter = ThemedSpinnerAdapter.Helper(context)
     }
@@ -39,5 +39,9 @@ class CustomSpinnerAdapter<T, VM:ViewDataBinding>(context: Context, r: Int, t : 
 
     override fun getDropDownView(position: Int, view: View?, parent: ViewGroup): View {
         return getView(position, view, parent)
+    }
+
+    override fun isEmpty(): Boolean {
+        return t.isEmpty()
     }
 }

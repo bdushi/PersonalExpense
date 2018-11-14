@@ -9,7 +9,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "al.bruno.financaime"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -70,7 +70,7 @@ android {
         //implementation 'pub.devrel:easypermissions:0.3.1'
 
         //ktx
-        implementation 'androidx.core:core-ktx:1.0.0'
+        implementation 'androidx.core:core-ktx:1.0.1'
 
         //DataBinding
         kapt "androidx.databinding:databinding-compiler:3.2.1"

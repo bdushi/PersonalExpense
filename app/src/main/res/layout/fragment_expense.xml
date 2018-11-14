@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_exp"
             android:layout_marginTop="@dimen/margin_5"
-            android:enabled="@{budget == null ? false : ((budget.budget >= budget.amount) ? (budget.amount >= 1 ? true : false) : false)}"
+            android:enabled="@{budget == null ? false : ((budget.budget >= budget.amount) ? (budget.amount >= 1 ? (spinnerAdapter.empty ? false : true) : false) : false)}"
             android:onClick="@{() -> onClickListener.onClick(budget)}"
             app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
             app:layout_constraintEnd_toEndOf="parent"

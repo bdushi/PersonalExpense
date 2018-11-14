@@ -64,7 +64,7 @@ class EditBudgetDialog : DialogFragment() {
         }
         dialogEditBudgetBinding.onEditClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
-                if(t.incomes == 0.0 && t.budget == 0.0) {
+                if(t.id == 0.toLong()) {
                     val b = Budget()
                     b.incomes = t.budget
                     b.budget = t.budget
@@ -72,6 +72,7 @@ class EditBudgetDialog : DialogFragment() {
                     onEditListeners!!.onEdit(b)
                 } else {
                     val b = Budget()
+                    b.id = t.id
                     b.incomes = t.incomes
                     b.budget = t.budget
                     b.date = t.date

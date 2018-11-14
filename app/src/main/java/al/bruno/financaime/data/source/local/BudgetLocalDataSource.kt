@@ -6,6 +6,7 @@ import android.content.Context
 import androidx.annotation.Nullable
 import androidx.lifecycle.LiveData
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class BudgetLocalDataSource : BudgetDataSource {
@@ -37,11 +38,11 @@ class BudgetLocalDataSource : BudgetDataSource {
         return DATABASE_INSTANCE.budgetDao().insert(budget)
     }
 
-    override fun updateBudget(budget: Double, id: Long) {
+    override fun updateBudget(budget: Double, id: Long)/*: Observable<Int>*/ {
         return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
     }
 
-    override fun updateIncomes(incomes: Double, id: Long) {
+    override fun updateIncomes(incomes: Double, id: Long)/*: Observable<Int>*/ {
         return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
     }
 

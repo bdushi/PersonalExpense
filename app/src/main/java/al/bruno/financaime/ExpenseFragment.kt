@@ -51,7 +51,7 @@ class ExpenseFragment : Fragment() {
                                 }
                             })
                 },{
-
+                    Log.i(ExpenseFragment::class.java.name, it.message)
                 }))
 
         fragmentExpenseBinding.onClick = object : OnClick {

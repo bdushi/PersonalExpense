@@ -3,8 +3,6 @@ package al.bruno.financaime.binding.utils
 import al.bruno.financaime.util.Utilities.format
 import androidx.databinding.InverseMethod
 
-
-
 object Converter {
     @InverseMethod("doubleToString")
     fun stringToDouble(quantity: Double): String {
@@ -14,7 +12,7 @@ object Converter {
         try {
             return java.lang.Double.parseDouble(quantity)
         } catch (ex: NumberFormatException) {
-            return 1.0
+            return 0.0
         }
 
     }

@@ -21,6 +21,7 @@ import al.bruno.financaime.util.Utilities.month
 import al.bruno.financaime.view.model.BudgetMasterViewModel
 import al.bruno.financaime.view.model.BudgetViewModel
 import al.bruno.financaime.view.model.ExpenseViewModel
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -61,16 +62,24 @@ class BudgetFragment : Fragment() {
                         .build()
                         .onDialogEditListeners(object : OnEditListeners<Budget> {
                             override fun onEdit(t: Budget) {
-                                disposable.add(ViewModelProviders
-                                        .of(this@BudgetFragment)
-                                        .get(BudgetViewModel::class.java)
-                                        .insert(t)
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe({
-
-                                        }, {
-
-                                        }))
+                                if(t.id == 0.toLong()) {
+                                    disposable.add(ViewModelProviders
+                                            .of(this@BudgetFragment)
+                                            .get(BudgetViewModel::class.java)
+                                            .insert(t)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe({
+                                                Log.i(BudgetFragment::class.java.name, it.toString())
+                                            }, {
+                                                Log.i(BudgetFragment::class.java.name, it.message)
+                                            }))
+                                } else {
+                                    Thread(Runnable {
+                                        ViewModelProviders
+                                                .of(this@BudgetFragment)[BudgetViewModel::class.java]
+                                                .updateBudget(t.budget, t.id)
+                                    }).start()
+                                }
                             }
                             override fun onDismiss(t: Budget) {
                             }
@@ -86,16 +95,24 @@ class BudgetFragment : Fragment() {
                         .build()
                         .onDialogEditListeners(object : OnEditListeners<Budget>{
                             override fun onEdit(t: Budget) {
-                                disposable.add(ViewModelProviders
-                                        .of(this@BudgetFragment)
-                                        .get(BudgetViewModel::class.java)
-                                        .insert(t)
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe({
-
-                                        }, {
-
-                                        }))
+                                if(t.id == 0.toLong()) {
+                                    disposable.add(ViewModelProviders
+                                            .of(this@BudgetFragment)
+                                            .get(BudgetViewModel::class.java)
+                                            .insert(t)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe({
+                                                Log.i(BudgetFragment::class.java.name, it.toString())
+                                            }, {
+                                                Log.i(BudgetFragment::class.java.name, it.message)
+                                            }))
+                                } else {
+                                    Thread(Runnable {
+                                        ViewModelProviders
+                                                .of(this@BudgetFragment)[BudgetViewModel::class.java]
+                                                .updateIncomes(t.incomes, t.id)
+                                    }).start()
+                                }
                             }
                             override fun onDismiss(t: Budget) {
                             }

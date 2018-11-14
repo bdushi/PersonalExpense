@@ -2,7 +2,6 @@ package al.bruno.financaime.data.source
 
 import al.bruno.financaime.model.Budget
 import androidx.lifecycle.LiveData
-import io.reactivex.Completable
 import io.reactivex.Single
 
 class BudgetRepository(budgetDataSource: BudgetDataSource) : BudgetDataSource {
@@ -35,11 +34,11 @@ class BudgetRepository(budgetDataSource: BudgetDataSource) : BudgetDataSource {
     override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
         return budgetDataSource.updateIncomes(incomes, id)
     }*/
-    override fun updateBudget(budget: Double, id: Long) {
+    override fun updateBudget(budget: Double, id: Long)/*: Observable<Int> */{
         return budgetDataSource.updateBudget(budget, id)
     }
 
-    override fun updateIncomes(incomes: Double, id: Long) {
+    override fun updateIncomes(incomes: Double, id: Long)/*: Observable<Int>*/ {
         return budgetDataSource.updateIncomes(incomes, id)
     }
 

@@ -6,29 +6,20 @@
             name="expense"
             type="al.bruno.financaime.model.Expense"/>
     </data>
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_2"
-        app:cardBackgroundColor="@color/transparent"
-        app:contentPadding="@dimen/padding_2"
-        app:cardElevation="@dimen/elevation_0"
-        app:cardMaxElevation="@dimen/elevation_1"
-        app:cardCornerRadius="@dimen/corner_radius_1">
-        <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/right_border">
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{expense.expense}"
-                style="@style/TextAppearance"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@id/expense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{expense.amountStr}"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            android:text="@{expense.expense}"
+            style="@style/TextAppearance"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@id/expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{expense.amountStr}"/>
+    </LinearLayout>
 </layout>
