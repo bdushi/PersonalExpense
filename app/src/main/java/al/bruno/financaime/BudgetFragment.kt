@@ -36,11 +36,23 @@ class BudgetFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentBudgetBinding: FragmentBudgetBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_budget, container, false)
-        disposable.add(ViewModelProviders.of(this).get(BudgetMasterViewModel::class.java).budget(month(month())).subscribeOn(Schedulers.io()).subscribe({
-            fragmentBudgetBinding.budget = it
-        }, {
-
-        }))
+        ViewModelProviders.of(this)
+                .get(BudgetMasterViewModel::class.java)
+                .budget(month(month()))
+                .observe(this, Observer{
+                    run {
+                        fragmentBudgetBinding.budget = it ?: BudgetMaster()
+                    }
+                }
+                /*.subscribeOn(Schedulers.io())
+                .subscribe({
+                    fragmentBudgetBinding.budget = it
+                }, {
+                    Log.i(BudgetFragment::class.java.name, it.message)
+                }, {
+                    fragmentBudgetBinding.budget = BudgetMaster()
+                })*/
+        )
         fragmentBudgetBinding.onClickListenerEditBudget = object: OnClickListener<BudgetMaster> {
             override fun onClick(t: BudgetMaster) {
                 EditBudgetDialog

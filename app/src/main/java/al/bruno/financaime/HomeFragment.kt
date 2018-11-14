@@ -34,41 +34,41 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //date.text = Utilities.monthFormat(calendar)
         /*BudgetDetails budgetDetails =
-                new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));*/
+                new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));*/
 
         /*view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
-                date.setText(Utilities.INSTANCE.monthFormat(calendar));
+                calendar = Utilities.newInstance.monthIncrementAndDecrement(calendar,-1);
+                date.setText(Utilities.newInstance.monthFormat(calendar));
                 BudgetDetails budgetDetails =
-                        new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
-                setData(pieChart, budgetDetails.setDate(Utilities.INSTANCE.date(calendar)));
-                balance.setText(Utilities.INSTANCE.format(budgetDetails.getBalance()));
-                remaining.setText(Utilities.INSTANCE.format(budgetDetails.getBudget()));
-                expense.setText(Utilities.INSTANCE.format(budgetDetails.getExpense()));
-                incomes.setText(Utilities.INSTANCE.format(budgetDetails.getIncomes()));
+                        new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
+                setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
+                balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
+                remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
+                expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
+                incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));
             }
         });
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,+1);
-                date.setText(Utilities.INSTANCE.monthFormat(calendar));
+                calendar = Utilities.newInstance.monthIncrementAndDecrement(calendar,+1);
+                date.setText(Utilities.newInstance.monthFormat(calendar));
                 BudgetDetails budgetDetails =
-                        new Database(getContext()).budgetMaster(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
-                setData(pieChart, budgetDetails.setDate(Utilities.INSTANCE.date(calendar)));
-                balance.setText(Utilities.INSTANCE.format(budgetDetails.getBalance()));
-                remaining.setText(Utilities.INSTANCE.format(budgetDetails.getBudget()));
-                expense.setText(Utilities.INSTANCE.format(budgetDetails.getExpense()));
-                incomes.setText(Utilities.INSTANCE.format(budgetDetails.getIncomes()));
+                        new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
+                setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
+                balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
+                remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
+                expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
+                incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));
             }
         });
-        setData(pieChart, budgetDetails.setDate(Utilities.INSTANCE.date(calendar)));
-        balance.setText(Utilities.INSTANCE.format(budgetDetails.getBalance()));
-        remaining.setText(Utilities.INSTANCE.format(budgetDetails.getBudget()));
-        expense.setText(Utilities.INSTANCE.format(budgetDetails.getExpense()));
-        incomes.setText(Utilities.INSTANCE.format(budgetDetails.getIncomes()));*/
+        setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
+        balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
+        remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
+        expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
+        incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));*/
     }
 
     private fun setData(mChart: PieChart, budgetDetails: BudgetDetails) {

@@ -105,4 +105,8 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+    override fun toString(): String {
+        return "Budget:" + id + "_" + date + "_" + budget + "_" + incomes
+    }
 }

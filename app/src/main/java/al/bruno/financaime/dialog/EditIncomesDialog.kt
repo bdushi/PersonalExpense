@@ -56,7 +56,7 @@ class EditIncomesDialog : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val dialogEditIncomesDialog: DialogEditIncomesBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_edit_incomes, container, false)
         val budgetMaster: BudgetMaster = arguments!!.getParcelable("BUDGET") ?: BudgetMaster()
-        dialogEditIncomesDialog.budget = budgetMaster.budget
+        dialogEditIncomesDialog.budget = budgetMaster.budget ?: Budget()
         dialogEditIncomesDialog.onCancelClickListener = object : OnClickListener<Budget> {
             override fun onClick(t: Budget) {
                 onEditListeners!!.onDismiss(t)

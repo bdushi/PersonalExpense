@@ -70,7 +70,7 @@
                 android:inputType="numberDecimal"
                 android:focusedByDefault="true"
                 android:focusableInTouchMode="true"
-                android:selectAllOnFocus="false"
+                android:selectAllOnFocus="true"
                 android:focusable="true"
                 android:text="@={Converter.INSTANCE.stringToDouble(budget.amount)}"
                 android:enabled="@{budget == null ? false : true}"/>

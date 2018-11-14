@@ -30,11 +30,11 @@ class DetailsFragment : Fragment() {
         val expenseLogCalendarView = view.findViewById<MaterialCalendarView>(R.id.expense_log_calendar_view)
 
         expenseLog.layoutManager = LinearLayoutManager(activity)
-        expenseLog.itemAnimator = DefaultItemAnimator()
+        expenseLog.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
         expenseLog.addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
 
         /*new Handler().post(() -> {
-            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
+            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.newInstance.calendar().getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
@@ -52,7 +52,7 @@ class DetailsFragment : Fragment() {
 
         expenseLogCalendarView.setOnDateChangedListener { widget, date, selected ->
             Handler().post {
-                /*ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
+                /*ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.newInstance.calendar(date).getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {

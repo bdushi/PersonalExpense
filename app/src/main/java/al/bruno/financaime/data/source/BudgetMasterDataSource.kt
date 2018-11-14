@@ -1,8 +1,8 @@
 package al.bruno.financaime.data.source
 
 import al.bruno.financaime.model.BudgetMaster
-import io.reactivex.Single
+import androidx.lifecycle.LiveData
 
 interface BudgetMasterDataSource {
-    fun budget(month: String) : Single<BudgetMaster>
+    fun budget(month: String) : LiveData<BudgetMaster>
 }

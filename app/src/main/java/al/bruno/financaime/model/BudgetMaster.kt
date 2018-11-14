@@ -36,4 +36,8 @@ class BudgetMaster() : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+    override fun toString(): String {
+        return budget.toString() + "_" + amount
+    }
 }

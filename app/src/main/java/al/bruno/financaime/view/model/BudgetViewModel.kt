@@ -3,7 +3,6 @@ package al.bruno.financaime.view.model
 import al.bruno.financaime.data.source.BudgetDataSource
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import al.bruno.financaime.data.source.BudgetRepository
 import al.bruno.financaime.dependency.injection.BudgetInjection
 import al.bruno.financaime.model.Budget
 import androidx.lifecycle.LiveData
@@ -11,10 +10,7 @@ import io.reactivex.Single
 
 
 class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
-    private val budgetRepository: BudgetDataSource
-    init {
-        this.budgetRepository = BudgetInjection.provideBudgetInjection(application)!!;
-    }
+    private val budgetRepository: BudgetDataSource = BudgetInjection.provideBudgetInjection(application)!!
 
     override fun budget (month: String) : LiveData<Budget> {
         return budgetRepository.budget(month);

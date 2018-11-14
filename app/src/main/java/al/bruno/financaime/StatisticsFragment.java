@@ -40,7 +40,7 @@ public class StatisticsFragment extends Fragment {
         BarChart barChart = view.findViewById(R.id.chart);
         /*onChanged(new Database(getContext())
                 .expense(
-                        Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)),
+                        Utilities.newInstance.month(calendar.get(Calendar.MONTH)),
                         String.valueOf(calendar.get(Calendar.YEAR))),
                 barChart);*/
 
@@ -51,7 +51,7 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,-1);
                 date.setText(Utilities.INSTANCE.monthFormat(calendar));
-                //onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                //onChanged(new Database(getContext()).expense(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
         view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
@@ -59,7 +59,7 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View view) {
                 calendar = Utilities.INSTANCE.monthIncrementAndDecrement(calendar,+1);
                 date.setText(Utilities.INSTANCE.monthFormat(calendar));
-                //onChanged(new Database(getContext()).expense(Utilities.INSTANCE.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
+                //onChanged(new Database(getContext()).expense(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))), barChart);
             }
         });
     }
