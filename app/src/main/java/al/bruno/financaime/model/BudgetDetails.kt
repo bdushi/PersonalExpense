@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 
 @DatabaseView("SELECT " +
+        "b._date AS _date, " +
         "b._budget AS _budget, " +
         "b._incomes AS _incomes, " +
         "TOTAL(e._amount) AS _amount, " +
@@ -20,4 +21,22 @@ class BudgetDetails() {
     var expense:Float = 0.toFloat()
     @ColumnInfo(name = "_balance")
     var balance:Float = 0.toFloat()
+
+    /*val decimalFormat = DecimalFormat("LEK ###,###.###")
+    var budgetStr : String? = ""
+        get() {
+            return decimalFormat.format(budget)
+        }
+    var incomesStr : String? = ""
+        get() {
+            return decimalFormat.format(incomes)
+        }
+    var expenseStr : String? = ""
+        get() {
+            return decimalFormat.format(expense)
+        }
+    var balanceStr : String? = ""
+    get() {
+        return decimalFormat.format(balance)
+    }*/
 }

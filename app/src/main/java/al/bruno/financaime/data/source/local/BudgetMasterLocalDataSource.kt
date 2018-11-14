@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 class BudgetMasterLocalDataSource(context: Context) : BudgetMasterDataSource {
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
     companion object {
-        var INSTANCE: BudgetMasterDataSource? = null
+        private var INSTANCE: BudgetMasterDataSource? = null
         fun newInstance (context: Context) : BudgetMasterDataSource? {
             if(INSTANCE == null)
                 INSTANCE = BudgetMasterLocalDataSource(context)

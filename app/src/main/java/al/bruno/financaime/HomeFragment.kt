@@ -1,5 +1,6 @@
 package al.bruno.financaime
 
+import al.bruno.financaime.databinding.FragmentHomeBinding
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -23,19 +24,33 @@ import java.util.Calendar
 
 import al.bruno.financaime.model.BudgetDetails
 import al.bruno.financaime.util.Utilities
+import al.bruno.financaime.view.model.BudgetDetailsViewModel
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class HomeFragment : Fragment() {
     private val calendar = Calendar.getInstance()
+    private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val fragmentManager: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        disposable.add(ViewModelProviders
+                .of(this)[BudgetDetailsViewModel::class.java]
+                .budgetDetails(Utilities.month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                },{
+
+                }))
+
+        return fragmentManager.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))
         //date.text = Utilities.monthFormat(calendar)
-        /*BudgetDetails budgetDetails =
-                new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));*/
-
         /*view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +84,10 @@ class HomeFragment : Fragment() {
         remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
         expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
         incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));*/
+    }
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 
     private fun setData(mChart: PieChart, budgetDetails: BudgetDetails) {
