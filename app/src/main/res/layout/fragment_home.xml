@@ -1,103 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <com.google.android.material.appbar.AppBarLayout
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/decrement"
-                android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/AppTheme.AppBarOverlay">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_5"
-                android:src="@drawable/ic_chevron_left_white_36"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/date"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:layout_weight="1"
-                style="@style/TextAppearance.AppCompat.Large"/>
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/increment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/padding_5"
-                android:src="@drawable/ic_chevron_right_white_36dp"/>
-        </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/decrement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_5"
+                    android:src="@drawable/ic_chevron_left_white_36"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    style="@style/TextAppearance.AppCompat.Large"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/increment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/padding_5"
+                    android:src="@drawable/ic_chevron_right_white_36dp"/>
+            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/summary"
-        android:layout_marginStart="@dimen/margin_10"
-        android:layout_marginEnd="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginBottom="@dimen/margin_5"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/margin_10"
-        android:layout_marginEnd="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginBottom="@dimen/margin_5">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_summary_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/summary"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_5"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_date_layout"/>
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"/>
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_10"
+            app:layout_constraintBottom_toBottomOf="@+id/home_remaining"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/home_balance_label"
+            app:layout_constraintEnd_toStartOf="@id/home_balance_label"
+            app:layout_constraintHorizontal_weight="1"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_balance_label"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/balance"
-                style="@style/Base.TextAppearance.AppCompat.Body2" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Large" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_20"
-                android:text="@string/remaining"
-                style="@style/Base.TextAppearance.AppCompat.Body2" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/remaining"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                style="@style/Base.TextAppearance.AppCompat.Body2" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_10">
+            android:text="@string/balance"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_10"
+            app:layout_constraintTop_toBottomOf="@id/home_summary_label"
+            app:layout_constraintStart_toEndOf="@id/pie_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            style="@style/Base.TextAppearance.AppCompat.Body2" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_10"
+            app:layout_constraintTop_toBottomOf="@id/home_balance_label"
+            app:layout_constraintStart_toEndOf="@id/pie_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            style="@style/Base.TextAppearance.AppCompat.Large" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_remaining_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:text="@string/remaining"
+            app:layout_constraintTop_toBottomOf="@id/home_balance"
+            app:layout_constraintStart_toEndOf="@id/pie_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/home_remaining"
+            app:layout_constraintHorizontal_weight="2"
+            style="@style/Base.TextAppearance.AppCompat.Body2" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/home_remaining"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_10"
+            app:layout_constraintTop_toBottomOf="@id/home_remaining_label"
+            app:layout_constraintStart_toEndOf="@id/pie_chart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            style="@style/Base.TextAppearance.AppCompat.Body2" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/home_expense_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:background="@color/colorAccent">
+            android:background="@color/colorAccent"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginStart="@dimen/margin_10"
+            app:layout_constraintEnd_toStartOf="@id/home_incomes_layout"
+            app:layout_constraintTop_toBottomOf="@id/home_remaining"
+            app:layout_constraintStart_toStartOf="parent">
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,26 +138,32 @@
                 android:gravity="center"
                 style="@style/Base.TextAppearance.AppCompat.Body2"/>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/home_incomes_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary">
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/home_expense_layout"
+            app:layout_constraintTop_toBottomOf="@id/home_remaining">
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Base.TextAppearance.AppCompat.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_5"
                 android:gravity="center"
-                android:text="@string/incomes"
-                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                android:padding="@dimen/padding_5"
+                android:text="@string/incomes" />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/incomes"
+                style="@style/Base.TextAppearance.AppCompat.Body2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/padding_5"
                 android:gravity="center"
-                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                android:padding="@dimen/padding_5" />
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
