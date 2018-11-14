@@ -7,7 +7,6 @@ import io.reactivex.Single
 
 class BudgetDetailsLocalDataSource(context: Context) : BudgetDetailsDataSource {
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
-
     companion object {
         private var INSTANCE: BudgetDetailsDataSource? = null
         fun newInstance (context: Context): BudgetDetailsDataSource?  {

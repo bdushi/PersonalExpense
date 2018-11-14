@@ -86,6 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_5"
             android:layout_marginEnd="@dimen/margin_10"
+            android:text="@{budgetDetails.balanceStr}"
             app:layout_constraintTop_toBottomOf="@id/home_balance_label"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +113,7 @@
             android:layout_marginStart="@dimen/margin_5"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginEnd="@dimen/margin_10"
+            android:text="@{budgetDetails.budgetStr}"
             app:layout_constraintTop_toBottomOf="@id/home_remaining_label"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -141,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_5"
                 android:gravity="center"
+                android:text="@{budgetDetails.expenseStr}"
                 style="@style/Base.TextAppearance.AppCompat.Body2"/>
         </LinearLayout>
 
@@ -168,7 +171,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/padding_5" />
+                android:padding="@dimen/padding_5"
+                android:text="@{budgetDetails.incomesStr}"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

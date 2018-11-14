@@ -1,8 +1,12 @@
 package al.bruno.financaime.model
 
+import al.bruno.financaime.util.Utilities
 import androidx.room.ColumnInfo
 
 import androidx.room.DatabaseView
+import androidx.room.Ignore
+import com.amitshekhar.utils.Utils
+import java.text.DecimalFormat
 
 @DatabaseView("SELECT " +
         "b._date AS _date, " +
@@ -22,21 +26,26 @@ class BudgetDetails() {
     @ColumnInfo(name = "_balance")
     var balance:Float = 0.toFloat()
 
-    /*val decimalFormat = DecimalFormat("LEK ###,###.###")
+    @Ignore
+    val decimalFormat = DecimalFormat("LEK ###,###.###")
+    @Ignore
     var budgetStr : String? = ""
         get() {
             return decimalFormat.format(budget)
         }
+    @Ignore
     var incomesStr : String? = ""
         get() {
             return decimalFormat.format(incomes)
         }
+    @Ignore
     var expenseStr : String? = ""
         get() {
             return decimalFormat.format(expense)
         }
+    @Ignore
     var balanceStr : String? = ""
     get() {
         return decimalFormat.format(balance)
-    }*/
+    }
 }

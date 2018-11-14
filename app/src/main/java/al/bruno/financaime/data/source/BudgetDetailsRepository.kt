@@ -5,7 +5,9 @@ import io.reactivex.Single
 
 class BudgetDetailsRepository(budgetDetailsDataSource: BudgetDetailsDataSource) : BudgetDetailsDataSource {
     private var budgetDetailsDataSource: BudgetDetailsDataSource? = null
-
+    init {
+        this.budgetDetailsDataSource = budgetDetailsDataSource
+    }
     companion object {
         private var INSTANCE: BudgetDetailsDataSource? = null
         fun getInstance (budgetMasterDataSource: BudgetDetailsDataSource): BudgetDetailsDataSource? {
