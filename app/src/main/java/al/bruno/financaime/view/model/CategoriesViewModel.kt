@@ -8,21 +8,21 @@ import androidx.lifecycle.AndroidViewModel
 import io.reactivex.Single
 
 class CategoriesViewModel(application: Application) : AndroidViewModel(application), CategoriesDataSource {
-    private val categoriesRepository: CategoriesDataSource = CategoriesInjection.providerCategoriesInjection(application)!!
+    private val categoriesDataSource: CategoriesDataSource = CategoriesInjection.providerCategoriesInjection(application)!!
 
     override fun insert(categories: Categories): Single<Long> {
-        return categoriesRepository.insert(categories)
+        return categoriesDataSource.insert(categories)
     }
 
     override fun update(categories: Categories): Single<Int> {
-        return categoriesRepository.update(categories)
+        return categoriesDataSource.update(categories)
     }
 
     override fun delete(categories: Categories): Single<Int> {
-        return categoriesRepository.delete(categories)
+        return categoriesDataSource.delete(categories)
     }
 
     override fun categories(): Single<List<Categories>> {
-        return categoriesRepository.categories()
+        return categoriesDataSource.categories()
     }
 }

@@ -10,4 +10,7 @@ object BudgetDetailsInjection {
     fun provideBudgetDetailsInjection(@NonNull context: Context): BudgetDetailsDataSource? {
         return BudgetDetailsRepository.getInstance(BudgetDetailsLocalDataSource.newInstance(context)!!)
     }
+    fun provideBudgetDestroyInstance() {
+        return BudgetDetailsRepository.destroyInstance()
+    }
 }

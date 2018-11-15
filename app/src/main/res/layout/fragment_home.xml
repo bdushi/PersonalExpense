@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:bind="http://schemas.android.com/tools">
     <data>
         <variable
             name="budgetDetails"
             type="al.bruno.financaime.model.BudgetDetails"/>
+        <variable
+            name="decrementOnClick"
+            type="al.bruno.financaime.callback.OnClick"/>
+        <variable
+            name="incrementOnClick"
+            type="al.bruno.financaime.callback.OnClick"/>
+        <variable
+            name="pieData"
+            type="al.bruno.financaime.entities.PieDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -62,11 +71,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_10"
+            android:contentDescription="@string/add_your_incomes"
+            bind:pieData="@{pieData}"
             app:layout_constraintBottom_toBottomOf="@+id/home_remaining"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/home_balance_label"
             app:layout_constraintEnd_toStartOf="@id/home_balance_label"
-            app:layout_constraintHorizontal_weight="1"/>
+            app:layout_constraintHorizontal_weight="2"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/home_balance_label"
             android:layout_width="0dp"
@@ -118,7 +129,7 @@
             app:layout_constraintStart_toEndOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
-            style="@style/Base.TextAppearance.AppCompat.Body2" />
+            style="@style/Base.TextAppearance.AppCompat.Large" />
         <LinearLayout
             android:id="@+id/home_expense_layout"
             android:layout_width="0dp"

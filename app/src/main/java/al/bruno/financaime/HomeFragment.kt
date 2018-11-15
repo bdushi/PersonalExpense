@@ -1,15 +1,15 @@
 package al.bruno.financaime
 
+import al.bruno.financaime.callback.OnClick
 import al.bruno.financaime.databinding.FragmentHomeBinding
+import al.bruno.financaime.entities.PieDataObject
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -23,74 +23,74 @@ import java.util.ArrayList
 import java.util.Calendar
 
 import al.bruno.financaime.model.BudgetDetails
-import al.bruno.financaime.util.Utilities
+import al.bruno.financaime.util.Utilities.month
+import al.bruno.financaime.util.Utilities.monthFormat
+import al.bruno.financaime.util.Utilities.monthIncrementAndDecrement
 import al.bruno.financaime.view.model.BudgetDetailsViewModel
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class HomeFragment : Fragment() {
-    private val calendar = Calendar.getInstance()
+    private var calendar = Calendar.getInstance()
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentManager: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         disposable.add(ViewModelProviders
                 .of(this)[BudgetDetailsViewModel::class.java]
-                .budgetDetails(Utilities.month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
+                    fragmentManager.budgetDetails = it
+                    fragmentManager.pieData = setData(budgetDetails = it)
                 },{
-
+                    Log.i(HomeFragment::class.java.name, it.message)
                 }))
+        fragmentManager.date.text = monthFormat(calendar)
 
+        fragmentManager.decrementOnClick = object : OnClick {
+            override fun onClick() {
+                calendar = monthIncrementAndDecrement(calendar,-1)
+                fragmentManager.date.text = monthFormat(calendar)
+                disposable.add(ViewModelProviders
+                        .of(this@HomeFragment)[BudgetDetailsViewModel::class.java]
+                        .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentManager.budgetDetails = it
+                            fragmentManager.pieData = setData(budgetDetails = it)
+                        },{
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }))
+            }
+        }
+        fragmentManager.incrementOnClick = object : OnClick {
+            override fun onClick() {
+                calendar = monthIncrementAndDecrement(calendar,+1)
+                fragmentManager.date.text = monthFormat(calendar)
+                disposable.add(ViewModelProviders
+                        .of(this@HomeFragment)[BudgetDetailsViewModel::class.java]
+                        .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentManager.budgetDetails = it
+                            fragmentManager.pieData = setData(budgetDetails = it)
+                        },{
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }))
+            }
+        }
         return fragmentManager.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR))
-        //date.text = Utilities.monthFormat(calendar)
-        /*view.findViewById(R.id.decrement).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar = Utilities.newInstance.monthIncrementAndDecrement(calendar,-1);
-                date.setText(Utilities.newInstance.monthFormat(calendar));
-                BudgetDetails budgetDetails =
-                        new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
-                setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
-                balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
-                remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
-                expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
-                incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));
-            }
-        });
-        view.findViewById(R.id.increment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                calendar = Utilities.newInstance.monthIncrementAndDecrement(calendar,+1);
-                date.setText(Utilities.newInstance.monthFormat(calendar));
-                BudgetDetails budgetDetails =
-                        new Database(getContext()).budgetMaster(Utilities.newInstance.month(calendar.get(Calendar.MONTH)), String.valueOf(calendar.get(Calendar.YEAR)));
-                setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
-                balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
-                remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
-                expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
-                incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));
-            }
-        });
-        setData(pieChart, budgetDetails.setDate(Utilities.newInstance.date(calendar)));
-        balance.setText(Utilities.newInstance.format(budgetDetails.getBalance()));
-        remaining.setText(Utilities.newInstance.format(budgetDetails.getBudget()));
-        expense.setText(Utilities.newInstance.format(budgetDetails.getExpense()));
-        incomes.setText(Utilities.newInstance.format(budgetDetails.getIncomes()));*/
-    }
     override fun onStop() {
         super.onStop()
         disposable.clear()
     }
 
-    private fun setData(mChart: PieChart, budgetDetails: BudgetDetails) {
+    private fun setData(budgetDetails: BudgetDetails): PieDataObject<String, PieData> {
         val entries = ArrayList<PieEntry>()
         entries.add(PieEntry((budgetDetails.expense / budgetDetails.incomes) * 100, getString(R.string.expense)))
         entries.add(PieEntry((budgetDetails.balance / budgetDetails.incomes) * 100, getString(R.string.balance)))
@@ -129,8 +129,6 @@ class HomeFragment : Fragment() {
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
-        mChart.description.text = getString(R.string.app_name)
-        mChart.data = data
-        mChart.invalidate()
+        return PieDataObject(getString(R.string.app_name), pieData = data)
     }
 }
