@@ -37,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/padding_5"
+                    android:onClick="@{()->decrementOnClick.onClick()}"
                     android:src="@drawable/ic_chevron_left_white_36"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/date"
@@ -51,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/padding_5"
+                    android:onClick="@{()->incrementOnClick.onClick()}"
                     android:src="@drawable/ic_chevron_right_white_36dp"/>
             </LinearLayout>
         </com.google.android.material.appbar.AppBarLayout>

@@ -1,7 +1,10 @@
 package al.bruno.financaime
 
 import al.bruno.financaime.callback.OnClick
+import al.bruno.financaime.data.source.BudgetDataSource
+import al.bruno.financaime.data.source.BudgetDetailsDataSource
 import al.bruno.financaime.databinding.FragmentHomeBinding
+import al.bruno.financaime.dependency.injection.BudgetDetailsInjection
 import al.bruno.financaime.entities.PieDataObject
 import android.graphics.Color
 import android.os.Bundle
@@ -26,6 +29,7 @@ import al.bruno.financaime.model.BudgetDetails
 import al.bruno.financaime.util.Utilities.month
 import al.bruno.financaime.util.Utilities.monthFormat
 import al.bruno.financaime.util.Utilities.monthIncrementAndDecrement
+import al.bruno.financaime.util.ViewModelProviderFactory
 import al.bruno.financaime.view.model.BudgetDetailsViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -36,10 +40,13 @@ import io.reactivex.schedulers.Schedulers
 class HomeFragment : Fragment() {
     private var calendar = Calendar.getInstance()
     private val disposable : CompositeDisposable = CompositeDisposable()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentManager: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        val budgetDetailsDataSource: BudgetDetailsDataSource = BudgetDetailsInjection.provideBudgetDetailsInjection(context!!)
+        val factory = ViewModelProviderFactory(BudgetDetailsViewModel(budgetDetailsDataSource))
         disposable.add(ViewModelProviders
-                .of(this)[BudgetDetailsViewModel::class.java]
+                .of(this, factory)[BudgetDetailsViewModel::class.java]
                 .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -55,13 +62,15 @@ class HomeFragment : Fragment() {
                 calendar = monthIncrementAndDecrement(calendar,-1)
                 fragmentManager.date.text = monthFormat(calendar)
                 disposable.add(ViewModelProviders
-                        .of(this@HomeFragment)[BudgetDetailsViewModel::class.java]
+                        .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
                         .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentManager.budgetDetails = it
                             fragmentManager.pieData = setData(budgetDetails = it)
                         },{
+                            fragmentManager.budgetDetails = null
+                            fragmentManager.pieData = null
                             Log.i(HomeFragment::class.java.name, it.message)
                         }))
             }
@@ -71,13 +80,15 @@ class HomeFragment : Fragment() {
                 calendar = monthIncrementAndDecrement(calendar,+1)
                 fragmentManager.date.text = monthFormat(calendar)
                 disposable.add(ViewModelProviders
-                        .of(this@HomeFragment)[BudgetDetailsViewModel::class.java]
+                        .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
                         .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentManager.budgetDetails = it
                             fragmentManager.pieData = setData(budgetDetails = it)
                         },{
+                            fragmentManager.budgetDetails = null
+                            fragmentManager.pieData = null
                             Log.i(HomeFragment::class.java.name, it.message)
                         }))
             }
