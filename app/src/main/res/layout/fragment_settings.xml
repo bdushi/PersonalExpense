@@ -1,92 +1,108 @@
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:padding="@dimen/padding_24">
+
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/settings_general_label"
         style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/general"
-        android:textColor="@color/colorAccent" />
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@id/auto_expense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/auto_expense_label"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/margin_5">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/auto_expense_label"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|start"
+        android:text="@string/manual_expense"
+        app:layout_constraintBottom_toBottomOf="@+id/auto_expense"
+        app:layout_constraintEnd_toStartOf="@+id/auto_expense"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/auto_expense" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/auto_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:checked="false"
+        android:padding="@dimen/padding_10"
+        app:layout_constraintBottom_toTopOf="@id/incomes_input_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/auto_expense_label"
+        app:layout_constraintTop_toBottomOf="@+id/settings_general_label" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/incomes_input_label"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="@string/incomes"
+        app:layout_constraintBottom_toBottomOf="@+id/incomes_input_layout"
+        app:layout_constraintEnd_toStartOf="@+id/incomes_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/incomes_input_layout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/incomes_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        app:layout_constraintBottom_toTopOf="@id/budget_input_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/incomes_input_label"
+        app:layout_constraintTop_toBottomOf="@id/auto_expense">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_default_incomes"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/manual_expense"
-            android:gravity="center_vertical|start"
-            android:layout_weight="1"/>
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/auto_expense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:checked="false"
-            android:padding="@dimen/padding_5"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/incomes_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/margin_5">
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/incomes"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/incomes_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_default_incomes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:hint="@string/edit"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+            android:gravity="center"
+            android:hint="@string/edit"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/budget_layout"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/budget_input_label"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_5"
-        android:orientation="horizontal">
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/budget"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/budget_input_layout"
-            android:layout_width="0pt"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_default_budget"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:hint="@string/edit"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+        android:layout_gravity="center_vertical"
+        android:text="@string/budget"
+        app:layout_constraintBottom_toBottomOf="@+id/budget_input_layout"
+        app:layout_constraintEnd_toStartOf="@+id/budget_input_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/budget_input_layout" />
 
-    </LinearLayout>
-</LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/budget_input_layout"
+        android:layout_width="0pt"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/budget_input_label"
+        app:layout_constraintTop_toBottomOf="@+id/incomes_input_layout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edit_default_budget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:hint="@string/edit"
+            android:inputType="numberDecimal"
+            android:selectAllOnFocus="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
