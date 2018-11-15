@@ -11,10 +11,6 @@
                 android:title="@string/title_map"
                 android:icon="@drawable/ic_google_maps_black_24d"/>
             <item
-                android:id="@+id/youtube"
-                android:title="@string/title_youtube"
-                android:icon="@drawable/ic_youtube_black_24d"/>
-            <item
                 android:id="@+id/statistics"
                 android:title="@string/title_statistics"
                 android:icon="@drawable/ic_statistics_black_24d"/>

@@ -1,10 +1,8 @@
 package al.bruno.financaime
 
 import al.bruno.financaime.callback.OnClick
-import al.bruno.financaime.data.source.BudgetDataSource
-import al.bruno.financaime.data.source.BudgetDetailsDataSource
 import al.bruno.financaime.databinding.FragmentHomeBinding
-import al.bruno.financaime.dependency.injection.BudgetDetailsInjection
+import al.bruno.financaime.dependency.injection.BudgetDetailsInjection.provideBudgetDetailsInjection
 import al.bruno.financaime.entities.PieDataObject
 import android.graphics.Color
 import android.os.Bundle
@@ -43,8 +41,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentManager: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        val budgetDetailsDataSource: BudgetDetailsDataSource = BudgetDetailsInjection.provideBudgetDetailsInjection(context!!)
-        val factory = ViewModelProviderFactory(BudgetDetailsViewModel(budgetDetailsDataSource))
+        val factory = ViewModelProviderFactory(BudgetDetailsViewModel(provideBudgetDetailsInjection(context!!)))
         disposable.add(ViewModelProviders
                 .of(this, factory)[BudgetDetailsViewModel::class.java]
                 .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())

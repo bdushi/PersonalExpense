@@ -20,7 +20,6 @@ interface ExpenseDao {
     fun expenses(month: String) : LiveData<List<Expense>>
 
     @Query("SELECT * FROM expense WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year GROUP BY TRIM(_expense)")
-    //@Query("SELECT * FROM expense WHERE strftime('%m',datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year ")
     fun expenses(month: String, year: String) : LiveData<List<Expense>>
 
     @Query("SELECT _date FROM expense")

@@ -8,8 +8,7 @@ import androidx.annotation.NonNull
 
 object BudgetDetailsInjection {
     fun provideBudgetDetailsInjection(@NonNull context: Context): BudgetDetailsDataSource {
-        val dataSource = BudgetDetailsRepository.getInstance(BudgetDetailsLocalDataSource.newInstance(context)!!)
-        return dataSource!!
+        return BudgetDetailsRepository.getInstance(BudgetDetailsLocalDataSource.newInstance(context)!!)!!
     }
     fun provideBudgetDestroyInstance() {
         return BudgetDetailsRepository.destroyInstance()

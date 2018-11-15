@@ -45,8 +45,6 @@ android {
         //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
         implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
 
-        //youtube
-        implementation files('libs/YouTubeAndroidPlayerApi.jar')
         //google map
         implementation 'com.google.android.gms:play-services-maps:16.0.0'
         implementation 'com.google.android.gms:play-services-location:16.0.0'
