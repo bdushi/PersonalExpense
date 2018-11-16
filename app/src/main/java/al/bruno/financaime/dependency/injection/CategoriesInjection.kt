@@ -8,6 +8,6 @@ import androidx.annotation.NonNull
 
 object CategoriesInjection {
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
-        return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)
+        return CategoriesRepository.getInstance(CategoriesLocalDataSource.newInstance(context)!!)
     }
 }

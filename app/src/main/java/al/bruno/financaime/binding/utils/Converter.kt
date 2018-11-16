@@ -9,11 +9,10 @@ object Converter {
         return format(quantity, 1)
     }
     fun doubleToString(quantity: String): Double {
-        try {
-            return java.lang.Double.parseDouble(quantity)
+        return try {
+            java.lang.Double.parseDouble(quantity)
         } catch (ex: NumberFormatException) {
-            return 0.0
+            0.0
         }
-
     }
 }

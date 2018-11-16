@@ -43,10 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:focusedByDefault="true"
-                android:focusableInTouchMode="true"
-                android:selectAllOnFocus="false"
-                android:focusable="true"
+                android:selectAllOnFocus="true"
                 android:hint="@string/budget"
                 android:text="@={Converter.INSTANCE.stringToDouble(budget.budget)}"/>
         </com.google.android.material.textfield.TextInputLayout>

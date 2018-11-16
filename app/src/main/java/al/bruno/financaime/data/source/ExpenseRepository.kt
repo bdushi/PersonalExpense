@@ -6,14 +6,11 @@ import io.reactivex.Single
 import java.util.*
 
 class ExpenseRepository(expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
-    private var expenseDataSource: ExpenseDataSource
-    init {
-        this.expenseDataSource = expenseDataSource
-    }
+    private var expenseDataSource: ExpenseDataSource = expenseDataSource
 
     companion object {
         private var INSTANCE: ExpenseDataSource? = null
-        public fun newInstance (expenseDataSource: ExpenseDataSource) : ExpenseDataSource? {
+        fun newInstance (expenseDataSource: ExpenseDataSource) : ExpenseDataSource? {
             if(INSTANCE == null)
                 INSTANCE = ExpenseRepository(expenseDataSource)
             return INSTANCE

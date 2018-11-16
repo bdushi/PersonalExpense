@@ -1,27 +1,50 @@
 package al.bruno.financaime.model
 
-import androidx.room.ColumnInfo
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
+import androidx.room.*
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "settings")
-class Settings() {
-    @PrimaryKey(autoGenerate = true)
+@Entity(tableName = "settings", indices = arrayOf(Index(value = arrayOf("_id") , unique = true)))
+class Settings() : Observable {
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "_id")
     var id: Long = 0
     @ColumnInfo(name = "_budget")
     var budget: Double = 0.toDouble()
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.budget)
+        }
     @ColumnInfo(name = "_incomes")
     var incomes: Double = 0.toDouble()
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.incomes)
+        }
     @ColumnInfo(name = "_auto")
     var auto: Boolean = false
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.auto)
+        }
 
-    /*constructor() : this(0, 0.0, 0.0, false)
-    constructor(id: Long, budget: Double, incomes: Double, auto: Boolean) {
-        this.id = id;
-        this.budget = budget;
-        this.incomes = incomes;
-        this.auto = auto;
-    }*/
+    constructor(id:Long) : this() {
+        this.id = id
+    }
+    @Ignore
+    private val propertyChangeRegistry = PropertyChangeRegistry()
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        propertyChangeRegistry.remove(callback);
+    }
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        propertyChangeRegistry.add(callback)
+    }
 }

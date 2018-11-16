@@ -44,6 +44,7 @@
             android:id="@+id/edit_categories_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_title">
@@ -51,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
+                android:selectAllOnFocus="true"
                 android:onTextChanged="@{onTextChangedListener::onTextChanged}"
                 android:text="@={categories.category}"
                 android:hint="@{hint}"/>

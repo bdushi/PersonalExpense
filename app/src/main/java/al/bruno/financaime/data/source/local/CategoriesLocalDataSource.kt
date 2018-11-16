@@ -7,35 +7,30 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 class CategoriesLocalDataSource(context: Context): CategoriesDataSource {
-    private var DATABASE_INSTANCE :AppDatabase
-
-    init {
-        DATABASE_INSTANCE = AppDatabase.getInstance(context)
-    }
+    private var appDatabase :AppDatabase = AppDatabase.getInstance(context)
     companion object {
         var INSTANCE: CategoriesDataSource? = null
-
-        fun INSTANCE (context: Context) : CategoriesDataSource? {
+        fun newInstance (context: Context) : CategoriesDataSource? {
             if(INSTANCE == null)
                 INSTANCE = CategoriesLocalDataSource(context)
             return INSTANCE
         }
-
     }
+    
     override fun insert(categories: Categories): Single<Long> {
-        return DATABASE_INSTANCE.categoriesDao().insert(categories)
+        return appDatabase.categoriesDao().insert(categories)
     }
 
     override fun update(categories: Categories): Single<Int> {
-        return DATABASE_INSTANCE.categoriesDao().update(categories)
+        return appDatabase.categoriesDao().update(categories)
     }
 
     override fun delete(categories: Categories): Single<Int> {
-        return DATABASE_INSTANCE.categoriesDao().delete(categories)
+        return appDatabase.categoriesDao().delete(categories)
     }
 
     override fun categories(): Single<List<Categories>> {
-        return DATABASE_INSTANCE.categoriesDao().categories()
+        return appDatabase.categoriesDao().categories()
     }
 
 }

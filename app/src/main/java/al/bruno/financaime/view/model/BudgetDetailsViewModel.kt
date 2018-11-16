@@ -10,7 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 
-class BudgetDetailsViewModel(private val budgetDetailsDataSource: BudgetDetailsDataSource) : ViewModel(), BudgetDetailsDataSource {
+class BudgetDetailsViewModel(val budgetDetailsDataSource: BudgetDetailsDataSource) : ViewModel(), BudgetDetailsDataSource {
     override fun budgetDetails(month: String, year: String): Single<BudgetDetails> {
         return budgetDetailsDataSource.budgetDetails(month, year)
     }
