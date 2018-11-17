@@ -12,7 +12,7 @@
             type="al.bruno.financaime.callback.OnClick"/>
         <variable
             name="pieData"
-            type="al.bruno.financaime.entities.PieDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
+            type="al.bruno.financaime.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

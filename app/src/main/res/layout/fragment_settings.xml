@@ -79,7 +79,8 @@
                 android:hint="@string/edit"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(settings.incomes)}" />
+                android:text="@={Converter.INSTANCE.stringToDouble(settings.incomes)}"
+                android:enabled="@{settings.auto ? true : false}"  />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -111,7 +112,8 @@
                 android:hint="@string/edit"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(settings.budget)}" />
+                android:text="@={Converter.INSTANCE.stringToDouble(settings.budget)}"
+                android:enabled="@{settings.auto ? true : false}" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

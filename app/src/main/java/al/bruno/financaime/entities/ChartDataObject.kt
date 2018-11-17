@@ -1,6 +1,6 @@
 package al.bruno.financaime.entities
 
-class PieDataObject<T, L>(id: T, pieData: L) {
+class ChartDataObject<T, L>(id: T, pieData: L) {
     var id: T = id
         get() {
             return field

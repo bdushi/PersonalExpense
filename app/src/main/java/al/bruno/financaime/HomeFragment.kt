@@ -3,7 +3,7 @@ package al.bruno.financaime
 import al.bruno.financaime.callback.OnClick
 import al.bruno.financaime.databinding.FragmentHomeBinding
 import al.bruno.financaime.dependency.injection.BudgetDetailsInjection.provideBudgetDetailsInjection
-import al.bruno.financaime.entities.PieDataObject
+import al.bruno.financaime.entities.ChartDataObject
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
         disposable.clear()
     }
 
-    private fun setData(budgetDetails: BudgetDetails): PieDataObject<String, PieData> {
+    private fun setData(budgetDetails: BudgetDetails): ChartDataObject<String, PieData> {
         val entries = ArrayList<PieEntry>()
         entries.add(PieEntry((budgetDetails.expense / budgetDetails.incomes) * 100, getString(R.string.expense)))
         entries.add(PieEntry((budgetDetails.balance / budgetDetails.incomes) * 100, getString(R.string.balance)))
@@ -137,6 +137,6 @@ class HomeFragment : Fragment() {
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
-        return PieDataObject(getString(R.string.app_name), pieData = data)
+        return ChartDataObject(getString(R.string.app_name), pieData = data)
     }
 }

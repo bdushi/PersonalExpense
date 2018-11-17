@@ -8,7 +8,7 @@ import com.github.mikephil.charting.data.PieData;
 
 import al.bruno.financaime.SimpleItemTouchHelper;
 import al.bruno.financaime.callback.OnSwipeItemListener;
-import al.bruno.financaime.entities.PieDataObject;
+import al.bruno.financaime.entities.ChartDataObject;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +32,7 @@ public class Adapter {
     }
 
     @BindingAdapter("bind:pieData")
-    public static void setData(PieChart pieChart, PieDataObject<String, PieData> pieData) {
+    public static void setData(PieChart pieChart, ChartDataObject<String, PieData> pieData) {
         if(pieData != null) {
             pieChart.getDescription().setText(pieData.getId());
             pieChart.setRotationEnabled(false);
@@ -45,6 +45,8 @@ public class Adapter {
             pieChart.setData(pieData.getPieData());
             pieChart.invalidate();
         } else {
+            pieChart.setData(null);
+            pieChart.invalidate();
             pieChart.setNoDataText("Nuk ka te dhena per kete raport");
         }
     }
