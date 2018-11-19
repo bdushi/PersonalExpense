@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/app_name"
+        android:icon="@drawable/ic_dots_vertical_white_36dp"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/map"
+                android:title="@string/title_map"
+                android:icon="@drawable/ic_google_maps_black_24d"/>
+            <item
+                android:id="@+id/statistics"
+                android:title="@string/title_statistics"
+                android:icon="@drawable/ic_statistics_black_24d"/>
+            <item
+                android:id="@+id/settings"
+                android:title="@string/title_settings"
+                android:icon="@drawable/ic_settings_black_24dp"/>
+        </menu>
+    </item>
+</menu>

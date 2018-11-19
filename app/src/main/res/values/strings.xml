@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">FinancaIme</string>
+    <string name="title_home">Home</string>
+    <string name="title_budget">Buxheti</string>
+    <string name="title_expense">Shpenzimet</string>
+    <string name="title_expense_log">Historiku</string>
+    <string name="title_map">Harta</string>
+    <string name="title_youtube">Youtube</string>
+    <string name="title_statistics">Statistika</string>
+    <string name="title_settings">Cilesimet</string>
+    <string name="cancel">Anulo</string>
+    <string name="save">Ruaj</string>
+    <string name="add_value">Shto</string>
+    <string name="add_your_budget">Shto Buxhet</string>
+    <string name="add_your_incomes">Shto te Ardhura</string>
+    <string name="budget">Buxhet</string>
+    <string name="out_of_incomes_alert">I keni shpenzuar te ardhurave</string>
+    <string name="out_of_incomes">Jashte te ardhurave</string>
+    <string name="out_of_budget">Jashte te buxhetit</string>
+    <string name="success">Transaksion i Skusesshem</string>
+    <string name="fail">Transaksioni Deshtoi</string>
+
+    <string name="incomes">Te Ardhura</string>
+    <string name="edit">Modifiko</string>
+    <string name="add_exp">Shto Shpenzim</string>
+    <string name="value">Vlera</string>
+    <string name="add_budget_hint">"Buxheti: "</string>
+    <string name="total">"Totali"</string>
+    <string name="google_maps_key">"AIzaSyB5GA-7rNUwLtNt0GPVwX1UOwW1M2PaHK8"</string>
+    <string name="general">"Kryesor"</string>
+    <string name="expense_categories">"Kategorit"</string>
+    <string name="incomes_alert">"Te ardhurat nuk mund te jen me te vogela se buxheti"</string>
+    <string name="add_categories">Kategori Shpenzimesh</string>
+    <string name="categories">Kategori</string>
+    <string name="expense">Shpenzime</string>
+
+    <string name="alert">Ju lutem vendosni nje vlere</string>
+    <string name="summary">Permbledhie</string>
+    <string name="balance">BALANCA</string>
+    <string name="remaining">MBETUR</string>
+    <string name="automatic_expense">"Shpenzime Automatic"</string>
+    <string name="manual_expense">"Shpenzime Manual"</string>
+    <string name="budget_grater_than_incomes">Budget must not be grater then Incomes</string>
+    <string-array name="category_arrays">
+        <item>Rent</item>
+        <item>Food</item>
+        <item>Shopping</item>
+        <item>Transport</item>
+        <item>Other</item>
+        <item>Fixed</item>
+    </string-array>
+</resources>
