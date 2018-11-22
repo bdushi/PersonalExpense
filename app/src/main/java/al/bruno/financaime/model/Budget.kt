@@ -2,6 +2,7 @@ package al.bruno.financaime.model
 
 import al.bruno.financaime.callback.OnItemSelectedListener
 import al.bruno.financaime.util.Utilities.format
+import al.bruno.financaime.R
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
