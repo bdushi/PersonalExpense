@@ -2,7 +2,6 @@ package al.bruno.financaime
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.analytics.FirebaseAnalytics
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -13,8 +12,6 @@ class HostActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
-        //google analitics
-        FirebaseAnalytics.getInstance(this)
         //inflater home fragment
         supportFragmentManager
                 .beginTransaction()

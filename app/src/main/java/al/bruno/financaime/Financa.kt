@@ -11,6 +11,8 @@ class Financa : Application() {
     val ACTION_PROCESS_UPDATES = " al.bruno.financaime.PROCESS_UPDATES"
     override fun onCreate() {
         super.onCreate()
+        //google analitics
+        //FirebaseAnalytics.getInstance(this)
         /*WorkManager
                 .getInstance()
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
