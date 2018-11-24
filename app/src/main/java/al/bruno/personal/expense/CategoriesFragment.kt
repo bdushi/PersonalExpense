@@ -13,7 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.personal.expense.model.Categories
-import al.bruno.personal.expense.observer.Subject
+import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
 import androidx.databinding.DataBindingUtil
@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListener<MutableList<Any?>>, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
-    private val registry = ArrayList<al.bruno.personal.expense.observer.Observer<Categories> >()
+    private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories> >()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentCategoriesBinding = DataBindingUtil.inflate<FragmentCategoriesBinding>(inflater, R.layout.fragment_categories, container, false);
@@ -62,7 +62,7 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                 }.subscribe())
     }
     override fun onDismiss(t: Categories) {
-        notifyObserver(t)
+        notifyObserverChanged(t)
     }
 
     override fun onClick(t: MutableList<Any?>) {
@@ -107,11 +107,11 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                 .onCategoriesEditListener(this)
                 .show(fragmentManager, CategoriesFragment::class.java.name)
     }
-    override fun registerObserver(o: al.bruno.personal.expense.observer.Observer<Categories>) {
+    override fun registerObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
         registry.add(o)
     }
 
-    override fun removeObserver(o: al.bruno.personal.expense.observer.Observer<Categories>) {
+    override fun removeObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
         if(registry.indexOf(o) >= 0)
             registry.remove(o);
     }
@@ -127,7 +127,7 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
         }
     }
 
-    override fun notifyObserver(t: Categories) {
+    override fun notifyObserverChanged(t: Categories) {
         for (observer in registry) {
             observer.update(t)
         }

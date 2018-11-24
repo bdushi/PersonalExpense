@@ -47,4 +47,8 @@ class Settings() : Observable {
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         propertyChangeRegistry.add(callback)
     }
+
+    override fun toString(): String {
+        return "_$id $budget $incomes $auto"
+    }
 }

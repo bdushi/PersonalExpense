@@ -3,6 +3,8 @@ package al.bruno.personal.expense
 import al.bruno.financaime.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.databinding.FragmentSettingsBinding
 import al.bruno.personal.expense.model.Settings
+import al.bruno.personal.expense.observer.Observer
+import al.bruno.personal.expense.observer.Subject
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.SettingsViewModel
 import android.os.Bundle
@@ -17,8 +19,9 @@ import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), Subject<Settings> {
     private val disposable : CompositeDisposable = CompositeDisposable()
+    private var observer = ArrayList<Observer<Settings>>()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentSettingsBinding: FragmentSettingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
         val factory = ViewModelProviderFactory(SettingsViewModel(providerSettingsInjection(context!!)!!))
@@ -47,7 +50,7 @@ class SettingsFragment : Fragment() {
                 }))
         settings.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                Toast.makeText(context, "LENGTH", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, settings.toString(), Toast.LENGTH_SHORT).show()
                 disposable
                         .add(ViewModelProviders
                                 .of(this@SettingsFragment)[SettingsViewModel::class.java]
@@ -60,6 +63,17 @@ class SettingsFragment : Fragment() {
             }
         })
         return fragmentSettingsBinding.root;
+    }
+    override fun registerObserver(o: Observer<Settings>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun removeObserver(o: Observer<Settings>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun notifyObserver(t: Settings) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
     override fun onStop() {
         super.onStop()

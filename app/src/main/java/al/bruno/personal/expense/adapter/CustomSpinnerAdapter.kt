@@ -9,25 +9,13 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.widget.ThemedSpinnerAdapter
 import androidx.databinding.ViewDataBinding
 
-class CustomSpinnerAdapter<T, VM:ViewDataBinding>(context: Context, r: Int, t : List<T>, bindingInterface: BindingData<T, VM>)
-    : ArrayAdapter<T>(context, r, t) {
-    private val t: List<T>
-    private val r: Int
-    private val bindingInterface: BindingData<T, VM>
-    private val themedSpinnerAdapter: ThemedSpinnerAdapter.Helper
-
-    init {
-        this.t = t
-        this.r = r
-        this.bindingInterface = bindingInterface
-        themedSpinnerAdapter = ThemedSpinnerAdapter.Helper(context)
-    }
-
+class CustomSpinnerAdapter<T, VM:ViewDataBinding>(context: Context, private val r: Int, private val t: List<T>, private val bindingInterface: BindingData<T, VM>) : ArrayAdapter<T>(context, r, t) {
+    private val themedSpinnerAdapter: ThemedSpinnerAdapter.Helper = ThemedSpinnerAdapter.Helper(context)
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         var contentView = view;
         if(contentView == null) {
             contentView = themedSpinnerAdapter.dropDownViewInflater.inflate(r, parent, false)
-            val spinnerHolder = SpinnerViewHolder<T, VM>(contentView, bindingInterface)
+            val spinnerHolder = SpinnerViewHolder(contentView, bindingInterface)
             spinnerHolder.bind(t[position])
             contentView.tag = spinnerHolder
         } else {
