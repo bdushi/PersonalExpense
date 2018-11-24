@@ -1,14 +1,14 @@
 package al.bruno.financaime.view.model
 
 import al.bruno.financaime.data.source.CategoriesDataSource
-import al.bruno.financaime.dependency.injection.CategoriesInjection
+import al.bruno.financaime.dependency.injection.InjectionProvider.providerCategoriesInjection
 import al.bruno.financaime.model.Categories
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import io.reactivex.Single
 
 class CategoriesViewModel(application: Application) : AndroidViewModel(application), CategoriesDataSource {
-    private val categoriesDataSource: CategoriesDataSource = CategoriesInjection.providerCategoriesInjection(application)!!
+    private val categoriesDataSource: CategoriesDataSource = providerCategoriesInjection(application)!!
 
     override fun insert(categories: Categories): Single<Long> {
         return categoriesDataSource.insert(categories)

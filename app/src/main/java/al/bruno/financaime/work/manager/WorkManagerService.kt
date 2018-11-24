@@ -1,7 +1,7 @@
 package al.bruno.financaime.work.manager
 
-import al.bruno.financaime.dependency.injection.BudgetInjection
 import al.bruno.financaime.dependency.injection.InjectionProvider
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetInjection
 import al.bruno.financaime.model.Budget
 import android.content.Context
 import androidx.work.Worker
@@ -32,7 +32,7 @@ class WorkManagerService(val context: Context, workerParams: WorkerParameters) :
                 budget.budget = it.budget
                 budget.incomes = it.incomes
                 budget.date = calendar.time
-                disposable.add(BudgetInjection.provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
+                disposable.add(provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
 
                 }, {
 

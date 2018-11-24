@@ -15,7 +15,6 @@ import androidx.databinding.PropertyChangeRegistry
 
 @Entity(tableName = "budget",  indices = arrayOf(Index(value = arrayOf("_date") , unique = true)))
 class Budget() : Observable, OnItemSelectedListener, Parcelable {
-
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
@@ -54,6 +53,12 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
 
     @Ignore
     var expenseStr: String = ""
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.financaime.BR.expenseStr)
+        }
 
     @Ignore
     var amount: Double = 1.0

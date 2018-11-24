@@ -1,16 +1,16 @@
 package al.bruno.financaime.view.model
 
 import al.bruno.financaime.data.source.BudgetDataSource
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetInjection
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import al.bruno.financaime.dependency.injection.BudgetInjection
 import al.bruno.financaime.model.Budget
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 
 class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
-    private val budgetRepository: BudgetDataSource = BudgetInjection.provideBudgetInjection(application)!!
+    private val budgetRepository: BudgetDataSource = provideBudgetInjection(application)!!
 
     override fun budget (month: String) : LiveData<Budget> {
         return budgetRepository.budget(month);

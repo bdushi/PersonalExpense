@@ -2,7 +2,7 @@ package al.bruno.financaime
 
 import al.bruno.financaime.callback.OnClick
 import al.bruno.financaime.databinding.FragmentHomeBinding
-import al.bruno.financaime.dependency.injection.BudgetDetailsInjection.provideBudgetDetailsInjection
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetDetailsInjection
 import al.bruno.financaime.entities.ChartDataObject
 import android.graphics.Color
 import android.os.Bundle
