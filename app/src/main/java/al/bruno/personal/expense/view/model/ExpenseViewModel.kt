@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.view.model
 
+import al.bruno.financaime.dependency.injection.InjectionProvider.providerExpenseInjection
 import al.bruno.personal.expense.data.source.ExpenseDataSource
-import al.bruno.personal.expense.dependency.injection.ExpenseInjection
 import al.bruno.personal.expense.model.Expense
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,7 +10,7 @@ import io.reactivex.Single
 import java.util.*
 
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
-    private var expenseRepository: ExpenseDataSource = ExpenseInjection.providerExpenseInjection(application)!!
+    private var expenseRepository: ExpenseDataSource = providerExpenseInjection(application)!!
     override fun insert(expense: Expense): Single<Long> {
         return expenseRepository.insert(expense)
     }

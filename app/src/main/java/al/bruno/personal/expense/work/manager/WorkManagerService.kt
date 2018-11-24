@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.work.manager
 
-import al.bruno.personal.expense.dependency.injection.BudgetInjection
-import al.bruno.personal.expense.dependency.injection.InjectionProvider
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetInjection
+import al.bruno.financaime.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.model.Budget
 import android.content.Context
 import androidx.work.Worker
@@ -27,12 +27,12 @@ class WorkManagerService(val context: Context, workerParams: WorkerParameters) :
                         calendar[Calendar.MONTH] == 10 ||
                         calendar[Calendar.MONTH] == 11 ||
                         calendar[Calendar.MONTH] == 12) && calendar[Calendar.DAY_OF_MONTH] == 1) {
-            disposable.addAll(InjectionProvider.providerSettingsInjection(context)!!.settings(1).subscribeOn(Schedulers.io()).subscribe({
+            disposable.addAll(providerSettingsInjection(context)!!.settings(1).subscribeOn(Schedulers.io()).subscribe({ b ->
                 val budget = Budget()
-                budget.budget = it.budget
-                budget.incomes = it.incomes
+                budget.budget = b.budget
+                budget.incomes = b.incomes
                 budget.date = calendar.time
-                disposable.add(BudgetInjection.provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
+                disposable.add(provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
 
                 }, {
 

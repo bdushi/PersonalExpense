@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
-        android:name="al.bruno.personal.expense.Financa"
+        android:name=".Financa"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="al.bruno.personal.expense.HostActivity"
+            android:name=".HostActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|screenSize">

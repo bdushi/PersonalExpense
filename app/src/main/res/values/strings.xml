@@ -41,6 +41,7 @@
     <string name="automatic_expense">"Shpenzime Automatic"</string>
     <string name="manual_expense">"Shpenzime Manual"</string>
     <string name="budget_grater_than_incomes">Budget must not be grater then Incomes</string>
+    <string name="error">Error</string>
     <string-array name="category_arrays">
         <item>Rent</item>
         <item>Food</item>

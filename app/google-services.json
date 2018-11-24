@@ -8,22 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:490369727690:android:2d03282a04b575d5",
+        "mobilesdk_app_id": "1:490369727690:android:e217210299698a1b",
         "android_client_info": {
-          "package_name": "al.bruno.financaime"
+          "package_name": "al.bruno.personal.expense"
         }
       },
       "oauth_client": [
         {
-          "client_id": "490369727690-6hd49bfnc2d14nqbo8kh6u4a1ipi7uv6.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "490369727690-h5nv4bvqmpbk46r1aero7gjjhpkjmslf.apps.googleusercontent.com",
+          "client_id": "490369727690-hng0jhv6p4nm29q93dcdsptb7tt7qt83.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "al.bruno.financaime",
-            "certificate_hash": "d88ae9c9223086c69d36135f1bd4b0d47ba93cd1"
+            "package_name": "al.bruno.personal.expense",
+            "certificate_hash": "91dac3ce887db8bf1874a8b90e2adc298bf7b5dd"
           }
         },
         {

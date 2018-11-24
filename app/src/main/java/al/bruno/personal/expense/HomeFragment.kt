@@ -1,8 +1,8 @@
 package al.bruno.personal.expense
 
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetDetailsInjection
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
-import al.bruno.personal.expense.dependency.injection.BudgetDetailsInjection.provideBudgetDetailsInjection
 import al.bruno.personal.expense.entities.ChartDataObject
 import android.graphics.Color
 import android.os.Bundle

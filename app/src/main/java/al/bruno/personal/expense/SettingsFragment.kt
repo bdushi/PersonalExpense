@@ -1,7 +1,7 @@
 package al.bruno.personal.expense
 
+import al.bruno.financaime.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.databinding.FragmentSettingsBinding
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.model.Settings
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.SettingsViewModel
@@ -27,14 +27,14 @@ class SettingsFragment : Fragment() {
                 .of(this, factory)[SettingsViewModel::class.java]
                 .settings(1)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentSettingsBinding.settings = it
-                    it.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+                .subscribe({ iSettings ->
+                    fragmentSettingsBinding.settings = iSettings
+                    iSettings.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
                         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                             disposable
                                     .add(ViewModelProviders
                                             .of(this@SettingsFragment)[SettingsViewModel::class.java]
-                                            .insert(it)
+                                            .insert(iSettings)
                                             .subscribeOn(Schedulers.io()).subscribe({
 
                                             }, {

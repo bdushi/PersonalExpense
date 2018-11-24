@@ -12,6 +12,8 @@ class HostActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+        //google analitics
+        //FirebaseAnalytics.getInstance(this)
         //inflater home fragment
         supportFragmentManager
                 .beginTransaction()

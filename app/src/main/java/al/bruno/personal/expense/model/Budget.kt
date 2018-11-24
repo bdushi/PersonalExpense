@@ -53,6 +53,12 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
 
     @Ignore
     var expenseStr: String = ""
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.expenseStr)
+        }
 
     @Ignore
     var amount: Double = 1.0

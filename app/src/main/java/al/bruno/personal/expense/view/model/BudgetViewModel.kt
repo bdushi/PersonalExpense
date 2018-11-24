@@ -1,16 +1,16 @@
 package al.bruno.personal.expense.view.model
 
+import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetInjection
 import al.bruno.personal.expense.data.source.BudgetDataSource
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import al.bruno.personal.expense.dependency.injection.BudgetInjection
 import al.bruno.personal.expense.model.Budget
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 
 class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
-    private val budgetRepository: BudgetDataSource = BudgetInjection.provideBudgetInjection(application)!!
+    private val budgetRepository: BudgetDataSource = provideBudgetInjection(application)!!
 
     override fun budget (month: String) : LiveData<Budget> {
         return budgetRepository.budget(month);
