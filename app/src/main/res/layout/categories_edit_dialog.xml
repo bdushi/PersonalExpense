@@ -4,7 +4,7 @@
     <data>
         <variable
             name="categories"
-            type="al.bruno.financaime.model.Categories"/>
+            type="al.bruno.personal.expense.model.Categories"/>
         <variable
             name="hint"
             type="String"/>
@@ -16,10 +16,10 @@
             type="String"/>
         <variable
             name="onEditListeners"
-            type="al.bruno.financaime.callback.OnEditListeners&lt;al.bruno.financaime.model.Categories&gt;"/>
+            type="al.bruno.personal.expense.callback.OnEditListeners&lt;al.bruno.personal.expense.model.Categories&gt;"/>
         <variable
             name="onTextChangedListener"
-            type="al.bruno.financaime.callback.OnTextChangedListener"/>
+            type="al.bruno.personal.expense.callback.OnTextChangedListener"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

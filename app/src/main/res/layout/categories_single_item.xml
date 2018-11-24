@@ -4,10 +4,10 @@
     <data>
         <variable
             name="categories"
-            type="al.bruno.financaime.model.Categories"/>
+            type="al.bruno.personal.expense.model.Categories"/>
         <variable
             name="onItemClickListener"
-            type="al.bruno.financaime.callback.OnItemClickListener&lt;al.bruno.financaime.model.Categories&gt;"/>
+            type="al.bruno.personal.expense.callback.OnItemClickListener&lt;al.bruno.personal.expense.model.Categories&gt;"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"

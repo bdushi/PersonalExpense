@@ -3,16 +3,16 @@
     <data>
         <variable
             name="budgetDetails"
-            type="al.bruno.financaime.model.BudgetDetails"/>
+            type="al.bruno.personal.expense.model.BudgetDetails"/>
         <variable
             name="decrementOnClick"
-            type="al.bruno.financaime.callback.OnClick"/>
+            type="al.bruno.personal.expense.callback.OnClick"/>
         <variable
             name="incrementOnClick"
-            type="al.bruno.financaime.callback.OnClick"/>
+            type="al.bruno.personal.expense.callback.OnClick"/>
         <variable
             name="pieData"
-            type="al.bruno.financaime.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
+            type="al.bruno.personal.expense.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

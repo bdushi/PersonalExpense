@@ -4,14 +4,14 @@
     <data>
         <variable
             name="budget"
-            type="al.bruno.financaime.model.Budget"/>
+            type="al.bruno.personal.expense.model.Budget"/>
         <variable
             name="onEditClickListener"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Budget&gt;"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Budget&gt;"/>
         <variable
             name="onCancelClickListener"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Budget&gt;"/>
-        <import type="al.bruno.financaime.binding.utils.Converter"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Budget&gt;"/>
+        <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

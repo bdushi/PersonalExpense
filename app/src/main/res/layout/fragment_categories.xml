@@ -5,13 +5,13 @@
     <data>
         <variable
             name="customAdapter"
-            type="al.bruno.financaime.adapter.CustomAdapter"/>
+            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
         <variable
             name="onClick"
-            type="al.bruno.financaime.callback.OnClickListener"/>
+            type="al.bruno.personal.expense.callback.OnClickListener"/>
         <variable
             name="onItemSwipeSelectListener"
-            type="al.bruno.financaime.callback.OnItemSwipeSelectListener"/>
+            type="al.bruno.personal.expense.callback.OnItemSwipeSelectListener"/>
     </data>
     <RelativeLayout
         android:layout_width="match_parent"

@@ -5,18 +5,18 @@
     <data>
         <variable
             name="budget"
-            type="al.bruno.financaime.model.Budget"/>
+            type="al.bruno.personal.expense.model.Budget"/>
         <variable
             name="onClickListener"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.Budget&gt;"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Budget&gt;"/>
         <variable
             name="onClick"
-            type="al.bruno.financaime.callback.OnClick"/>
+            type="al.bruno.personal.expense.callback.OnClick"/>
         <variable
             name="spinnerAdapter"
-            type="al.bruno.financaime.adapter.CustomSpinnerAdapter"/>
+            type="al.bruno.personal.expense.adapter.CustomSpinnerAdapter"/>
 
-        <import type="al.bruno.financaime.binding.utils.Converter"/>
+        <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

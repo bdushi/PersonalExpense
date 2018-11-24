@@ -5,16 +5,16 @@
     <data>
         <variable
             name="budget"
-            type="al.bruno.financaime.model.BudgetMaster"/>
+            type="al.bruno.personal.expense.model.BudgetMaster"/>
         <variable
             name="logAdapter"
-            type="al.bruno.financaime.adapter.CustomAdapter"/>
+            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
         <variable
             name="onClickListenerEditIncomes"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.BudgetMaster&gt;"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.BudgetMaster&gt;"/>
         <variable
             name="onClickListenerEditBudget"
-            type="al.bruno.financaime.callback.OnClickListener&lt;al.bruno.financaime.model.BudgetMaster&gt;"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.BudgetMaster&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="categories"
-            type="al.bruno.financaime.model.Categories"/>
+            type="al.bruno.personal.expense.model.Categories"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
         xmlns:android="http://schemas.android.com/apk/res/android"

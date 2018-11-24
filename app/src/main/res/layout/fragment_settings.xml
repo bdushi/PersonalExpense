@@ -2,8 +2,8 @@
     <data>
         <variable
             name="settings"
-            type="al.bruno.financaime.model.Settings"/>
-        <import type="al.bruno.financaime.binding.utils.Converter"/>
+            type="al.bruno.personal.expense.model.Settings"/>
+        <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
