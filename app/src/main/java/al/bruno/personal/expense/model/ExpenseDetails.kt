@@ -23,13 +23,12 @@ class ExpenseDetails() {
     var id:Long = 0
     @ColumnInfo(name = "_total")
     var total:String? = null
-    //, projection = arrayOf("_id", "_expense", "_amount", "_date")
-    @Relation(entity = Expense::class, parentColumn = "_id" ,entityColumn = "_id")
-    var expenses: List<Expense> = ArrayList()
+    @Relation(entity = Expense::class, parentColumn = "_id", entityColumn = "_id_budget")
+    var expenses: List<Expense>? = null
     @Ignore
     var adapter : CustomAdapter<Expense, ExpenseSingleItemBinding>? = null
     get(){
-        return CustomAdapter(expenses, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+        return CustomAdapter(expenses!!, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
             override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
                 vm.expense = t
             }
