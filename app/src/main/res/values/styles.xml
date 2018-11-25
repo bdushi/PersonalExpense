@@ -49,4 +49,11 @@
     <style name="TextAppearance" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">#000</item>
     </style>
+
+    <style name="Base.TextAppearance.AppCompat.Small.Black" parent="Base.TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="Base.TextAppearance.AppCompat.Medium.Black" parent="Base.TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

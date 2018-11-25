@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/id"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{expense.idStr}"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,18 +22,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/expense_name"
             app:layout_constraintHorizontal_weight="1"
-            style="@style/Base.TextAppearance.AppCompat.Small"/>
+            style="@style/Base.TextAppearance.AppCompat.Medium.Black"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/expense_name"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@{expense.expense}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/id"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/expense_value"
             app:layout_constraintHorizontal_weight="8"
-            style="@style/Base.TextAppearance.AppCompat.Medium"/>
+            style="@style/Base.TextAppearance.AppCompat.Medium.Black"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/expense_value"
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/expense_name"
             app:layout_constraintEnd_toStartOf="@id/date"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/Base.TextAppearance.AppCompat.Small"/>
+            style="@style/Base.TextAppearance.AppCompat.Small.Black"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date"
             android:layout_width="0dp"
@@ -53,6 +53,6 @@
             app:layout_constraintStart_toEndOf="@+id/expense_value"
             app:layout_constraintBottom_toBottomOf="@id/expense_value"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/Base.TextAppearance.AppCompat.Small"/>
+            style="@style/Base.TextAppearance.AppCompat.Small.Black"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

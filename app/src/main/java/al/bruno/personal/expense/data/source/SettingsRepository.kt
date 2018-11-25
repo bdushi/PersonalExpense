@@ -3,8 +3,7 @@ package al.bruno.personal.expense.data.source
 import al.bruno.personal.expense.model.Settings
 import io.reactivex.Single
 
-class SettingsRepository(settingsDataSource: SettingsDataSource) : SettingsDataSource {
-    private val settingsDataSource: SettingsDataSource = settingsDataSource;
+class SettingsRepository(private val settingsDataSource: SettingsDataSource) : SettingsDataSource {
     companion object {
         private var settingsDataSource: SettingsDataSource? = null
         fun getInstance(mSettingsDataSource: SettingsDataSource): SettingsDataSource? {

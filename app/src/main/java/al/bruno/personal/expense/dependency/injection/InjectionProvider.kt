@@ -27,4 +27,7 @@ object InjectionProvider {
     fun providerSettingsInjection(@NonNull context: Context) : SettingsDataSource? {
         return SettingsRepository.getInstance(SettingsLocalDataSource.INSTANCE(context)!!)
     }
+    fun providerExpenseDetailsInjection(@NonNull context: Context): ExpenseDetailsDataSource? {
+        return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.INSTANCE(context)!!)
+    }
 }

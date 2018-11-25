@@ -1,27 +1,44 @@
 package al.bruno.personal.expense.model
 
-import java.util.ArrayList
+import al.bruno.personal.expense.R
+import al.bruno.personal.expense.adapter.CustomAdapter
+import al.bruno.personal.expense.callback.BindingData
+import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding
+import androidx.room.ColumnInfo
 
 import androidx.room.DatabaseView
 import androidx.room.Ignore
+import androidx.room.Relation
+import java.util.ArrayList
 
 @DatabaseView("SELECT " +
-        "e._id AS _id, " +
         "e._expense AS _expense, " +
         "e._amount AS _amount, " +
         "e._date AS _date, " +
-        "(SELECT sum(_amount) FROM expense WHERE _date = e._date) AS _total " +
-        "FROM expense AS e", viewName = "expense_details")
+        "(SELECT COUNT(*) FROM expense AS ee WHERE ee._id >= e._id) AS _id, " +
+        "(SELECT TOTAL(ee._amount) FROM expense AS ee WHERE ee._expense = e._expense) AS _total " +
+        "FROM expense AS e " +
+        "GROUP BY TRIM(e._expense)" +
+        "ORDER BY _id ASC", viewName = "expense_details")
 class ExpenseDetails() {
-    var id: Long = 1
-    var total = "0"
+    @ColumnInfo(name = "_id")
+    var id:Long = 0
+    @ColumnInfo(name = "_total")
+    var total:String? = null
+    //, projection = arrayOf("_id", "_expense", "_amount", "_date")
+    @Relation(entity = Expense::class, parentColumn = "_id",entityColumn = "_id")
+    var expenses: List<Expense> = ArrayList()
     @Ignore
-    var expenses: ArrayList<Expense> = ArrayList()
+    var adapter : CustomAdapter<Expense, ExpenseSingleItemBinding>? = null
+    get(){
+        return CustomAdapter(expenses, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+            override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
+                vm.expense = t
+            }
+        })
+    }
 
-    /*constructor() : this(0, "0", ArrayList())
-    constructor(id:Long, total:String, expenses: ArrayList<Expense>) {
-        this.id = id;
-        this.total = total
-        this.expenses = expenses
-    }*/
+    override fun toString(): String {
+        return "$id-$total:$expenses"
+    }
 }

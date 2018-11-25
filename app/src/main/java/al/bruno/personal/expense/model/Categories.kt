@@ -21,15 +21,9 @@ class Categories() : Observable, Parcelable {
         field = value
         propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.category)
     }
-
     @Ignore
     var propertyChangeRegistry = PropertyChangeRegistry()
 
-    /*constructor() : this(0, "")
-        constructor(id:Long, category: String) {
-            this.id = id
-            this.category = category
-        }*/
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
     }

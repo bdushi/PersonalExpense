@@ -113,6 +113,6 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
     }
 
     override fun toString(): String {
-        return "Budget:" + id + "_" + date + "_" + budget + "_" + incomes
+        return "$id-$date$budget$incomes"
     }
 }

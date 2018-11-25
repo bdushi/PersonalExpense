@@ -37,15 +37,8 @@ class Expense() {
     get() {
         return dateFormat(date!!)
     }
-    override fun toString(): String {
-        return expense + " " + amount + " " + date + " " + idBudget + " " + id
-    }
 
-    /*constructor() : this(0, "", 0.0, Date())
-    constructor(id: Long, expense: String, value: Double, date: Date) {
-        this.id = id
-        this.expense = expense
-        this.value = value
-        this.date = date
-    }*/
+    override fun toString(): String {
+        return "$id-$expense:$amount:$date:$idBudget"
+    }
 }

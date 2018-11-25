@@ -38,6 +38,6 @@ class BudgetMaster() : Parcelable {
     }
 
     override fun toString(): String {
-        return budget.toString() + "_" + amount
+        return "$budget.toString()$amount"
     }
 }

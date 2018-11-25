@@ -7,7 +7,6 @@ import android.content.Context
 import androidx.room.*
 import androidx.room.Database
 
-
 @Database(
         entities = arrayOf(User::class, Budget::class, Categories::class, Settings::class, Expense::class),
         views = arrayOf(BudgetDetails::class, ExpenseDetails::class),

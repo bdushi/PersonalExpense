@@ -8,7 +8,7 @@ import io.reactivex.Single
 class CategoriesLocalDataSource(context: Context): CategoriesDataSource {
     private var appDatabase :AppDatabase = AppDatabase.getInstance(context)
     companion object {
-        var INSTANCE: CategoriesDataSource? = null
+        private var INSTANCE: CategoriesDataSource? = null
         fun INSTANCE (context: Context) : CategoriesDataSource? {
             if(INSTANCE == null)
                 INSTANCE = CategoriesLocalDataSource(context)

@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/expense_log_calendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="center"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/expense_log"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_10"
-        android:layout_marginEnd="@dimen/margin_10"
-        android:layout_weight="1"/>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="details"
+            type="al.bruno.personal.expense.model.ExpenseDetails"/>
+    </data>
     <LinearLayout
-        android:id="@+id/total_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:visibility="gone"
-        android:padding="@dimen/padding_5"
-        android:layout_marginStart="@dimen/padding_24"
-        android:layout_marginEnd="@dimen/padding_24">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/expense_log_calendar_view"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_gravity="center"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/expense_log"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_weight="1"
+            android:adapter="@{details.adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <LinearLayout
+            android:id="@+id/total_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            style="@style/TextAppearance.AppCompat"
-            android:text="@string/total"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/total"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:textColor="@color/white"
-            style="@style/TextAppearance.AppCompat"/>
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginStart="@dimen/padding_24"
+            android:layout_marginEnd="@dimen/padding_24">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                style="@style/TextAppearance.AppCompat"
+                android:text="@string/total"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textColor="@color/white"
+                android:text="@{details.total}"
+                style="@style/TextAppearance.AppCompat"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>
