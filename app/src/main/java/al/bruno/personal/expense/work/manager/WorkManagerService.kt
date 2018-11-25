@@ -33,7 +33,6 @@ class WorkManagerService(val context: Context, workerParams: WorkerParameters) :
                 budget.incomes = b.incomes
                 budget.date = calendar.time
                 disposable.add(provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
-
                 }, {
 
                 }))

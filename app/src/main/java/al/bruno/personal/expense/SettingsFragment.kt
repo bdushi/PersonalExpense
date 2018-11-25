@@ -22,6 +22,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_settings.*
 import java.util.concurrent.TimeUnit
 
 class SettingsFragment : Fragment(), Observer<Settings> {
@@ -45,22 +46,26 @@ class SettingsFragment : Fragment(), Observer<Settings> {
     }
     override fun update(t: Settings) {
         Log.i(SettingsFragment::javaClass.name, t.toString())
-        WorkManager
-                .getInstance()
-                .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
-                        PeriodicWorkRequest
-                                .Builder(WorkManagerService::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
-                                .addTag(ACTION_PROCESS_UPDATES)
-                                .build())
-        disposable
-                .add(ViewModelProviders
-                        .of(this@SettingsFragment)[SettingsViewModel::class.java]
-                        .insert(t)
-                        .subscribeOn(Schedulers.io()).subscribe({
+        if(t.auto) {
+            WorkManager
+                    .getInstance()
+                    .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
+                            PeriodicWorkRequest
+                                    .Builder(WorkManagerService::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
+                                    .addTag(ACTION_PROCESS_UPDATES)
+                                    .build())
+            disposable
+                    .add(ViewModelProviders
+                            .of(this@SettingsFragment)[SettingsViewModel::class.java]
+                            .insert(t)
+                            .subscribeOn(Schedulers.io()).subscribe({
 
-                        }, {
+                            }, {
 
-                        }))
+                            }))
+        } else {
+            WorkManager.getInstance().cancelAllWork();
+        }
     }
     override fun onStop() {
         super.onStop()

@@ -27,7 +27,7 @@ class PersonalExpense : Application() {
                         OneTimeWorkRequest.Builder(WorkManagerService::class.java).build())
                 .enqueue()*/
         disposable.add(providerSettingsInjection(this)!!.settings(1).subscribeOn(Schedulers.io()).subscribe({
-            if(it.auto)
+            if(it.auto){
                 WorkManager
                     .getInstance()
                     .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
@@ -35,9 +35,19 @@ class PersonalExpense : Application() {
                                     .Builder(WorkManagerService::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
                                     .addTag(ACTION_PROCESS_UPDATES)
                                     .build())
-        },{
-            Log.i(PersonalExpense::javaClass.name, it.message)
-        }))
+            disposable
+                    .add(providerSettingsInjection(this)
+                            !!.insert(it)
+                            .subscribeOn(Schedulers.io()).subscribe({
 
+                            }, {
+                                Log.i(PersonalExpense::class.java.name, it.message)
+                            }))
+            } else {
+                WorkManager.getInstance().cancelAllWork();
+            }
+        },{
+            Log.i(PersonalExpense::class.java.name, it.message)
+        }))
     }
 }
