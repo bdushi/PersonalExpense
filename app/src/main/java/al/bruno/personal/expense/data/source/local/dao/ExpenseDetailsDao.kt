@@ -7,6 +7,13 @@ import io.reactivex.Single
 
 @Dao
 interface ExpenseDetailsDao {
-    @Query("SELECT * FROM expense_details")
+    //@Query("SELECT * FROM expense_details")
+    @Query("SELECT " +
+            "e._expense AS _expense," +
+            "TOTAL(e._amount) AS _amount," +
+            "e._date AS _date," +
+            "(SELECT COUNT(*) FROM expense AS ee WHERE ee._id >= e._id) AS _id," +
+            "(SELECT SUM(ee._amount) FROM expense AS ee GROUP BY ee._date) AS _total " +
+            "FROM expense AS e GROUP BY TRIM(e._expense) ORDER BY _id ASC")
     fun expense(): Single<ExpenseDetails>
 }
