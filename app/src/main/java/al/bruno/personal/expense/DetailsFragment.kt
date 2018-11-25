@@ -32,7 +32,7 @@ class DetailsFragment : Fragment() {
         expenseLog.addItemDecoration(DividerItemDecoration(activity, LinearLayoutManager.VERTICAL))
 
         /*new Handler().post(() -> {
-            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.newInstance.calendar().getTimeInMillis());
+            ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar().getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {
@@ -50,7 +50,7 @@ class DetailsFragment : Fragment() {
 
         expenseLogCalendarView.setOnDateChangedListener { widget, date, selected ->
             Handler().post {
-                /*ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.newInstance.calendar(date).getTimeInMillis());
+                /*ExpenseDetails expenseDetails = new Database(getContext()).expenseMaster(Utilities.INSTANCE.calendar(date).getTimeInMillis());
             expenseLog.setAdapter(new CustomAdapter<Expense, ExpenseSingleItemBinding>(expenseDetails.getExpenses(), R.layout.expense_single_item, new BindingData<Expense, ExpenseSingleItemBinding>() {
                 @Override
                 public void bindData(Expense expense, @NotNull ExpenseSingleItemBinding expenseSingleItemBinding) {

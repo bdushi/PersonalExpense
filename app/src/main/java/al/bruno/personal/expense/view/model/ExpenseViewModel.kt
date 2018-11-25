@@ -1,6 +1,6 @@
 package al.bruno.personal.expense.view.model
 
-import al.bruno.financaime.dependency.injection.InjectionProvider.providerExpenseInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerExpenseInjection
 import al.bruno.personal.expense.data.source.ExpenseDataSource
 import al.bruno.personal.expense.model.Expense
 import android.app.Application

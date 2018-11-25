@@ -9,7 +9,7 @@ class BudgetMasterLocalDataSource(context: Context) : BudgetMasterDataSource {
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
     companion object {
         private var INSTANCE: BudgetMasterDataSource? = null
-        fun newInstance (context: Context) : BudgetMasterDataSource? {
+        fun INSTANCE (context: Context) : BudgetMasterDataSource? {
             if(INSTANCE == null)
                 INSTANCE = BudgetMasterLocalDataSource(context)
             return INSTANCE

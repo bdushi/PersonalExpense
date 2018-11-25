@@ -10,7 +10,7 @@ class BudgetDetailsLocalDataSource(context: Context) : BudgetDetailsDataSource {
 
     companion object {
         private var INSTANCE: BudgetDetailsDataSource? = null
-        fun newInstance (context: Context): BudgetDetailsDataSource?  {
+        fun INSTANCE (context: Context): BudgetDetailsDataSource?  {
             if(INSTANCE == null) {
                 INSTANCE = BudgetDetailsLocalDataSource(context = context)
             }

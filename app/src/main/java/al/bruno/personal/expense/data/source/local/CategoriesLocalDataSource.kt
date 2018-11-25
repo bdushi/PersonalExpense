@@ -9,7 +9,7 @@ class CategoriesLocalDataSource(context: Context): CategoriesDataSource {
     private var appDatabase :AppDatabase = AppDatabase.getInstance(context)
     companion object {
         var INSTANCE: CategoriesDataSource? = null
-        fun newInstance (context: Context) : CategoriesDataSource? {
+        fun INSTANCE (context: Context) : CategoriesDataSource? {
             if(INSTANCE == null)
                 INSTANCE = CategoriesLocalDataSource(context)
             return INSTANCE

@@ -13,7 +13,7 @@ class HostActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
         //google analitics
-        //FirebaseAnalytics.getInstance(this)
+        //FirebaseAnalytics.INSTANCE(this)
         //inflater home fragment
         supportFragmentManager
                 .beginTransaction()

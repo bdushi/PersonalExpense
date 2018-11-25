@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.work.manager
 
-import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetInjection
-import al.bruno.financaime.dependency.injection.InjectionProvider.providerSettingsInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideBudgetInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.model.Budget
 import android.content.Context
 import androidx.work.Worker

@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.view.model
 
 import al.bruno.personal.expense.data.source.BudgetMasterDataSource
-import al.bruno.personal.expense.dependency.injection.BudgetMasterInjection.providerBudgetMasterInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerBudgetMasterInjection
 import al.bruno.personal.expense.model.BudgetMaster
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

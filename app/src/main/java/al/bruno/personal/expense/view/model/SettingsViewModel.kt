@@ -5,11 +5,8 @@ import al.bruno.personal.expense.model.Settings
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 
-class SettingsViewModel(settingsDataSource: SettingsDataSource): ViewModel(), SettingsDataSource {
-    private val settingsDataSource: SettingsDataSource
-    init {
-        this.settingsDataSource = settingsDataSource
-    }
+class SettingsViewModel(private val settingsDataSource: SettingsDataSource): ViewModel(), SettingsDataSource {
+
     override fun insert(settings: Settings): Single<Long> {
         return settingsDataSource.insert(settings)
     }

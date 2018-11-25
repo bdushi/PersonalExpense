@@ -9,7 +9,7 @@ class SettingsLocalDataSource(context: Context): SettingsDataSource {
     private val appDataSource = AppDatabase.getInstance(context)
     companion object {
         private var INSTANCE: SettingsDataSource? = null
-        fun getInstance (context: Context):SettingsDataSource?  {
+        fun INSTANCE (context: Context):SettingsDataSource?  {
             if(INSTANCE == null)
                 INSTANCE = SettingsLocalDataSource(context)
             return INSTANCE

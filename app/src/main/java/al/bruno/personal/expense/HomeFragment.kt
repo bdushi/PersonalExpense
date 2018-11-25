@@ -1,6 +1,6 @@
 package al.bruno.personal.expense
 
-import al.bruno.financaime.dependency.injection.InjectionProvider.provideBudgetDetailsInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideBudgetDetailsInjection
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
 import al.bruno.personal.expense.entities.ChartDataObject
