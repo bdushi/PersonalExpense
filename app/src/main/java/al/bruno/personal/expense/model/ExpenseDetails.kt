@@ -24,7 +24,8 @@ class ExpenseDetails() {
     @ColumnInfo(name = "_total")
     var total:String? = null
     //, projection = arrayOf("_id", "_expense", "_amount", "_date")
-    @Relation(entity = Expense::class, parentColumn = "_id" ,entityColumn = "_id")
+    // entityColumn = row_id(_id_budget) used by room to get all rows from expense
+    @Relation(entity = Expense::class, parentColumn = "_id", entityColumn = "_id_budget")
     var expenses: List<Expense> = ArrayList()
     @Ignore
     var adapter : CustomAdapter<Expense, ExpenseSingleItemBinding>? = null
