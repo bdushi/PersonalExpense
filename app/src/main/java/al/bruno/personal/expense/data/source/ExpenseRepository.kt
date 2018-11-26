@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import java.util.*
 
-class ExpenseRepository(expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
-    private var expenseDataSource: ExpenseDataSource = expenseDataSource
-
+class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
     companion object {
         private var INSTANCE: ExpenseDataSource? = null
         fun getInstance (expenseDataSource: ExpenseDataSource) : ExpenseDataSource? {
@@ -39,5 +37,11 @@ class ExpenseRepository(expenseDataSource: ExpenseDataSource) : ExpenseDataSourc
     override fun date(): Single<List<Date>> {
         return expenseDataSource.date()
     }
+    override fun expenses(date: Date): Single<List<Expense>> {
+        return expenseDataSource.expenses(date)
+    }
 
+    override fun total(date: Date): Single<String> {
+        return expenseDataSource.total(date)
+    }
 }

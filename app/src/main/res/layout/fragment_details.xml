@@ -2,8 +2,11 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="details"
-            type="al.bruno.personal.expense.model.ExpenseDetails"/>
+            name="adapter"
+            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
+        <variable
+            name="total"
+            type="String"/>
     </data>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,7 +25,7 @@
             android:layout_marginStart="@dimen/margin_10"
             android:layout_marginEnd="@dimen/margin_10"
             android:layout_weight="1"
-            android:adapter="@{details.adapter}"
+            android:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
         <LinearLayout
             android:id="@+id/total_layout"
@@ -45,7 +48,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textColor="@color/white"
-                android:text="@{details.total}"
+                android:text="@{total}"
                 style="@style/TextAppearance.AppCompat"/>
         </LinearLayout>
     </LinearLayout>

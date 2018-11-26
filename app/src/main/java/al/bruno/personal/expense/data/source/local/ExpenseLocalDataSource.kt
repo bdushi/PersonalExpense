@@ -8,11 +8,8 @@ import io.reactivex.Single
 import java.util.*
 
 class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
-    private var DATABASE_INSTANCE :AppDatabase
-    init {
-        DATABASE_INSTANCE = AppDatabase.getInstance(context)
-    }
-
+    private var DATABASE_INSTANCE :AppDatabase = AppDatabase.getInstance(context)
+    
     companion object {
         private var INSTANCE : ExpenseDataSource? = null
         fun INSTANCE(context: Context) : ExpenseDataSource? {
@@ -40,5 +37,11 @@ class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
     override fun date(): Single<List<Date>> {
         return DATABASE_INSTANCE.expenseDao().date()
     }
+    override fun expenses(date: Date): Single<List<Expense>> {
+        return DATABASE_INSTANCE.expenseDao().expenses(date)
+    }
 
+    override fun total(date: Date): Single<String> {
+        return DATABASE_INSTANCE.expenseDao().total(date)
+    }
 }

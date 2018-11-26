@@ -9,7 +9,6 @@ import androidx.room.ColumnInfo
 import androidx.room.DatabaseView
 import androidx.room.Ignore
 import androidx.room.Relation
-import java.util.ArrayList
 
 @DatabaseView("SELECT " +
         "e._expense AS _expense," +

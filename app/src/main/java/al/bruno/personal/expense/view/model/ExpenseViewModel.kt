@@ -10,24 +10,31 @@ import io.reactivex.Single
 import java.util.*
 
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
-    private var expenseRepository: ExpenseDataSource = providerExpenseInjection(application)!!
+    private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(application)!!
     override fun insert(expense: Expense): Single<Long> {
-        return expenseRepository.insert(expense)
+        return expenseDataSource.insert(expense)
     }
 
     override fun expense(id: Long): LiveData<Expense> {
-        return expenseRepository.expense(id)
+        return expenseDataSource.expense(id)
     }
 
     override fun expenses(month: String): LiveData<List<Expense>> {
-        return expenseRepository.expenses(month)
+        return expenseDataSource.expenses(month)
     }
 
     override fun expenses(month: String, year: String): LiveData<List<Expense>> {
-        return expenseRepository.expenses(month, year)
+        return expenseDataSource.expenses(month, year)
     }
 
     override fun date(): Single<List<Date>> {
-        return expenseRepository.date()
+        return expenseDataSource.date()
+    }
+    override fun expenses(date: Date): Single<List<Expense>> {
+        return expenseDataSource.expenses(date)
+    }
+
+    override fun total(date: Date): Single<String> {
+        return expenseDataSource.total(date)
     }
 }
