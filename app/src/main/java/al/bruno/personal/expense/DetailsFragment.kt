@@ -20,6 +20,15 @@ import androidx.lifecycle.ViewModelProviders
 import com.amitshekhar.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import androidx.room.Database
+import al.bruno.personal.expense.util.EventDecorator
+import android.provider.CalendarContract
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
+
 
 class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
@@ -49,6 +58,7 @@ class DetailsFragment : Fragment() {
                 .date()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
+                    fragmentDetailsBinding.expenseLogCalendarView.addDecorator(EventDecorator(R.color.red_a700, it))
                     Log.i(DetailsFragment::class.java.name, it.toString())
                 }, {
                     Log.i(DetailsFragment::class.java.name, it.message)
@@ -64,7 +74,19 @@ class DetailsFragment : Fragment() {
                     Log.i(DetailsFragment::class.java.name, it.message)
                 }))*/
         fragmentDetailsBinding.expenseLogCalendarView.setOnDateChangedListener { widget, date, selected ->
-
+            //DateTimeUtils.toDate(Instant.from(date.date).atZone(ZoneId.systemDefault()).toInstant())
+            disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                    .expenses(DateTimeUtils.toDate(Instant.from(LocalDate.of(date.year, date.month, date.day)).atZone(ZoneId.systemDefault()).toInstant()))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+                            override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
+                                vm.expense = t
+                            }
+                        })
+                    },{
+                        Log.i(DetailsFragment::class.java.name, it.message)
+                    }))
         }
         return fragmentDetailsBinding.root;
     }

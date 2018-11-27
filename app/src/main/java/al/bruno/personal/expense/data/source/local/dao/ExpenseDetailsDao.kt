@@ -16,7 +16,7 @@ interface ExpenseDetailsDao {
             "e._id_budget AS _id," +
             "(SELECT SUM(ee._amount) FROM expense AS ee GROUP BY ee._date) AS _total " +
             "FROM expense AS e " +
-            "GROUP BY GROUP BY TRIM(e._expense) " +
+            "GROUP BY TRIM(e._expense) " +
             "ORDER BY _id ASC")
     fun expense(): Single<ExpenseDetails>
 }
