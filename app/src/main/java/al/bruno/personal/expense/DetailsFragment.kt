@@ -17,24 +17,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.amitshekhar.utils.Utils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import androidx.room.Database
 import al.bruno.personal.expense.util.EventDecorator
-import android.provider.CalendarContract
-import com.prolificinteractive.materialcalendarview.CalendarDay
 import org.threeten.bp.DateTimeUtils
-import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneId
-
 
 class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentDetailsBinding: FragmentDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
-        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+        disposable.addAll(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                 .expenses(Utilities.date())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -45,24 +37,25 @@ class DetailsFragment : Fragment() {
                     })
                 },{
                     Log.i(DetailsFragment::class.java.name, it.message)
-                }))
-        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                }),
+                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                 .total(Utilities.date())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     fragmentDetailsBinding.total = it
                 },{
+                    fragmentDetailsBinding.total = null
                     Log.i(DetailsFragment::class.java.name, it.message)
-                }))
-        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .date()
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentDetailsBinding.expenseLogCalendarView.addDecorator(EventDecorator(R.color.red_a700, it))
-                    Log.i(DetailsFragment::class.java.name, it.toString())
-                }, {
-                    Log.i(DetailsFragment::class.java.name, it.message)
-                }))
+                }),
+                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                        .date()
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentDetailsBinding.expenseLogCalendarView.addDecorator(EventDecorator(R.color.red_a700, it))
+                            Log.i(DetailsFragment::class.java.name, it.toString())
+                        }, {
+                            Log.i(DetailsFragment::class.java.name, it.message)
+                        }))
         //val factory = ViewModelProviderFactory(ExpenseDetailsViewModel(providerExpenseDetailsInjection(context!!)!!))
         /*disposable.add(ViewModelProviders
                 .of(this, factory)[ExpenseDetailsViewModel::class.java]
@@ -75,8 +68,9 @@ class DetailsFragment : Fragment() {
                 }))*/
         fragmentDetailsBinding.expenseLogCalendarView.setOnDateChangedListener { widget, date, selected ->
             //DateTimeUtils.toDate(Instant.from(date.date).atZone(ZoneId.systemDefault()).toInstant())
-            disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .expenses(DateTimeUtils.toDate(Instant.from(LocalDate.of(date.year, date.month, date.day)).atZone(ZoneId.systemDefault()).toInstant()))
+            //DateTimeUtils.toDate(Instant.from(LocalDate.of(date.year, date.month, date.day)).atZone(ZoneId.systemDefault()).toInstant())
+            disposable.addAll(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                    .expenses(DateTimeUtils.toSqlDate(date.date))
                     .subscribeOn(Schedulers.io())
                     .subscribe({
                         fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
@@ -85,6 +79,15 @@ class DetailsFragment : Fragment() {
                             }
                         })
                     },{
+                        Log.i(DetailsFragment::class.java.name, it.message)
+                    }),
+                    ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                    .total(DateTimeUtils.toSqlDate(date.date))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        fragmentDetailsBinding.total = it
+                    },{
+                        fragmentDetailsBinding.total = null
                         Log.i(DetailsFragment::class.java.name, it.message)
                     }))
         }
