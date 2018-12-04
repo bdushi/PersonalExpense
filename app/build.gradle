@@ -41,9 +41,16 @@ android {
 
 
         //calendar view
-        //compile 'com.github.BlackBoxVision:material-calendar-view:v1.5.7'
+        //implementation 'com.github.BlackBoxVision:material-calendar-view:v1.5.8'
         //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
         implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+
+        //implementation 'com.github.marcohc:robotocalendarview:3.6.1'
+        //implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
+
+        //implementation 'com.applandeo:material-calendar-view:1.5.0'
+        //implementation 'com.riontech:calendar:1.0'
+        //implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
         //google map
         implementation 'com.google.android.gms:play-services-maps:16.0.0'
