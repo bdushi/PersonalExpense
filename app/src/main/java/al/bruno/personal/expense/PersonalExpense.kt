@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import androidx.work.PeriodicWorkRequest
 import java.util.concurrent.TimeUnit
 import androidx.work.ExistingPeriodicWorkPolicy
+import com.facebook.stetho.Stetho
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +22,7 @@ class PersonalExpense : Application() {
         Log.i(PersonalExpense::class.java.name, PersonalExpense::class.java.name)
         //analytics
         FirebaseAnalytics.getInstance(this)
+        Stetho.initializeWithDefaults(this)
         /*WorkManager
                 .INSTANCE()
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
