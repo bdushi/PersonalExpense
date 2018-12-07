@@ -1,7 +1,5 @@
 package al.bruno.personal.expense.util
 
-import android.widget.CalendarView
-
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -56,18 +54,6 @@ object Utilities {
     fun monthFormat(calendar: Calendar): String {
         return String.format("%s %s", getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR))
     }
-
-    /*fun date(calendarDay: CalendarDay): Date {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        calendar.set(Calendar.YEAR, calendarDay.year)
-        calendar.set(Calendar.MONTH, calendarDay.month)
-        calendar.set(Calendar.DATE, calendarDay.day)
-        return calendar.time
-    }*/
 
     fun date(): Date {
         val calendar = Calendar.getInstance()
