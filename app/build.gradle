@@ -43,7 +43,8 @@ android {
         //calendar view
         //implementation 'com.github.BlackBoxVision:material-calendar-view:v1.5.8'
         //implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-        implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+        //implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
+
 
         //implementation 'com.github.marcohc:robotocalendarview:3.6.1'
         //implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
@@ -96,6 +97,7 @@ android {
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
+        //implementation 'al.bruno.calendar.view:calendar-view:0.0.1'
         implementation 'android.arch.work:work-runtime:1.0.0-alpha11'
     }
 }
