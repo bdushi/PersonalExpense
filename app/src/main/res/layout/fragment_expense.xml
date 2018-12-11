@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spinner"
             android:layout_marginTop="@dimen/margin_5"
-            app:layout_constraintTop_toBottomOf="@id/spinner">
+            app:layout_constraintTop_toBottomOf="@id/spinner"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/input_exp_value"
                 android:layout_width="match_parent"

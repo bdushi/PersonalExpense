@@ -164,7 +164,7 @@
             android:id="@+id/home_incomes_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/reply_blue"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginEnd="@dimen/margin_10"

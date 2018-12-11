@@ -35,7 +35,8 @@
             app:error="@{(budget.incomes &gt; budget.budget) ? @string/error : null}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dialog_edit_incomes_title">
+            app:layout_constraintTop_toBottomOf="@id/dialog_edit_incomes_title"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/dialog_edit_incomes"
                 android:layout_width="match_parent"
