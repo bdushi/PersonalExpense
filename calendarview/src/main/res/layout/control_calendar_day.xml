@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<data>
+		<variable
+			name="localDateTime"
+			type="al.bruno.calendar.view.model.LocalDateTime"/>
+		<variable
+			name="dateClickListener"
+			type="al.bruno.calendar.view.listener.OnDateClickListener"/>
+		<import type="android.view.View"/>
+	</data>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:onClick="@{(v) -> localDateTime.setOnDateClickListener(v, localDateTime)}">
+		<androidx.appcompat.widget.AppCompatTextView
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_gravity="center_horizontal"
+			android:padding="5dp"
+			android:text="@{localDateTime.date}"
+			android:textColor="@{localDateTime.sunday ? @color/sunday : (localDateTime.currentMonth  ? (localDateTime.today ? @color/colorAccent : @color/black) : @color/greyed_out)}"
+			android:textAlignment="center"/>
+		<View
+			android:layout_width="wrap_content"
+			android:layout_height="2dp"
+			android:background="@color/sunday"
+			android:layout_marginStart="10dp"
+			android:layout_marginEnd="10dp"
+			android:layout_marginTop="1dp"
+			android:visibility="@{localDateTime.event ? View.VISIBLE : View.GONE}"/>
+	</LinearLayout>
+</layout>
