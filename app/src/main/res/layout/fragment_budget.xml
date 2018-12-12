@@ -30,7 +30,7 @@
             app:layout_constraintEnd_toStartOf="@+id/budget_edit_incomes"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/budget_edit_incomes"
-            app:layout_constraintBottom_toTopOf="@id/incomes"/>
+            app:layout_constraintBottom_toTopOf="@id/budget_incomes"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/budget_incomes"
             android:layout_width="0dp"
