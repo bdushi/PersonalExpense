@@ -30,9 +30,10 @@ class DetailsFragment : Fragment() {
         fragmentDetailsBinding.onDateClickListener = object : OnDateClickListener {
             override fun setOnDateClickListener(view: View?, localDateTime: LocalDateTime?) {
                 disposable.add(ViewModelProviders.of(this@DetailsFragment)[ExpenseViewModel::class.java]
-                        .expenses(DateTime.now().withTimeAtStartOfDay())
+                        .expenses(localDateTime!!.dateTime.withTimeAtStartOfDay())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
+                            Log.i(DetailsFragment::class.java.name, it.toString())
                             fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
                                 override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
                                     vm.expense = t
