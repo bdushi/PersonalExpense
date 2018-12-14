@@ -1,10 +1,9 @@
 package al.bruno.personal.expense.model
 
-import java.util.Date
-
 import al.bruno.personal.expense.util.Utilities.dateFormat
 import al.bruno.personal.expense.util.Utilities.format
 import androidx.room.*
+import org.joda.time.DateTime
 
 @Entity(tableName = "expense",
         indices = arrayOf(Index(value = arrayOf("_id_budget", "_date", "_id") , unique = true)),
@@ -18,7 +17,7 @@ class Expense() {
     @ColumnInfo(name = "_amount")
     var amount: Double = 0.0
     @ColumnInfo(name = "_date")
-    var date: Date? = null
+    var date: DateTime? = null
     @ColumnInfo(name = "_id_budget")
     var idBudget: Long = 0
 

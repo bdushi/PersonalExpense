@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import io.reactivex.Single
+import org.joda.time.DateTime
 import java.util.*
 
 @Dao
@@ -23,11 +24,11 @@ interface ExpenseDao {
     fun expenses(month: String, year: String) : LiveData<List<Expense>>
 
     @Query("SELECT (SELECT COUNT(DISTINCT(ee._expense)) FROM expense AS ee WHERE ee._id >= e._id) AS _id, e._expense, TOTAL(e._amount) AS _amount, e._date, e._id_budget FROM expense AS e WHERE _date = :date GROUP BY TRIM(e._expense) ORDER BY _id")
-    fun expenses(date: Date) : Single<List<Expense>>
+    fun expenses(date: DateTime) : Single<List<Expense>>
 
     @Query("SELECT SUM(ee._amount) AS _total FROM expense AS ee WHERE ee._date = :date GROUP BY ee._date")
-    fun total(date: Date) : Single<String>
+    fun total(date: DateTime) : Single<String>
 
     @Query("SELECT _date FROM expense")
-    fun date() : Single<List<Date>>
+    fun date() : Single<List<DateTime>>
 }

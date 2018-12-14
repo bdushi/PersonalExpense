@@ -96,5 +96,6 @@ android {
 
         implementation 'android.arch.work:work-runtime:1.0.0-alpha12'
         implementation project(':calendarview')
+        implementation 'joda-time:joda-time:2.10.1'
     }
 }

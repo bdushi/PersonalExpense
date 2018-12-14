@@ -1,16 +1,16 @@
 package al.bruno.personal.expense.util
 
-import java.util.Date
-
 import androidx.room.TypeConverter
+import org.joda.time.DateTime
+
 class Converter {
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return if (value == null) null else Date(value)
+    fun fromTimestamp(value: Long?): DateTime? {
+        return DateTime(value)
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
+    fun dateToTimestamp(date: DateTime?): Long? {
+        return date?.millis
     }
 }

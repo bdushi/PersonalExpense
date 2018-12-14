@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import org.joda.time.LocalDate;
 
 import al.bruno.calendar.view.R;
+import al.bruno.calendar.view.adapter.BindingInterface;
 import al.bruno.calendar.view.adapter.CustomArrayAdapter;
 import al.bruno.calendar.view.databinding.ControlCalendarDayBinding;
 import al.bruno.calendar.view.databinding.FragmentMonthBinding;
@@ -66,7 +67,7 @@ public class MonthFragment extends Fragment implements Observer<LocalDate[]> {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentMonthBinding fragmentMonthBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.fragment_month, container, false);
         if(localDateTimes != null) {
-            fragmentMonthBinding.setAdapter(new CustomArrayAdapter<LocalDateTime, ControlCalendarDayBinding>(localDateTimes, R.layout.control_calendar_day, (localDateTime, controlCalendarDayBinding) -> controlCalendarDayBinding.setLocalDateTime(localDateTime)));
+            fragmentMonthBinding.setAdapter(new CustomArrayAdapter<>(localDateTimes, R.layout.control_calendar_day, (BindingInterface<LocalDateTime, ControlCalendarDayBinding>) (localDateTime, controlCalendarDayBinding) -> controlCalendarDayBinding.setLocalDateTime(localDateTime)));
         } else {
             throw new IllegalArgumentException("null argument");
         }

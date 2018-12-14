@@ -5,7 +5,7 @@ import al.bruno.personal.expense.model.Expense
 import android.content.Context
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
-import java.util.*
+import org.joda.time.DateTime
 
 class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
     private var DATABASE_INSTANCE :AppDatabase = AppDatabase.getInstance(context)
@@ -34,14 +34,14 @@ class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
         return DATABASE_INSTANCE.expenseDao().expenses(month, year)
     }
 
-    override fun date(): Single<List<Date>> {
+    override fun date(): Single<List<DateTime>> {
         return DATABASE_INSTANCE.expenseDao().date()
     }
-    override fun expenses(date: Date): Single<List<Expense>> {
+    override fun expenses(date: DateTime): Single<List<Expense>> {
         return DATABASE_INSTANCE.expenseDao().expenses(date)
     }
 
-    override fun total(date: Date): Single<String> {
+    override fun total(date: DateTime): Single<String> {
         return DATABASE_INSTANCE.expenseDao().total(date)
     }
 }

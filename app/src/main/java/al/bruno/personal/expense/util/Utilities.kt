@@ -1,5 +1,7 @@
 package al.bruno.personal.expense.util
 
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -21,9 +23,8 @@ object Utilities {
         }
     }
 
-    fun dateFormat(date: Date): String {
-        val dateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        return dateFormat.format(date.time)
+    fun dateFormat(date: DateTime): String {
+        return DateTimeFormat.forPattern("dd-MMM-yyyy").print(date)
     }
 
     fun month(): Int {
@@ -74,10 +75,6 @@ object Utilities {
 
     fun fromTimestamp(value: Long?): Date? {
         return if (value == null) null else Date(value)
-    }
-
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time
     }
 
     fun getMonth(month: Int): String {

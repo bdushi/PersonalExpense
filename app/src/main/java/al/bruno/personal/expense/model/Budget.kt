@@ -9,8 +9,8 @@ import android.widget.AdapterView
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.room.*
-import java.util.Date
 import androidx.databinding.PropertyChangeRegistry
+import org.joda.time.DateTime
 
 @Entity(tableName = "budget",  indices = arrayOf(Index(value = arrayOf("_date") , unique = true)))
 class Budget() : Observable, OnItemSelectedListener, Parcelable {
@@ -35,7 +35,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
             propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.incomes)
         }
     @ColumnInfo(name = "_date")
-    var date: Date? = null
+    var date: DateTime? = null
 
     /*@Embedded(prefix = "_expense")
     var expense: Expense? = null*/
@@ -86,7 +86,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         id = parcel.readLong()
         budget = parcel.readDouble()
         incomes = parcel.readDouble()
-        date = Date(parcel.readLong())
+        date = DateTime(parcel.readLong())
         amount = parcel.readDouble();
     }
 
@@ -94,7 +94,7 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         parcel.writeLong(id)
         parcel.writeDouble(budget)
         parcel.writeDouble(incomes)
-        parcel.writeLong(date!!.time)
+        parcel.writeLong(date!!.millis)
         parcel.writeDouble(amount)
     }
 

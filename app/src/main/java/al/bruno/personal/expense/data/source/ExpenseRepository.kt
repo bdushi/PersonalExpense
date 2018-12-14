@@ -3,7 +3,7 @@ package al.bruno.personal.expense.data.source
 import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
-import java.util.*
+import org.joda.time.DateTime
 
 class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
     companion object {
@@ -34,14 +34,14 @@ class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : Expe
         return expenseDataSource.expenses(month, year)
     }
 
-    override fun date(): Single<List<Date>> {
+    override fun date(): Single<List<DateTime>> {
         return expenseDataSource.date()
     }
-    override fun expenses(date: Date): Single<List<Expense>> {
+    override fun expenses(date: DateTime): Single<List<Expense>> {
         return expenseDataSource.expenses(date)
     }
 
-    override fun total(date: Date): Single<String> {
+    override fun total(date: DateTime): Single<String> {
         return expenseDataSource.total(date)
     }
 }

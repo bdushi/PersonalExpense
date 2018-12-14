@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ColumnInfo
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import org.joda.time.DateTime
 import java.util.*
 
 
@@ -23,7 +24,7 @@ class User() {
     @ColumnInfo(name = "_api_key")
     var apiKey: String? = null
     @ColumnInfo(name = "_date")
-    var date: Date? = null;
+    var date: DateTime? = null;
 
     /*constructor() : this(0, "", "", "", "", "", Date())
     constructor(id: Long, username: String, password: String, firstName: String, lastName: String, apiKey: String, date: Date) {

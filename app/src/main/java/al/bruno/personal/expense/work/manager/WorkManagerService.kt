@@ -9,6 +9,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 import java.util.*
 
 class WorkManagerService(val context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
@@ -30,7 +31,7 @@ class WorkManagerService(val context: Context, workerParams: WorkerParameters) :
                 val budget = Budget()
                 budget.budget = b.budget
                 budget.incomes = b.incomes
-                budget.date = calendar.time
+                budget.date = DateTime(calendar.timeInMillis).withTimeAtStartOfDay()
                 disposable.add(provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
                 }, {
 

@@ -5,6 +5,9 @@
             name="adapter"
             type="al.bruno.personal.expense.adapter.CustomAdapter"/>
         <variable
+            name="onDateClickListener"
+            type="al.bruno.calendar.view.listener.OnDateClickListener"/>
+        <variable
             name="total"
             type="String"/>
         <import type="android.view.View"/>
@@ -19,7 +22,8 @@
         <al.bruno.calendar.view.CalendarView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:onDateClickListener="@{onDateClickListener::setOnDateClickListener}"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expense_log"
             android:layout_width="match_parent"

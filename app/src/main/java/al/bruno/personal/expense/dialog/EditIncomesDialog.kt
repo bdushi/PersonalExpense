@@ -15,6 +15,7 @@ import al.bruno.personal.expense.model.Budget
 import al.bruno.personal.expense.model.BudgetMaster
 import al.bruno.personal.expense.util.Utilities.date
 import androidx.databinding.DataBindingUtil
+import org.joda.time.DateTime
 
 class EditIncomesDialog : DialogFragment() {
     private var onEditListeners: OnEditListeners<Budget>? = null
@@ -66,7 +67,7 @@ class EditIncomesDialog : DialogFragment() {
                 b.id = t.id
                 b.incomes = t.incomes
                 b.budget = t.budget
-                b.date = date()
+                b.date = DateTime.now()
                 onEditListeners!!.onEdit(b)
                 dismiss()
             }

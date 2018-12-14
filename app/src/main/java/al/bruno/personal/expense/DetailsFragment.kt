@@ -1,5 +1,7 @@
 package al.bruno.personal.expense
 
+import al.bruno.calendar.view.listener.OnDateClickListener
+import al.bruno.calendar.view.model.LocalDateTime
 import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding
@@ -18,13 +20,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 
 class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentDetailsBinding: FragmentDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
+        fragmentDetailsBinding.onDateClickListener = object : OnDateClickListener {
+            override fun setOnDateClickListener(view: View?, localDateTime: LocalDateTime?) {
+                Log.i(DetailsFragment::class.java.name, localDateTime.toString())
+            }
+        }
+
         disposable.addAll(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .expenses(Utilities.date())
+                .expenses(DateTime.now().withTimeAtStartOfDay())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
@@ -36,7 +45,7 @@ class DetailsFragment : Fragment() {
                     Log.i(DetailsFragment::class.java.name, it.message)
                 }),
                 ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .total(Utilities.date())
+                .total(DateTime.now().withTimeAtStartOfDay())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     fragmentDetailsBinding.total = it
@@ -53,6 +62,7 @@ class DetailsFragment : Fragment() {
                         }, {
                             Log.i(DetailsFragment::class.java.name, it.message)
                         }))
+        return fragmentDetailsBinding.root
         //val factory = ViewModelProviderFactory(ExpenseDetailsViewModel(providerExpenseDetailsInjection(context!!)!!))
         /*disposable.add(ViewModelProviders
                 .of(this, factory)[ExpenseDetailsViewModel::class.java]
@@ -84,7 +94,6 @@ class DetailsFragment : Fragment() {
                             fragmentDetailsBinding.total = null
                             Log.i(DetailsFragment::class.java.name, it.message)
                         }))*/
-        return fragmentDetailsBinding.root;
     }
 
     override fun onStop() {

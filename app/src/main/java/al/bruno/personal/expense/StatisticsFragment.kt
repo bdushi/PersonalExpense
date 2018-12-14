@@ -87,7 +87,7 @@ class StatisticsFragment : Fragment() {
             barEntryList.add(barEntry)
             i++
         }
-        val barDataSet = BarDataSet(barEntryList, Utilities.getMonth(Utilities.month(expenses[0].date!!)))
+        val barDataSet = BarDataSet(barEntryList, Utilities.getMonth(expenses[0].date!!.monthOfYear))
         barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         val dataSets = ArrayList<IBarDataSet>()
         dataSets.add(barDataSet)
