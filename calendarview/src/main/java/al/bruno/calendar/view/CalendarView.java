@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import al.bruno.calendar.view.databinding.CalendarViewBinding;
 import al.bruno.calendar.view.listener.OnDateClickListener;
@@ -41,8 +40,7 @@ public class CalendarView extends LinearLayout implements OnDateClickListener{
 	private void initControl(Context context) {
 		CalendarViewBinding calendarViewBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.calendar_view, this, true);
 		calendar = new Calendar(context, DateTime.now()).setOnDateClickListener(this);
-		calendarViewBinding.setCalendar(calendar);
-
+		new android.os.Handler().postDelayed(() -> calendarViewBinding.setCalendar(calendar), 100);
 	}
 
 	@BindingAdapter(value = {"app:onDateClickListener"}, requireAll = false)

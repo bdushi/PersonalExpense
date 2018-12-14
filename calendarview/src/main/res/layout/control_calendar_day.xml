@@ -14,6 +14,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
+		android:background="?android:attr/selectableItemBackground"
 		android:onClick="@{(v) -> localDateTime.setOnDateClickListener(v, localDateTime)}">
 		<androidx.appcompat.widget.AppCompatTextView
 			android:layout_width="wrap_content"
