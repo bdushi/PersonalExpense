@@ -31,15 +31,15 @@ import al.bruno.calendar.view.databinding.ControlCalendarDayBinding;
 import static al.bruno.calendar.view.util.Constants.DAYS_COUNT;
 import static al.bruno.calendar.view.util.Constants.PREFILLED_MONTHS;
 
-public class Calendar implements Observable, Subject<LocalDate[]> {
+public class Calendar implements Observable, Subject<DateTime[]> {
     private DateTime dateTime;
     private DateTime[] dateTimes;
-    private LocalDate[] dateTimeEvent;
+    private DateTime[] dateTimeEvent;
     private OnDateClickListener onDateClickListener;
     private MonthPagerAdapter monthPagerAdapter;
     private MonthAdapter monthAdapter;
     private PropertyChangeRegistry propertyChangeRegistry = new PropertyChangeRegistry();
-    private List<Observer<LocalDate[]>> registry = new ArrayList<>();
+    private List<Observer<DateTime[]>> registry = new ArrayList<>();
     /**
      * Display dates correctly in grid
      */
@@ -175,25 +175,25 @@ public class Calendar implements Observable, Subject<LocalDate[]> {
     };
 
     @Override
-    public void removeObserver(Observer<LocalDate[]> o) {
+    public void removeObserver(Observer<DateTime[]> o) {
         if (registry.indexOf(o) >= 0)
             registry.remove(o);
     }
 
 
     @Override
-    public void registerObserver(Observer<LocalDate[]> o) {
+    public void registerObserver(Observer<DateTime[]> o) {
         registry.add(o);
     }
 
     @Override
-    public void notifyObserver(LocalDate[] dateTimes) {
-        for (Observer<LocalDate[]> observer : registry) {
+    public void notifyObserver(DateTime[] dateTimes) {
+        for (Observer<DateTime[]> observer : registry) {
             observer.update(dateTimes);
         }
     }
 
-    public void setEvent(LocalDate[] dateTimeEvent) {
+    public void setEvent(DateTime[] dateTimeEvent) {
         this.dateTimeEvent = dateTimeEvent;
     }
 }

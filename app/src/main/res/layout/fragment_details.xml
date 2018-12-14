@@ -8,6 +8,9 @@
             name="onDateClickListener"
             type="al.bruno.calendar.view.listener.OnDateClickListener"/>
         <variable
+            name="event"
+            type="org.joda.time.DateTime[]"/>
+        <variable
             name="total"
             type="String"/>
         <import type="android.view.View"/>
@@ -23,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:event="@{event}"
             app:onDateClickListener="@{onDateClickListener::setOnDateClickListener}"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expense_log"

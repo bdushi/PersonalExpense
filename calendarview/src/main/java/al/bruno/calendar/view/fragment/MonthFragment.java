@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import al.bruno.calendar.view.R;
@@ -18,16 +20,16 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-public class MonthFragment extends Fragment implements Observer<LocalDate[]> {
+public class MonthFragment extends Fragment implements Observer<DateTime[]> {
     private static final String LOCAL_DATE_TIME = "LOCAL_DATE_TIME";
     private LocalDateTime[] localDateTimes;
 
     @Override
-    public void update(LocalDate[] dateTimes) {
+    public void update(DateTime[] dateTimes) {
         if(localDateTimes != null && dateTimes != null) {
             for (LocalDateTime localDateTime : localDateTimes) {
-                for (LocalDate dateTime : dateTimes) {
-                    if (dateTime.isEqual(localDateTime.date()))
+                for (DateTime dateTime : dateTimes) {
+                    if (dateTime.toLocalDate().isEqual(localDateTime.date()))
                         localDateTime.setEvent(true);
                 }
             }

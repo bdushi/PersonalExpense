@@ -34,7 +34,7 @@ class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : Expe
         return expenseDataSource.expenses(month, year)
     }
 
-    override fun date(): Single<List<DateTime>> {
+    override fun date(): Single<Array<DateTime>> {
         return expenseDataSource.date()
     }
     override fun expenses(date: DateTime): Single<List<Expense>> {

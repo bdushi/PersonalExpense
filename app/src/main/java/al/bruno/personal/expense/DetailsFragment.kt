@@ -26,13 +26,26 @@ class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentDetailsBinding: FragmentDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
+
         fragmentDetailsBinding.onDateClickListener = object : OnDateClickListener {
             override fun setOnDateClickListener(view: View?, localDateTime: LocalDateTime?) {
-                Log.i(DetailsFragment::class.java.name, localDateTime.toString())
+                disposable.add(ViewModelProviders.of(this@DetailsFragment)[ExpenseViewModel::class.java]
+                        .expenses(DateTime.now().withTimeAtStartOfDay())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+                                override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
+                                    vm.expense = t
+                                }
+                            })
+                        },{
+                            Log.i(DetailsFragment::class.java.name, it.message)
+                        }))
             }
         }
 
-        disposable.addAll(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+        disposable.addAll(
+                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                 .expenses(DateTime.now().withTimeAtStartOfDay())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -57,8 +70,7 @@ class DetailsFragment : Fragment() {
                         .date()
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            //fragmentDetailsBinding.expenseLogCalendarView.addDecorator(EventDecorator(R.color.red_a700, it))
-                            Log.i(DetailsFragment::class.java.name, it.toString())
+                            fragmentDetailsBinding.event = it
                         }, {
                             Log.i(DetailsFragment::class.java.name, it.message)
                         }))

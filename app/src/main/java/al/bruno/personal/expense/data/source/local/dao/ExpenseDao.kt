@@ -30,5 +30,5 @@ interface ExpenseDao {
     fun total(date: DateTime) : Single<String>
 
     @Query("SELECT _date FROM expense")
-    fun date() : Single<List<DateTime>>
+    fun date() : Single<Array<DateTime>>
 }

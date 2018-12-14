@@ -56,27 +56,6 @@ object Utilities {
         return String.format("%s %s", getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR))
     }
 
-    fun date(): Date {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
-    }
-
-    fun date(calendar: Calendar): Date {
-        calendar.set(Calendar.HOUR, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-        return calendar.time
-    }
-
-    fun fromTimestamp(value: Long?): Date? {
-        return if (value == null) null else Date(value)
-    }
-
     fun getMonth(month: Int): String {
         val monthStr = arrayOf("Janare", "Shkurte", "Marse", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtatore", "Tetor", "Nentore", "Dhjetore")
         return monthStr[month]

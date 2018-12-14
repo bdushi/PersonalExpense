@@ -27,6 +27,7 @@ import android.util.Log
 import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 
 class ExpenseFragment : Fragment() {
     private val disposable : CompositeDisposable  = CompositeDisposable()
@@ -70,7 +71,7 @@ class ExpenseFragment : Fragment() {
                 val expense = Expense()
                 expense.expense = t.expenseStr
                 expense.amount = t.amount
-                expense.date = Utilities.date()
+                expense.date = DateTime.now().withTimeAtStartOfDay()
                 expense.idBudget = t.id
                 disposable.add(ViewModelProviders.of(activity!!)
                         .get(ExpenseViewModel::class.java)

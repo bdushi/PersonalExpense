@@ -55,11 +55,11 @@ public class CalendarView extends LinearLayout implements OnDateClickListener{
 	}
 
 	@BindingAdapter(value = {"app:event"}, requireAll = false)
-	public static void addEvent(@NonNull CalendarView calendarView, @NonNull LocalDate[] dateTimeEvent) {
+	public static void addEvent(@NonNull CalendarView calendarView, @NonNull DateTime[] dateTimeEvent) {
 		calendarView.addEvent(dateTimeEvent);
     }
 
-	public void addEvent(@NonNull LocalDate[] dateTimeEvent) {
+	public void addEvent(@NonNull DateTime[] dateTimeEvent) {
 		calendar.setEvent(dateTimeEvent);
 	}
 
