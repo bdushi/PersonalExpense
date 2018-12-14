@@ -3,23 +3,16 @@ package al.bruno.personal.expense.util
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
 object Utilities {
 
     fun format(value: Double, int: Int) : String {
-        return when (int) {
-            0 ->{
-                DecimalFormat("LEK ###,###.###").format(value)
-            }
-            1 ->{
-                DecimalFormat("###").format(value)
-            }
-            else -> {
-                ""
-            }
+        when (int) {
+            0 -> return DecimalFormat("LEK ###,###.###").format(value)
+            1 -> return DecimalFormat("###").format(value)
+            else -> return DecimalFormat("###").format(value)
         }
     }
 
@@ -39,26 +32,15 @@ object Utilities {
     }
 
     fun month(month: Int): String {
-        val monthStr = arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
-        return monthStr[month]
+        return arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")[month]
     }
 
-    fun monthIncrementAndDecrement(calendar: Calendar, month: Int): Calendar {
-        calendar.add(Calendar.MONTH, month)
-        return calendar
+    fun monthFormat(date: Long): String {
+        return DateTimeFormat.forPattern("MMMM yyyy").print(date)
     }
 
-    fun format(calendar: Calendar): String {
-        return String.format("%s %s %s", calendar.get(Calendar.DATE), getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR))
-    }
-
-    fun monthFormat(calendar: Calendar): String {
-        return String.format("%s %s", getMonth(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR))
-    }
-
-    fun getMonth(month: Int): String {
-        val monthStr = arrayOf("Janare", "Shkurte", "Marse", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtatore", "Tetor", "Nentore", "Dhjetore")
-        return monthStr[month]
+    fun month(date: DateTime): String {
+        return DateTimeFormat.forPattern("MMMM").print(date)
     }
 
     fun date(date: Int): String {

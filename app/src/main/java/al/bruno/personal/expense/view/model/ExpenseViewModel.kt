@@ -8,8 +8,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import org.joda.time.DateTime
-import java.util.*
-
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
     private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(application)!!
     override fun insert(expense: Expense): Single<Long> {

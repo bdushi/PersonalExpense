@@ -15,15 +15,14 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
-import java.util.ArrayList
-import java.util.Calendar
-
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
+import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import java.util.*
 
 class StatisticsFragment : Fragment() {
     private var calendar = Calendar.getInstance()
@@ -40,10 +39,10 @@ class StatisticsFragment : Fragment() {
                     }
                 })
         val date = view.findViewById<AppCompatTextView>(R.id.date)
-        date.text = Utilities.monthFormat(calendar)
+        date.text = monthFormat(calendar.timeInMillis)
         view.findViewById<View>(R.id.decrement).setOnClickListener {
-            calendar = Utilities.monthIncrementAndDecrement(calendar, -1)
-            date.text = Utilities.monthFormat(calendar)
+            calendar.add(Calendar.MONTH, -1)
+            date.text = monthFormat(calendar.timeInMillis)
             ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                     .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
                         run{
@@ -52,8 +51,8 @@ class StatisticsFragment : Fragment() {
                     })
         }
         view.findViewById<View>(R.id.increment).setOnClickListener {
-            calendar = Utilities.monthIncrementAndDecrement(calendar, +1)
-            date.text = Utilities.monthFormat(calendar)
+            calendar.add(Calendar.MONTH, 1)
+            date.text = monthFormat(calendar.timeInMillis)
             ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                     .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
                         run{
@@ -87,7 +86,7 @@ class StatisticsFragment : Fragment() {
             barEntryList.add(barEntry)
             i++
         }
-        val barDataSet = BarDataSet(barEntryList, Utilities.getMonth(expenses[0].date!!.monthOfYear))
+        val barDataSet = BarDataSet(barEntryList, month(expenses[0].date!!))
         barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         val dataSets = ArrayList<IBarDataSet>()
         dataSets.add(barDataSet)

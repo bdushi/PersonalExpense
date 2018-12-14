@@ -20,13 +20,10 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 
 import java.text.DecimalFormat
-import java.util.ArrayList
-import java.util.Calendar
 
 import al.bruno.personal.expense.model.BudgetDetails
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.Utilities.monthFormat
-import al.bruno.personal.expense.util.Utilities.monthIncrementAndDecrement
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.BudgetDetailsViewModel
 import android.util.Log
@@ -34,6 +31,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 class HomeFragment : Fragment() {
     private var calendar = Calendar.getInstance()
@@ -44,7 +42,7 @@ class HomeFragment : Fragment() {
         val factory = ViewModelProviderFactory(BudgetDetailsViewModel(provideBudgetDetailsInjection(context!!)))
         disposable.add(ViewModelProviders
                 .of(this, factory)[BudgetDetailsViewModel::class.java]
-                .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     fragmentManager.budgetDetails = it
@@ -52,15 +50,15 @@ class HomeFragment : Fragment() {
                 },{
                     Log.i(HomeFragment::class.java.name, it.message)
                 }))
-        fragmentManager.date.text = monthFormat(calendar)
+        fragmentManager.date.text = monthFormat(calendar.timeInMillis)
 
         fragmentManager.decrementOnClick = object : OnClick {
             override fun onClick() {
-                calendar = monthIncrementAndDecrement(calendar,-1)
-                fragmentManager.date.text = monthFormat(calendar)
+                calendar.add(Calendar.MONTH, -1)
+                fragmentManager.date.text = monthFormat(calendar.timeInMillis)
                 disposable.add(ViewModelProviders
                         .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
-                        .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentManager.budgetDetails = it
@@ -74,11 +72,11 @@ class HomeFragment : Fragment() {
         }
         fragmentManager.incrementOnClick = object : OnClick {
             override fun onClick() {
-                calendar = monthIncrementAndDecrement(calendar,+1)
-                fragmentManager.date.text = monthFormat(calendar)
+                calendar.add(Calendar.MONTH, 1)
+                fragmentManager.date.text = monthFormat(calendar.timeInMillis)
                 disposable.add(ViewModelProviders
                         .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
-                        .budgetDetails(month(calendar[Calendar.MONTH]), calendar[Calendar.YEAR].toString())
+                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentManager.budgetDetails = it
