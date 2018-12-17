@@ -45,14 +45,6 @@ class BudgetFragment : Fragment() {
                         fragmentBudgetBinding.budget = it ?: BudgetMaster()
                     }
                 }
-                /*.subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentBudgetBinding.budget = it
-                }, {
-                    Log.i(BudgetFragment::class.java.name, it.message)
-                }, {
-                    fragmentBudgetBinding.budget = BudgetMaster()
-                })*/
         )
         fragmentBudgetBinding.onClickListenerEditBudget = object: OnClickListener<BudgetMaster> {
             override fun onClick(t: BudgetMaster) {
@@ -133,9 +125,6 @@ class BudgetFragment : Fragment() {
         return fragmentBudgetBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
     override fun onStop() {
         super.onStop()
         disposable.clear()
