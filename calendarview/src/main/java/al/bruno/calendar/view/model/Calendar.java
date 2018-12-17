@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class Calendar implements Observable, Subject<DateTime[]> {
 
     @Bindable
     public String getMonth() {
-        return Utilities.month()[dateTime.getMonthOfYear()];
+        return Utilities.month(dateTime);
     }
     @Bindable
     public String getYear() {

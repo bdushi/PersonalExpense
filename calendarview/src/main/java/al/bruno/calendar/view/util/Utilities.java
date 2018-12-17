@@ -1,10 +1,10 @@
 package al.bruno.calendar.view.util;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 public class Utilities {
-    public static String[] month() {
-        return new String[]{"", "Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nentor", "Dhjetor"};
-    }
-    public static String[] months() {
-        return new String[]{"Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nentor", "Dhjetor"};
+    public static String month(DateTime dateTime) {
+        return DateTimeFormat.forPattern("MMMM").print(dateTime);
     }
 }

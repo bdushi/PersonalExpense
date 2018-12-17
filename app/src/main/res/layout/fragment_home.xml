@@ -139,25 +139,13 @@
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginEnd="@dimen/margin_10"
             android:layout_marginStart="@dimen/margin_10"
+            app:cardCornerRadius="@dimen/elevation_0"
             app:layout_constraintTop_toBottomOf="@id/home_remaining"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/home_expense_label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/expense"
-                    android:padding="@dimen/padding_5"
-                    android:gravity="center"
-                    android:background="@color/teal_700"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/home_expense"
-                    app:layout_constraintEnd_toStartOf="@id/home_incomes_label"
-                    style="@style/Base.TextAppearance.AppCompat.Body2"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/home_expense"
                     android:layout_width="0dp"
@@ -167,22 +155,21 @@
                     android:text="@{budgetDetails.expenseStr}"
                     android:background="@color/teal_700"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/home_expense_label"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/home_expense_label"
                     app:layout_constraintEnd_toStartOf="@id/home_incomes"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/Base.TextAppearance.AppCompat.Body2"/>
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/home_incomes_label"
+                    android:id="@+id/home_expense_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:text="@string/expense"
                     android:gravity="center"
-                    android:padding="@dimen/padding_5"
-                    android:text="@string/incomes"
-                    android:background="@color/cyan_700"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/home_incomes"
-                    app:layout_constraintStart_toEndOf="@id/home_expense_label"
+                    android:background="@color/teal_700"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_expense"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/home_incomes_label"
                     style="@style/Base.TextAppearance.AppCompat.Body2"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/home_incomes"
@@ -192,10 +179,22 @@
                     android:padding="@dimen/padding_5"
                     android:text="@{budgetDetails.incomesStr}"
                     android:background="@color/cyan_700"
-                    app:layout_constraintTop_toBottomOf="@id/home_incomes_label"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/home_expense"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/home_incomes_label"
+                    style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/home_incomes_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/incomes"
+                    android:background="@color/cyan_700"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_incomes"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_expense_label"
                     style="@style/Base.TextAppearance.AppCompat.Body2"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
