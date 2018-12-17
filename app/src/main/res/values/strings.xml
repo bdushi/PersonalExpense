@@ -25,7 +25,6 @@
     <string name="value">Value</string>
     <string name="add_budget_hint">"Budget: "</string>
     <string name="total">"Total"</string>
-    <string name="google_maps_key">"AIzaSyB5GA-7rNUwLtNt0GPVwX1UOwW1M2PaHK8"</string>
     <string name="general">"General"</string>
     <string name="expense_categories">"Expenses"</string>
     <string name="incomes_alert">"Te ardhurat nuk mund te jen me te vogela se buxheti"</string>
