@@ -13,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_border"
-        android:padding="@dimen/padding_10"
+        android:padding="@dimen/dimen_10"
         android:text="@{categories.category}"
         android:onLongClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
+        android:onClick="@{(v) ->onItemClickListener.onItemClick(categories)}"
         style="@style/TextAppearance.AppCompat.Large"/>
 </layout>

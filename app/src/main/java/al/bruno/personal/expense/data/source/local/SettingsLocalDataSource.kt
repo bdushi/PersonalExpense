@@ -23,10 +23,6 @@ class SettingsLocalDataSource(context: Context): SettingsDataSource {
         return appDataSource.settingsDao().updateIncomes(incomes)
     }
 
-    override fun updateBudget(budget: Double) {
-        return appDataSource.settingsDao().updateBudget(budget)
-    }
-
     override fun updateAuto(auto: Boolean) {
         return appDataSource.settingsDao().updateAuto(auto)
     }

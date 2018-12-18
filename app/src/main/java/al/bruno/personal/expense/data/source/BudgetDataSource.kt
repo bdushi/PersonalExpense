@@ -1,13 +1,12 @@
 package al.bruno.personal.expense.data.source
 
-import al.bruno.personal.expense.model.Budget
+import al.bruno.personal.expense.model.Incomes
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
 interface BudgetDataSource {
-    fun insert(budget: Budget) : Single<Long>
-    fun updateBudget(budget: Double, id:Long)/*: Observable<Int>*/
+    fun insert(incomes: Incomes) : Single<Long>
     fun updateIncomes(incomes: Double, id:Long)/*: Observable<Int>*/
-    fun budget(month: String) : LiveData<Budget>
-    fun expense(month: String) : LiveData<Budget>
+    fun budget(month: String) : LiveData<Incomes>
+    fun expense(month: String) : LiveData<Incomes>
 }

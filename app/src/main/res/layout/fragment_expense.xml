@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="budget"
-            type="al.bruno.personal.expense.model.Budget"/>
+            name="incomes"
+            type="al.bruno.personal.expense.model.Incomes"/>
         <variable
             name="onClickListener"
-            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Budget&gt;"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Incomes&gt;"/>
         <variable
             name="onClick"
             type="al.bruno.personal.expense.callback.OnClick"/>
@@ -24,7 +24,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_20">
+            android:layout_margin="@dimen/dimen_20">
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/budget_hint_label"
                 android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
                 android:id="@+id/budget_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{budget.budgetStr}"
+                android:text="@{incomes.incomesStr}"
                 app:layout_constraintTop_toTopOf="@id/budget_hint_label"
                 app:layout_constraintBottom_toBottomOf="@id/budget_hint_label"
                 app:layout_constraintStart_toEndOf="@id/budget_hint_label"
@@ -49,9 +49,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/category_arrays"
-                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginTop="@dimen/dimen_5"
                 android:adapter="@{spinnerAdapter}"
-                android:onItemSelected="@{budget::onItemSelected}"
+                android:onItemSelected="@{incomes::onItemSelected}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/input_exp_text_input_layout"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/spinner"
-                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginTop="@dimen/dimen_5"
                 app:layout_constraintTop_toBottomOf="@id/spinner"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
                 <androidx.appcompat.widget.AppCompatEditText
@@ -71,17 +71,17 @@
                     android:hint="@string/value"
                     android:inputType="numberDecimal"
                     android:selectAllOnFocus="true"
-                    android:text="@={Converter.INSTANCE.stringToDouble(budget.amount)}"
-                    android:enabled="@{budget == null ? false : true}"/>
+                    android:text="@={Converter.INSTANCE.stringToDouble(incomes.amount)}"
+                    android:enabled="@{incomes == null ? false : true}"/>
             </com.google.android.material.textfield.TextInputLayout>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_exp"
-                android:layout_marginTop="@dimen/margin_5"
-                android:enabled="@{budget == null ? false : ((budget.budget >= budget.amount) ? (budget.amount >= 1 ? (spinnerAdapter.empty ? false : true) : false) : false)}"
-                android:onClick="@{() -> onClickListener.onClick(budget)}"
+                android:layout_marginTop="@dimen/dimen_5"
+                android:enabled="@{incomes == null ? false : ((incomes.incomes >= incomes.amount) ? (incomes.amount >= 1 ? (spinnerAdapter.empty ? false : true) : false) : false)}"
+                android:onClick="@{() -> onClickListener.onClick(incomes)}"
                 app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
@@ -92,8 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_20"
             android:src="@drawable/ic_edit_white_24dp"
             android:onClick="@{() -> onClick.onClick()}"/>
     </RelativeLayout>

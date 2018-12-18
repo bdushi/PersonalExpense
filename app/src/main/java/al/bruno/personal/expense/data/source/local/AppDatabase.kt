@@ -8,12 +8,12 @@ import androidx.room.*
 import androidx.room.Database
 
 @Database(
-        entities = arrayOf(User::class, Budget::class, Categories::class, Settings::class, Expense::class),
+        entities = arrayOf(User::class, Incomes::class, Categories::class, Settings::class, Expense::class),
         views = arrayOf(BudgetDetails::class, ExpenseDetails::class),
         version = 1)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun budgetDao(): BudgetDao
+    abstract fun budgetDao(): IncomesDao
     abstract fun expenseDao(): ExpenseDao
     abstract fun categoriesDao(): CategoriesDao
     abstract fun budgetMasterDao(): BudgetMasterDao

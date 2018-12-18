@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adapter="@{customAdapter}"
-            bind:xmargin="@{@dimen/margin_5}"
+            bind:xmargin="@{@dimen/dimen_5}"
             bind:drawableSwipeLeft="@{@drawable/ic_delete_black_36dp}"
             bind:drawableSwipeRight="@{@drawable/ic_edit_white_36dp}"
             bind:colorSwipeLeft="@{@color/red_a700}"
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_20"
             android:src="@drawable/ic_add_white_36dp"
             android:onClick="@{() -> onClick.onClick(customAdapter.items)}"/>
     </RelativeLayout>

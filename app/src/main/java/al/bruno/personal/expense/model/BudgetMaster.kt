@@ -7,7 +7,7 @@ import androidx.room.Embedded
 
 class BudgetMaster() : Parcelable {
     @Embedded
-    var budget: Budget? = null
+    var incomes: Incomes? = null
     //@Relation(entity = Expense::class, parentColumn = "_id", entityColumn = "_id_budget")
     //@Embedded(prefix = "_expense")
     //var expense: List<Expense>? = null
@@ -15,11 +15,11 @@ class BudgetMaster() : Parcelable {
     var amount:Double = 0.0
 
     constructor(parcel: Parcel) : this() {
-        budget = parcel.readParcelable(Budget::class.java.classLoader)
+        incomes = parcel.readParcelable(Incomes::class.java.classLoader)
         amount = parcel.readDouble()
     }
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeParcelable(budget, flags)
+        parcel.writeParcelable(incomes, flags)
         parcel.writeDouble(amount)
     }
 
@@ -38,6 +38,6 @@ class BudgetMaster() : Parcelable {
     }
 
     override fun toString(): String {
-        return "$budget.toString()$amount"
+        return "$incomes.toString()$amount"
     }
 }

@@ -4,7 +4,7 @@ import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideB
 import al.bruno.personal.expense.data.source.BudgetDataSource
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import al.bruno.personal.expense.model.Budget
+import al.bruno.personal.expense.model.Incomes
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
@@ -12,19 +12,17 @@ import io.reactivex.Single
 class BudgetViewModel(application: Application) : AndroidViewModel(application), BudgetDataSource {
     private val budgetRepository: BudgetDataSource = provideBudgetInjection(application)!!
 
-    override fun budget (month: String) : LiveData<Budget> {
+    override fun budget (month: String) : LiveData<Incomes> {
         return budgetRepository.budget(month);
     }
-    override fun expense(month: String): LiveData<Budget> {
+    override fun expense(month: String): LiveData<Incomes> {
         return budgetRepository.expense(month);
     }
 
-    override fun insert(budget: Budget) : Single<Long> {
-        return budgetRepository.insert(budget);
+    override fun insert(incomes: Incomes) : Single<Long> {
+        return budgetRepository.insert(incomes);
     }
-    override fun updateBudget(budget: Double, id:Long) {
-        return budgetRepository.updateBudget(budget, id)
-    }
+
     override fun updateIncomes(incomes: Double, id:Long) {
         return budgetRepository.updateIncomes(incomes, id)
     }

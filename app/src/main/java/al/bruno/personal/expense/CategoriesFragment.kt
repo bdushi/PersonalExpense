@@ -39,6 +39,21 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                     val adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
                             vm.categories = t
+                            vm.onItemClickListener = object : OnItemClickListener<Categories> {
+                                override fun onItemClick(t: Categories) {
+                                    ExpenseBottomSheet
+                                            .Companion
+                                            .Builder()
+                                            .setCategories(categories = t)
+                                            .build()
+                                            .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
+                                }
+
+                                override fun onLongItemClick(t: Categories): Boolean {
+                                    return false
+                                }
+
+                            }
                         }
                     })
                     registerObserver(adapter)

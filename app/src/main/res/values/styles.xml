@@ -43,8 +43,8 @@
     </style>
 
     <style name="TextAppearanceHeader" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:paddingBottom">@dimen/padding_5</item>
-        <item name="android:paddingTop">@dimen/padding_5</item>
+        <item name="android:paddingBottom">@dimen/dimen_5</item>
+        <item name="android:paddingTop">@dimen/dimen_5</item>
     </style>
     <style name="TextAppearance" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">#000</item>

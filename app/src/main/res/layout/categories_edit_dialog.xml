@@ -24,16 +24,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_10">
+        android:padding="@dimen/dimen_10">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/edit_categories_title"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/dimen_10"
             android:drawableStart="@drawable/ic_alert_outline_red_36dp"
-            android:drawablePadding="@dimen/padding_5"
+            android:drawablePadding="@dimen/dimen_5"
             android:text="@{title}"
             app:layout_constraintBottom_toTopOf="@+id/edit_categories_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
             android:id="@+id/edit_categories_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_categories_title">

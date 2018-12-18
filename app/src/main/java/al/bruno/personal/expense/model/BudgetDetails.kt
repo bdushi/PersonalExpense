@@ -7,13 +7,13 @@ import androidx.room.Ignore
 import java.text.DecimalFormat
 
 @DatabaseView("SELECT " +
-        "b._date AS _date, " +
-        "b._budget AS _budget, " +
-        "b._incomes AS _incomes, " +
+        "i._date AS _date, " +
+        "i._incomes AS _budget, " +
+        "i._incomes AS _incomes, " +
         "TOTAL(e._amount) AS _amount, " +
-        "b._incomes - TOTAL(e._amount) AS _balance " +
-        "FROM budget AS b " +
-        "LEFT JOIN expense AS e ON b._id = e._id_budget GROUP BY e._id_budget", viewName = "budget_details")
+        "i._incomes - TOTAL(e._amount) AS _balance " +
+        "FROM incomes AS i " +
+        "LEFT JOIN expense AS e ON i._id = e._id_budget GROUP BY e._id_budget", viewName = "budget_details")
 class BudgetDetails() {
     @ColumnInfo(name = "_budget")
     var budget:Float = 0.toFloat()

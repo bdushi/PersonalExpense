@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.data.source.local
 
 import al.bruno.personal.expense.data.source.BudgetDataSource
-import al.bruno.personal.expense.model.Budget
+import al.bruno.personal.expense.model.Incomes
 import android.content.Context
 import androidx.annotation.Nullable
 import androidx.lifecycle.LiveData
@@ -32,30 +32,22 @@ class BudgetLocalDataSource : BudgetDataSource {
         }
     }
 
-    override fun insert(budget: Budget): Single<Long> {
-        return DATABASE_INSTANCE.budgetDao().insert(budget)
-    }
-
-    override fun updateBudget(budget: Double, id: Long)/*: Observable<Int>*/ {
-        return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
+    override fun insert(incomes: Incomes): Single<Long> {
+        return DATABASE_INSTANCE.budgetDao().insert(incomes)
     }
 
     override fun updateIncomes(incomes: Double, id: Long)/*: Observable<Int>*/ {
         return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
     }
 
-    /*override fun updateBudget(budget: Double, id: Long): Single<Int> {
-        return DATABASE_INSTANCE.budgetDao().updateBudget(budget, id);
-    }
-
-    override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
+    /*override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
         return DATABASE_INSTANCE.budgetDao().updateIncomes(incomes, id)
     }*/
 
-    override fun budget(month: String): LiveData<Budget> {
+    override fun budget(month: String): LiveData<Incomes> {
         return DATABASE_INSTANCE.budgetDao().budget(month)
     }
-    override fun expense(month: String): LiveData<Budget> {
+    override fun expense(month: String): LiveData<Incomes> {
         return DATABASE_INSTANCE.budgetDao().expense(month)
     }
 }

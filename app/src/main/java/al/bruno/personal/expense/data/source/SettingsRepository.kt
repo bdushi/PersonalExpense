@@ -25,10 +25,6 @@ class SettingsRepository(private val settingsDataSource: SettingsDataSource) : S
         return settingsDataSource.updateIncomes(incomes)
     }
 
-    override fun updateBudget(budget: Double) {
-        return settingsDataSource.updateBudget(budget)
-    }
-
     override fun updateAuto(auto: Boolean) {
         return settingsDataSource.updateAuto(auto)
     }

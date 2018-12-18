@@ -106,11 +106,12 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding.incomesOnClick = object : OnClick {
             override fun onClick() {
-                fragmentManager!!
+                //TODO
+                /*fragmentManager!!
                         .beginTransaction()
                         .replace(R.id.host, ExpenseFragment())
                         .addToBackStack("EXPENSE_FRAGMENT")
-                        .commit()
+                        .commit()*/
             }
         }
         fragmentHomeBinding.expenseOnClick = object : OnClick {
@@ -119,6 +120,16 @@ class HomeFragment : Fragment() {
                         .beginTransaction()
                         .replace(R.id.host, DetailsFragment())
                         .addToBackStack("DETAILS_FRAGMENT")
+                        .commit()
+            }
+        }
+
+        fragmentHomeBinding.addExpenseOnClick = object : OnClick {
+            override fun onClick() {
+                fragmentManager!!
+                        .beginTransaction()
+                        .replace(R.id.host, CategoriesFragment())
+                        .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
                         .commit()
             }
         }
@@ -146,20 +157,21 @@ class HomeFragment : Fragment() {
 
         val colors = ArrayList<Int>()
 
-        for (c in ColorTemplate.VORDIPLOM_COLORS)
+        for (c in ColorTemplate.VORDIPLOM_COLORS) {
             colors.add(c)
-
-        for (c in ColorTemplate.JOYFUL_COLORS)
+        }
+        for (c in ColorTemplate.JOYFUL_COLORS) {
             colors.add(c)
-
-        for (c in ColorTemplate.COLORFUL_COLORS)
+        }
+        for (c in ColorTemplate.COLORFUL_COLORS) {
             colors.add(c)
-
-        for (c in ColorTemplate.LIBERTY_COLORS)
+        }
+        for (c in ColorTemplate.LIBERTY_COLORS) {
             colors.add(c)
-
-        for (c in ColorTemplate.PASTEL_COLORS)
+        }
+        for (c in ColorTemplate.PASTEL_COLORS) {
             colors.add(c)
+        }
 
         colors.add(ColorTemplate.getHoloBlue())
 

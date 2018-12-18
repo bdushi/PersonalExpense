@@ -1,6 +1,6 @@
 package al.bruno.personal.expense.data.source
 
-import al.bruno.personal.expense.model.Budget
+import al.bruno.personal.expense.model.Incomes
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 
@@ -23,29 +23,22 @@ class BudgetRepository(budgetDataSource: BudgetDataSource) : BudgetDataSource {
         }
     }
 
-    override fun insert(budget: Budget): Single<Long> {
-        return budgetDataSource.insert(budget)
+    override fun insert(incomes: Incomes): Single<Long> {
+        return budgetDataSource.insert(incomes)
     }
 
-    /*override fun updateBudget(budget: Double, id: Long): Single<Int> {
-        return budgetDataSource.updateBudget(budget, id)
-    }
-
-    override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
+    /*override fun updateIncomes(incomes: Double, id: Long): Single<Int> {
         return budgetDataSource.updateIncomes(incomes, id)
     }*/
-    override fun updateBudget(budget: Double, id: Long)/*: Observable<Int> */{
-        return budgetDataSource.updateBudget(budget, id)
-    }
 
     override fun updateIncomes(incomes: Double, id: Long)/*: Observable<Int>*/ {
         return budgetDataSource.updateIncomes(incomes, id)
     }
 
-    override fun budget(month: String): LiveData<Budget> {
+    override fun budget(month: String): LiveData<Incomes> {
         return budgetDataSource.budget(month)
     }
-    override fun expense(month: String): LiveData<Budget> {
+    override fun expense(month: String): LiveData<Incomes> {
         return budgetDataSource.expense(month)
     }
 

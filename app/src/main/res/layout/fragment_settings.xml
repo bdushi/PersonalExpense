@@ -10,8 +10,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/padding_30"
-        android:paddingEnd="@dimen/padding_30">
+        android:paddingStart="@dimen/dimen_30"
+        android:paddingEnd="@dimen/dimen_30">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/settings_general_label"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:checked="@={settings.auto}"
-            android:padding="@dimen/padding_10"
+            android:padding="@dimen/dimen_10"
             app:layout_constraintBottom_toTopOf="@id/incomes_input_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/auto_expense_label"
@@ -89,7 +89,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/budget"
+            android:text="@string/incomes"
             app:layout_constraintBottom_toBottomOf="@+id/budget_input_layout"
             app:layout_constraintEnd_toStartOf="@+id/budget_input_layout"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
                 android:hint="@string/edit"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(settings.budget)}"
+                android:text="@={Converter.INSTANCE.stringToDouble(settings.incomes)}"
                 android:enabled="@{settings.auto ? true : false}" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

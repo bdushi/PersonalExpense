@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="budgetDetails"
@@ -17,6 +19,9 @@
             name="expenseOnClick"
             type="al.bruno.personal.expense.callback.OnClick"/>
         <variable
+            name="addExpenseOnClick"
+            type="al.bruno.personal.expense.callback.OnClick"/>
+        <variable
             name="logAdapter"
             type="al.bruno.personal.expense.adapter.CustomAdapter"/>
         <variable
@@ -24,8 +29,6 @@
             type="al.bruno.personal.expense.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.google.android.material.appbar.AppBarLayout
@@ -45,7 +48,7 @@
                     android:id="@+id/decrement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_5"
+                    android:layout_margin="@dimen/dimen_5"
                     android:onClick="@{()->decrementOnClick.onClick()}"
                     android:src="@drawable/ic_chevron_left_white_36"/>
                 <androidx.appcompat.widget.AppCompatTextView
@@ -60,7 +63,7 @@
                     android:id="@+id/increment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/padding_5"
+                    android:layout_margin="@dimen/dimen_5"
                     android:onClick="@{()->incrementOnClick.onClick()}"
                     android:src="@drawable/ic_chevron_right_white_36dp"/>
             </LinearLayout>
@@ -71,16 +74,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/summary"
-            android:layout_marginStart="@dimen/margin_10"
-            android:layout_marginEnd="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginBottom="@dimen/dimen_5"
             app:layout_constraintTop_toBottomOf="@id/app_bar_date_layout"/>
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pie_chart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginStart="@dimen/dimen_10"
             android:contentDescription="@string/add_your_incomes"
             bind:pieData="@{pieData}"
             app:layout_constraintBottom_toBottomOf="@+id/home_remaining"
@@ -93,9 +96,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/balance"
-            android:layout_marginStart="@dimen/margin_5"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/dimen_10"
             app:layout_constraintTop_toBottomOf="@id/home_summary_label"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,8 +108,8 @@
             android:id="@+id/home_balance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_5"
-            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/dimen_10"
             android:text="@{budgetDetails.balanceStr}"
             app:layout_constraintTop_toBottomOf="@id/home_balance_label"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
@@ -117,9 +120,9 @@
             android:id="@+id/home_remaining_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:layout_marginStart="@dimen/margin_5"
-            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/dimen_10"
             android:text="@string/remaining"
             app:layout_constraintTop_toBottomOf="@id/home_balance"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
@@ -131,37 +134,27 @@
             android:id="@+id/home_remaining"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_5"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginEnd="@dimen/dimen_10"
             android:text="@{budgetDetails.budgetStr}"
             app:layout_constraintTop_toBottomOf="@id/home_remaining_label"
             app:layout_constraintStart_toEndOf="@id/pie_chart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="2"
             style="@style/Base.TextAppearance.AppCompat.Large" />
-         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/margin_10"
-            android:layout_marginStart="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_5"
-            android:adapter="@{logAdapter}"
-            app:spanCount="4"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/home_footer_layout"
-            app:layout_constraintTop_toBottomOf="@id/home_remaining"/>
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/home_footer_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
-            app:cardCornerRadius="@dimen/elevation_0"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+            app:cardCornerRadius="@dimen/dimen_0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/home_remaining">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,38 +190,61 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         style="@style/Base.TextAppearance.AppCompat.Body2"/>
                 </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:onClick="@{()->expenseOnClick.onClick()}">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/home_expense"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{budgetDetails.expenseStr}"
-                    android:background="@color/teal_700"
-                    app:layout_constraintStart_toEndOf="@id/home_incomes"
-                    app:layout_constraintBottom_toTopOf="@id/home_expense_label"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/Base.TextAppearance.AppCompat.Body2"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/home_expense_label"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/expense"
-                    android:gravity="center"
-                    android:background="@color/teal_700"
-                    app:layout_constraintEnd_toEndOf="@id/home_expense"
-                    app:layout_constraintTop_toBottomOf="@id/home_expense"
-                    app:layout_constraintStart_toStartOf="@id/home_expense"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    style="@style/Base.TextAppearance.AppCompat.Body2"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:onClick="@{()->expenseOnClick.onClick()}">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/home_expense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{budgetDetails.expenseStr}"
+                        android:background="@color/teal_700"
+                        app:layout_constraintStart_toEndOf="@id/home_incomes"
+                        app:layout_constraintBottom_toTopOf="@id/home_expense_label"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/home_expense_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/expense"
+                        android:gravity="center"
+                        android:background="@color/teal_700"
+                        app:layout_constraintEnd_toEndOf="@id/home_expense"
+                        app:layout_constraintTop_toBottomOf="@id/home_expense"
+                        app:layout_constraintStart_toStartOf="@id/home_expense"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dimen_5"
+            android:adapter="@{logAdapter}"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_marginEnd="@dimen/dimen_10"
+            app:spanCount="4"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/home_footer_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white_36dp"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:onClick="@{()->addExpenseOnClick.onClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

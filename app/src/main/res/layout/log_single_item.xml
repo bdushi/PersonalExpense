@@ -9,18 +9,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/margin_5"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/dimen_5"
         android:background="@drawable/expense_background">
         <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{expense.expense}"
+            android:layout_weight="2"
             style="@style/TextAppearance"/>
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@id/expense"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{expense.amountStr}"/>
+            android:layout_weight="1"
+            android:gravity="end"
+            android:layout_gravity="center_vertical"
+            android:text="@{expense.amountStr}"
+            style="@style/TextAppearance.AppCompat.Body2"/>
     </LinearLayout>
 </layout>

@@ -19,10 +19,10 @@
             <solid
                 android:color="@color/white" />
             <corners
-                android:bottomLeftRadius="@dimen/radius_5"
-                android:bottomRightRadius="@dimen/radius_5"
-                android:topLeftRadius="@dimen/radius_5"
-                android:topRightRadius="@dimen/radius_5" />
+                android:bottomLeftRadius="@dimen/dimen_5"
+                android:bottomRightRadius="@dimen/dimen_5"
+                android:topLeftRadius="@dimen/dimen_5"
+                android:topRightRadius="@dimen/dimen_5" />
         </shape>
     </item>
 </layer-list>

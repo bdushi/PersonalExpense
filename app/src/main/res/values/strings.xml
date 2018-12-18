@@ -12,7 +12,6 @@
     <string name="add_value">Add</string>
     <string name="add_your_budget">Add Budget</string>
     <string name="add_your_incomes">Add Incomes</string>
-    <string name="budget">Budget</string>
     <string name="out_of_incomes_alert">You have spent the incomes</string>
     <string name="out_of_incomes">Out Of Incomes</string>
     <string name="out_of_budget">Out Of Budget</string>

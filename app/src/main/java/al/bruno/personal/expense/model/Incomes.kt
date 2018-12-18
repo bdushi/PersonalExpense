@@ -12,20 +12,12 @@ import androidx.room.*
 import androidx.databinding.PropertyChangeRegistry
 import org.joda.time.DateTime
 
-@Entity(tableName = "budget",  indices = arrayOf(Index(value = arrayOf("_date") , unique = true)))
-class Budget() : Observable, OnItemSelectedListener, Parcelable {
+@Entity(tableName = "incomes",  indices = arrayOf(Index(value = arrayOf("_date") , unique = true)))
+class Incomes() : Observable, OnItemSelectedListener, Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
-    @ColumnInfo(name = "_budget")
-    var budget: Double = 0.0
-        @Bindable
-        get
-        set(value){
-            field = value
-            propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.budget)
-        }
     @ColumnInfo(name = "_incomes")
     var incomes: Double = 0.0
         @Bindable
@@ -40,11 +32,6 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
     /*@Embedded(prefix = "_expense")
     var expense: Expense? = null*/
 
-    @Ignore
-    var budgetStr: String = ""
-    get() {
-        return format(budget, 0)
-    }
     @Ignore
     var incomesStr: String = ""
         get() {
@@ -84,7 +71,6 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
-        budget = parcel.readDouble()
         incomes = parcel.readDouble()
         date = DateTime(parcel.readLong())
         amount = parcel.readDouble();
@@ -92,7 +78,6 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
-        parcel.writeDouble(budget)
         parcel.writeDouble(incomes)
         parcel.writeLong(date!!.millis)
         parcel.writeDouble(amount)
@@ -102,17 +87,17 @@ class Budget() : Observable, OnItemSelectedListener, Parcelable {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Budget> {
-        override fun createFromParcel(parcel: Parcel): Budget {
-            return Budget(parcel)
+    companion object CREATOR : Parcelable.Creator<Incomes> {
+        override fun createFromParcel(parcel: Parcel): Incomes {
+            return Incomes(parcel)
         }
 
-        override fun newArray(size: Int): Array<Budget?> {
+        override fun newArray(size: Int): Array<Incomes?> {
             return arrayOfNulls(size)
         }
     }
 
     override fun toString(): String {
-        return "$id-$date$budget$incomes"
+        return "$id-$date$incomes"
     }
 }
