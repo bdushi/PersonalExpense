@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="expense"
@@ -9,48 +8,38 @@
         <variable
             name="onClickListener"
             type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Expense&gt;"/>
+
         <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_margin="@dimen/dimen_5">
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_5"
-            android:text="@{expense.category}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/input_exp_text_input_layout"
-            app:layout_constraintTop_toBottomOf="@id/budget_hint_label"/>
+            android:text="@{expense.category}"/>
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_exp_text_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/spinner"
             android:layout_marginTop="@dimen/dimen_5"
-            app:layout_constraintTop_toBottomOf="@id/spinner"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_exp_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/value"
                 android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(incomes.amount)}"/>
+                android:selectAllOnFocus="true"/>
         </com.google.android.material.textfield.TextInputLayout>
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_add"
+            android:onClick="@{() -> onClickListener.onClick(expense)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_exp"
             android:layout_marginTop="@dimen/dimen_5"
-            android:onClick="@{() -> onClickListener.onClick(incomes)}"
-            app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="end"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

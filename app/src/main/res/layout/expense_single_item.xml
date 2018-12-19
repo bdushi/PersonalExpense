@@ -27,7 +27,7 @@
             android:id="@+id/expense_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{expense.expense}"
+            android:text="@{expense.category}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/id"
             app:layout_constraintEnd_toEndOf="parent"

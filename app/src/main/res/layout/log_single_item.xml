@@ -15,7 +15,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{expense.expense}"
+            android:text="@{expense.category}"
             android:layout_weight="2"
             style="@style/TextAppearance"/>
         <androidx.appcompat.widget.AppCompatTextView

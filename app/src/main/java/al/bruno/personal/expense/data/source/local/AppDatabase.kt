@@ -9,15 +9,13 @@ import androidx.room.Database
 
 @Database(
         entities = arrayOf(User::class, Categories::class, Settings::class, Expense::class),
-        views = arrayOf(BudgetDetails::class, ExpenseDetails::class),
+        views = arrayOf(BudgetDetails::class),
         version = 1)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun categoriesDao(): CategoriesDao
-    abstract fun budgetMasterDao(): BudgetMasterDao
     abstract fun budgetDetailsDao(): BudgetDetailsDao
-    abstract fun expenseDetailsDao(): ExpenseDetailsDao
     abstract fun settingsDao() : SettingsDao
     companion object {
         private var INSTANCE: AppDatabase? = null

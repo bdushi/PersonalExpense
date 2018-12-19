@@ -14,6 +14,7 @@ import android.view.ViewGroup
 
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
+import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
 import androidx.databinding.DataBindingUtil
@@ -38,13 +39,15 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                 .subscribe({
                     val adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
                         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
+                            val expense = Expense();
+                            expense.category = t.category
                             vm.categories = t
                             vm.onItemClickListener = object : OnItemClickListener<Categories> {
                                 override fun onItemClick(t: Categories) {
                                     ExpenseBottomSheet
                                             .Companion
                                             .Builder()
-                                            .setExpense(categories = t)
+                                            .setExpense(expense)
                                             .build()
                                             .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
                                 }

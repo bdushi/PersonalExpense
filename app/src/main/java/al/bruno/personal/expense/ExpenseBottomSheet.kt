@@ -1,9 +1,9 @@
 package al.bruno.personal.expense
 
-import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
 import al.bruno.personal.expense.model.Expense
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,14 +31,16 @@ class ExpenseBottomSheet : BottomSheetDialogFragment() {
         private fun newInstance(expense: Expense): ExpenseBottomSheet {
             val expenseBottomSheet = ExpenseBottomSheet()
             val bundle = Bundle()
-            bundle.putParcelable("CATEGORIES", expense)
+            bundle.putParcelable("EXPENSE", expense)
+            expenseBottomSheet.arguments = bundle
             return expenseBottomSheet
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentExpenseBinding : BottomSheetExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_expense, container, false)
-        fragmentExpenseBinding.expense = arguments!!.getParcelable("CATEGORIES")
+        if(arguments != null)
+            fragmentExpenseBinding.expense = arguments!!.getParcelable("EXPENSE")
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
                 t.date = DateTime.now().withTimeAtStartOfDay()

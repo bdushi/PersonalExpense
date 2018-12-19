@@ -12,12 +12,6 @@ object InjectionProvider {
     fun provideBudgetDestroyInstance() {
         return BudgetDetailsRepository.destroyInstance()
     }
-    fun provideBudgetInjection(@NonNull context: Context): BudgetDataSource? {
-        return BudgetRepository.getInstance(BudgetLocalDataSource.INSTANCE(context)!!)
-    }
-    fun providerBudgetMasterInjection(context: Context): BudgetMasterDataSource? {
-        return BudgetMasterRepository.getInstance(BudgetMasterLocalDataSource.INSTANCE(context)!!)
-    }
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
         return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)
     }
@@ -26,8 +20,5 @@ object InjectionProvider {
     }
     fun providerSettingsInjection(@NonNull context: Context) : SettingsDataSource? {
         return SettingsRepository.getInstance(SettingsLocalDataSource.INSTANCE(context)!!)
-    }
-    fun providerExpenseDetailsInjection(@NonNull context: Context): ExpenseDetailsDataSource? {
-        return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.INSTANCE(context)!!)
     }
 }

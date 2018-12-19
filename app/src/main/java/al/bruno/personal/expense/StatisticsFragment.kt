@@ -96,7 +96,7 @@ class StatisticsFragment : Fragment() {
     private fun getXAxisValues(expenses: List<Expense>): Array<String?> {
         val xAxis = arrayOfNulls<String>(expenses.size)
         for (i in expenses.indices) {
-            xAxis[i] = expenses[i].expense
+            xAxis[i] = expenses[i].category
         }
         return xAxis
     }
