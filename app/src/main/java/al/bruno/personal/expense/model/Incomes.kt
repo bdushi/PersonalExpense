@@ -1,11 +1,8 @@
 package al.bruno.personal.expense.model
 
-import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.util.Utilities.format
 import android.os.Parcel
 import android.os.Parcelable
-import android.view.View
-import android.widget.AdapterView
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.room.*
@@ -13,7 +10,7 @@ import androidx.databinding.PropertyChangeRegistry
 import org.joda.time.DateTime
 
 @Entity(tableName = "incomes",  indices = arrayOf(Index(value = arrayOf("_date") , unique = true)))
-class Incomes() : Observable, OnItemSelectedListener, Parcelable {
+class Incomes() : Observable, Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
@@ -29,22 +26,10 @@ class Incomes() : Observable, OnItemSelectedListener, Parcelable {
     @ColumnInfo(name = "_date")
     var date: DateTime? = null
 
-    /*@Embedded(prefix = "_expense")
-    var expense: Expense? = null*/
-
     @Ignore
     var incomesStr: String = ""
         get() {
             return format(incomes, 0)
-        }
-
-    @Ignore
-    var expenseStr: String = ""
-        @Bindable
-        get
-        set(value) {
-            field = value
-            propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.expenseStr)
         }
 
     @Ignore
@@ -55,6 +40,8 @@ class Incomes() : Observable, OnItemSelectedListener, Parcelable {
             field = value
             propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.amount)
         }
+    @Ignore
+    var expense: String? = null
 
     @Ignore
     private val propertyChangeRegistry = PropertyChangeRegistry()
@@ -64,9 +51,6 @@ class Incomes() : Observable, OnItemSelectedListener, Parcelable {
     }
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         propertyChangeRegistry.add(callback)
-    }
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        expenseStr = (p0!!.getItemAtPosition(p2) as Categories).category!!
     }
 
     constructor(parcel: Parcel) : this() {

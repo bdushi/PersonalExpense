@@ -44,7 +44,7 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                                     ExpenseBottomSheet
                                             .Companion
                                             .Builder()
-                                            .setCategories(categories = t)
+                                            .setExpense(categories = t)
                                             .build()
                                             .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
                                 }

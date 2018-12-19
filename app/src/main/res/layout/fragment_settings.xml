@@ -1,119 +1,65 @@
-<layout>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="settings"
             type="al.bruno.personal.expense.model.Settings"/>
         <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dimen_30"
-        android:paddingEnd="@dimen/dimen_30">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/settings_general_label"
-            style="@style/TextAppearance.AppCompat.Small"
+        android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/general"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toTopOf="@id/auto_expense"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/auto_expense_label"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical|start"
-            android:text="@string/manual_expense"
-            app:layout_constraintBottom_toBottomOf="@+id/auto_expense"
-            app:layout_constraintEnd_toStartOf="@+id/auto_expense"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/auto_expense" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/auto_expense"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/dimen_20">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/settings_general_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/general"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@id/auto_expense"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/auto_expense_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/smart_incomes"
+                    android:textColor="@{settings.auto ? @color/green_700 : @color/red_a700}"
+                    app:layout_constraintBottom_toBottomOf="@+id/auto_expense"
+                    app:layout_constraintEnd_toStartOf="@+id/auto_expense"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/auto_expense" />
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/auto_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="@={settings.auto}"
+                    android:padding="@dimen/dimen_10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/auto_expense_label"
+                    app:layout_constraintTop_toBottomOf="@+id/settings_general_label" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:checked="@={settings.auto}"
-            android:padding="@dimen/dimen_10"
-            app:layout_constraintBottom_toTopOf="@id/incomes_input_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/auto_expense_label"
-            app:layout_constraintTop_toBottomOf="@+id/settings_general_label" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:src="@drawable/ic_add_white_36dp"/>
+    </RelativeLayout>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/incomes_input_label"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/incomes"
-            app:layout_constraintBottom_toBottomOf="@+id/incomes_input_layout"
-            app:layout_constraintEnd_toStartOf="@+id/incomes_input_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/incomes_input_layout" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/incomes_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/budget_input_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/incomes_input_label"
-            app:layout_constraintTop_toBottomOf="@id/auto_expense">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_default_incomes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:hint="@string/edit"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(settings.incomes)}"
-                android:enabled="@{settings.auto ? true : false}"  />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/budget_input_label"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/incomes"
-            app:layout_constraintBottom_toBottomOf="@+id/budget_input_layout"
-            app:layout_constraintEnd_toStartOf="@+id/budget_input_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/budget_input_layout" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/budget_input_layout"
-            android:layout_width="0pt"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/budget_input_label"
-            app:layout_constraintTop_toBottomOf="@+id/incomes_input_layout">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_default_budget"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:hint="@string/edit"
-                android:inputType="numberDecimal"
-                android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(settings.incomes)}"
-                android:enabled="@{settings.auto ? true : false}" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

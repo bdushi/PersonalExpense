@@ -4,14 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="incomes"
-            type="al.bruno.personal.expense.model.Incomes"/>
+            name="expense"
+            type="al.bruno.personal.expense.model.Expense"/>
         <variable
             name="onClickListener"
-            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Incomes&gt;"/>
-        <variable
-            name="onClick"
-            type="al.bruno.personal.expense.callback.OnClick"/>
+            type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Expense&gt;"/>
         <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,30 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_5">
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/budget_hint_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_budget_hint"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/budget_hint"
-            app:layout_constraintBottom_toTopOf="@id/spinner"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/budget_hint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{incomes.incomesStr}"
-            app:layout_constraintTop_toTopOf="@id/budget_hint_label"
-            app:layout_constraintBottom_toBottomOf="@id/budget_hint_label"
-            app:layout_constraintStart_toEndOf="@id/budget_hint_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="@style/TextAppearance.AppCompat.Small"/>
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_5"
-            android:text="@{incomes.expenseStr}"
+            android:text="@{expense.category}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/input_exp_text_input_layout"
@@ -62,8 +40,7 @@
                 android:hint="@string/value"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
-                android:text="@={Converter.INSTANCE.stringToDouble(incomes.amount)}"
-                android:enabled="@{incomes == null ? false : true}"/>
+                android:text="@={Converter.INSTANCE.stringToDouble(incomes.amount)}"/>
         </com.google.android.material.textfield.TextInputLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_add"
@@ -71,7 +48,6 @@
             android:layout_height="wrap_content"
             android:text="@string/add_exp"
             android:layout_marginTop="@dimen/dimen_5"
-            android:enabled="@{incomes == null ? false : ((incomes.incomes >= incomes.amount) ? (incomes.amount >= 1 ? true : false) : false)}"
             android:onClick="@{() -> onClickListener.onClick(incomes)}"
             app:layout_constraintTop_toBottomOf="@id/input_exp_text_input_layout"
             app:layout_constraintEnd_toEndOf="parent"

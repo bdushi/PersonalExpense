@@ -36,8 +36,7 @@
     <string name="summary">Summary</string>
     <string name="balance">BALANCE</string>
     <string name="remaining">REMAINING</string>
-    <string name="automatic_expense">"Automatic Expenses"</string>
-    <string name="manual_expense">"Manual Expenses"</string>
+    <string name="smart_incomes">"Smart Incomes"</string>
     <string name="budget_grater_than_incomes">Budget must not be grater then Incomes</string>
     <string name="error">Error</string>
     <string-array name="category_arrays">

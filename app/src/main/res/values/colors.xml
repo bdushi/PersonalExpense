@@ -23,4 +23,6 @@
     <color name="lime_700">#AFB42B</color>
     <color name="light_green_700">#689F38</color>
     <color name="green_700">#388E3C</color>
+    <color name="leftToRight">#b71c1c</color>
+    <color name="rightToLeft">#1b5e20</color>
 </resources>
