@@ -3,15 +3,17 @@ package al.bruno.personal.expense
 import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
 import al.bruno.personal.expense.model.Expense
-import android.content.DialogInterface
+import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
 class ExpenseBottomSheet : BottomSheetDialogFragment() {
@@ -39,28 +41,26 @@ class ExpenseBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentExpenseBinding : BottomSheetExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_expense, container, false)
-        if(arguments != null)
-            fragmentExpenseBinding.expense = arguments!!.getParcelable("EXPENSE")
+        fragmentExpenseBinding.expense = arguments!!.getParcelable("EXPENSE")
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
                 t.date = DateTime.now().withTimeAtStartOfDay()
-                /*disposable.add(ViewModelProviders.of(activity!!)
+                disposable.add(ViewModelProviders.of(activity!!)
                         .get(ExpenseViewModel::class.java)
-                        .insert(expense)
+                        .insert(t)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            if(it != -1.toLong()) {
-                                t.amount = 0.0
-                                Log.i(ExpenseFragment::class.java.name, "Success")
+                            if (it != -1.toLong()) {
+                                Log.i(ExpenseBottomSheet::class.java.name, "Success")
+                                dismiss()
                                 //Toast.makeText(activity, R.string.success, Toast.LENGTH_SHORT).show()
                             } else
-                                Log.i(ExpenseFragment::class.java.name, "Fail")
+                                Log.i(ExpenseBottomSheet::class.java.name, "Fail")
                             //Toast.makeText(activity, R.string.fail, Toast.LENGTH_SHORT).show()
                         }, {
-                            Log.i(ExpenseFragment::class.java.name, it.message)
+                            Log.i(ExpenseBottomSheet::class.java.name, it.message)
                             //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-                        }))*/
-                Toast.makeText(activity, t.toString(), Toast.LENGTH_SHORT).show()
+                        }))
             }
         }
         return fragmentExpenseBinding.root

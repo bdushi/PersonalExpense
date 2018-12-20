@@ -10,7 +10,7 @@ object Utilities {
 
     fun format(value: Double, int: Int) : String {
         when (int) {
-            0 -> return DecimalFormat("LEK ###,###.###").format(value)
+            0 -> return DecimalFormat("###,###.### LEK").format(value)
             1 -> return DecimalFormat("###").format(value)
             else -> return DecimalFormat("###").format(value)
         }

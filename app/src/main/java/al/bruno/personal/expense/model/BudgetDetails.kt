@@ -24,7 +24,7 @@ class BudgetDetails() {
     var balance:Float = 0.toFloat()
 
     @Ignore
-    val decimalFormat = DecimalFormat("LEK ###,###.###")
+    val decimalFormat = DecimalFormat("###,###.### LEK")
     @Ignore
     var budgetStr : String? = ""
         get() {
