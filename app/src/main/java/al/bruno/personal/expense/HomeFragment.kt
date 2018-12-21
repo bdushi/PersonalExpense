@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
             override fun onClick() {
                 fragmentManager!!
                         .beginTransaction()
-                        .replace(R.id.host, CategoriesFragment())
+                        .replace(R.id.host, HostFragment())
                         .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
                         .commit()
             }
