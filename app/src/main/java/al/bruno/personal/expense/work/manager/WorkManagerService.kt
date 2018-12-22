@@ -2,7 +2,6 @@ package al.bruno.personal.expense.work.manager
 
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import android.content.Context
-import androidx.work.Result
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import io.reactivex.disposables.CompositeDisposable

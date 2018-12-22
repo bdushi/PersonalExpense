@@ -5,10 +5,7 @@
     <data>
         <variable
             name="customAdapter"
-            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
-        <variable
-            name="onClick"
-            type="al.bruno.personal.expense.callback.OnClickListener"/>
+            type="al.bruno.personal.expense.adapter.CustomEditAdapter"/>
         <variable
             name="onItemSwipeSelectListener"
             type="al.bruno.personal.expense.callback.OnItemSwipeSelectListener"/>
@@ -29,16 +26,6 @@
             bind:onLeftSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedLeft(customAdapter.item(p))}"
             bind:onRightSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedRight(customAdapter.item(p))}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/categories_expense_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/dimen_20"
-            android:layout_marginBottom="@dimen/dimen_20"
-            android:src="@drawable/ic_add_white_36dp"
-            android:onClick="@{() -> onClick.onClick(customAdapter.items)}"/>
     </RelativeLayout>
 
 </layout>

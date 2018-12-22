@@ -94,7 +94,7 @@ android {
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
-        implementation 'android.arch.work:work-runtime:1.0.0-alpha12'
+        implementation 'android.arch.work:work-runtime:1.0.0-beta01'
         implementation project(':calendarview')
         implementation 'joda-time:joda-time:2.10.1'
     }

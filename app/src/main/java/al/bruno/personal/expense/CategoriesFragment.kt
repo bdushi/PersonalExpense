@@ -1,6 +1,6 @@
 package al.bruno.personal.expense
 
-import al.bruno.personal.expense.adapter.CustomAdapter
+import al.bruno.personal.expense.adapter.EditAdapter
 import al.bruno.personal.expense.callback.*
 import android.os.Bundle
 
@@ -14,6 +14,7 @@ import android.view.ViewGroup
 
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
+import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
@@ -24,7 +25,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
-class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListener<MutableList<Any?>>, OnItemSwipeSelectListener<Categories>, Subject<Categories> {
+class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories> >()
@@ -37,63 +38,67 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                 .categories()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    val adapter = CustomAdapter(it, R.layout.categories_single_item, object : BindingData<Categories, CategoriesSingleItemBinding> {
-                        override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
-                            val expense = Expense();
-                            expense.category = t.category
-                            vm.categories = t
-                            vm.onItemClickListener = object : OnItemClickListener<Categories> {
-                                override fun onItemClick(t: Categories) {
-                                    ExpenseBottomSheet
-                                            .Companion
+                    //R.layout.add_new_item, R.layout.categories_single_item,
+                    val adapter = EditAdapter<Categories, CategoriesSingleItemBinding, AddNewItemBinding>(
+                            it,
+                            R.layout.categories_single_item,
+                            object : BindingData<Categories, CategoriesSingleItemBinding> {
+                                override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
+                                    val expense = Expense();
+                                    expense.category = t.category
+                                    vm.categories = t
+                                    vm.onItemClickListener = object : OnItemClickListener<Categories> {
+                                        override fun onItemClick(t: Categories) {
+                                            ExpenseBottomSheet
+                                                    .Companion
+                                                    .Builder()
+                                                    .setExpense(expense)
+                                                    .build()
+                                                    .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
+                                        }
+
+                                        override fun onLongItemClick(t: Categories): Boolean {
+                                            return false
+                                        }
+                                    }
+                                }
+                            }, R.layout.add_new_item, object : BindingData<List<Categories>, AddNewItemBinding> {
+                        override fun bindData(t: List<Categories>, vm: AddNewItemBinding) {
+                            vm.onClick = object : OnClick {
+                                override fun onClick() {
+                                    EditCategoriesDialog
                                             .Builder()
-                                            .setExpense(expense)
+                                            .setHint(R.string.categories)
+                                            .setTitle(R.string.add_categories)
+                                            .setCategoriesList(t)
                                             .build()
-                                            .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
+                                            .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
+                                                override fun onEdit(t: Categories) {
+                                                    disposable.add(ViewModelProviders
+                                                            .of(this@CategoriesFragment)
+                                                            .get(CategoriesViewModel::class.java)
+                                                            .insert(t)
+                                                            .subscribeOn(Schedulers.io())
+                                                            .doOnSubscribe {
+                                                                notifyObserverAdd(t)
+                                                            }.subscribe())
+                                                }
+                                                override fun onDismiss(t: Categories) {
+                                                    notifyObserverChanged(t)
+                                                }
+                                            })
+                                            .show(fragmentManager, CategoriesFragment::class.java.name)
                                 }
-
-                                override fun onLongItemClick(t: Categories): Boolean {
-                                    return false
-                                }
-
                             }
                         }
                     })
-                    registerObserver(adapter)
+                    //registerObserver(adapter)
                     fragmentCategoriesBinding.customAdapter = adapter
-                },{
-
+                }, {
                 }))
-        fragmentCategoriesBinding.onClick = this
         fragmentCategoriesBinding.onItemSwipeSelectListener = this
         return fragmentCategoriesBinding.root
     }
-
-    override fun onEdit(t: Categories) {
-        disposable.add(ViewModelProviders
-                .of(this)
-                .get(CategoriesViewModel::class.java)
-                .insert(t)
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    notifyObserverAdd(t)
-                }.subscribe())
-    }
-    override fun onDismiss(t: Categories) {
-        notifyObserverChanged(t)
-    }
-
-    override fun onClick(t: MutableList<Any?>) {
-        EditCategoriesDialog
-                .Builder()
-                .setHint(R.string.categories)
-                .setTitle(R.string.add_categories)
-                .setCategoriesList(t as ArrayList<Categories>)
-                .build()
-                .onCategoriesEditListener(this)
-                .show(fragmentManager, CategoriesFragment::class.java.name)
-    }
-
 
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
@@ -122,7 +127,22 @@ class CategoriesFragment : Fragment(), OnEditListeners<Categories>,OnClickListen
                 .setTitle(R.string.add_categories)
                 .setCategories(t)
                 .build()
-                .onCategoriesEditListener(this)
+                .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
+                    override fun onEdit(t: Categories) {
+                        disposable.add(ViewModelProviders
+                                .of(this@CategoriesFragment)
+                                .get(CategoriesViewModel::class.java)
+                                .insert(t)
+                                .subscribeOn(Schedulers.io())
+                                .doOnSubscribe {
+                                    notifyObserverAdd(t)
+                                }.subscribe())
+                    }
+
+                    override fun onDismiss(t: Categories) {
+                        notifyObserverChanged(t)
+                    }
+                })
                 .show(fragmentManager, CategoriesFragment::class.java.name)
     }
     override fun registerObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
