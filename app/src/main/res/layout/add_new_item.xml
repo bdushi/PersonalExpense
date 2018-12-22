@@ -8,10 +8,11 @@
     </data>
     <androidx.appcompat.widget.AppCompatTextView
         android:onClick="@{() -> onClick.onClick()}"
+        android:layout_margin="@dimen/dimen_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_categories"
+        android:text="@string/expense"
         android:gravity="center_vertical"
-        android:drawableEnd="@drawable/ic_add_white_36dp"
+        android:drawableEnd="@drawable/ic_add_accent_36dp"
         style="@style/Base.TextAppearance.AppCompat.Title"/>
 </layout>

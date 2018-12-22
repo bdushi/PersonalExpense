@@ -46,6 +46,10 @@ class Categories() : Observable, Parcelable {
         }
     }
 
+    override fun toString(): String {
+        return "$id-$category"
+    }
+
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
         propertyChangeRegistry.remove(callback);
     }

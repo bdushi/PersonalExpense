@@ -18,6 +18,7 @@ import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
@@ -38,8 +39,8 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                 .categories()
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    //R.layout.add_new_item, R.layout.categories_single_item,
-                    val adapter = EditAdapter<Categories, CategoriesSingleItemBinding, AddNewItemBinding>(
+                    Log.i(CategoriesFragment::class.java.name, it.toString())
+                    val adapter = EditAdapter(
                             it,
                             R.layout.categories_single_item,
                             object : BindingData<Categories, CategoriesSingleItemBinding> {
@@ -68,8 +69,8 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                                 override fun onClick() {
                                     EditCategoriesDialog
                                             .Builder()
-                                            .setHint(R.string.categories)
-                                            .setTitle(R.string.add_categories)
+                                            .setHint(R.string.expenses)
+                                            .setTitle(R.string.expense)
                                             .setCategoriesList(t)
                                             .build()
                                             .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
@@ -92,9 +93,10 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                             }
                         }
                     })
-                    //registerObserver(adapter)
+                    registerObserver(adapter)
                     fragmentCategoriesBinding.customAdapter = adapter
                 }, {
+                    Log.i(CategoriesFragment::class.java.name, it.message)
                 }))
         fragmentCategoriesBinding.onItemSwipeSelectListener = this
         return fragmentCategoriesBinding.root
@@ -103,7 +105,6 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
         val runnable = Runnable {
-            //disposable.add()
             ViewModelProviders
                     .of(this)
                     .get(CategoriesViewModel::class.java)
@@ -123,8 +124,8 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
     override fun onItemSwipedRight(t: Categories) {
         EditCategoriesDialog
                 .Builder()
-                .setHint(R.string.categories)
-                .setTitle(R.string.add_categories)
+                .setHint(R.string.expenses)
+                .setTitle(R.string.expense)
                 .setCategories(t)
                 .build()
                 .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
@@ -171,7 +172,6 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
         }
     }
     override fun onStop() {
-        super.onStop()
         disposable.clear()
     }
 }

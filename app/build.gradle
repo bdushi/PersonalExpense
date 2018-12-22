@@ -8,7 +8,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "al.bruno.personal.expense"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

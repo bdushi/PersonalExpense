@@ -9,13 +9,16 @@
             name="onItemClickListener"
             type="al.bruno.personal.expense.callback.OnItemClickListener&lt;al.bruno.personal.expense.model.Categories&gt;"/>
     </data>
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_border"
-        android:padding="@dimen/dimen_10"
-        android:text="@{categories.category}"
-        android:onLongClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
-        android:onClick="@{(v) ->onItemClickListener.onItemClick(categories)}"
-        style="@style/TextAppearance.AppCompat.Large"/>
+        android:layout_margin="@dimen/dimen_5">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{categories.category}"
+            android:onLongClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
+            android:onClick="@{(v) ->onItemClickListener.onItemClick(categories)}"
+            style="@style/TextAppearance.AppCompat.Large"/>
+    </androidx.cardview.widget.CardView>
 </layout>
