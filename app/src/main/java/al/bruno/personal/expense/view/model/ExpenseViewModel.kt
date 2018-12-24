@@ -8,7 +8,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import org.joda.time.DateTime
+
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
+
     private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(application)!!
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
@@ -29,8 +31,13 @@ class ExpenseViewModel(application: Application) : AndroidViewModel(application)
     override fun date(): Single<Array<DateTime>> {
         return expenseDataSource.date()
     }
+
     override fun expenses(date: DateTime): Single<List<Expense>> {
         return expenseDataSource.expenses(date)
+    }
+
+    override fun incomes(month: String, year: String): Single<List<Expense>> {
+        return expenseDataSource.incomes(month, year)
     }
 
     override fun total(date: DateTime): Single<String> {

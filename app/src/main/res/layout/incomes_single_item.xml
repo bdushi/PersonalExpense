@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="categories"
-            type="al.bruno.personal.expense.model.Categories"/>
+            name="expense"
+            type="al.bruno.personal.expense.model.Expense"/>
         <variable
             name="onItemClickListener"
-            type="al.bruno.personal.expense.callback.OnItemClickListener&lt;al.bruno.personal.expense.model.Categories&gt;"/>
+            type="al.bruno.personal.expense.callback.OnItemClickListener&lt;al.bruno.personal.expense.model.Expense&gt;"/>
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/dimen_5"
             android:paddingBottom="@dimen/dimen_5"
-            android:text="@{categories.category}"
-            android:onClick="@{(v) ->onItemClickListener.onItemClick(categories)}"
+            android:text="@{expense.amountStr}"
+            android:onClick="@{(v) ->onItemClickListener.onItemClick(expense)}"
             style="@style/TextAppearance.AppCompat.Large"/>
     </androidx.cardview.widget.CardView>
 </layout>
