@@ -8,9 +8,6 @@ import al.bruno.personal.expense.databinding.CategoriesSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentCategoriesBinding
 import al.bruno.personal.expense.dialog.EditCategoriesDialog
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
@@ -19,6 +16,7 @@ import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
 import android.util.Log
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +28,11 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable : CompositeDisposable  = CompositeDisposable()
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories> >()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentCategoriesBinding = DataBindingUtil.inflate<FragmentCategoriesBinding>(inflater, R.layout.fragment_categories, container, false);
@@ -102,6 +105,18 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
         return fragmentCategoriesBinding.root
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.fab, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            R.id.incomes -> return false
+            R.id.expenses -> return false
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
         val runnable = Runnable {
@@ -146,6 +161,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                 })
                 .show(fragmentManager, CategoriesFragment::class.java.name)
     }
+
     override fun registerObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
         registry.add(o)
     }
@@ -172,6 +188,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
         }
     }
     override fun onStop() {
+        super.onStop()
         disposable.clear()
     }
 }

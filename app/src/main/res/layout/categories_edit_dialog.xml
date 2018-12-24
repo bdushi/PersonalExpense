@@ -34,8 +34,8 @@
             android:drawablePadding="@dimen/dimen_5"
             android:text="@{title}"
             app:layout_constraintEnd_toStartOf="@id/edit_categories_cancel"
-            app:layout_constraintBottom_toBottomOf="@id/edit_categories_save"
-            app:layout_constraintTop_toTopOf="@id/edit_categories_save"
+            app:layout_constraintBottom_toBottomOf="@id/edit_categories_cancel"
+            app:layout_constraintTop_toTopOf="@id/edit_categories_cancel"
             app:layout_constraintStart_toStartOf="parent" />
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/edit_categories_cancel"

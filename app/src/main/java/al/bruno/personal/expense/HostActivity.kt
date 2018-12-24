@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 
 class HostActivity : AppCompatActivity() {
+    private var itemRoot: MenuItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
@@ -18,6 +19,7 @@ class HostActivity : AppCompatActivity() {
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportActionBar != null)
                 supportActionBar!!.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
+            itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.home) is CategoriesFragment
         }
     }
 
@@ -48,7 +50,10 @@ class HostActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    /*override fun onBackPressed() {
-        super.onBackPressed()
-    }*/
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        itemRoot = menu!!.findItem(R.id.root)
+        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.home) is CategoriesFragment
+        return super.onPrepareOptionsMenu(menu)
+    }
 }
