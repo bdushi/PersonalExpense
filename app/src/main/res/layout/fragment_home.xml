@@ -164,14 +164,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1"
-                    android:onClick="@{()->incomesOnClick.onClick()}">
+                    android:onClick="@{()->incomesOnClick.onClick()}"
+                    android:background="@color/cyan_700"
+                    android:paddingTop="@dimen/dimen_5"
+                    android:paddingBottom="@dimen/dimen_5">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/home_incomes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{budgetDetails.incomesStr}"
-                        android:background="@color/cyan_700"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/home_expense"
@@ -183,7 +185,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/incomes"
-                        android:background="@color/cyan_700"
                         app:layout_constraintEnd_toEndOf="@id/home_incomes"
                         app:layout_constraintTop_toBottomOf="@id/home_incomes"
                         app:layout_constraintStart_toStartOf="@id/home_incomes"
@@ -195,14 +196,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1"
-                    android:onClick="@{()->expenseOnClick.onClick()}">
+                    android:onClick="@{()->expenseOnClick.onClick()}"
+                    android:background="@color/teal_700"
+                    android:paddingTop="@dimen/dimen_5"
+                    android:paddingBottom="@dimen/dimen_5">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/home_expense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@{budgetDetails.expenseStr}"
-                        android:background="@color/teal_700"
                         app:layout_constraintStart_toEndOf="@id/home_incomes"
                         app:layout_constraintBottom_toTopOf="@id/home_expense_label"
                         app:layout_constraintTop_toTopOf="parent"
@@ -214,7 +217,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/expense"
                         android:gravity="center"
-                        android:background="@color/teal_700"
                         app:layout_constraintEnd_toEndOf="@id/home_expense"
                         app:layout_constraintTop_toBottomOf="@id/home_expense"
                         app:layout_constraintStart_toStartOf="@id/home_expense"

@@ -37,13 +37,10 @@ class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
     override fun date(): Single<Array<DateTime>> {
         return DATABASE_INSTANCE.expenseDao().date()
     }
+
     override fun expenses(date: DateTime): Single<List<Expense>> {
         return DATABASE_INSTANCE.expenseDao().expenses(date)
     }
-    override fun incomes(month: String, year: String): Single<List<Expense>> {
-        return DATABASE_INSTANCE.expenseDao().incomes(month, year)
-    }
-
 
     override fun total(date: DateTime): Single<String> {
         return DATABASE_INSTANCE.expenseDao().total(date)

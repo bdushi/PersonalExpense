@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
                 },{
                     Log.i(HomeFragment::class.java.name, it.message)
                 }))
+
         fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
 
         fragmentHomeBinding.decrementOnClick = object : OnClick {

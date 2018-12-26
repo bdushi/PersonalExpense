@@ -41,10 +41,6 @@ class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : Expe
         return expenseDataSource.expenses(date)
     }
 
-    override fun incomes(month: String, year: String): Single<List<Expense>> {
-        return expenseDataSource.incomes(month, year)
-    }
-
     override fun total(date: DateTime): Single<String> {
         return expenseDataSource.total(date)
     }

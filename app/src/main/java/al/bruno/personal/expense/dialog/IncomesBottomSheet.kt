@@ -1,7 +1,8 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.dialog
 
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.callback.OnClickListener
-import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
+import al.bruno.personal.expense.databinding.BottomSheetIncomesBinding
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
@@ -16,33 +17,32 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
-class ExpenseBottomSheet : BottomSheetDialogFragment() {
+class IncomesBottomSheet: BottomSheetDialogFragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     companion object {
         class Builder {
             var expense: Expense? = null
-            fun setExpense(expense: Expense): ExpenseBottomSheet.Companion.Builder  {
+            fun setExpense(expense: Expense): Builder {
                 this.expense = expense
                 return this
             }
-            fun build() : ExpenseBottomSheet {
+            fun build() : IncomesBottomSheet {
                 return newInstance(expense!!)
             }
         }
 
-        private fun newInstance(expense: Expense): ExpenseBottomSheet {
-            val expenseBottomSheet = ExpenseBottomSheet()
+        private fun newInstance(expense: Expense): IncomesBottomSheet {
+            val incomesBottomSheet = IncomesBottomSheet()
             val bundle = Bundle()
             bundle.putParcelable("EXPENSE", expense)
-            expenseBottomSheet.arguments = bundle
-            return expenseBottomSheet
+            incomesBottomSheet.arguments = bundle
+            return incomesBottomSheet
         }
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val fragmentExpenseBinding : BottomSheetExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_expense, container, false)
-        fragmentExpenseBinding.expense = arguments!!.getParcelable("EXPENSE")
-        fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
+        val bottomSheetIncomesBinding = DataBindingUtil.inflate<BottomSheetIncomesBinding>(inflater, R.layout.bottom_sheet_incomes, container, false)
+        bottomSheetIncomesBinding.expense = arguments!!.getParcelable("EXPENSE")
+        bottomSheetIncomesBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
                 t.date = DateTime.now().withTimeAtStartOfDay()
                 disposable.add(ViewModelProviders.of(activity!!)
@@ -63,11 +63,6 @@ class ExpenseBottomSheet : BottomSheetDialogFragment() {
                         }))
             }
         }
-        return fragmentExpenseBinding.root
-    }
-
-    override fun onStop() {
-        super.onStop()
-        disposable.clear()
+        return bottomSheetIncomesBinding.root
     }
 }

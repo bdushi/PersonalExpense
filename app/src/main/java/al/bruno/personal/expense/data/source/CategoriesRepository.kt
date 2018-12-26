@@ -34,8 +34,8 @@ class CategoriesRepository(categoriesDataSource: CategoriesDataSource) : Categor
         return categoriesDataSource.delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
-        return categoriesDataSource.categories()
+    override fun categories(type: String): Single<List<Categories>> {
+        return categoriesDataSource.categories(type)
     }
 
 }

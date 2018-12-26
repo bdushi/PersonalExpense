@@ -12,11 +12,12 @@ import androidx.fragment.app.Fragment
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
-import al.bruno.personal.expense.databinding.IncomesSingleItemBinding
+import al.bruno.personal.expense.dialog.ExpenseBottomSheet
+import al.bruno.personal.expense.dialog.IncomesBottomSheet
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.util.Utilities
+import al.bruno.personal.expense.util.EXPENSES
+import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.view.model.CategoriesViewModel
-import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Handler
 import android.util.Log
 import android.view.*
@@ -25,14 +26,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import kotlin.collections.ArrayList
 
 class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories> {
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories>>()
-    private var calendar = Calendar.getInstance()
     private var fragmentCategoriesBinding: FragmentCategoriesBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +44,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
         disposable.add(ViewModelProviders
                 .of(this)
                 .get(CategoriesViewModel::class.java)
-                .categories()
+                .categories(EXPENSES)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     Log.i(CategoriesFragment::class.java.name, it.toString())
@@ -72,7 +71,8 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                                         }
                                     }
                                 }
-                            }, R.layout.add_new_item, object : BindingData<List<Categories>, AddNewItemBinding> {
+                            },
+                            R.layout.add_new_item, object : BindingData<List<Categories>, AddNewItemBinding> {
                         override fun bindData(t: List<Categories>, vm: AddNewItemBinding) {
                             vm.onClick = object : OnClick {
                                 override fun onClick() {
@@ -84,6 +84,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                                             .build()
                                             .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                                                 override fun onEdit(t: Categories) {
+                                                    t.type = EXPENSES
                                                     disposable.add(ViewModelProviders
                                                             .of(this@CategoriesFragment)
                                                             .get(CategoriesViewModel::class.java)
@@ -122,7 +123,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                 disposable.add(ViewModelProviders
                         .of(this)
                         .get(CategoriesViewModel::class.java)
-                        .categories()
+                        .categories(EXPENSES)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             val adapter = EditAdapter(
@@ -162,6 +163,7 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                                                             .build()
                                                             .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                                                                 override fun onEdit(t: Categories) {
+                                                                    t.type = EXPENSES
                                                                     disposable.add(ViewModelProviders
                                                                             .of(this@CategoriesFragment)
                                                                             .get(CategoriesViewModel::class.java)
@@ -186,47 +188,76 @@ class CategoriesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Su
                         }, {
                             Log.i(CategoriesFragment::class.java.name, it.message)
                         }))
-                return false
+                return true
             }
             R.id.incomes -> {
                 disposable.add(ViewModelProviders
                         .of(this)
-                        .get(ExpenseViewModel::class.java)
-                        .incomes(Utilities.month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .get(CategoriesViewModel::class.java)
+                        .categories(INCOMES)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             val adapter = EditAdapter(
                                     it,
-                                    R.layout.incomes_single_item,
-                                    object : BindingData<Expense, IncomesSingleItemBinding> {
-                                        override fun bindData(t: Expense, vm: IncomesSingleItemBinding) {
-                                            vm.expense = t
-                                            vm.onItemClickListener = object : OnItemClickListener<Expense> {
-                                                override fun onItemClick(t: Expense) {
-                                                    Log.i(CategoriesFragment::class.java.name, t.toString())
+                                    R.layout.categories_single_item,
+                                    object : BindingData<Categories, CategoriesSingleItemBinding> {
+                                        override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
+                                            val expense = Expense();
+                                            expense.category = t.category
+                                            vm.categories = t
+                                            vm.onItemClickListener = object : OnItemClickListener<Categories> {
+                                                override fun onItemClick(t: Categories) {
+                                                    IncomesBottomSheet
+                                                            .Companion
+                                                            .Builder()
+                                                            .setExpense(expense)
+                                                            .build()
+                                                            .show(fragmentManager, "EXPENSE_BOTTON_SHEET")
                                                 }
-                                                override fun onLongItemClick(t: Expense): Boolean {
+
+                                                override fun onLongItemClick(t: Categories): Boolean {
                                                     return false
                                                 }
-
                                             }
                                         }
-
                                     },
                                     R.layout.add_new_item,
-                                    object : BindingData<List<Expense>, AddNewItemBinding> {
-                                        override fun bindData(t: List<Expense>, vm: AddNewItemBinding) {
+                                    object : BindingData<List<Categories>, AddNewItemBinding> {
+                                        override fun bindData(t: List<Categories>, vm: AddNewItemBinding) {
                                             vm.onClick = object : OnClick {
                                                 override fun onClick() {
+                                                    EditCategoriesDialog
+                                                            .Builder()
+                                                            .setHint(R.string.incomes)
+                                                            .setTitle(R.string.incomes)
+                                                            .setCategoriesList(t)
+                                                            .build()
+                                                            .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
+                                                                override fun onEdit(t: Categories) {
+                                                                    t.type = INCOMES
+                                                                    disposable.add(ViewModelProviders
+                                                                            .of(this@CategoriesFragment)
+                                                                            .get(CategoriesViewModel::class.java)
+                                                                            .insert(t)
+                                                                            .subscribeOn(Schedulers.io())
+                                                                            .doOnSubscribe {
+                                                                                notifyObserverAdd(t)
+                                                                            }.subscribe())
+                                                                }
 
+                                                                override fun onDismiss(t: Categories) {
+                                                                    notifyObserverChanged(t)
+                                                                }
+                                                            })
+                                                            .show(fragmentManager, CategoriesFragment::class.java.name)
                                                 }
                                             }
                                         }
-
                                     })
+                            registerObserver(adapter)
                             fragmentCategoriesBinding?.customAdapter = adapter
                         }, {
-                            Log.i(CategoriesFragment::class.java.name, it.toString())
+                            Log.i(CategoriesFragment::class.java.name, it.message)
                         }))
                 return true
             }

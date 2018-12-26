@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/value"
-                android:text="@={expense.category}"
+                android:text="@={Converter.INSTANCE.stringToDouble(expense.income)}"
                 android:selectAllOnFocus="true"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

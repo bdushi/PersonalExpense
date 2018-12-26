@@ -28,8 +28,8 @@ class CategoriesLocalDataSource(context: Context): CategoriesDataSource {
         return appDatabase.categoriesDao().delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
-        return appDatabase.categoriesDao().categories()
+    override fun categories(type: String): Single<List<Categories>> {
+        return appDatabase.categoriesDao().categories(type)
     }
 
 }

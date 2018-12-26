@@ -26,11 +26,11 @@ class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentDetailsBinding: FragmentDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
-
         fragmentDetailsBinding.onDateClickListener = object : OnDateClickListener {
             override fun setOnDateClickListener(view: View?, localDateTime: LocalDateTime?) {
                 disposable.addAll(
-                        ViewModelProviders.of(this@DetailsFragment)[ExpenseViewModel::class.java]
+                        ViewModelProviders
+                                .of(this@DetailsFragment)[ExpenseViewModel::class.java]
                                 .expenses(localDateTime!!.dateTime.withTimeAtStartOfDay())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
@@ -42,7 +42,8 @@ class DetailsFragment : Fragment() {
                                 },{
                                     Log.i(DetailsFragment::class.java.name, it.message)
                                 }),
-                        ViewModelProviders.of(this@DetailsFragment)[ExpenseViewModel::class.java]
+                        ViewModelProviders
+                                .of(this@DetailsFragment)[ExpenseViewModel::class.java]
                                 .total(localDateTime.dateTime.withTimeAtStartOfDay())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
@@ -85,37 +86,6 @@ class DetailsFragment : Fragment() {
                             Log.i(DetailsFragment::class.java.name, it.message)
                         }))
         return fragmentDetailsBinding.root
-        //val factory = ViewModelProviderFactory(ExpenseDetailsViewModel(providerExpenseDetailsInjection(context!!)!!))
-        /*disposable.add(ViewModelProviders
-                .of(this, factory)[ExpenseDetailsViewModel::class.java]
-                .expense().subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentDetailsBinding.details = it
-                    Log.i(DetailsFragment::class.java.name, it.toString())
-                },{
-                    Log.i(DetailsFragment::class.java.name, it.message)
-                }))*/
-        /*disposable.addAll(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .expenses(DateTimeUtils.toSqlDate(date.date))
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
-                        override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
-                            vm.expense = t
-                        }
-                    })
-                },{
-                    Log.i(DetailsFragment::class.java.name, it.message)
-                }),
-                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                        .total(DateTimeUtils.toSqlDate(date.date))
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            fragmentDetailsBinding.total = it
-                        },{
-                            fragmentDetailsBinding.total = null
-                            Log.i(DetailsFragment::class.java.name, it.message)
-                        }))*/
     }
 
     override fun onStop() {

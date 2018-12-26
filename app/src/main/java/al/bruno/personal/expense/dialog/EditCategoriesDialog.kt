@@ -1,7 +1,6 @@
 package al.bruno.personal.expense.dialog
 
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,19 +89,6 @@ class EditCategoriesDialog : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
-        /*categories.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                for (c: Categories  in categoriesList) {
-                    if (TextUtils.equals(categories.category?.toLowerCase(), c.category.toString())) {
-                        categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
-                    } else {
-                        categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = true
-                    }
-                }
-            }
-        })*/
         categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 for (c: Categories  in categoriesList) {

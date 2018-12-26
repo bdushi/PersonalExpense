@@ -12,6 +12,5 @@ interface ExpenseDataSource {
     fun expenses(month: String, year: String) : LiveData<List<Expense>>
     fun expenses(date: DateTime) : Single<List<Expense>>
     fun date() : Single<Array<DateTime>>
-    fun incomes(month: String, year: String) : Single<List<Expense>>
     fun total(date: DateTime) : Single<String>
 }

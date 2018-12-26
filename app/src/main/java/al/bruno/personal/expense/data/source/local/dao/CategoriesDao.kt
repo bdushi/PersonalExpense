@@ -12,6 +12,6 @@ interface CategoriesDao {
     fun update(categories: Categories) : Single<Int>
     @Delete
     fun delete(categories: Categories) : Single<Int>
-    @Query("SELECT * FROM categories")
-    fun categories() : Single<List<Categories>>
+    @Query("SELECT * FROM categories WHERE _type = :type")
+    fun categories(type: String) : Single<List<Categories>>
 }

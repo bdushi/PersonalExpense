@@ -21,6 +21,10 @@ class Categories() : Observable, Parcelable {
         field = value
         propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.category)
     }
+
+    @ColumnInfo(name = "_type")
+    var type: String = ""
+
     @Ignore
     var propertyChangeRegistry = PropertyChangeRegistry()
 
