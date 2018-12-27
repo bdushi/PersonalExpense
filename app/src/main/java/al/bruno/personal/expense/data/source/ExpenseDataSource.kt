@@ -8,8 +8,8 @@ import org.joda.time.DateTime
 interface ExpenseDataSource {
     fun insert(expense: Expense) : Single<Long>
     fun expense(id: Long) : LiveData<Expense>
-    fun expenses(month: String) : LiveData<List<Expense>>
-    fun expenses(month: String, year: String) : LiveData<List<Expense>>
+    fun expenses(month: String) : Single<List<Expense>>
+    fun statistics(month: String, year: String) : Single<List<Expense>>
     fun expenses(date: DateTime) : Single<List<Expense>>
     fun date() : Single<Array<DateTime>>
     fun total(date: DateTime) : Single<String>

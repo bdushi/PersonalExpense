@@ -26,12 +26,12 @@ class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
         return DATABASE_INSTANCE.expenseDao().expense(id)
     }
 
-    override fun expenses(month: String): LiveData<List<Expense>> {
+    override fun expenses(month: String): Single<List<Expense>> {
         return DATABASE_INSTANCE.expenseDao().expenses(month)
     }
 
-    override fun expenses(month: String, year: String): LiveData<List<Expense>> {
-        return DATABASE_INSTANCE.expenseDao().expenses(month, year)
+    override fun statistics(month: String, year: String): Single<List<Expense>> {
+        return DATABASE_INSTANCE.expenseDao().statistics(month, year)
     }
 
     override fun date(): Single<Array<DateTime>> {

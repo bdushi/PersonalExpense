@@ -26,12 +26,12 @@ class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : Expe
         return expenseDataSource.expense(id)
     }
 
-    override fun expenses(month: String): LiveData<List<Expense>> {
+    override fun expenses(month: String): Single<List<Expense>> {
         return expenseDataSource.expenses(month)
     }
 
-    override fun expenses(month: String, year: String): LiveData<List<Expense>> {
-        return expenseDataSource.expenses(month, year)
+    override fun statistics(month: String, year: String): Single<List<Expense>> {
+        return expenseDataSource.statistics(month, year)
     }
 
     override fun date(): Single<Array<DateTime>> {

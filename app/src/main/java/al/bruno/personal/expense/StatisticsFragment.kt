@@ -22,6 +22,7 @@ import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class StatisticsFragment : Fragment() {
@@ -33,10 +34,12 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                    run{
-                        onChanged(it, view.findViewById(R.id.chart))
-                    }
+                .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    onChanged(it, view.findViewById(R.id.chart))
+                },{
+
                 })
         val date = view.findViewById<AppCompatTextView>(R.id.date)
         date.text = monthFormat(calendar.timeInMillis)
@@ -44,20 +47,24 @@ class StatisticsFragment : Fragment() {
             calendar.add(Calendar.MONTH, -1)
             date.text = monthFormat(calendar.timeInMillis)
             ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                        run{
-                            onChanged(it, view.findViewById(R.id.chart))
-                        }
+                    .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        onChanged(it, view.findViewById(R.id.chart))
+                    },{
+
                     })
         }
         view.findViewById<View>(R.id.increment).setOnClickListener {
             calendar.add(Calendar.MONTH, 1)
             date.text = monthFormat(calendar.timeInMillis)
             ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                        run{
-                            onChanged(it, view.findViewById(R.id.chart))
-                        }
+                    .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({
+                        onChanged(it, view.findViewById(R.id.chart))
+                    },{
+
                     })
         }
     }

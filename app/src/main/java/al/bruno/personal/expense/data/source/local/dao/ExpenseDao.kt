@@ -18,10 +18,10 @@ interface ExpenseDao {
     fun expense(id: Long) : LiveData<Expense>
 
     @Query("SELECT _id, _category, _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month")
-    fun expenses(month: String) : LiveData<List<Expense>>
+    fun expenses(month: String) : Single<List<Expense>>
 
     @Query("SELECT _id, _category, TOTAL(_amount) AS _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year GROUP BY TRIM(_category)")
-    fun expenses(month: String, year: String) : LiveData<List<Expense>>
+    fun statistics(month: String, year: String) : Single<List<Expense>>
 
     @Query("SELECT (SELECT COUNT(DISTINCT(ee._category)) FROM expense AS ee WHERE ee._id >= e._id) AS _id, e._category, TOTAL(e._amount) AS _amount, e._date FROM expense AS e WHERE _date = :date GROUP BY TRIM(e._category) ORDER BY _id")
     fun expenses(date: DateTime) : Single<List<Expense>>
