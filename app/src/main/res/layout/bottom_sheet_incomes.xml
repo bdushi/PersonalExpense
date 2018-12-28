@@ -31,12 +31,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> onClickListener.onClick(expense)}"
-                android:src="@drawable/ic_close_black_36dp"/>
+                android:src="@drawable/ic_close_red_36dp"/>
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{() -> onClickListener.onClick(expense)}"
-                android:src="@drawable/ic_done_accent_24dp"/>
+                android:src="@drawable/ic_done_accent_36dp"/>
         </LinearLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -24,226 +24,32 @@
             android:text="@{expense.category}"
             android:layout_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editor"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/close"
+            app:layout_constraintBottom_toBottomOf="@id/close"
+            app:layout_constraintEnd_toStartOf="@id/close"
             style="@style/TextAppearance.AppCompat.Body2"/>
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_done_accent_36dp"
+            android:onClick="@{() -> onClickListener.onClick(expense)}"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_red_36dp"
+            android:onClick="@{() -> onClickListener.onClick(expense)}"
+            app:layout_constraintEnd_toStartOf="@id/done"/>
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="@={Converter.INSTANCE.stringToDouble(expense.amount)}"
-            app:layout_constraintLeft_toLeftOf="@+id/seven"
-            app:layout_constraintRight_toRightOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@id/categories"
+            android:inputType="numberDecimal"
+            app:layout_constraintTop_toBottomOf="@id/done"
             style="@style/TextAppearance.AppCompat.Large"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/one"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/one"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/two"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/dot"
-            app:layout_constraintTop_toBottomOf="@+id/four" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/four"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/four"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/five"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/one"
-            app:layout_constraintTop_toBottomOf="@+id/seven" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/six"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/six"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/add"
-            app:layout_constraintLeft_toRightOf="@+id/five"
-            app:layout_constraintBottom_toTopOf="@+id/three"
-            app:layout_constraintTop_toBottomOf="@+id/nine" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/seven"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/seven"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            app:layout_constraintRight_toLeftOf="@+id/eight"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/four"
-            app:layout_constraintTop_toBottomOf="@+id/editor"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/eight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/eight"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/nine"
-            app:layout_constraintLeft_toRightOf="@+id/seven"
-            app:layout_constraintBottom_toTopOf="@+id/five"
-            app:layout_constraintTop_toBottomOf="@+id/editor" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nine"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/nine"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/date"
-            app:layout_constraintLeft_toRightOf="@+id/eight"
-            app:layout_constraintBottom_toTopOf="@+id/six"
-            app:layout_constraintTop_toBottomOf="@+id/editor" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/zero"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/zero"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/backspace"
-            app:layout_constraintLeft_toRightOf="@+id/dot"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/two" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/two"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/two"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/three"
-            app:layout_constraintLeft_toRightOf="@+id/one"
-            app:layout_constraintBottom_toTopOf="@+id/zero"
-            app:layout_constraintTop_toBottomOf="@+id/five" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/three"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/three"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/subtract"
-            app:layout_constraintLeft_toRightOf="@+id/two"
-            app:layout_constraintBottom_toTopOf="@+id/backspace"
-            app:layout_constraintTop_toBottomOf="@+id/six" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/five"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/five"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/six"
-            app:layout_constraintLeft_toRightOf="@+id/four"
-            app:layout_constraintBottom_toTopOf="@+id/two"
-            app:layout_constraintTop_toBottomOf="@+id/eight" />
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/dot"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toLeftOf="@+id/zero"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/one" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/divide"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/nine"
-            app:layout_constraintBottom_toTopOf="@+id/add"
-            app:layout_constraintTop_toBottomOf="@+id/editor" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/add"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/six"
-            app:layout_constraintBottom_toTopOf="@+id/subtract"
-            app:layout_constraintTop_toBottomOf="@+id/date" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/subtract"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/subtract"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            style="@style/Base.TextAppearance.AppCompat.Medium.Black"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/three"
-            app:layout_constraintBottom_toTopOf="@+id/done"
-            app:layout_constraintTop_toBottomOf="@+id/add" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/backspace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/equals"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            android:src="@drawable/ic_outline_backspace_24px"
-            app:layout_constraintRight_toLeftOf="@+id/done"
-            app:layout_constraintLeft_toRightOf="@+id/zero"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/three" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/subtract"
-            android:gravity="center"
-            android:padding="@dimen/dimen_10"
-            android:src="@drawable/ic_baseline_done_24px"
-            android:onClick="@{() -> onClickListener.onClick(expense)}"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/backspace"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subtract" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,7 +8,6 @@
     <color name="white">#FFF</color>
     <color name="expense_background_color">#00ffffff</color>
     <color name="black">#000</color>
-    <color name="null_color">#00FFFFFF</color>
 
     <color name="teal_700">#00796B</color>
     <color name="cyan_700">#0097A7</color>
