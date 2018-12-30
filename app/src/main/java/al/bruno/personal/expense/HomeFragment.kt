@@ -33,7 +33,6 @@ import al.bruno.personal.expense.view.model.BudgetDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -158,7 +157,7 @@ class HomeFragment : Fragment() {
             override fun onClick() {
                 fragmentManager!!
                         .beginTransaction()
-                        .replace(R.id.host, CategoriesFragment())
+                        .replace(R.id.host, PersonalExpensesFragment())
                         .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
                         .commit()
             }

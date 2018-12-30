@@ -49,6 +49,7 @@
             android:gravity="end"
             android:text="@={Converter.INSTANCE.stringToDouble(expense.amount)}"
             android:inputType="numberDecimal"
+            android:selectAllOnFocus="true"
             app:layout_constraintTop_toBottomOf="@id/done"
             style="@style/TextAppearance.AppCompat.Large"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

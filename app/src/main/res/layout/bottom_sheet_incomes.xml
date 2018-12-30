@@ -47,6 +47,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/value"
                 android:text="@={Converter.INSTANCE.stringToDouble(expense.income)}"
+                android:inputType="numberDecimal"
+                android:gravity="end"
                 android:selectAllOnFocus="true"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
