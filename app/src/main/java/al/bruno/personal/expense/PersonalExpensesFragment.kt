@@ -12,8 +12,7 @@ import androidx.fragment.app.Fragment
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
-import al.bruno.personal.expense.dialog.ExpenseBottomSheet
-import al.bruno.personal.expense.dialog.IncomesBottomSheet
+import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
@@ -27,7 +26,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.bottom_sheet_expense.*
 import kotlin.collections.ArrayList
 
 class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories> {
@@ -219,7 +217,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                 override fun onItemClick(t: Categories) {
                     val expense = Expense();
                     expense.category = t.category
-                    IncomesBottomSheet
+                    expense.type = t.type
+                    EditExpenseBottomSheet
                             .Companion
                             .Builder()
                             .setExpense(expense)
@@ -241,7 +240,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                 override fun onItemClick(t: Categories) {
                     val expense = Expense();
                     expense.category = t.category
-                    ExpenseBottomSheet
+                    expense.type = t.type
+                    EditExpenseBottomSheet
                             .Companion
                             .Builder()
                             .setExpense(expense)

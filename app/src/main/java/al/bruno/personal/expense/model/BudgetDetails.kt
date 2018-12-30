@@ -6,13 +6,7 @@ import androidx.room.DatabaseView
 import androidx.room.Ignore
 import java.text.DecimalFormat
 
-@DatabaseView("SELECT " +
-        "e._date AS _date, " +
-        "TOTAL(e._amount) - TOTAL(e._income) AS _remain, " +
-        "e._income AS _income, " +
-        "TOTAL(e._amount) AS _amount, " +
-        "e._income - TOTAL(e._amount) AS _balance " +
-        "FROM expense AS e", viewName = "budget_details")
+@DatabaseView("SELECT e._date AS _date, TOTAL(e._amount) - TOTAL(e._amount) AS _remain, e._amount AS _income, TOTAL(e._amount) AS _amount, e._amount - TOTAL(e._amount) AS _balance FROM expense AS e", viewName = "budget_details")
 class BudgetDetails() {
     @ColumnInfo(name = "_remain")
     var budget:Float = 0.toFloat()

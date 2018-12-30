@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/value"
-                android:text="@={Converter.INSTANCE.stringToDouble(expense.income)}"
+                android:text="@={Converter.INSTANCE.stringToDouble(expense.amount)}"
                 android:inputType="numberDecimal"
                 android:gravity="end"
                 android:selectAllOnFocus="true"/>

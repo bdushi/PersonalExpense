@@ -12,8 +12,8 @@ class Expense() : Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
-    @ColumnInfo(name = "_income")
-    var income: Double? = 0.0
+    @ColumnInfo(name = "_type")
+    var type: String? = null
     @ColumnInfo(name = "_category")
     var category: String? = null
     @ColumnInfo(name = "_amount")
@@ -39,18 +39,18 @@ class Expense() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
-        income = parcel.readValue(Double::class.java.classLoader) as? Double
+        type = parcel.readString()
         category = parcel.readString()
         amount = parcel.readDouble()
     }
 
     override fun toString(): String {
-        return "$id-$income:$category:$amount:$date"
+        return "$id-$type:$category:$amount:$date"
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
-        parcel.writeValue(income)
+        parcel.writeString(type)
         parcel.writeString(category)
         parcel.writeDouble(amount)
     }
