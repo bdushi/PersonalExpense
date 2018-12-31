@@ -2,7 +2,7 @@ package al.bruno.personal.expense
 
 import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideBudgetDetailsInjection
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseDetailsInjection
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
 import al.bruno.personal.expense.databinding.LogSingleItemBinding
@@ -29,7 +29,7 @@ import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.util.ViewModelProviderFactory
-import al.bruno.personal.expense.view.model.BudgetDetailsViewModel
+import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -44,10 +44,10 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentHomeBinding: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        val factory = ViewModelProviderFactory(BudgetDetailsViewModel(provideBudgetDetailsInjection(context!!)))
+        val factory = ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!)))
         disposable.addAll(
                 ViewModelProviders
-                        .of(this, factory)[BudgetDetailsViewModel::class.java]
+                        .of(this, factory)[ExpenseDetailsViewModel::class.java]
                         .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
                 disposable.addAll(
                         ViewModelProviders
-                                .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
+                                .of(this@HomeFragment, factory)[ExpenseDetailsViewModel::class.java]
                                 .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
                 fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
                 disposable.addAll(
                         ViewModelProviders
-                                .of(this@HomeFragment, factory)[BudgetDetailsViewModel::class.java]
+                                .of(this@HomeFragment, factory)[ExpenseDetailsViewModel::class.java]
                                 .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({

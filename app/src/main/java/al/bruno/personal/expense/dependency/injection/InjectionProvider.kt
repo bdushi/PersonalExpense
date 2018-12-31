@@ -6,11 +6,11 @@ import android.content.Context
 import androidx.annotation.NonNull
 
 object InjectionProvider {
-    fun provideBudgetDetailsInjection(@NonNull context: Context): BudgetDetailsDataSource {
-        return BudgetDetailsRepository.getInstance(BudgetDetailsLocalDataSource.INSTANCE(context)!!)!!
+    fun provideExpenseDetailsInjection(@NonNull context: Context): ExpenseDetailsDataSource {
+        return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.INSTANCE(context)!!)!!
     }
-    fun provideBudgetDestroyInstance() {
-        return BudgetDetailsRepository.destroyInstance()
+    fun provideExpenseDestroyInstance() {
+        return ExpenseDetailsRepository.destroyInstance()
     }
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
         return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)

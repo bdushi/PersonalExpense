@@ -19,7 +19,7 @@ class HostActivity : AppCompatActivity() {
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportActionBar != null)
                 supportActionBar!!.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
-            itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.home) is PersonalExpensesFragment
+            itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is PersonalExpensesFragment
         }
     }
 
@@ -53,7 +53,7 @@ class HostActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         itemRoot = menu!!.findItem(R.id.root)
-        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.home) is PersonalExpensesFragment
+        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is PersonalExpensesFragment
         return super.onPrepareOptionsMenu(menu)
     }
 }

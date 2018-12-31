@@ -14,12 +14,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PersonalExpense : Application() {
+class PersonalExpenseApplication : Application() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreate() {
         super.onCreate()
         //log
-        Log.i(PersonalExpense::class.java.name, PersonalExpense::class.java.name)
+        Log.i(PersonalExpenseApplication::class.java.name, PersonalExpenseApplication::class.java.name)
         //analytics
         FirebaseAnalytics.getInstance(this)
         Stetho.initializeWithDefaults(this)
@@ -43,13 +43,13 @@ class PersonalExpense : Application() {
                             .subscribeOn(Schedulers.io()).subscribe({
 
                             }, {
-                                Log.i(PersonalExpense::class.java.name, it.message)
+                                Log.i(PersonalExpenseApplication::class.java.name, it.message)
                             }))
             } else {
                 WorkManager.getInstance().cancelAllWork();
             }
         },{
-            Log.i(PersonalExpense::class.java.name, it.message)
+            Log.i(PersonalExpenseApplication::class.java.name, it.message)
         }))
     }
 }

@@ -22,9 +22,10 @@ public class Adapter {
                 .Builder()
                 .setXMarkMargin(xmargin)
                 .setLeftToRightColor(colorSwipeRight)
-                .setLeftToRightIcon(drawableSwipeLeft)
+                .setLeftToRightIcon(drawableSwipeRight)
+
                 .setRightToLeftColor(colorSwipeLeft)
-                .setRightToLeftIcon(drawableSwipeRight)
+                .setRightToLeftIcon(drawableSwipeLeft)
                 .build()
                 .onLeftSwipeItemListener(onLeftSwipeItemListener)
                 .onRightSwipeItemListener(onRightSwipeItemListener))

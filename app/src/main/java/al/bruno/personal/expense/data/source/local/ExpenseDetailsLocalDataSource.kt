@@ -1,18 +1,18 @@
 package al.bruno.personal.expense.data.source.local
 
-import al.bruno.personal.expense.data.source.BudgetDetailsDataSource
+import al.bruno.personal.expense.data.source.ExpenseDetailsDataSource
 import al.bruno.personal.expense.model.ExpenseDetails
 import android.content.Context
 import io.reactivex.Single
 
-class BudgetDetailsLocalDataSource(context: Context) : BudgetDetailsDataSource {
+class ExpenseDetailsLocalDataSource(context: Context) : ExpenseDetailsDataSource {
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
 
     companion object {
-        private var INSTANCE: BudgetDetailsDataSource? = null
-        fun INSTANCE (context: Context): BudgetDetailsDataSource?  {
+        private var INSTANCE: ExpenseDetailsDataSource? = null
+        fun INSTANCE (context: Context): ExpenseDetailsDataSource?  {
             if(INSTANCE == null) {
-                INSTANCE = BudgetDetailsLocalDataSource(context = context)
+                INSTANCE = ExpenseDetailsLocalDataSource(context = context)
             }
             return INSTANCE
         }

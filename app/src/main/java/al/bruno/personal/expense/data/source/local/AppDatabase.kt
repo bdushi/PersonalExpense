@@ -15,7 +15,7 @@ import androidx.room.Database
 abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun categoriesDao(): CategoriesDao
-    abstract fun budgetDetailsDao(): BudgetDetailsDao
+    abstract fun budgetDetailsDao(): ExpenseDetailsDao
     abstract fun settingsDao() : SettingsDao
     companion object {
         private var INSTANCE: AppDatabase? = null

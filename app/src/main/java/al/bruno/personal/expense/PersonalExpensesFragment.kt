@@ -62,7 +62,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.fab, menu)
+        inflater?.inflate(R.menu.expense_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
