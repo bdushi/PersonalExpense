@@ -1,6 +1,6 @@
 package al.bruno.personal.expense.data.source
 
-import al.bruno.personal.expense.model.BudgetDetails
+import al.bruno.personal.expense.model.ExpenseDetails
 import io.reactivex.Single
 
 class BudgetDetailsRepository(budgetDetailsDataSource: BudgetDetailsDataSource) : BudgetDetailsDataSource {
@@ -20,7 +20,7 @@ class BudgetDetailsRepository(budgetDetailsDataSource: BudgetDetailsDataSource) 
         }
     }
 
-    override fun budgetDetails(month: String, year: String): Single<BudgetDetails> {
+    override fun budgetDetails(month: String, year: String): Single<ExpenseDetails> {
         return budgetDetailsDataSource!!.budgetDetails(month, year)
     }
 

@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="budgetDetails"
-            type="al.bruno.personal.expense.model.BudgetDetails"/>
+            name="expenseDetails"
+            type="al.bruno.personal.expense.model.ExpenseDetails"/>
         <variable
             name="decrementOnClick"
             type="al.bruno.personal.expense.callback.OnClick"/>
@@ -74,12 +74,12 @@
             android:layout_height="wrap_content"
             android:text="@string/expenses"
             android:layout_centerInParent="true"
-            android:visibility="@{budgetDetails == null ? View.VISIBLE : View.GONE}"
+            android:visibility="@{expenseDetails == null ? View.VISIBLE : View.GONE}"
             style="@style/TextAppearance.AppCompat.Large"/>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{budgetDetails != null ? View.VISIBLE : View.GONE}"
+            android:visibility="@{expenseDetails != null ? View.VISIBLE : View.GONE}"
             android:layout_below="@id/app_bar_date_layout">
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/home_summary_label"
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_5"
                 android:layout_marginEnd="@dimen/dimen_10"
-                android:text="@{budgetDetails.balanceStr}"
+                android:text="@{expenseDetails.balanceStr}"
                 app:layout_constraintTop_toBottomOf="@id/home_balance_label"
                 app:layout_constraintStart_toEndOf="@id/pie_chart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +148,7 @@
                 android:layout_marginStart="@dimen/dimen_5"
                 android:layout_marginTop="@dimen/dimen_5"
                 android:layout_marginEnd="@dimen/dimen_10"
-                android:text="@{budgetDetails.budgetStr}"
+                android:text="@{expenseDetails.budgetStr}"
                 app:layout_constraintTop_toBottomOf="@id/home_remaining_label"
                 app:layout_constraintStart_toEndOf="@id/pie_chart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +184,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{budgetDetails.incomesStr}"
+                            android:text="@{expenseDetails.incomesStr}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/home_expense"
@@ -216,7 +216,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{budgetDetails.expenseStr}"
+                            android:text="@{expenseDetails.expenseStr}"
                             app:layout_constraintStart_toEndOf="@id/home_incomes"
                             app:layout_constraintBottom_toTopOf="@id/home_expense_label"
                             app:layout_constraintTop_toTopOf="parent"

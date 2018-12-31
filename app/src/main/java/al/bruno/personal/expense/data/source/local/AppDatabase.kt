@@ -9,7 +9,7 @@ import androidx.room.Database
 
 @Database(
         entities = arrayOf(User::class, Categories::class, Settings::class, Expense::class),
-        views = arrayOf(BudgetDetails::class),
+        views = arrayOf(ExpenseDetails::class),
         version = 1)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {

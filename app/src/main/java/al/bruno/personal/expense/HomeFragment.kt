@@ -24,7 +24,7 @@ import com.github.mikephil.charting.utils.MPPointF
 
 import java.text.DecimalFormat
 
-import al.bruno.personal.expense.model.BudgetDetails
+import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.Utilities.monthFormat
@@ -51,10 +51,10 @@ class HomeFragment : Fragment() {
                         .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding.budgetDetails = it
+                            fragmentHomeBinding.expenseDetails = it
                             fragmentHomeBinding.pieData = setData(budgetDetails = it)
                         },{
-                            fragmentHomeBinding.budgetDetails = null
+                            fragmentHomeBinding.expenseDetails = null
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
                 ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
@@ -82,10 +82,10 @@ class HomeFragment : Fragment() {
                                 .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
-                                    fragmentHomeBinding.budgetDetails = it
+                                    fragmentHomeBinding.expenseDetails = it
                                     fragmentHomeBinding.pieData = setData(budgetDetails = it)
                                 }, {
-                                    fragmentHomeBinding.budgetDetails = null
+                                    fragmentHomeBinding.expenseDetails = null
                                     Log.i(HomeFragment::class.java.name, it.message)
                                 }),
                         ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
@@ -112,10 +112,10 @@ class HomeFragment : Fragment() {
                                 .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
-                                    fragmentHomeBinding.budgetDetails = it
+                                    fragmentHomeBinding.expenseDetails = it
                                     fragmentHomeBinding.pieData = setData(budgetDetails = it)
                                 }, {
-                                    fragmentHomeBinding.budgetDetails = null
+                                    fragmentHomeBinding.expenseDetails = null
                                     Log.i(HomeFragment::class.java.name, it.message)
                                 }),
                         ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
@@ -171,7 +171,7 @@ class HomeFragment : Fragment() {
         disposable.clear()
     }
 
-    private fun setData(budgetDetails: BudgetDetails): ChartDataObject<String, PieData> {
+    private fun setData(budgetDetails: ExpenseDetails): ChartDataObject<String, PieData> {
         val entries = ArrayList<PieEntry>()
         entries.add(PieEntry((budgetDetails.expense / budgetDetails.incomes) * 100, getString(R.string.expense)))
         entries.add(PieEntry((budgetDetails.balance / budgetDetails.incomes) * 100, getString(R.string.balance)))

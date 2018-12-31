@@ -10,10 +10,10 @@ import java.text.DecimalFormat
         "e._date AS _date, " +
         "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) AS _income, " +
         "TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _expenses, " +
-        "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) AS _remain, " +
+        "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _remain, " +
         "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _balance " +
-        "FROM expense AS e", viewName = "budget_details")
-class BudgetDetails() {
+        "FROM expense AS e", viewName = "expense_details")
+class ExpenseDetails {
     @ColumnInfo(name = "_remain")
     var budget:Float = 0.toFloat()
     @ColumnInfo(name = "_income")
