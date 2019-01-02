@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import io.reactivex.Single
 import org.joda.time.DateTime
-import java.util.*
 
 @Dao
 interface ExpenseDao {
@@ -17,8 +16,8 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense WHERE _id = :id")
     fun expense(id: Long) : LiveData<Expense>
 
-    @Query("SELECT _id, _category, _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month")
-    fun expenses(month: String) : Single<List<Expense>>
+    @Query("SELECT _id, _category, _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year")
+    fun expenses(month: String, year: String) : Single<List<Expense>>
 
     @Query("SELECT _id, _category, TOTAL(_amount) AS _amount, _date FROM expense WHERE strftime('%m', datetime(_date/1000, 'unixepoch')) = :month AND strftime('%Y', datetime(_date/1000, 'unixepoch')) = :year GROUP BY TRIM(_category)")
     fun statistics(month: String, year: String) : Single<List<Expense>>

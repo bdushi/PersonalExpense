@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
                 ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                        .expenses(month(calendar.get(Calendar.MONTH)))
+                        .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
                                     Log.i(HomeFragment::class.java.name, it.message)
                                 }),
                         ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                                .expenses(month(calendar.get(Calendar.MONTH)))
+                                .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
                                     fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
@@ -119,7 +119,7 @@ class HomeFragment : Fragment() {
                                     Log.i(HomeFragment::class.java.name, it.message)
                                 }),
                         ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                                .expenses(month(calendar.get(Calendar.MONTH)))
+                                .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
                                     fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {

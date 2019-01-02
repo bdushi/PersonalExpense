@@ -16,6 +16,8 @@ class Expense() : Parcelable {
     var type: String? = null
     @ColumnInfo(name = "_category")
     var category: String? = null
+    @ColumnInfo(name = "_memo")
+    var memo: String? = null
     @ColumnInfo(name = "_amount")
     var amount: Double = 0.0
     @ColumnInfo(name = "_date")
@@ -41,18 +43,18 @@ class Expense() : Parcelable {
         id = parcel.readLong()
         type = parcel.readString()
         category = parcel.readString()
+        memo = parcel.readString()
         amount = parcel.readDouble()
-    }
-
-    override fun toString(): String {
-        return "$id-$type:$category:$amount:$date"
+        date = DateTime(parcel.readLong())
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
         parcel.writeString(type)
         parcel.writeString(category)
+        parcel.writeString(memo)
         parcel.writeDouble(amount)
+        parcel.writeLong(date!!.millis)
     }
 
     override fun describeContents(): Int {
@@ -67,5 +69,8 @@ class Expense() : Parcelable {
         override fun newArray(size: Int): Array<Expense?> {
             return arrayOfNulls(size)
         }
+    }
+    override fun toString(): String {
+        return "$id-$type:$category:$memo:$amount:$date"
     }
 }

@@ -12,7 +12,7 @@ import java.text.DecimalFormat
         "TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _expenses, " +
         "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _remain, " +
         "TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _balance " +
-        "FROM expense AS e", viewName = "expense_details")
+        "FROM expense AS e GROUP BY strftime('%m%Y', datetime(_date/1000, 'unixepoch'))", viewName = "expense_details")
 class ExpenseDetails {
     @ColumnInfo(name = "_remain")
     var budget:Float = 0.toFloat()
