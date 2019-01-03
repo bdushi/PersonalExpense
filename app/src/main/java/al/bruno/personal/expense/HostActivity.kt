@@ -1,10 +1,12 @@
 package al.bruno.personal.expense
 
 import android.os.Bundle
+import android.view.LayoutInflater
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
@@ -15,6 +17,14 @@ class HostActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.host, HomeFragment())
                 .commit()
+        if (supportActionBar != null) {
+            supportActionBar!!.setDisplayShowTitleEnabled(false)
+            supportActionBar!!.setDisplayShowCustomEnabled(true);
+            supportActionBar!!.customView = LayoutInflater.from(this).inflate(R.layout.action_bar_custom_layout, null, false)
+            supportActionBar!!.customView.setOnClickListener {
+                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show()
+            }
+        }
         //Lambda Expression
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportActionBar != null)
