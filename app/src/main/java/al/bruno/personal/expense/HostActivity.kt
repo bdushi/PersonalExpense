@@ -1,12 +1,12 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.dialog.MonthNavigationDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
@@ -22,7 +22,17 @@ class HostActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayShowCustomEnabled(true);
             supportActionBar!!.customView = LayoutInflater.from(this).inflate(R.layout.action_bar_custom_layout, null, false)
             supportActionBar!!.customView.setOnClickListener {
-                Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show()
+                if(supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationDialog)
+                    supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationDialog)
+                            .commit()
+                else
+                    supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                        .add(R.id.host, MonthNavigationDialog())
+                        .commit()
+                //MonthNavigationDialog().show(supportFragmentManager, "MONTH_NAVIGATION")
             }
         }
         //Lambda Expression

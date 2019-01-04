@@ -35,6 +35,10 @@ object Utilities {
         return arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")[month]
     }
 
+    fun year(date: Long): String {
+        return DateTimeFormat.forPattern("yyyy").print(date)
+    }
+
     fun monthFormat(date: Long): String {
         return DateTimeFormat.forPattern("MMMM yyyy").print(date)
     }

@@ -32,7 +32,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
+        <!--<com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,20 +68,10 @@
                     android:onClick="@{()->incrementOnClick.onClick()}"
                     android:src="@drawable/ic_chevron_right_white_36dp"/>
             </LinearLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/app_bar_date_layout">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/home_summary_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/summary"
-                android:layout_marginStart="@dimen/dimen_10"
-                android:layout_marginEnd="@dimen/dimen_10"
-                android:layout_marginTop="@dimen/dimen_5"
-                android:layout_marginBottom="@dimen/dimen_5"/>
+            android:layout_height="match_parent">
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
                 android:layout_width="0dp"
@@ -102,7 +92,7 @@
                 android:layout_marginStart="@dimen/dimen_5"
                 android:layout_marginTop="@dimen/dimen_5"
                 android:layout_marginEnd="@dimen/dimen_10"
-                app:layout_constraintTop_toBottomOf="@id/home_summary_label"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/pie_chart"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="2"
