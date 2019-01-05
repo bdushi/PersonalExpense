@@ -35,6 +35,10 @@ object Utilities {
         return arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")[month]
     }
 
+    fun year(date: Long): String {
+        return DateTimeFormat.forPattern("yyyy").print(date)
+    }
+
     fun monthFormat(date: Long): String {
         return DateTimeFormat.forPattern("MMMM yyyy").print(date)
     }
@@ -43,18 +47,7 @@ object Utilities {
         return DateTimeFormat.forPattern("MMMM").print(date)
     }
 
-    fun date(date: Int): String {
-        when (date) {
-            1 -> return "01"
-            2 -> return "02"
-            3 -> return "03"
-            4 -> return "04"
-            5 -> return "05"
-            6 -> return "06"
-            7 -> return "07"
-            8 -> return "08"
-            9 -> return "09"
-            else -> return date.toString()
-        }
+    fun month(calendar: Calendar): String {
+        return DateTimeFormat.forPattern("MMM").print(calendar.timeInMillis)
     }
 }

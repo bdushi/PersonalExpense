@@ -16,34 +16,31 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.ExpenseViewModel
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class StatisticsFragment : Fragment() {
     private var calendar = Calendar.getInstance()
+    private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                 .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     onChanged(it, view.findViewById(R.id.chart))
                 },{
 
-                })
-        val date = view.findViewById<AppCompatTextView>(R.id.date)
-        date.text = monthFormat(calendar.timeInMillis)
-        view.findViewById<View>(R.id.decrement).setOnClickListener {
+                }))
+        /*view.findViewById<View>(R.id.decrement).setOnClickListener {
             calendar.add(Calendar.MONTH, -1)
             date.text = monthFormat(calendar.timeInMillis)
             ViewModelProviders.of(this)[ExpenseViewModel::class.java]
@@ -66,7 +63,11 @@ class StatisticsFragment : Fragment() {
                     },{
 
                     })
-        }
+        }*/
+    }
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 
     private fun onChanged(expenses: List<Expense>?, barChart: BarChart) {

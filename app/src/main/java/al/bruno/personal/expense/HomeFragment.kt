@@ -27,7 +27,6 @@ import java.text.DecimalFormat
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.util.Utilities.month
-import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseViewModel
@@ -69,10 +68,7 @@ class HomeFragment : Fragment() {
                         }, {
                             Log.i(HomeFragment::class.java.name, it.message)
                         }))
-
-        fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
-
-        fragmentHomeBinding.decrementOnClick = object : OnClick {
+        /*fragmentHomeBinding.decrementOnClick = object : OnClick {
             override fun onClick() {
                 calendar.add(Calendar.MONTH, -1)
                 fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
@@ -131,7 +127,7 @@ class HomeFragment : Fragment() {
                                     Log.i(HomeFragment::class.java.name, it.message)
                                 }))
             }
-        }
+        }*/
 
         fragmentHomeBinding.incomesOnClick = object : OnClick {
             override fun onClick() {

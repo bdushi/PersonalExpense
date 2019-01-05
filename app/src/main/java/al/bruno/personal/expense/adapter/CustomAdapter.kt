@@ -27,6 +27,7 @@ class CustomAdapter<T, VM: ViewDataBinding>(t:List<T>, private val r: Int, priva
     }
 
     public val items : List<T>
+
     get() {
         return t;
     }
