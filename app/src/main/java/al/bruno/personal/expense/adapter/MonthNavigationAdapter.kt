@@ -18,7 +18,7 @@ class MonthNavigationAdapter<T, VM: ViewDataBinding>(private var t: java.util.Ca
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder<Calendar, VM>, position: Int) {
-        t.add(Calendar.MONTH, position)
+        t.set(Calendar.MONTH, position)
         holder.bind(t)
     }
 }

@@ -14,4 +14,8 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+    <string-array name="expenses">
+        <item>Expenses</item>
+        <item>Incomes</item>
+    </string-array>
 </resources>

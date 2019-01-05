@@ -4,9 +4,9 @@
         <variable
             name="calendar"
             type="java.util.Calendar"/>
-        <!--<variable
+        <variable
             name="onEditListener"
-            type="al.bruno.personal.expense.callback.OnEditListener&lt;java.util.Calendar&gt;"/>-->
+            type="al.bruno.personal.expense.callback.OnEditListener&lt;java.util.Calendar&gt;"/>
         <import type="al.bruno.personal.expense.util.Utilities"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@{Utilities.INSTANCE.month(calendar)}"
+        android:onClick="@{() -> onEditListener.onEdit(calendar)}"
         android:padding="@dimen/dimen_10"
         style="@style/TextAppearance.AppCompat.Body1"/>
 </layout>

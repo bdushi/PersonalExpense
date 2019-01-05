@@ -1,14 +1,11 @@
 package al.bruno.personal.expense
 
-import al.bruno.calendar.view.adapter.BindingInterface
-import al.bruno.calendar.view.adapter.CustomArrayAdapter
 import al.bruno.personal.expense.adapter.MonthNavigationAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.FragmentMonthNavigationBinding
 import al.bruno.personal.expense.databinding.MonthNavigationSingleItemBinding
-import al.bruno.personal.expense.util.Month
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +13,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import java.util.*
 import al.bruno.personal.expense.util.Utilities.year
-import android.util.Log
 import androidx.fragment.app.Fragment
 
 class MonthNavigationFragment : Fragment() {
@@ -62,7 +58,7 @@ class MonthNavigationFragment : Fragment() {
         fragmentMonthNavigationBinding.adapter = MonthNavigationAdapter<Calendar, MonthNavigationSingleItemBinding>(calendar, R.layout.month_navigation_single_item, object : BindingData<Calendar, MonthNavigationSingleItemBinding> {
             override fun bindData(t: Calendar, vm: MonthNavigationSingleItemBinding) {
                 vm.calendar = t
-                //vm.onEditListener = onEditListener
+                vm.onEditListener = onEditListener
             }
         })
         fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)

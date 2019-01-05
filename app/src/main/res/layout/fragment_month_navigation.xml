@@ -56,8 +56,7 @@
                 android:adapter="@{adapter}"
                 android:layout_marginTop="@dimen/dimen_10"
                 app:spanCount="6"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/decrement"/>
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>
