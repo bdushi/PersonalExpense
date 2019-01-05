@@ -3,7 +3,7 @@
     <data>
         <variable
             name="type"
-            type="al.bruno.personal.expense.model.ExpenseType" />
+            type="al.bruno.personal.expense.model.ExpenseType"/>
         <import type="android.view.View"/>
     </data>
     <LinearLayout

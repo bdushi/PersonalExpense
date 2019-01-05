@@ -4,10 +4,14 @@
         <variable
             name="adapter"
             type="al.bruno.personal.expense.adapter.CustomSpinnerAdapter"/>
+        <variable
+            name="itemSelectedListener"
+            type="al.bruno.personal.expense.callback.OnItemSelectedListener"/>
     </data>
     <androidx.appcompat.widget.AppCompatSpinner
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onItemSelected="@{itemSelectedListener::onItemSelected}"
         android:adapter="@{adapter}"/>
 </layout>

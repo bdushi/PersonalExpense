@@ -26,6 +26,8 @@ import java.text.DecimalFormat
 
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.Expense
+import al.bruno.personal.expense.model.ExpenseType
+import al.bruno.personal.expense.observer.Subject
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel

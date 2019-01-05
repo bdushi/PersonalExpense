@@ -1,12 +1,18 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.observer.Observer
+import al.bruno.personal.expense.observer.Subject
 import al.bruno.personal.expense.adapter.CustomSpinnerAdapter
 import al.bruno.personal.expense.callback.BindingData
+import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.callback.OnEditListener
+import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.databinding.ActionBarExpenseNavigationLayoutBinding
 import al.bruno.personal.expense.databinding.ExpenseSpinnerSingleItemBinding
 import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.model.ExpenseType
+import al.bruno.personal.expense.util.EXPENSES
+import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,13 +20,17 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import java.util.*
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
+    private val registry = ArrayList<Observer<ExpenseType>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
@@ -92,13 +102,20 @@ class HostActivity : AppCompatActivity() {
                     }
                     //Array(2) {ExpenseType("Expenses", true); ExpenseType("Incomes", true)}
                 } else if(supportFragmentManager.findFragmentById(R.id.host) is PersonalExpensesFragment) {
-                    val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
+                    expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as PersonalExpensesFragment))
+                    val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding =
+                            DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
+                    actionBarExpenseNavigationLayoutBinding.itemSelectedListener = object : OnItemSelectedListener {
+                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                            expenseSubject.notifyObserver(p0!!.getItemAtPosition(p2) as ExpenseType)
+                        }
+                    }
                     actionBarExpenseNavigationLayoutBinding.adapter =
                             CustomSpinnerAdapter(
                                     this,
                                     R.layout.expense_spinner_single_item,
                                     R.layout.simple_spinner_dropdown_item,
-                                    arrayOf(ExpenseType("Expenses", true), ExpenseType("Incomes", false)),
+                                    arrayOf(ExpenseType(EXPENSES, true), ExpenseType(INCOMES, false)),
                                     object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
                                         override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
                                             vm.type = t
@@ -176,6 +193,23 @@ class HostActivity : AppCompatActivity() {
                     .show()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    private val expenseSubject = object : Subject<ExpenseType> {
+        override fun registerObserver(o: Observer<ExpenseType>) {
+            registry.add(o)
+        }
+
+        override fun removeObserver(o: Observer<ExpenseType>) {
+            if (registry.indexOf(o) >= 0)
+                registry.remove(o)
+        }
+
+        override fun notifyObserver(t: ExpenseType) {
+            for (observer in registry) {
+                observer.update(t)
+            }
         }
     }
 }

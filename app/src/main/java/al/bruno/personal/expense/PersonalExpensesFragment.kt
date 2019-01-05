@@ -1,5 +1,6 @@
 package al.bruno.personal.expense
 
+import al.bruno.calendar.view.util.Constants
 import al.bruno.personal.expense.adapter.EditAdapter
 import al.bruno.personal.expense.callback.*
 import android.os.Bundle
@@ -14,6 +15,8 @@ import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
+import al.bruno.personal.expense.model.ExpenseType
+import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.view.model.CategoriesViewModel
@@ -28,7 +31,46 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories> {
+class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, Observer<ExpenseType> {
+    override fun update(t: ExpenseType) {
+        when (t.type) {
+            EXPENSES -> {
+                disposable.add(ViewModelProviders
+                        .of(this)
+                        .get(CategoriesViewModel::class.java)
+                        .categories(EXPENSES)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            val adapter = EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                            registerObserver(adapter)
+                            fragmentCategoriesBinding?.customAdapter = adapter
+                        }, {
+                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                            registerObserver(adapter)
+                            fragmentCategoriesBinding?.customAdapter = adapter
+                        }))
+            }
+            INCOMES -> {
+                disposable.add(ViewModelProviders
+                        .of(this)
+                        .get(CategoriesViewModel::class.java)
+                        .categories(INCOMES)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            val adapter = EditAdapter(it, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
+                            registerObserver(adapter)
+                            fragmentCategoriesBinding?.customAdapter = adapter
+                        }, {
+                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
+                            registerObserver(adapter)
+                            fragmentCategoriesBinding?.customAdapter = adapter
+                        }))
+            }
+        }
+    }
+
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories>>()
@@ -61,7 +103,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         return fragmentCategoriesBinding?.root
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.expenses -> {
                 disposable.add(ViewModelProviders
@@ -101,7 +143,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
             }
             else -> return super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
@@ -180,7 +222,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
 
     override fun removeObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
         if (registry.indexOf(o) >= 0)
-            registry.remove(o);
+            registry.remove(o)
     }
 
     override fun notifyObserverRemove(t: Categories) {
@@ -206,7 +248,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         disposable.clear()
     }
 
-    val incomesItemsBinding = object : BindingData<Categories, CategoriesSingleItemBinding> {
+    private val incomesItemsBinding = object : BindingData<Categories, CategoriesSingleItemBinding> {
         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
             vm.categories = t
             vm.onItemClickListener = object : OnItemClickListener<Categories> {
@@ -229,7 +271,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         }
     }
 
-    val expenseItemsBinding = object : BindingData<Categories, CategoriesSingleItemBinding> {
+    private val expenseItemsBinding = object : BindingData<Categories, CategoriesSingleItemBinding> {
         override fun bindData(t: Categories, vm: CategoriesSingleItemBinding) {
             vm.categories = t
             vm.onItemClickListener = object : OnItemClickListener<Categories> {
@@ -251,7 +293,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
             }
         }
     }
-    val addIncomesItemBinding = object : BindingData<List<Categories>, AddNewItemBinding> {
+    private val addIncomesItemBinding = object : BindingData<List<Categories>, AddNewItemBinding> {
         override fun bindData(t: List<Categories>, vm: AddNewItemBinding) {
             vm.item = getString(R.string.incomes)
             vm.onClick = object : OnClick {
@@ -285,7 +327,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         }
     }
 
-    val addExpenseItemsBinding = object : BindingData<List<Categories>, AddNewItemBinding> {
+    private val addExpenseItemsBinding = object : BindingData<List<Categories>, AddNewItemBinding> {
         override fun bindData(t: List<Categories>, vm: AddNewItemBinding) {
             vm.item = getString(R.string.expenses)
             vm.onClick = object : OnClick {
