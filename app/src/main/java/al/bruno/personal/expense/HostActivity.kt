@@ -1,12 +1,16 @@
 package al.bruno.personal.expense
 
-import al.bruno.personal.expense.dialog.MonthNavigationDialog
+import al.bruno.personal.expense.callback.OnEditListener
+import al.bruno.personal.expense.util.Month
+import al.bruno.personal.expense.util.Utilities
 import android.os.Bundle
 import android.view.LayoutInflater
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import java.util.*
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
@@ -22,17 +26,24 @@ class HostActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayShowCustomEnabled(true);
             supportActionBar!!.customView = LayoutInflater.from(this).inflate(R.layout.action_bar_custom_layout, null, false)
             supportActionBar!!.customView.setOnClickListener {
-                if(supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationDialog)
+                if(supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
                     supportFragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationDialog)
+                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
                             .commit()
                 else
                     supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                        .add(R.id.host, MonthNavigationDialog())
-                        .commit()
-                //MonthNavigationDialog().show(supportFragmentManager, "MONTH_NAVIGATION")
+                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                            .add(R.id.host, MonthNavigationFragment().setOnEditListener(onEditListener = object : OnEditListener<Calendar> {
+                                override fun onEdit(t: Calendar) {
+                                    Toast.makeText(this@HostActivity, Utilities.month(calendar = t), Toast.LENGTH_SHORT).show()
+                                    supportFragmentManager.beginTransaction()
+                                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                            .commit()
+                                }
+                            }))
+                            .commit()
             }
         }
         //Lambda Expression

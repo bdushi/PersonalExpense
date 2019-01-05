@@ -3,7 +3,13 @@
     <data>
         <variable
             name="adapter"
-            type="al.bruno.personal.expense.adapter.CustomArrayAdapter"/>
+            type="al.bruno.personal.expense.adapter.MonthNavigationAdapter"/>
+        <variable
+            name="decrementOnClick"
+            type="al.bruno.personal.expense.callback.OnClick"/>
+        <variable
+            name="incrementOnClick"
+            type="al.bruno.personal.expense.callback.OnClick"/>
     </data>
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,18 +25,16 @@
             android:background="@color/white"
             android:padding="@dimen/dimen_10">
             <LinearLayout
-                android:id="@+id/year_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal">
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/decrement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_5"
                     android:src="@drawable/ic_chevron_left_white_36"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    android:onClick="@{()->decrementOnClick.onClick()}"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/date"
                     android:layout_width="0dp"
@@ -39,11 +43,11 @@
                     android:layout_weight="1"
                     style="@style/TextAppearance.AppCompat.Small"/>
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/increment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_5"
                     android:src="@drawable/ic_chevron_right_white_36dp"
+                    android:onClick="@{()->incrementOnClick.onClick()}"
                     app:layout_constraintEnd_toEndOf="parent"/>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
