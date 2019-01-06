@@ -1,11 +1,15 @@
 package al.bruno.personal.expense
 
+import al.bruno.calendar.view.adapter.BindingInterface
+import al.bruno.calendar.view.adapter.CustomArrayAdapter
 import al.bruno.personal.expense.adapter.MonthNavigationAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.FragmentMonthNavigationBinding
 import al.bruno.personal.expense.databinding.MonthNavigationSingleItemBinding
+import al.bruno.personal.expense.util.Month
+import al.bruno.personal.expense.util.MonthNavigation
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -55,12 +59,19 @@ class MonthNavigationFragment : Fragment() {
             calendar.set(Calendar.MONTH, it)
             Log.i(MonthNavigationFragment::class.java.name, Month(calendar = calendar).month())
             Month(calendar = calendar)}*/
-        fragmentMonthNavigationBinding.adapter = MonthNavigationAdapter<Calendar, MonthNavigationSingleItemBinding>(calendar, R.layout.month_navigation_single_item, object : BindingData<Calendar, MonthNavigationSingleItemBinding> {
+        /*fragmentMonthNavigationBinding.adapter = MonthNavigationAdapter<Calendar, MonthNavigationSingleItemBinding>(calendar, R.layout.month_navigation_single_item, object : BindingData<Calendar, MonthNavigationSingleItemBinding> {
             override fun bindData(t: Calendar, vm: MonthNavigationSingleItemBinding) {
                 vm.calendar = t
                 vm.onEditListener = onEditListener
             }
-        })
+        })*/
+        val monthNavigation = MonthNavigation(calendar)
+        fragmentMonthNavigationBinding.adapter =
+                CustomArrayAdapter<Month, MonthNavigationSingleItemBinding>(monthNavigation.month, R.layout.month_navigation_single_item, object : BindingInterface<Month, MonthNavigationSingleItemBinding> {
+                    override fun bindData(t: Month, vm: MonthNavigationSingleItemBinding) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                })
         fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)
         fragmentMonthNavigationBinding.decrementOnClick = object : OnClick {
             override fun onClick() {

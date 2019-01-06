@@ -4,7 +4,6 @@ import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.observer.Subject
 import al.bruno.personal.expense.adapter.CustomSpinnerAdapter
 import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.databinding.ActionBarExpenseNavigationLayoutBinding
@@ -24,7 +23,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import java.util.*
 
@@ -107,7 +105,8 @@ class HostActivity : AppCompatActivity() {
                             DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
                     actionBarExpenseNavigationLayoutBinding.itemSelectedListener = object : OnItemSelectedListener {
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                            expenseSubject.notifyObserver(p0!!.getItemAtPosition(p2) as ExpenseType)
+                            (p0?.getItemAtPosition(p2) as ExpenseType).selected = true
+                            expenseSubject.notifyObserver(t = p0.getItemAtPosition(p2) as ExpenseType)
                         }
                     }
                     actionBarExpenseNavigationLayoutBinding.adapter =
@@ -115,7 +114,7 @@ class HostActivity : AppCompatActivity() {
                                     this,
                                     R.layout.expense_spinner_single_item,
                                     R.layout.simple_spinner_dropdown_item,
-                                    arrayOf(ExpenseType(EXPENSES, true), ExpenseType(INCOMES, false)),
+                                    arrayOf(ExpenseType(EXPENSES, false), ExpenseType(INCOMES, false)),
                                     object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
                                         override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
                                             vm.type = t

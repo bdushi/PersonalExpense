@@ -3,7 +3,7 @@
     <data>
         <variable
             name="adapter"
-            type="al.bruno.personal.expense.adapter.MonthNavigationAdapter"/>
+            type="al.bruno.calendar.view.adapter.CustomArrayAdapter"/>
         <variable
             name="decrementOnClick"
             type="al.bruno.personal.expense.callback.OnClick"/>

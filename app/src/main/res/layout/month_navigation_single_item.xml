@@ -3,17 +3,17 @@
     <data>
         <variable
             name="calendar"
-            type="java.util.Calendar"/>
+            type="al.bruno.personal.expense.util.Month"/>
         <variable
             name="onEditListener"
-            type="al.bruno.personal.expense.callback.OnEditListener&lt;java.util.Calendar&gt;"/>
+            type="al.bruno.personal.expense.callback.OnEditListener&lt;al.bruno.personal.expense.util.Month&gt;"/>
         <import type="al.bruno.personal.expense.util.Utilities"/>
     </data>
     <androidx.appcompat.widget.AppCompatTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{Utilities.INSTANCE.month(calendar)}"
+        android:text="@{calendar.month()}"
         android:onClick="@{() -> onEditListener.onEdit(calendar)}"
         android:padding="@dimen/dimen_10"
         style="@style/TextAppearance.AppCompat.Body1"/>
