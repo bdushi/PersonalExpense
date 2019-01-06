@@ -2,9 +2,6 @@ package al.bruno.personal.expense
 
 import al.bruno.calendar.view.adapter.BindingInterface
 import al.bruno.calendar.view.adapter.CustomArrayAdapter
-import al.bruno.personal.expense.adapter.MonthNavigationAdapter
-import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.FragmentMonthNavigationBinding
 import al.bruno.personal.expense.databinding.MonthNavigationSingleItemBinding
@@ -69,7 +66,8 @@ class MonthNavigationFragment : Fragment() {
         fragmentMonthNavigationBinding.adapter =
                 CustomArrayAdapter<Month, MonthNavigationSingleItemBinding>(monthNavigation.month, R.layout.month_navigation_single_item, object : BindingInterface<Month, MonthNavigationSingleItemBinding> {
                     override fun bindData(t: Month, vm: MonthNavigationSingleItemBinding) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        vm.calendar = t
+                        vm.onEditListener = onEditListener
                     }
                 })
         fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)
