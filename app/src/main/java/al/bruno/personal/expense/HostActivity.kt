@@ -12,7 +12,7 @@ import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.model.ExpenseType
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
-import al.bruno.personal.expense.util.Utilities
+import al.bruno.personal.expense.util.Month
 import android.os.Bundle
 import android.view.LayoutInflater
 
@@ -21,48 +21,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import java.util.*
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
     private val registry = ArrayList<Observer<ExpenseType>>()
+    private val monthRegistry = ArrayList<Observer<Month>>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+        val homeFragment = HomeFragment()
+        monthSubject.registerObserver(homeFragment)
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.host, HomeFragment())
+                .replace(R.id.host, homeFragment)
                 .addToBackStack("HOME_FRAGMENT")
                 .commit()
-        /*if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-            supportActionBar!!.setDisplayShowCustomEnabled(true);
-            supportActionBar!!.customView = LayoutInflater.from(this).inflate(R.layout.action_bar_month_navigation_layout, null, false)
-            supportActionBar!!.customView.setOnClickListener {
-                if(supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
-                    supportFragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
-                            .commit()
-                else
-                    supportFragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                            .add(R.id.host, MonthNavigationFragment().setOnEditListener(onEditListener = object : OnEditListener<Calendar> {
-                                override fun onEdit(t: Calendar) {
-                                    Toast.makeText(this@HostActivity, Utilities.month(calendar = t), Toast.LENGTH_SHORT).show()
-                                    supportFragmentManager.beginTransaction()
-                                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
-                                            .commit()
-                                }
-                            }))
-                            .commit()
-            }
-        }*/
-        //Lambda Expression
         supportFragmentManager.addOnBackStackChangedListener {
             if (supportActionBar != null) {
                 if(supportFragmentManager.findFragmentById(R.id.host) is HomeFragment)
@@ -86,14 +61,14 @@ class HostActivity : AppCompatActivity() {
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
                                     .add(R.id.host,
                                             MonthNavigationFragment()
-                                            .setOnEditListener(onEditListener = object : OnEditListener<Calendar> {
-                                                override fun onEdit(t: Calendar) {
-                                                    Toast.makeText(this@HostActivity, Utilities.monthFormat(t.timeInMillis), Toast.LENGTH_SHORT).show()
-                                                    supportFragmentManager
-                                                            .beginTransaction()
-                                                            .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                                            .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
-                                                            .commit()
+                                                    .setOnEditListener(onEditListener = object : OnEditListener<Month> {
+                                                        override fun onEdit(t: Month) {
+                                                            monthSubject.notifyObserver(t)
+                                                            supportFragmentManager
+                                                                    .beginTransaction()
+                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                                                    .commit()
                                         }
                                     }))
                                     .commit()
@@ -154,10 +129,14 @@ class HostActivity : AppCompatActivity() {
                     .replace(R.id.host, GoogleMapFragment())
                     .addToBackStack("GOOGLE_MAP_FRAGMENT")
                     .commit()
-            R.id.statistics -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.host, StatisticsFragment())
-                    .addToBackStack("STATISTICS_FRAGMENT")
-                    .commit()
+            R.id.statistics -> {
+                val statisticsFragment = StatisticsFragment()
+                monthSubject.registerObserver(statisticsFragment)
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.host, StatisticsFragment())
+                        .addToBackStack("STATISTICS_FRAGMENT")
+                        .commit()
+            }
             R.id.settings -> supportFragmentManager.beginTransaction()
                     .replace(R.id.host, SettingsFragment())
                     .addToBackStack("SETTINGS_FRAGMENT")
@@ -207,6 +186,23 @@ class HostActivity : AppCompatActivity() {
 
         override fun notifyObserver(t: ExpenseType) {
             for (observer in registry) {
+                observer.update(t)
+            }
+        }
+    }
+
+    private val monthSubject = object : Subject<Month> {
+        override fun registerObserver(o: Observer<Month>) {
+            monthRegistry.add(o)
+        }
+
+        override fun removeObserver(o: Observer<Month>) {
+            if (monthRegistry.indexOf(o) >= 0)
+                monthRegistry.remove(o)
+        }
+
+        override fun notifyObserver(t: Month) {
+            for (observer in monthRegistry) {
                 observer.update(t)
             }
         }

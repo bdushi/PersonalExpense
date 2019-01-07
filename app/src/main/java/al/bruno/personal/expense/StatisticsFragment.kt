@@ -2,7 +2,6 @@ package al.bruno.personal.expense
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,16 +15,28 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
+import al.bruno.personal.expense.observer.Observer
+import al.bruno.personal.expense.util.Month
 import al.bruno.personal.expense.util.Utilities.month
-import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.ExpenseViewModel
+import android.util.Log
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_statistics.*
 import java.util.*
 
-class StatisticsFragment : Fragment() {
-    private var calendar = Calendar.getInstance()
+class StatisticsFragment : Fragment(), Observer<Month> {
+    override fun update(t: Month) {
+        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+                .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    onChanged(it, chart)
+                },{
+                    Log.i(StatisticsFragment::class.java.name, it.message)
+                }))
+    }
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_statistics, container, false)
@@ -33,38 +44,15 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .statistics(month(Calendar.getInstance().get(Calendar.MONTH)), Calendar.getInstance().get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    onChanged(it, view.findViewById(R.id.chart))
+                    onChanged(it, chart)
                 },{
-
+                    Log.i(StatisticsFragment::class.java.name, it.message)
                 }))
-        /*view.findViewById<View>(R.id.decrement).setOnClickListener {
-            calendar.add(Calendar.MONTH, -1)
-            date.text = monthFormat(calendar.timeInMillis)
-            ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({
-                        onChanged(it, view.findViewById(R.id.chart))
-                    },{
-
-                    })
-        }
-        view.findViewById<View>(R.id.increment).setOnClickListener {
-            calendar.add(Calendar.MONTH, 1)
-            date.text = monthFormat(calendar.timeInMillis)
-            ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({
-                        onChanged(it, view.findViewById(R.id.chart))
-                    },{
-
-                    })
-        }*/
     }
+
     override fun onStop() {
         super.onStop()
         disposable.clear()

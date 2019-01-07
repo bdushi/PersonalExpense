@@ -26,8 +26,8 @@ import java.text.DecimalFormat
 
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.model.ExpenseType
-import al.bruno.personal.expense.observer.Subject
+import al.bruno.personal.expense.observer.Observer
+import al.bruno.personal.expense.util.Month
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
@@ -37,101 +37,41 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
+import java.util.Calendar
 
-class HomeFragment : Fragment() {
-    private var calendar = Calendar.getInstance()
+class HomeFragment : Fragment(), Observer<Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
+    private var fragmentHomeBinding: FragmentHomeBinding? = null
+    private val calendar = Calendar.getInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val fragmentHomeBinding: FragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        val factory = ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!)))
+        fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         disposable.addAll(
                 ViewModelProviders
-                        .of(this, factory)[ExpenseDetailsViewModel::class.java]
+                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!))))[ExpenseDetailsViewModel::class.java]
                         .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding.expenseDetails = it
-                            fragmentHomeBinding.pieData = setData(budgetDetails = it)
+                            fragmentHomeBinding?.expenseDetails = it
+                            fragmentHomeBinding?.pieData = setData(budgetDetails = it)
                         },{
-                            fragmentHomeBinding.expenseDetails = null
+                            fragmentHomeBinding?.expenseDetails = null
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
+
                 ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
                         .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
+                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
                                 override fun bindData(t: Expense, vm: LogSingleItemBinding) {
-                                    vm.setExpense(t)
+                                    vm.expense = t
                                 }
                             })
                         }, {
                             Log.i(HomeFragment::class.java.name, it.message)
                         }))
-        /*fragmentHomeBinding.decrementOnClick = object : OnClick {
-            override fun onClick() {
-                calendar.add(Calendar.MONTH, -1)
-                fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
-                disposable.addAll(
-                        ViewModelProviders
-                                .of(this@HomeFragment, factory)[ExpenseDetailsViewModel::class.java]
-                                .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe({
-                                    fragmentHomeBinding.expenseDetails = it
-                                    fragmentHomeBinding.pieData = setData(budgetDetails = it)
-                                }, {
-                                    fragmentHomeBinding.expenseDetails = null
-                                    Log.i(HomeFragment::class.java.name, it.message)
-                                }),
-                        ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                                .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe({
-                                    fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
-                                        override fun bindData(t: Expense, vm: LogSingleItemBinding) {
-                                            vm.setExpense(t)
-                                        }
-                                    })
-                                }, {
-                                    Log.i(HomeFragment::class.java.name, it.message)
-                                }))
-            }
-        }
-        fragmentHomeBinding.incrementOnClick = object : OnClick {
-            override fun onClick() {
-                calendar.add(Calendar.MONTH, 1)
-                fragmentHomeBinding.date.text = monthFormat(calendar.timeInMillis)
-                disposable.addAll(
-                        ViewModelProviders
-                                .of(this@HomeFragment, factory)[ExpenseDetailsViewModel::class.java]
-                                .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe({
-                                    fragmentHomeBinding.expenseDetails = it
-                                    fragmentHomeBinding.pieData = setData(budgetDetails = it)
-                                }, {
-                                    fragmentHomeBinding.expenseDetails = null
-                                    Log.i(HomeFragment::class.java.name, it.message)
-                                }),
-                        ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                                .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe({
-                                    fragmentHomeBinding.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
-                                        override fun bindData(t: Expense, vm: LogSingleItemBinding) {
-                                            vm.setExpense(t)
-                                        }
-                                    })
-                                }, {
-                                    Log.i(HomeFragment::class.java.name, it.message)
-                                }))
-            }
-        }*/
-
-        fragmentHomeBinding.incomesOnClick = object : OnClick {
+        fragmentHomeBinding?.incomesOnClick = object : OnClick {
             override fun onClick() {
                 //TODO
                 /*fragmentManager!!
@@ -141,7 +81,7 @@ class HomeFragment : Fragment() {
                         .commit()*/
             }
         }
-        fragmentHomeBinding.expenseOnClick = object : OnClick {
+        fragmentHomeBinding?.expenseOnClick = object : OnClick {
             override fun onClick() {
                 fragmentManager!!
                         .beginTransaction()
@@ -151,7 +91,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        fragmentHomeBinding.addExpenseOnClick = object : OnClick {
+        fragmentHomeBinding?.addExpenseOnClick = object : OnClick {
             override fun onClick() {
                 fragmentManager!!
                         .beginTransaction()
@@ -161,7 +101,34 @@ class HomeFragment : Fragment() {
             }
         }
 
-        return fragmentHomeBinding.root
+        return fragmentHomeBinding?.root
+    }
+
+    override fun update(t: Month) {
+        disposable.addAll(
+                ViewModelProviders
+                        .of(this@HomeFragment, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!))))[ExpenseDetailsViewModel::class.java]
+                        .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentHomeBinding?.expenseDetails = it
+                            fragmentHomeBinding?.pieData = setData(budgetDetails = it)
+                        }, {
+                            fragmentHomeBinding?.expenseDetails = null
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }),
+                ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
+                        .expenses(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
+                                override fun bindData(t: Expense, vm: LogSingleItemBinding) {
+                                    vm.expense = t
+                                }
+                            })
+                        }, {
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }))
     }
 
     override fun onStop() {
