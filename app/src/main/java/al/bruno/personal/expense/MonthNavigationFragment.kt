@@ -50,7 +50,8 @@ class MonthNavigationFragment : Fragment() {
         val customArrayAdapter = CustomArrayAdapter<Month, MonthNavigationSingleItemBinding>(
                 Array(12) {
                     calendar.set(Calendar.MONTH, it)
-                    Month(calendar.timeInMillis)},
+                    Month(calendar.timeInMillis)
+                },
                 R.layout.month_navigation_single_item,
                 BindingInterface<Month, MonthNavigationSingleItemBinding> { t, vm ->
                     vm.calendar = t
@@ -64,7 +65,8 @@ class MonthNavigationFragment : Fragment() {
                 calendar.add(Calendar.YEAR, -1)
                 customArrayAdapter.setT(Array(12) {
                     calendar.set(Calendar.MONTH, it)
-                    Month(calendar.timeInMillis)})
+                    Month(calendar.timeInMillis)
+                })
                 fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)
             }
 
@@ -74,7 +76,8 @@ class MonthNavigationFragment : Fragment() {
                 calendar.add(Calendar.YEAR, +1)
                 customArrayAdapter.setT(Array(12) {
                     calendar.set(Calendar.MONTH, it)
-                    Month(calendar.timeInMillis)})
+                    Month(calendar.timeInMillis)
+                })
                 fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)
             }
         }

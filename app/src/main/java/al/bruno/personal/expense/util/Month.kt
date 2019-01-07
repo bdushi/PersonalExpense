@@ -1,5 +1,6 @@
 package al.bruno.personal.expense.util
 
+import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,8 +14,10 @@ class Month (timeInMillis: Long) {
     fun date(): String {
         return SimpleDateFormat("dd MMM YYYY", Locale.getDefault()).format((calendar.timeInMillis))
     }
-
-    public fun calendar(): Calendar {
+    fun monthFormat(): String {
+        return DateTimeFormat.forPattern("MMMM yyyy").print(calendar.timeInMillis)
+    }
+    fun calendar(): Calendar {
         return calendar
     }
 

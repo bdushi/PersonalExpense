@@ -1,6 +1,5 @@
 package al.bruno.personal.expense
 
-import al.bruno.calendar.view.util.Constants
 import al.bruno.personal.expense.adapter.EditAdapter
 import al.bruno.personal.expense.callback.*
 import android.os.Bundle
@@ -15,7 +14,7 @@ import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.model.ExpenseType
+import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
