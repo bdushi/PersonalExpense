@@ -83,27 +83,29 @@ class HostActivity : AppCompatActivity() {
                     expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as PersonalExpensesFragment))
                     val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding =
                             DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
+                    val customSpinnerAdapter = CustomSpinnerAdapter(
+                            this,
+                            R.layout.expense_spinner_single_item,
+                            R.layout.simple_spinner_dropdown_item,
+                            arrayOf(ExpenseType(EXPENSES, false), ExpenseType(INCOMES, false)),
+                            object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
+                                override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
+                                    vm.type = t
+                                }
+                            },
+                            object : BindingData<ExpenseType, SimpleSpinnerDropdownItemBinding> {
+                                override fun bindData(t: ExpenseType, vm: SimpleSpinnerDropdownItemBinding) {
+                                    vm.type = t
+                                }
+                            })
                     actionBarExpenseNavigationLayoutBinding.itemSelectedListener = object : OnItemSelectedListener {
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                            customSpinnerAdapter.setSelection(p2)
                             expenseSubject.notifyObserver(t = p0?.getItemAtPosition(p2) as ExpenseType)
                         }
                     }
-                    actionBarExpenseNavigationLayoutBinding.adapter =
-                            CustomSpinnerAdapter(
-                                    this,
-                                    R.layout.expense_spinner_single_item,
-                                    R.layout.simple_spinner_dropdown_item,
-                                    arrayOf(ExpenseType(EXPENSES, false), ExpenseType(INCOMES, false)),
-                                    object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
-                                        override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
-                                            vm.type = t
-                                        }
-                                    },
-                                    object : BindingData<ExpenseType, SimpleSpinnerDropdownItemBinding> {
-                                        override fun bindData(t: ExpenseType, vm: SimpleSpinnerDropdownItemBinding) {
-                                            vm.type = t
-                                        }
-                                    })
+                    actionBarExpenseNavigationLayoutBinding.adapter = customSpinnerAdapter
+
                     supportActionBar!!.setDisplayShowTitleEnabled(false)
                     supportActionBar!!.setDisplayShowCustomEnabled(true)
                     supportActionBar!!.customView = actionBarExpenseNavigationLayoutBinding.root
