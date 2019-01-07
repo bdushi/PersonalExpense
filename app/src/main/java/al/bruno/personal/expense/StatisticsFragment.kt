@@ -16,7 +16,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
-import al.bruno.personal.expense.util.Month
+import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log

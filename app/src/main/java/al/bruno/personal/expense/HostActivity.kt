@@ -13,7 +13,7 @@ import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
-import al.bruno.personal.expense.util.Month
+import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.util.Utilities.monthFormat
 import android.os.Bundle
 import android.view.LayoutInflater

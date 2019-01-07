@@ -6,7 +6,7 @@ import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.FragmentMonthNavigationBinding
 import al.bruno.personal.expense.databinding.MonthNavigationSingleItemBinding
-import al.bruno.personal.expense.util.Month
+import al.bruno.personal.expense.entities.Month
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +54,7 @@ class MonthNavigationFragment : Fragment() {
                 },
                 R.layout.month_navigation_single_item,
                 BindingInterface<Month, MonthNavigationSingleItemBinding> { t, vm ->
-                    vm.calendar = t
+                    vm.month = t
                     vm.onEditListener = onEditListener
                 })
 

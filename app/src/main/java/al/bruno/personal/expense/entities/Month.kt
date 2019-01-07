@@ -1,4 +1,4 @@
-package al.bruno.personal.expense.util
+package al.bruno.personal.expense.entities
 
 import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
