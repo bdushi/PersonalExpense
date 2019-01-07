@@ -9,6 +9,12 @@
         <variable
             name="onClickListener"
             type="al.bruno.personal.expense.callback.OnClickListener&lt;al.bruno.personal.expense.model.Expense&gt;"/>
+        <variable
+            name="onDismiss"
+            type="al.bruno.personal.expense.callback.OnClick"/>
+        <variable
+            name="onDate"
+            type="al.bruno.personal.expense.callback.OnClick"/>
 
         <import type="al.bruno.personal.expense.binding.utils.Converter"/>
     </data>
@@ -22,11 +28,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{expense.category}"
-            android:layout_weight="1"
+            android:gravity="start"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/close"
             app:layout_constraintBottom_toBottomOf="@id/close"
+            app:layout_constraintEnd_toStartOf="@id/date"
+            app:layout_constraintHorizontal_weight="3"
+            style="@style/TextAppearance.AppCompat.Body2"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{expense.expenseDate()}"
+            android:onClick="@{() -> onDate.onClick()}"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@id/categories"
+            app:layout_constraintTop_toTopOf="@id/close"
+            app:layout_constraintBottom_toBottomOf="@id/close"
             app:layout_constraintEnd_toStartOf="@id/close"
+            app:layout_constraintHorizontal_weight="1"
             style="@style/TextAppearance.AppCompat.Body2"/>
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/done"
@@ -40,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_red_36dp"
-            android:onClick="@{() -> onClickListener.onClick(expense)}"
+            android:onClick="@{() -> onDismiss.onClick()}"
             app:layout_constraintEnd_toStartOf="@id/done"/>
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editor"

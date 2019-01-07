@@ -28,7 +28,7 @@ import java.util.*
 
 class StatisticsFragment : Fragment(), Observer<Month> {
     override fun update(t: Month) {
-        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+        disposable.add(ViewModelProviders.of(this@StatisticsFragment)[ExpenseViewModel::class.java]
                 .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -43,7 +43,7 @@ class StatisticsFragment : Fragment(), Observer<Month> {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        disposable.add(ViewModelProviders.of(this)[ExpenseViewModel::class.java]
+        disposable.add(ViewModelProviders.of(this@StatisticsFragment)[ExpenseViewModel::class.java]
                 .statistics(month(Calendar.getInstance().get(Calendar.MONTH)), Calendar.getInstance().get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -63,7 +63,7 @@ class StatisticsFragment : Fragment(), Observer<Month> {
             if (!expenses.isEmpty()) {
                 val barData = BarData(barDataSets(expenses))
                 barChart.data = barData
-                barChart.animateXY(2000, 2000)
+                //barChart.animateXY(2000, 2000)
                 barChart.description.text = getString(R.string.app_name)
                 barChart.xAxis.valueFormatter = IndexAxisValueFormatter(getXAxisValues(expenses))
                 barChart.invalidate()

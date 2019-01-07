@@ -12,12 +12,16 @@ object Utilities {
         when (int) {
             0 -> return DecimalFormat("###,###.### LEK").format(value)
             1 -> return DecimalFormat("###").format(value)
+            2 -> return DecimalFormat("###,###.###").format(value)
             else -> return DecimalFormat("###").format(value)
         }
     }
 
     fun dateFormat(date: DateTime): String {
         return DateTimeFormat.forPattern("dd-MMM-yyyy").print(date)
+    }
+    fun expenseDate(date: DateTime): String {
+        return DateTimeFormat.forPattern("dd/M/yyyy").print(date)
     }
 
     fun month(): Int {

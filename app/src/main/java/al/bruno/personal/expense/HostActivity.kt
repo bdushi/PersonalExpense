@@ -11,8 +11,6 @@ import al.bruno.personal.expense.databinding.ActionBarMonthNavigationLayoutBindi
 import al.bruno.personal.expense.databinding.ExpenseSpinnerSingleItemBinding
 import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
-import al.bruno.personal.expense.util.EXPENSES
-import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.util.Utilities.monthFormat
 import android.os.Bundle
@@ -25,7 +23,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import java.util.*
+import java.util.Calendar
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
@@ -87,7 +85,7 @@ class HostActivity : AppCompatActivity() {
                             this,
                             R.layout.expense_spinner_single_item,
                             R.layout.simple_spinner_dropdown_item,
-                            arrayOf(ExpenseType(EXPENSES, false), ExpenseType(INCOMES, false)),
+                            arrayOf(ExpenseType(getString(R.string.expenses), false), ExpenseType(getString(R.string.incomes), false)),
                             object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
                                 override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
                                     vm.type = t

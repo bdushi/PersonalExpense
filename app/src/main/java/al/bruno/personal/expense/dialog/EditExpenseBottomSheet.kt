@@ -1,9 +1,12 @@
 package al.bruno.personal.expense.dialog
 
 import al.bruno.personal.expense.R
+import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnClickListener
+import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
 import al.bruno.personal.expense.model.Expense
+import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +22,7 @@ import org.joda.time.DateTime
 
 class EditExpenseBottomSheet : BottomSheetDialogFragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
+    var expense: Expense? = null
     companion object {
         class Builder {
             var expense: Expense? = null
@@ -42,10 +46,10 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentExpenseBinding : BottomSheetExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_expense, container, false)
-        fragmentExpenseBinding.expense = arguments!!.getParcelable("EXPENSE")
+        expense = arguments!!.getParcelable("EXPENSE")
+        fragmentExpenseBinding.expense = expense
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
-                t.date = DateTime.now().withTimeAtStartOfDay()
                 disposable.add(ViewModelProviders.of(activity!!)
                         .get(ExpenseViewModel::class.java)
                         .insert(t)
@@ -62,6 +66,21 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
                             Log.i(EditExpenseBottomSheet::class.java.name, it.message)
                             //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                         }))
+            }
+        }
+        fragmentExpenseBinding.onDismiss = object : OnClick {
+            override fun onClick() {
+                dismiss()
+            }
+        }
+        fragmentExpenseBinding.onDate = object : OnClick {
+            override fun onClick() {
+                DatePickerDialog()
+                        .onEditListener(object : OnEditListener<Long> {
+                            override fun onEdit(t: Long) {
+                                expense?.date = DateTime(t)
+                            }
+                        }).show(fragmentManager, "DATE_PICKER")
             }
         }
         return fragmentExpenseBinding.root

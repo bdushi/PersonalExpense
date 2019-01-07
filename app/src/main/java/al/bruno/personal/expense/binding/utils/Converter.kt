@@ -6,7 +6,7 @@ import androidx.databinding.InverseMethod
 object Converter {
     @InverseMethod("doubleToString")
     fun stringToDouble(quantity: Double): String {
-        return format(quantity, 1)
+        return format(quantity, 2)
     }
     fun doubleToString(quantity: String): Double {
         return try {

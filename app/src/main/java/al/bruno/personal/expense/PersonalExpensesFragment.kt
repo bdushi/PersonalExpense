@@ -28,12 +28,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import org.joda.time.DateTime
 import kotlin.collections.ArrayList
 
 class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, Observer<ExpenseType> {
     override fun update(t: ExpenseType) {
         when (t.type) {
-            EXPENSES -> {
+            getString(R.string.expenses) -> {
                 disposable.add(ViewModelProviders
                         .of(this)
                         .get(CategoriesViewModel::class.java)
@@ -50,7 +51,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                             fragmentCategoriesBinding?.customAdapter = adapter
                         }))
             }
-            INCOMES -> {
+            getString(R.string.incomes) -> {
                 disposable.add(ViewModelProviders
                         .of(this)
                         .get(CategoriesViewModel::class.java)
@@ -255,6 +256,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
+                    expense.date = DateTime.now().withTimeAtStartOfDay()
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
@@ -278,6 +280,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
+                    expense.date = DateTime.now().withTimeAtStartOfDay()
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()

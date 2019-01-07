@@ -1,14 +1,18 @@
 package al.bruno.personal.expense.model
 
+import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.dateFormat
 import al.bruno.personal.expense.util.Utilities.format
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
 import org.joda.time.DateTime
 
 @Entity(tableName = "expense", indices = arrayOf(Index(value = arrayOf("_date", "_id") , unique = true)))
-class Expense() : Parcelable {
+class Expense() : Parcelable, Observable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
@@ -22,7 +26,12 @@ class Expense() : Parcelable {
     var amount: Double = 0.0
     @ColumnInfo(name = "_date")
     var date: DateTime? = null
-
+        @Bindable
+        get
+        set(value) {
+            field = value
+            propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.date)
+        }
     @Ignore
     var amountStr: String = ""
         get() {
@@ -39,6 +48,12 @@ class Expense() : Parcelable {
         return dateFormat(date!!)
     }
 
+    fun expenseDate(): String {
+        return Utilities.expenseDate(date!!)
+    }
+
+    @Ignore
+    var propertyChangeRegistry = PropertyChangeRegistry()
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
         type = parcel.readString()
@@ -69,6 +84,12 @@ class Expense() : Parcelable {
         override fun newArray(size: Int): Array<Expense?> {
             return arrayOfNulls(size)
         }
+    }
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        propertyChangeRegistry.remove(callback);
+    }
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        propertyChangeRegistry.add(callback)
     }
     override fun toString(): String {
         return "$id-$type:$category:$memo:$amount:$date"
