@@ -31,6 +31,7 @@ class Expense() : Parcelable, Observable {
         set(value) {
             field = value
             propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.date)
+            propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.expenseDate)
         }
     @Ignore
     var amountStr: String = ""
@@ -48,9 +49,12 @@ class Expense() : Parcelable, Observable {
         return dateFormat(date!!)
     }
 
-    fun expenseDate(): String {
-        return Utilities.expenseDate(date!!)
-    }
+    @Ignore
+    var expenseDate : String = ""
+        @Bindable
+        get() {
+            return Utilities.expenseDate(date!!)
+        }
 
     @Ignore
     var propertyChangeRegistry = PropertyChangeRegistry()

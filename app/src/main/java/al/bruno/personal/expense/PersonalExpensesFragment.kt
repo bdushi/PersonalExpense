@@ -102,49 +102,6 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         fragmentCategoriesBinding?.onItemSwipeSelectListener = this
         return fragmentCategoriesBinding?.root
     }
-
-    /*override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.expenses -> {
-                disposable.add(ViewModelProviders
-                        .of(this)
-                        .get(CategoriesViewModel::class.java)
-                        .categories(EXPENSES)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            val adapter = EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }, {
-                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }))
-                return true
-            }
-            R.id.incomes -> {
-                disposable.add(ViewModelProviders
-                        .of(this)
-                        .get(CategoriesViewModel::class.java)
-                        .categories(INCOMES)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            val adapter = EditAdapter(it, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }, {
-                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }))
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }*/
-
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
         val runnable = Runnable {

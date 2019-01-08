@@ -39,7 +39,7 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{expense.expenseDate()}"
+            android:text="@{expense.expenseDate}"
             android:onClick="@{() -> onDate.onClick()}"
             android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@id/categories"
