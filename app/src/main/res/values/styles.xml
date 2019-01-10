@@ -25,4 +25,7 @@
     <style name="Spinner" parent="Widget.AppCompat.Spinner">
         <item name="android:backgroundTint">@color/white</item>
     </style>
+    <style name="Expense.Header.Label" parent="Base.TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
