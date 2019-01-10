@@ -16,7 +16,7 @@ class ExpenseMasterLocalDataSource(context: Context): ExpenseMasterDataSource {
             return INSTANCE
         }
     }
-    override fun expenseMaster(): Single<List<ExpenseMaster>> {
-        return DATABASE_INSTANCE.expenseMasterDao().expenseMaster()
+    override fun expenseMaster(month: String, year: String): Single<List<ExpenseMaster>> {
+        return DATABASE_INSTANCE.expenseMasterDao().expenseMaster(month, year)
     }
 }

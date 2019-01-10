@@ -59,13 +59,13 @@ class HomeFragment : Fragment(), Observer<Month> {
                             fragmentHomeBinding?.expenseDetails = it
                             fragmentHomeBinding?.pieData = setData(budgetDetails = it)
                         },{
-                            fragmentHomeBinding?.expenseDetails = null
+                            fragmentHomeBinding?.expenseDetails = ExpenseDetails()
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
                 ViewModelProviders
                         .of(this, ViewModelProviderFactory(ExpenseMasterViewModel(provideExpenseMasterInjection(context!!))))[ExpenseMasterViewModel::class.java]
-                        .expenseMaster()
+                        .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
@@ -77,18 +77,6 @@ class HomeFragment : Fragment(), Observer<Month> {
                         },{
                             Log.i(ExpenseMasterViewModel::class.java.name, it.message)
                         })
-                /*ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                        .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                           fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
-                                override fun bindData(t: Expense, vm: LogSingleItemBinding) {
-                                    vm.expense = t
-                                }
-                            })
-                        }, {
-                            Log.i(HomeFragment::class.java.name, it.message)
-                        })*/
         )
         fragmentHomeBinding?.incomesOnClick = object : OnClick {
             override fun onClick() {
@@ -133,21 +121,23 @@ class HomeFragment : Fragment(), Observer<Month> {
                             fragmentHomeBinding?.expenseDetails = it
                             fragmentHomeBinding?.pieData = setData(budgetDetails = it)
                         }, {
-                            fragmentHomeBinding?.expenseDetails = null
+                            fragmentHomeBinding?.expenseDetails = ExpenseDetails()
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
-                ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
-                        .expenses(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
+                ViewModelProviders
+                        .of(this, ViewModelProviderFactory(ExpenseMasterViewModel(provideExpenseMasterInjection(context!!))))[ExpenseMasterViewModel::class.java]
+                        .expenseMaster(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
-                                override fun bindData(t: Expense, vm: LogSingleItemBinding) {
-                                    vm.expense = t
+                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                                override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
+                                    vm.master = t
                                 }
                             })
-                        }, {
-                            Log.i(HomeFragment::class.java.name, it.message)
+                            Log.i(ExpenseMasterViewModel::class.java.name, it.toString())
+                        },{
+                            Log.i(ExpenseMasterViewModel::class.java.name, it.message)
                         }))
     }
 

@@ -16,7 +16,7 @@ class ExpenseMasterRepository(private var expenseDataSource: ExpenseMasterDataSo
             INSTANCE = null
         }
     }
-    override fun expenseMaster(): Single<List<ExpenseMaster>> {
-        return expenseDataSource.expenseMaster()
+    override fun expenseMaster(month: String, year: String): Single<List<ExpenseMaster>> {
+        return expenseDataSource.expenseMaster(month, year)
     }
 }

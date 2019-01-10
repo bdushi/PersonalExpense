@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 
 class ExpenseMasterViewModel(val expenseMasterDataSource: ExpenseMasterDataSource) : ViewModel(), ExpenseMasterDataSource {
-    override fun expenseMaster(): Single<List<ExpenseMaster>> {
-        return expenseMasterDataSource.expenseMaster()
+    override fun expenseMaster(month: String, year: String): Single<List<ExpenseMaster>> {
+        return expenseMasterDataSource.expenseMaster(month = month, year = year)
     }
 
 }

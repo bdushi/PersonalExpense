@@ -23,180 +23,141 @@
             type="al.bruno.personal.expense.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
         <import type="android.view.View"/>
     </data>
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie_chart"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/dimen_10"
-                android:contentDescription="@string/add_your_incomes"
-                bind:pieData="@{pieData}"
-                app:layout_constraintBottom_toBottomOf="@+id/home_remaining"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/home_balance_label"
-                app:layout_constraintEnd_toStartOf="@id/home_balance_label"
-                app:layout_constraintHorizontal_weight="2"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/home_balance_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/balance"
-                android:layout_marginStart="@dimen/dimen_5"
-                android:layout_marginTop="@dimen/dimen_5"
-                android:layout_marginEnd="@dimen/dimen_10"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/pie_chart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="2"
-                style="@style/Base.TextAppearance.AppCompat.Body2" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/home_balance"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_5"
-                android:layout_marginEnd="@dimen/dimen_10"
-                android:text="@{expenseDetails.balanceStr}"
-                app:layout_constraintTop_toBottomOf="@id/home_balance_label"
-                app:layout_constraintStart_toEndOf="@id/pie_chart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="2"
-                style="@style/Base.TextAppearance.AppCompat.Large" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/home_remaining_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_20"
-                android:layout_marginStart="@dimen/dimen_5"
-                android:layout_marginEnd="@dimen/dimen_10"
-                android:text="@string/remaining"
-                app:layout_constraintTop_toBottomOf="@id/home_balance"
-                app:layout_constraintStart_toEndOf="@id/pie_chart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/home_remaining"
-                app:layout_constraintHorizontal_weight="2"
-                style="@style/Base.TextAppearance.AppCompat.Body2" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/home_remaining"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_5"
-                android:layout_marginTop="@dimen/dimen_5"
-                android:layout_marginEnd="@dimen/dimen_10"
-                android:text="@{expenseDetails.budgetStr}"
-                app:layout_constraintTop_toBottomOf="@id/home_remaining_label"
-                app:layout_constraintStart_toEndOf="@id/pie_chart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="2"
-                style="@style/Base.TextAppearance.AppCompat.Large" />
-
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/home_footer_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_10"
+                android:orientation="horizontal"
                 android:layout_marginStart="@dimen/dimen_10"
-                android:layout_marginEnd="@dimen/dimen_10"
-                app:cardCornerRadius="@dimen/dimen_0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/home_remaining">
+                android:layout_marginTop="@dimen/dimen_5"
+                android:layout_marginEnd="@dimen/dimen_10">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/add_your_incomes"
+                        bind:pieData="@{pieData}"/>
+                </com.google.android.material.card.MaterialCardView>
+                <View
+                    android:layout_width="@dimen/dimen_5"
+                    android:layout_height="match_parent" />
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:onClick="@{()->incomesOnClick.onClick()}"
-                        android:background="@color/cyan_700"
-                        android:paddingTop="@dimen/dimen_5"
-                        android:paddingBottom="@dimen/dimen_5">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/home_incomes"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@{expenseDetails.incomesStr}"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/home_expense"
-                            app:layout_constraintBottom_toTopOf="@id/home_incomes_label"
-                            style="@style/Base.TextAppearance.AppCompat.Body2"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/home_incomes_label"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/incomes"
-                            app:layout_constraintEnd_toEndOf="@id/home_incomes"
-                            app:layout_constraintTop_toBottomOf="@id/home_incomes"
-                            app:layout_constraintStart_toStartOf="@id/home_incomes"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            style="@style/Base.TextAppearance.AppCompat.Body2"/>
-                    </LinearLayout>
-                    <LinearLayout
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_incomes"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@{expenseDetails.incomesStr}"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_incomes_label"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/incomes"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:onClick="@{()->expenseOnClick.onClick()}"
-                        android:background="@color/teal_700"
-                        android:paddingTop="@dimen/dimen_5"
-                        android:paddingBottom="@dimen/dimen_5">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/home_expense"
+                        android:layout_height="@dimen/dimen_5"
+                        android:background="@color/null_color"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@{expenseDetails.expenseStr}"
-                            app:layout_constraintStart_toEndOf="@id/home_incomes"
-                            app:layout_constraintBottom_toTopOf="@id/home_expense_label"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            style="@style/Base.TextAppearance.AppCompat.Body2"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/home_expense_label"
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_expense"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@{expenseDetails.expenseStr}"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_expense_label"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/expense"
+                                android:gravity="center"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_5"
+                        android:background="@color/null_color"/>
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/expense"
-                            android:gravity="center"
-                            app:layout_constraintEnd_toEndOf="@id/home_expense"
-                            app:layout_constraintTop_toBottomOf="@id/home_expense"
-                            app:layout_constraintStart_toStartOf="@id/home_expense"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            style="@style/Base.TextAppearance.AppCompat.Body2"/>
-                    </LinearLayout>
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_balance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{expenseDetails.balanceStr}"
+                                android:gravity="center"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/home_balance_label"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/balance"
+                                android:gravity="center"
+                                style="@style/Base.TextAppearance.AppCompat.Body2"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/dimen_5"
-                android:adapter="@{logAdapter}"
+                android:layout_height="match_parent"
+                android:layout_below="@id/home_footer_layout"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="@dimen/dimen_10"
+                android:layout_marginTop="@dimen/dimen_5"
                 android:layout_marginEnd="@dimen/dimen_10"
-                app:spanCount="4"
+                android:layout_marginBottom="@dimen/dimen_5"
+                android:adapter="@{logAdapter}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/home_footer_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_white_36dp"
-            android:layout_marginEnd="@dimen/dimen_20"
-            android:layout_marginBottom="@dimen/dimen_20"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:onClick="@{()->addExpenseOnClick.onClick()}"/>
-    </RelativeLayout>
+                app:spanCount="4" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_white_36dp"
+                android:layout_marginEnd="@dimen/dimen_20"
+                android:layout_marginBottom="@dimen/dimen_20"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                app:layout_behavior="al.bruno.personal.expense.util.FabScrollBehavior"
+                android:onClick="@{()->addExpenseOnClick.onClick()}"/>
+        </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
