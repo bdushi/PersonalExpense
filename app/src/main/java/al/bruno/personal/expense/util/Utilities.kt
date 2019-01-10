@@ -20,6 +20,9 @@ object Utilities {
     fun dateFormat(date: DateTime): String {
         return DateTimeFormat.forPattern("dd-MMM-yyyy").print(date)
     }
+    fun dayFormat(date: DateTime): String {
+        return DateTimeFormat.forPattern("dd/MM EEE").print(date)
+    }
     fun expenseDate(date: DateTime): String {
         return DateTimeFormat.forPattern("dd/M/yyyy").print(date)
     }

@@ -6,10 +6,12 @@
     <string name="add_your_incomes">Add Incomes</string>
 
     <string name="incomes">Incomes</string>
+    <string name="incomes_label">Incomes: </string>
     <string name="total">"Total"</string>
     <string name="google_maps_key">"AIzaSyB5GA-7rNUwLtNt0GPVwX1UOwW1M2PaHK8"</string>
     <string name="general">"General"</string>
     <string name="expenses">Expenses</string>
+    <string name="expenses_label">Expenses: </string>
     <string name="expense">Expense</string>
 
     <string name="summary">Summary</string>

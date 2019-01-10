@@ -10,17 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="@dimen/dimen_5"
-        android:background="@drawable/expense_background">
+        android:layout_margin="@dimen/dimen_5">
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@{expense.category}"
             android:layout_weight="2"
             style="@style/TextAppearance"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="end"
             android:layout_gravity="center_vertical"

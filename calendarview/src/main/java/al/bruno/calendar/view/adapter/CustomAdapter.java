@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class CustomAdapter<T, VM extends ViewDataBinding> extends RecyclerView.Adapter<CustomViewHolder<T, VM>> {
     private List<T> t;
     private List<T> o;

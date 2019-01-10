@@ -4,8 +4,10 @@ import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseDetailsInjection
 import al.bruno.personal.expense.callback.OnClick
+import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
 import al.bruno.personal.expense.databinding.LogSingleItemBinding
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseMasterInjection
 import al.bruno.personal.expense.entities.ChartDataObject
 import android.graphics.Color
 import android.os.Bundle
@@ -28,9 +30,11 @@ import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
+import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
+import al.bruno.personal.expense.view.model.ExpenseMasterViewModel
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -59,18 +63,33 @@ class HomeFragment : Fragment(), Observer<Month> {
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
-                ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
+                ViewModelProviders
+                        .of(this, ViewModelProviderFactory(ExpenseMasterViewModel(provideExpenseMasterInjection(context!!))))[ExpenseMasterViewModel::class.java]
+                        .expenseMaster()
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                                override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
+                                    vm.master = t
+                                }
+                            })
+                            Log.i(ExpenseMasterViewModel::class.java.name, it.toString())
+                        },{
+                            Log.i(ExpenseMasterViewModel::class.java.name, it.message)
+                        })
+                /*ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
                         .expenses(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
+                           fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.log_single_item, object : BindingData<Expense, LogSingleItemBinding> {
                                 override fun bindData(t: Expense, vm: LogSingleItemBinding) {
                                     vm.expense = t
                                 }
                             })
                         }, {
                             Log.i(HomeFragment::class.java.name, it.message)
-                        }))
+                        })*/
+        )
         fragmentHomeBinding?.incomesOnClick = object : OnClick {
             override fun onClick() {
                 //TODO
@@ -117,6 +136,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                             fragmentHomeBinding?.expenseDetails = null
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
+
                 ViewModelProviders.of(this@HomeFragment)[ExpenseViewModel::class.java]
                         .expenses(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())

@@ -9,8 +9,8 @@ object InjectionProvider {
     fun provideExpenseDetailsInjection(@NonNull context: Context): ExpenseDetailsDataSource {
         return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.INSTANCE(context)!!)!!
     }
-    fun provideExpenseDestroyInstance() {
-        return ExpenseDetailsRepository.destroyInstance()
+    fun provideExpenseMasterInjection(@NonNull context: Context): ExpenseMasterDataSource {
+        return ExpenseMasterRepository.getInstance(ExpenseMasterLocalDataSource.INSTANCE(context)!!)!!
     }
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
         return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)

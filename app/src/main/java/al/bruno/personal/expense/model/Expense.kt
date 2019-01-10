@@ -11,7 +11,9 @@ import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
 import org.joda.time.DateTime
 
-@Entity(tableName = "expense", indices = arrayOf(Index(value = arrayOf("_date", "_id") , unique = true)))
+@Entity(
+        tableName = "expense",
+        indices = [Index(value = arrayOf("_date", "_id") , unique = true)])
 class Expense() : Parcelable, Observable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
