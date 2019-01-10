@@ -6,7 +6,6 @@ import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideE
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
-import al.bruno.personal.expense.databinding.LogSingleItemBinding
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseMasterInjection
 import al.bruno.personal.expense.entities.ChartDataObject
 import android.graphics.Color
@@ -27,7 +26,6 @@ import com.github.mikephil.charting.utils.MPPointF
 import java.text.DecimalFormat
 
 import al.bruno.personal.expense.model.ExpenseDetails
-import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.ExpenseMaster
@@ -35,7 +33,6 @@ import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseMasterViewModel
-import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders

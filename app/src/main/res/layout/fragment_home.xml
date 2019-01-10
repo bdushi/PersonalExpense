@@ -57,7 +57,8 @@
                     android:orientation="vertical">
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() ->incomesOnClick.onClick()}">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -84,7 +85,8 @@
                         android:background="@color/null_color"/>
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:onClick="@{() ->expenseOnClick.onClick()}">
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

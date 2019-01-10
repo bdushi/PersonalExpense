@@ -14,7 +14,6 @@ import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
@@ -31,10 +30,15 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, Observer<ExpenseType> {
-    override fun update(t: ExpenseType) {
+class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, Observer<List<Categories>> {
+    override fun update(t: List<Categories>) {
+        val adapter = EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+        registerObserver(adapter)
+        fragmentCategoriesBinding?.customAdapter = adapter
+    }
+    /*override fun update(t: ExpenseType) {
         when (t.type) {
-            getString(R.string.expenses) -> {
+            EXPENSES_KEY -> {
                 disposable.add(ViewModelProviders
                         .of(this)
                         .get(CategoriesViewModel::class.java)
@@ -51,7 +55,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                             fragmentCategoriesBinding?.customAdapter = adapter
                         }))
             }
-            getString(R.string.incomes) -> {
+            INCOMES_KEY -> {
                 disposable.add(ViewModelProviders
                         .of(this)
                         .get(CategoriesViewModel::class.java)
@@ -69,7 +73,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                         }))
             }
         }
-    }
+    }*/
 
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable: CompositeDisposable = CompositeDisposable()

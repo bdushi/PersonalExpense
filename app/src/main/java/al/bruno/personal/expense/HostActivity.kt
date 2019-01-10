@@ -12,8 +12,15 @@ import al.bruno.personal.expense.databinding.ExpenseSpinnerSingleItemBinding
 import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.entities.Month
+import al.bruno.personal.expense.model.Categories
+import al.bruno.personal.expense.util.EXPENSES
+import al.bruno.personal.expense.util.EXPENSES_KEY
+import al.bruno.personal.expense.util.INCOMES
+import al.bruno.personal.expense.util.INCOMES_KEY
 import al.bruno.personal.expense.util.Utilities.monthFormat
+import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 
 import androidx.appcompat.app.AppCompatActivity
@@ -23,12 +30,16 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.util.Calendar
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
-    private val registry = ArrayList<Observer<ExpenseType>>()
+    private val registry = ArrayList<Observer<List<Categories>>>()
     private val monthRegistry = ArrayList<Observer<Month>>()
+    private val disposable: CompositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
@@ -99,7 +110,34 @@ class HostActivity : AppCompatActivity() {
                     actionBarExpenseNavigationLayoutBinding.itemSelectedListener = object : OnItemSelectedListener {
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                             customSpinnerAdapter.setSelection(p2)
-                            expenseSubject.notifyObserver(t = p0?.getItemAtPosition(p2) as ExpenseType)
+                            when ((p0?.getItemAtPosition(p2) as ExpenseType).type) {
+                                EXPENSES_KEY -> {
+                                    disposable.add(ViewModelProviders
+                                            .of(this@HostActivity)
+                                            .get(CategoriesViewModel::class.java)
+                                            .categories(EXPENSES)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe({
+                                                expenseSubject.notifyObserver(t = it)
+                                            }, {
+                                                Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                                                expenseSubject.notifyObserver(t = ArrayList())
+                                            }))
+                                }
+                                INCOMES_KEY -> {
+                                    disposable.add(ViewModelProviders
+                                            .of(this@HostActivity)
+                                            .get(CategoriesViewModel::class.java)
+                                            .categories(INCOMES)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe({
+                                                expenseSubject.notifyObserver(t = it)
+                                            }, {
+                                                Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                                                expenseSubject.notifyObserver(t = ArrayList())
+                                            }))
+                                }
+                            }
                         }
                     }
                     actionBarExpenseNavigationLayoutBinding.adapter = customSpinnerAdapter
@@ -155,6 +193,11 @@ class HostActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
             supportFragmentManager.beginTransaction()
@@ -174,21 +217,22 @@ class HostActivity : AppCompatActivity() {
                     .setNegativeButton(R.string.no) { dialog, _ ->  dialog.dismiss()}
                     .show()
         } else {
-            super.onBackPressed()
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.executePendingTransactions()
         }
     }
 
-    private val expenseSubject = object : Subject<ExpenseType> {
-        override fun registerObserver(o: Observer<ExpenseType>) {
+    private val expenseSubject = object : Subject<List<Categories>> {
+        override fun registerObserver(o: Observer<List<Categories>>) {
             registry.add(o)
         }
 
-        override fun removeObserver(o: Observer<ExpenseType>) {
+        override fun removeObserver(o: Observer<List<Categories>>) {
             if (registry.indexOf(o) >= 0)
                 registry.remove(o)
         }
 
-        override fun notifyObserver(t: ExpenseType) {
+        override fun notifyObserver(t: List<Categories>) {
             for (observer in registry) {
                 observer.update(t)
             }
