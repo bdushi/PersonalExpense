@@ -7,7 +7,6 @@ import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentDetailsBinding
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
 import android.util.Log

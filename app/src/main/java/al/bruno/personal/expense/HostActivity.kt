@@ -57,7 +57,7 @@ class HostActivity : AppCompatActivity() {
                 else
                     supportActionBar!!.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
                 //
-                if(supportFragmentManager.findFragmentById(R.id.host) is HomeFragment || supportFragmentManager.findFragmentById(R.id.host) is StatisticsFragment) {
+                if(supportFragmentManager.findFragmentById(R.id.host) is HomeFragment) {
                     supportActionBar!!.setDisplayShowTitleEnabled(false)
                     supportActionBar!!.setDisplayShowCustomEnabled(true)
                     val actionBarMonthNavigationLayoutBinding: ActionBarMonthNavigationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_month_navigation_layout, null, false)
@@ -88,7 +88,39 @@ class HostActivity : AppCompatActivity() {
                                     }))
                                     .commit()
                     }
-                } else if(supportFragmentManager.findFragmentById(R.id.host) is PersonalExpensesFragment) {
+                } else if(supportFragmentManager.findFragmentById(R.id.host) is StatisticsFragment) {
+                    supportActionBar!!.setDisplayShowTitleEnabled(false)
+                    supportActionBar!!.setDisplayShowCustomEnabled(true)
+                    val actionBarMonthNavigationLayoutBinding: ActionBarMonthNavigationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_month_navigation_layout, null, false)
+                    actionBarMonthNavigationLayoutBinding.date = monthFormat(Calendar.getInstance().timeInMillis)
+                    supportActionBar!!.customView = actionBarMonthNavigationLayoutBinding.root
+                    supportActionBar!!.customView.setOnClickListener {
+                        if (supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
+                            supportFragmentManager.beginTransaction()
+                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                    .commit()
+                        else
+                            supportFragmentManager
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .add(R.id.host,
+                                            MonthNavigationFragment()
+                                                    .setOnEditListener(onEditListener = object : OnEditListener<Month> {
+                                                        override fun onEdit(t: Month) {
+                                                            monthSubject.notifyObserver(t)
+                                                            actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
+                                                            supportFragmentManager
+                                                                    .beginTransaction()
+                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                                                    .commit()
+                                                        }
+                                                    }))
+                                    .commit()
+                    }
+                }
+                else if(supportFragmentManager.findFragmentById(R.id.host) is PersonalExpensesFragment) {
                     expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as PersonalExpensesFragment))
                     val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding =
                             DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
