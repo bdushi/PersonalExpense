@@ -175,7 +175,7 @@ class HostActivity : AppCompatActivity() {
                 val statisticsFragment = StatisticsFragment()
                 monthSubject.registerObserver(statisticsFragment)
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.host, StatisticsFragment())
+                        .replace(R.id.host, statisticsFragment)
                         .addToBackStack("STATISTICS_FRAGMENT")
                         .commit()
             }
