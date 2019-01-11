@@ -20,7 +20,8 @@
             type="al.bruno.personal.expense.adapter.CustomAdapter"/>
         <variable
             name="pieData"
-            type="al.bruno.personal.expense.entities.ChartDataObject&lt;String,com.github.mikephil.charting.data.PieData&gt;"/>
+            type="al.bruno.personal.expense.entities.ChartDataObject&lt;String, com.github.mikephil.charting.data.PieData&gt;"/>
+
         <import type="android.view.View"/>
     </data>
     <LinearLayout
@@ -35,11 +36,11 @@
             android:layout_marginEnd="@dimen/dimen_10"
             android:layout_marginTop="@dimen/dimen_5"
             android:layout_marginBottom="@dimen/dimen_5">
-            <com.github.mikephil.charting.charts.PieChart
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/add_your_incomes"
-                bind:pieData="@{pieData}"/>
+                android:contentDescription="@string/add_your_incomes"/>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView

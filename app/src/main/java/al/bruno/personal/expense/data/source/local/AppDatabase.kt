@@ -18,6 +18,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun categoriesDao(): CategoriesDao
     abstract fun budgetDetailsDao(): ExpenseDetailsDao
+    abstract fun expenseChartDao(): ExpenseChartDao
     abstract fun expenseMasterDao(): ExpenseMasterDao
     abstract fun settingsDao() : SettingsDao
     companion object {

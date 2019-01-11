@@ -35,7 +35,7 @@ public class Adapter {
     @BindingAdapter("bind:pieData")
     public static void setData(PieChart pieChart, ChartDataObject<String, PieData> pieData) {
         if(pieData != null) {
-            pieChart.getDescription().setText(pieData.getId());
+            pieChart.getDescription().setText(pieData.getLabel());
             pieChart.setRotationEnabled(false);
             pieChart.setDrawEntryLabels(false);
             Legend legend = pieChart.getLegend();
@@ -43,7 +43,7 @@ public class Adapter {
             legend.setFormSize(8f);
             legend.setXEntrySpace(3f);
             legend.setWordWrapEnabled(true);
-            pieChart.setData(pieData.getPieData());
+            pieChart.setData(pieData.getData());
             pieChart.invalidate();
         } else {
             pieChart.setData(null);

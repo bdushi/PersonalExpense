@@ -12,6 +12,9 @@ object InjectionProvider {
     fun provideExpenseMasterInjection(@NonNull context: Context): ExpenseMasterDataSource {
         return ExpenseMasterRepository.getInstance(ExpenseMasterLocalDataSource.INSTANCE(context)!!)!!
     }
+    fun provideExpenseChartInjection(@NonNull context: Context): ExpenseChartDataSource {
+        return ExpenseChartRepository.getInstance(ExpenseChartLocalDataSource.INSTANCE(context)!!)!!
+    }
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
         return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)
     }
