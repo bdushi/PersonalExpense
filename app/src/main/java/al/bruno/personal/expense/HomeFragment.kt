@@ -139,6 +139,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         },{
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
+
                 ViewModelProviders
                         .of(this@HomeFragment, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!))))[ExpenseDetailsViewModel::class.java]
                         .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
@@ -225,14 +226,13 @@ class HomeFragment : Fragment(), Observer<Month> {
         //lineChart.setNoDataText(getString(R.string.no_data));
         lineChart.visibility = View.VISIBLE
         //Enable legend - Nuk mund te vendoset pershkrim ne grafik por
-        lineChart.getLegend().setEnabled(false);
-        lineChart.xAxis.axisLineColor = Color.YELLOW
+        lineChart.getLegend().setEnabled(true);
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         lineChart.xAxis.setAvoidFirstLastClipping(false)
         // Line chart Description
         lineChart.getDescription().setText(getString(R.string.expenses));
         //
-        lineChart.xAxis.setValueFormatter { value, axis -> if (value > xAxis) "" else Utilities.days(value.toInt()) }
+        lineChart.xAxis.setValueFormatter { value, axis -> Utilities.days(value.toInt()) }
         lineChart.setMaxVisibleValueCount(xAxis)
 
         lineChart.data = lineData
