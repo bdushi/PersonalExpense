@@ -14,6 +14,7 @@ import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
+import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
@@ -30,11 +31,20 @@ import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, Observer<List<Categories>> {
-    override fun update(t: List<Categories>) {
-        val adapter = EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
-        registerObserver(adapter)
-        fragmentCategoriesBinding?.customAdapter = adapter
+class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
+    override fun update(t: List<Categories>, l:String) {
+        when (l) {
+            EXPENSES -> {
+                val adapter = EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                registerObserver(adapter)
+                fragmentCategoriesBinding?.customAdapter = adapter
+            }
+            INCOMES -> {
+                val adapter = EditAdapter(t, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
+                registerObserver(adapter)
+                fragmentCategoriesBinding?.customAdapter = adapter
+            }
+        }
     }
     /*override fun update(t: ExpenseType) {
         when (t.type) {

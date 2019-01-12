@@ -13,10 +13,10 @@ import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.Categories
+import al.bruno.personal.expense.observer.ExpenseObserver
+import al.bruno.personal.expense.observer.ExpenseSubject
 import al.bruno.personal.expense.util.EXPENSES
-import al.bruno.personal.expense.util.EXPENSES_KEY
 import al.bruno.personal.expense.util.INCOMES
-import al.bruno.personal.expense.util.INCOMES_KEY
 import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Bundle
@@ -37,7 +37,7 @@ import java.util.Calendar
 
 class HostActivity : AppCompatActivity() {
     private var itemRoot: MenuItem? = null
-    private val registry = ArrayList<Observer<List<Categories>>>()
+    private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
     private val monthRegistry = ArrayList<Observer<Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,7 +128,7 @@ class HostActivity : AppCompatActivity() {
                             this,
                             R.layout.expense_spinner_single_item,
                             R.layout.simple_spinner_dropdown_item,
-                            arrayOf(ExpenseType(getString(R.string.expenses), false), ExpenseType(getString(R.string.incomes), false)),
+                            arrayOf(ExpenseType(EXPENSES, getString(R.string.expenses), false), ExpenseType(INCOMES, getString(R.string.incomes), false)),
                             object : BindingData<ExpenseType, ExpenseSpinnerSingleItemBinding> {
                                 override fun bindData(t: ExpenseType, vm: ExpenseSpinnerSingleItemBinding) {
                                     vm.type = t
@@ -142,7 +142,19 @@ class HostActivity : AppCompatActivity() {
                     actionBarExpenseNavigationLayoutBinding.itemSelectedListener = object : OnItemSelectedListener {
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                             customSpinnerAdapter.setSelection(p2)
-                            when ((p0?.getItemAtPosition(p2) as ExpenseType).type) {
+                            val expenseType = (p0?.getItemAtPosition(p2) as ExpenseType)
+                            disposable.add(ViewModelProviders
+                                    .of(this@HostActivity)
+                                    .get(CategoriesViewModel::class.java)
+                                    .categories(expenseType.key)
+                                    .subscribeOn(Schedulers.io())
+                                    .subscribe({
+                                        expenseSubject.notifyObserver(t = it, l = expenseType.key)
+                                    }, {
+                                        Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                                        expenseSubject.notifyObserver(t = ArrayList(), l = expenseType.key)
+                                    }))
+                            /*when ((p0?.getItemAtPosition(p2) as ExpenseType).type) {
                                 EXPENSES_KEY -> {
                                     disposable.add(ViewModelProviders
                                             .of(this@HostActivity)
@@ -169,7 +181,7 @@ class HostActivity : AppCompatActivity() {
                                                 expenseSubject.notifyObserver(t = ArrayList())
                                             }))
                                 }
-                            }
+                            }*/
                         }
                     }
                     actionBarExpenseNavigationLayoutBinding.adapter = customSpinnerAdapter
@@ -254,19 +266,19 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    private val expenseSubject = object : Subject<List<Categories>> {
-        override fun registerObserver(o: Observer<List<Categories>>) {
+    private val expenseSubject = object : ExpenseSubject<List<Categories>, String> {
+        override fun registerObserver(o: ExpenseObserver<List<Categories>, String>) {
             registry.add(o)
         }
 
-        override fun removeObserver(o: Observer<List<Categories>>) {
+        override fun removeObserver(o: ExpenseObserver<List<Categories>, String>) {
             if (registry.indexOf(o) >= 0)
                 registry.remove(o)
         }
 
-        override fun notifyObserver(t: List<Categories>) {
+        override fun notifyObserver(t: List<Categories>, l: String) {
             for (observer in registry) {
-                observer.update(t)
+                observer.update(t, l)
             }
         }
     }
