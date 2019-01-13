@@ -12,6 +12,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 class PersonalExpenseApplication : Application() {
     private val disposable : CompositeDisposable = CompositeDisposable()
@@ -21,6 +23,8 @@ class PersonalExpenseApplication : Application() {
         Log.i(PersonalExpenseApplication::class.java.name, PersonalExpenseApplication::class.java.name)
         //analytics
         FirebaseAnalytics.getInstance(this)
+        Fabric.with(this, Crashlytics())
+
         /*WorkManager
                 .INSTANCE()
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
