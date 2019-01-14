@@ -26,29 +26,22 @@ import java.text.DecimalFormat
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
-import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.colors
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseChartViewModel
-import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseMasterViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.EntryXComparator
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-
-import com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
 
 class HomeFragment : Fragment(), Observer<Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
@@ -63,20 +56,8 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .expenseChart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            setLineChart(fragmentHomeBinding!!.lineChart, setLineData(it))
+                            fragmentHomeBinding!!.chartData = setLineData(it)
                         },{
-                            Log.i(HomeFragment::class.java.name, it.message)
-                        }),
-
-                ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!))))[ExpenseDetailsViewModel::class.java]
-                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            fragmentHomeBinding?.expenseDetails = it
-                            //fragmentHomeBinding?.pieData = setData(budgetDetails = it)
-                        },{
-                            fragmentHomeBinding?.expenseDetails = ExpenseDetails()
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
@@ -135,20 +116,8 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .expenseChart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            setLineChart(fragmentHomeBinding!!.lineChart, setLineData(it))
+                            fragmentHomeBinding?.chartData = setLineData(it)
                         },{
-                            Log.i(HomeFragment::class.java.name, it.message)
-                        }),
-
-                ViewModelProviders
-                        .of(this@HomeFragment, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(context!!))))[ExpenseDetailsViewModel::class.java]
-                        .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            fragmentHomeBinding?.expenseDetails = it
-                            //fragmentHomeBinding?.pieData = setData(budgetDetails = it)
-                        }, {
-                            fragmentHomeBinding?.expenseDetails = ExpenseDetails()
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
@@ -196,13 +165,15 @@ class HomeFragment : Fragment(), Observer<Month> {
         return ChartDataObject(getString(R.string.app_name), data = data)
     }
 
-    private fun setLineData(expenseCharts: List<ExpenseChart>): LineData {
+    private fun setLineData(expenseCharts: List<ExpenseChart>): ChartDataObject<MutableList<String>, LineData>? {
         val dataSets = ArrayList<ILineDataSet>()
+        val dateXaxis = ArrayList<String>()
         for (expenseChart in expenseCharts) {
             val entryList = ArrayList<Entry>()
             for (i in 0 until expenseChart.expenses!!.size) {
                 val expense = expenseChart.expenses!!.get(i)
                 entryList.add(Entry(i.toFloat(), expense.amount.toFloat()))
+                dateXaxis.add(Utilities.date(expense.date!!))
             }
             //Sort
             Collections.sort(entryList, EntryXComparator())
@@ -212,30 +183,6 @@ class HomeFragment : Fragment(), Observer<Month> {
             lineDataSet.circleRadius = 3f
             dataSets.add(lineDataSet)
         }
-
-        return LineData(dataSets)
-    }
-
-    fun setLineChart(lineChart: LineChart, lineData:LineData) {
-        //
-        val xAxis = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        lineChart.isHorizontalScrollBarEnabled = true
-        lineChart.setPinchZoom(true)
-        lineChart.getAxis(YAxis.AxisDependency.LEFT).axisLineColor = Color.BLUE
-        lineChart.axisRight.isEnabled = false // no right axis
-        //lineChart.setNoDataText(getString(R.string.no_data));
-        lineChart.visibility = View.VISIBLE
-        //Enable legend - Nuk mund te vendoset pershkrim ne grafik por
-        lineChart.getLegend().setEnabled(true);
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.xAxis.setAvoidFirstLastClipping(false)
-        // Line chart Description
-        lineChart.getDescription().setText(getString(R.string.expenses));
-        //
-        lineChart.xAxis.setValueFormatter { value, axis -> Utilities.days(value.toInt()) }
-        lineChart.setMaxVisibleValueCount(xAxis)
-
-        lineChart.data = lineData
-        lineChart.invalidate()
+        return ChartDataObject(dateXaxis, LineData(dataSets))
     }
 }

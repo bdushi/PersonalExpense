@@ -30,7 +30,7 @@ class DetailsFragment : Fragment() {
                 disposable.addAll(
                         ViewModelProviders
                                 .of(this@DetailsFragment)[ExpenseViewModel::class.java]
-                                .expenses(localDateTime!!.dateTime.withTimeAtStartOfDay())
+                                    .expenses(localDateTime!!.dateTime)
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
                                     fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
@@ -43,7 +43,7 @@ class DetailsFragment : Fragment() {
                                 }),
                         ViewModelProviders
                                 .of(this@DetailsFragment)[ExpenseViewModel::class.java]
-                                .total(localDateTime.dateTime.withTimeAtStartOfDay())
+                                .total(localDateTime.dateTime)
                                 .subscribeOn(Schedulers.io())
                                 .subscribe({
                                     fragmentDetailsBinding.total = it
@@ -55,27 +55,29 @@ class DetailsFragment : Fragment() {
         }
 
         disposable.addAll(
-                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .expenses(DateTime.now().withTimeAtStartOfDay())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
-                        override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
-                            vm.expense = t
-                        }
-                    })
-                },{
-                    Log.i(DetailsFragment::class.java.name, it.message)
-                }),
-                ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .total(DateTime.now().withTimeAtStartOfDay())
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentDetailsBinding.total = it
-                },{
-                    fragmentDetailsBinding.total = null
-                    Log.i(DetailsFragment::class.java.name, it.message)
-                }),
+                ViewModelProviders
+                        .of(this)[ExpenseViewModel::class.java]
+                        .expenses(DateTime.now())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+                                override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
+                                    vm.expense = t
+                                }
+                            })
+                        },{
+                            Log.i(DetailsFragment::class.java.name, it.message)
+                        }),
+                ViewModelProviders
+                        .of(this)[ExpenseViewModel::class.java]
+                        .total(DateTime.now())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentDetailsBinding.total = it
+                        },{
+                            fragmentDetailsBinding.total = null
+                            Log.i(DetailsFragment::class.java.name, it.message)
+                        }),
                 ViewModelProviders.of(this)[ExpenseViewModel::class.java]
                         .date()
                         .subscribeOn(Schedulers.io())

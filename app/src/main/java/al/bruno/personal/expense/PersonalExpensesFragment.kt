@@ -227,7 +227,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
-                    expense.date = DateTime.now().withTimeAtStartOfDay()
+                    expense.date = DateTime.now()
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
@@ -251,7 +251,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
-                    expense.date = DateTime.now().withTimeAtStartOfDay()
+                    expense.date = DateTime.now()
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()

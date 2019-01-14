@@ -46,20 +46,6 @@ object Utilities {
     fun month(month: Int): String {
         return arrayOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")[month]
     }
-    fun days(day: Int): String {
-        return when(day) {
-            1 -> "01"
-            2 -> "02"
-            3 -> "03"
-            4 -> "04"
-            5 -> "05"
-            6 -> "06"
-            7 -> "07"
-            8 -> "08"
-            9 -> "09"
-            else -> day.toString()
-        }
-    }
 
     fun year(date: Long): String {
         return DateTimeFormat.forPattern("yyyy").print(date)

@@ -78,7 +78,7 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
                 DatePickerDialog()
                         .onEditListener(object : OnEditListener<Long> {
                             override fun onEdit(t: Long) {
-                                expense?.date = DateTime(t).withTimeAtStartOfDay()
+                                expense?.date = DateTime(t)
                             }
                         }).show(fragmentManager, "DATE_PICKER")
             }

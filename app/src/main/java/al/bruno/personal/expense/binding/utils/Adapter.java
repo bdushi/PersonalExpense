@@ -1,11 +1,22 @@
 package al.bruno.personal.expense.binding.utils;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import al.bruno.personal.expense.R;
 import al.bruno.personal.expense.SimpleItemTouchHelper;
 import al.bruno.personal.expense.callback.OnSwipeItemListener;
 import al.bruno.personal.expense.entities.ChartDataObject;
@@ -50,5 +61,27 @@ public class Adapter {
             pieChart.invalidate();
             pieChart.setNoDataText("Nuk ka te dhena per kete raport");
         }
+    }
+    @BindingAdapter("bind:lineChart")
+    public static void setLineChart(LineChart lineChart, ChartDataObject<List<String>, LineData> chartData) {
+        //
+        lineChart.setHorizontalScrollBarEnabled(true);
+        lineChart.setPinchZoom(true);
+        lineChart.getAxis(YAxis.AxisDependency.LEFT).setAxisLineColor(Color.BLUE);
+        lineChart.getAxisRight().setEnabled(false); // no right axis
+        //lineChart.setNoDataText(getString(R.string.no_data));
+        //lineChart.visibility = View.VISIBLE
+
+        //Enable legend - Nuk mund te vendoset pershkrim ne grafik por
+        lineChart.getLegend().setEnabled(true);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.getXAxis().setAvoidFirstLastClipping(false);
+        // Line chart Description
+        lineChart.getDescription().setText(lineChart.getContext().getString(R.string.expenses));
+        //
+        lineChart.getXAxis().setValueFormatter((value, axis) -> chartData.getLabel().get((int) value));
+        lineChart.setMaxVisibleValueCount(chartData.getLabel().size());
+        lineChart.setData(chartData.getData());
+        lineChart.invalidate();
     }
 }
