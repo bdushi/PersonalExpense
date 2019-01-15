@@ -59,6 +59,10 @@ object Utilities {
         return DateTimeFormat.forPattern("MMMM").print(date)
     }
 
+    fun month(date: Long): String {
+        return DateTimeFormat.forPattern("MMMM").print(date)
+    }
+
     fun month(calendar: Calendar): String {
         return DateTimeFormat.forPattern("MMM").print(calendar.timeInMillis)
     }

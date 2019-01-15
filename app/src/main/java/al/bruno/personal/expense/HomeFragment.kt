@@ -2,7 +2,6 @@ package al.bruno.personal.expense
 
 import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseDetailsInjection
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseChartInjection
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
@@ -66,7 +65,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                            fragmentHomeBinding!!.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
                                 override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
                                     vm.master = t
                                 }
@@ -79,11 +78,6 @@ class HomeFragment : Fragment(), Observer<Month> {
         fragmentHomeBinding?.incomesOnClick = object : OnClick {
             override fun onClick() {
                 //TODO
-                /*fragmentManager!!
-                        .beginTransaction()
-                        .replace(R.label.host, ExpenseFragment())
-                        .addToBackStack("EXPENSE_FRAGMENT")
-                        .commit()*/
             }
         }
         fragmentHomeBinding?.expenseOnClick = object : OnClick {
@@ -141,30 +135,6 @@ class HomeFragment : Fragment(), Observer<Month> {
         super.onStop()
         disposable.clear()
     }
-
-    private fun setData(budgetDetails: ExpenseDetails): ChartDataObject<String, PieData> {
-        val entries = ArrayList<PieEntry>()
-        entries.add(PieEntry((budgetDetails.expense / budgetDetails.incomes) * 100, getString(R.string.expense)))
-        entries.add(PieEntry((budgetDetails.balance / budgetDetails.incomes) * 100, getString(R.string.balance)))
-        val dataSet = PieDataSet(entries, "")
-
-        val format = DecimalFormat("### %")
-        dataSet.setDrawIcons(false)
-        dataSet.sliceSpace = 3f
-        dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 5f
-        dataSet.valueFormatter = IValueFormatter { value, entry, dataSetIndex, viewPortHandler -> format.format(value.toDouble()) }
-
-        dataSet.colors = colors()
-        dataSet.selectionShift = 0f
-
-        val data = PieData(dataSet)
-        data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(11f)
-        data.setValueTextColor(Color.WHITE)
-        return ChartDataObject(getString(R.string.app_name), data = data)
-    }
-
     private fun setLineData(expenseCharts: List<ExpenseChart>): ChartDataObject<MutableList<String>, LineData>? {
         val dataSets = ArrayList<ILineDataSet>()
         val dateXaxis = ArrayList<String>()
@@ -180,7 +150,7 @@ class HomeFragment : Fragment(), Observer<Month> {
             val lineDataSet = LineDataSet(entryList, expenseChart.type)
             lineDataSet.color = Utilities.randomColors()!!
             lineDataSet.lineWidth = 2f
-            lineDataSet.circleRadius = 3f
+            lineDataSet.circleRadius = 2f
             dataSets.add(lineDataSet)
         }
         return ChartDataObject(dateXaxis, LineData(dataSets))

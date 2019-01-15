@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.mikephil.charting.charts.BarChart
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chart"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="chartData"
+            type="al.bruno.personal.expense.entities.ChartDataObject&lt;com.github.mikephil.charting.formatter.IndexAxisValueFormatter, com.github.mikephil.charting.data.BarData&gt;"/>
+
+    </data>
+    <com.github.mikephil.charting.charts.BarChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        bind:barChart="@{chartData}"/>
+</layout>
