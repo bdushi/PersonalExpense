@@ -1,21 +1,20 @@
 package al.bruno.personal.expense.data.source.local
 
 import al.bruno.personal.expense.data.source.ExpenseChartDataSource
+import al.bruno.personal.expense.data.source.local.dao.ExpenseChartDao
 import al.bruno.personal.expense.entities.ExpenseChart
-import android.content.Context
 import io.reactivex.Single
 
-class ExpenseChartLocalDataSource(context: Context): ExpenseChartDataSource {
-    private var appDatabase :AppDatabase = AppDatabase.getInstance(context)
+class ExpenseChartLocalDataSource(private val expenseChartDao: ExpenseChartDao): ExpenseChartDataSource {
     companion object {
         private var INSTANCE: ExpenseChartDataSource? = null
-        fun INSTANCE (context: Context) : ExpenseChartDataSource? {
+        fun getInstance (expenseChartDao: ExpenseChartDao) : ExpenseChartDataSource? {
             if(INSTANCE == null)
-                INSTANCE = ExpenseChartLocalDataSource(context)
+                INSTANCE = ExpenseChartLocalDataSource(expenseChartDao)
             return INSTANCE
         }
     }
     override fun expenseChart(month: String, year: String): Single<List<ExpenseChart>> {
-        return appDatabase.expenseChartDao().expenseChart(month, year)
+        return expenseChartDao.expenseChart(month, year)
     }
 }

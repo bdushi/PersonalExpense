@@ -7,21 +7,27 @@ import androidx.annotation.NonNull
 
 object InjectionProvider {
     fun provideExpenseDetailsInjection(@NonNull context: Context): ExpenseDetailsDataSource {
-        return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.INSTANCE(context)!!)!!
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return ExpenseDetailsRepository.getInstance(ExpenseDetailsLocalDataSource.getInstance(appDatabase.expenseDetailsDao())!!)!!
     }
     fun provideExpenseMasterInjection(@NonNull context: Context): ExpenseMasterDataSource {
-        return ExpenseMasterRepository.getInstance(ExpenseMasterLocalDataSource.INSTANCE(context)!!)!!
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return ExpenseMasterRepository.getInstance(ExpenseMasterLocalDataSource.getInstance(appDatabase.expenseMasterDao())!!)!!
     }
     fun provideExpenseChartInjection(@NonNull context: Context): ExpenseChartDataSource {
-        return ExpenseChartRepository.getInstance(ExpenseChartLocalDataSource.INSTANCE(context)!!)!!
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return ExpenseChartRepository.getInstance(ExpenseChartLocalDataSource.getInstance(appDatabase.expenseChartDao())!!)!!
     }
     fun providerCategoriesInjection(@NonNull context: Context) : CategoriesDataSource? {
-        return CategoriesRepository.getInstance(CategoriesLocalDataSource.INSTANCE(context)!!)
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return CategoriesRepository.getInstance(CategoriesLocalDataSource.getInstance(appDatabase.categoriesDao())!!)
     }
     fun providerExpenseInjection(@NonNull context: Context) : ExpenseDataSource? {
-        return ExpenseRepository.getInstance(ExpenseLocalDataSource.INSTANCE(context)!!)
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(appDatabase.expenseDao())!!)
     }
     fun providerSettingsInjection(@NonNull context: Context) : SettingsDataSource? {
-        return SettingsRepository.getInstance(SettingsLocalDataSource.INSTANCE(context)!!)
+        val appDatabase :AppDatabase = AppDatabase.getInstance(context)
+        return SettingsRepository.getInstance(SettingsLocalDataSource.getInstance(appDatabase.settingsDao())!!)
     }
 }

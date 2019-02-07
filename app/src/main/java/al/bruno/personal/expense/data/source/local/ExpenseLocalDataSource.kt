@@ -1,48 +1,46 @@
 package al.bruno.personal.expense.data.source.local
 
 import al.bruno.personal.expense.data.source.ExpenseDataSource
+import al.bruno.personal.expense.data.source.local.dao.ExpenseDao
 import al.bruno.personal.expense.model.Expense
-import android.content.Context
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import org.joda.time.DateTime
 
-class ExpenseLocalDataSource(context: Context) : ExpenseDataSource {
-    private var DATABASE_INSTANCE :AppDatabase = AppDatabase.getInstance(context)
-    
+class ExpenseLocalDataSource(private val expenseDao: ExpenseDao) : ExpenseDataSource {
     companion object {
         private var INSTANCE : ExpenseDataSource? = null
-        fun INSTANCE(context: Context) : ExpenseDataSource? {
+        fun getInstance(expenseDao: ExpenseDao) : ExpenseDataSource? {
             if(INSTANCE == null)
-                INSTANCE = ExpenseLocalDataSource(context)
+                INSTANCE = ExpenseLocalDataSource(expenseDao)
             return INSTANCE
         }
     }
     override fun insert(expense: Expense): Single<Long> {
-        return DATABASE_INSTANCE.expenseDao().insert(expense)
+        return expenseDao.insert(expense)
     }
 
     override fun expense(id: Long): LiveData<Expense> {
-        return DATABASE_INSTANCE.expenseDao().expense(id)
+        return expenseDao.expense(id)
     }
 
     override fun expenses(month: String, year: String): Single<List<Expense>> {
-        return DATABASE_INSTANCE.expenseDao().expenses(month, year)
+        return expenseDao.expenses(month, year)
     }
 
     override fun statistics(month: String, year: String): Single<List<Expense>> {
-        return DATABASE_INSTANCE.expenseDao().statistics(month, year)
+        return expenseDao.statistics(month, year)
     }
 
     override fun date(): Single<Array<DateTime>> {
-        return DATABASE_INSTANCE.expenseDao().date()
+        return expenseDao.date()
     }
 
     override fun expenses(date: DateTime): Single<List<Expense>> {
-        return DATABASE_INSTANCE.expenseDao().expenses(date)
+        return expenseDao.expenses(date)
     }
 
     override fun total(date: DateTime): Single<String> {
-        return DATABASE_INSTANCE.expenseDao().total(date)
+        return expenseDao.total(date)
     }
 }

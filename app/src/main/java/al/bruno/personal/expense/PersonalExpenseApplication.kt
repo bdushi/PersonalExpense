@@ -26,7 +26,7 @@ class PersonalExpenseApplication : Application() {
         Fabric.with(this, Crashlytics())
 
         /*WorkManager
-                .INSTANCE()
+                .getInstance()
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
                         OneTimeWorkRequest.Builder(WorkManagerService::class.java).build())
                 .enqueue()*/
