@@ -1,24 +1,22 @@
 package al.bruno.personal.expense.data.source.local
 
 import al.bruno.personal.expense.data.source.BudgetDetailsDataSource
+import al.bruno.personal.expense.data.source.local.dao.BudgetDetailsDao
 import al.bruno.personal.expense.model.BudgetDetails
-import android.content.Context
 import io.reactivex.Single
 
-class BudgetDetailsLocalDataSource(context: Context) : BudgetDetailsDataSource {
-    private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
-
+class BudgetDetailsLocalDataSource(private val budgetDetailsDao: BudgetDetailsDao) : BudgetDetailsDataSource {
     companion object {
         private var INSTANCE: BudgetDetailsDataSource? = null
-        fun INSTANCE (context: Context): BudgetDetailsDataSource?  {
+        fun getInstance (budgetDetailsDao: BudgetDetailsDao): BudgetDetailsDataSource?  {
             if(INSTANCE == null) {
-                INSTANCE = BudgetDetailsLocalDataSource(context = context)
+                INSTANCE = BudgetDetailsLocalDataSource(budgetDetailsDao)
             }
             return INSTANCE
         }
     }
 
     override fun budgetDetails(month: String, year: String): Single<BudgetDetails> {
-        return appDatabase.budgetDetailsDao().budgetDetails(month, year)
+        return budgetDetailsDao.budgetDetails(month, year)
     }
 }

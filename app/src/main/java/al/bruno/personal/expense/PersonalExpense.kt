@@ -24,7 +24,7 @@ class PersonalExpense : Application() {
         FirebaseAnalytics.getInstance(this)
         Stetho.initializeWithDefaults(this)
         /*WorkManager
-                .INSTANCE()
+                .getInstance()
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
                         OneTimeWorkRequest.Builder(WorkManagerService::class.java).build())
                 .enqueue()*/
