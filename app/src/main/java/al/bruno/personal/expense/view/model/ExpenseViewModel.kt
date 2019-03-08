@@ -2,6 +2,7 @@ package al.bruno.personal.expense.view.model
 
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerExpenseInjection
 import al.bruno.personal.expense.data.source.ExpenseDataSource
+import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
 import al.bruno.personal.expense.model.Expense
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,7 +12,7 @@ import org.joda.time.DateTime
 
 class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
 
-    private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(application)!!
+    private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(getInstance(application))!!
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
     }

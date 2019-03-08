@@ -1,5 +1,6 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.util.ACTION_PROCESS_UPDATES
 import al.bruno.personal.expense.work.manager.WorkManagerService
@@ -30,7 +31,7 @@ class PersonalExpenseApplication : Application() {
                 .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
                         OneTimeWorkRequest.Builder(WorkManagerService::class.java).build())
                 .enqueue()*/
-        disposable.add(providerSettingsInjection(this)!!.settings(1).subscribeOn(Schedulers.io()).subscribe({
+        disposable.add(providerSettingsInjection(getInstance(this))!!.settings(1).subscribeOn(Schedulers.io()).subscribe({
             if(it.auto){
                 WorkManager
                     .getInstance()
@@ -40,7 +41,7 @@ class PersonalExpenseApplication : Application() {
                                     .addTag(ACTION_PROCESS_UPDATES)
                                     .build())
             disposable
-                    .add(providerSettingsInjection(this)
+                    .add(providerSettingsInjection(getInstance(this))
                             !!.insert(it)
                             .subscribeOn(Schedulers.io()).subscribe({
 

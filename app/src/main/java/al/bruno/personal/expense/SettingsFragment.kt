@@ -1,5 +1,6 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.databinding.FragmentSettingsBinding
 import al.bruno.personal.expense.model.Settings
@@ -14,7 +15,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -22,14 +22,13 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_settings.*
 import java.util.concurrent.TimeUnit
 
 class SettingsFragment : Fragment(), Observer<Settings> {
     private val disposable : CompositeDisposable = CompositeDisposable()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val fragmentSettingsBinding: FragmentSettingsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
-        val factory = ViewModelProviderFactory(SettingsViewModel(providerSettingsInjection(context!!)!!))
+        val factory = ViewModelProviderFactory(SettingsViewModel(providerSettingsInjection(getInstance(context!!))!!))
         val settings = Settings(1)
         settings.registerObserver(this)
         disposable.add(ViewModelProviders
