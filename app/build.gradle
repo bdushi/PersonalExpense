@@ -53,12 +53,12 @@ android {
         //implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
         //google map
-        implementation 'com.google.android.gms:play-services-maps:16.0.0'
+        implementation 'com.google.android.gms:play-services-maps:16.1.0'
         implementation 'com.google.android.gms:play-services-location:16.0.0'
         //firebase core
         implementation 'com.google.firebase:firebase-core:16.0.6'
         //Crash Reporting
-        implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+        implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
 
         //charts
@@ -69,7 +69,7 @@ android {
 
         //debug
         //implementation 'org.apache.commons:commons-lang3:3.8.1'
-        debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+        debugImplementation 'com.amitshekhar.android:debug-db:1.0.5'
         //debugImplementation'com.squareup.leakcanary:leakcanary-android:1.5.1'
         //releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
         //testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
@@ -79,7 +79,7 @@ android {
         implementation 'androidx.core:core-ktx:1.0.1'
 
         //DataBinding
-        kapt "androidx.databinding:databinding-compiler:3.3.1"
+        kapt "androidx.databinding:databinding-compiler:3.3.2"
 
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
@@ -96,7 +96,7 @@ android {
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
-        implementation 'android.arch.work:work-runtime:1.0.0-beta05'
+        implementation 'androidx.work:work-runtime-ktx:2.0.0-rc01'
         implementation project(':calendarview')
         implementation 'joda-time:joda-time:2.10.1'
     }
