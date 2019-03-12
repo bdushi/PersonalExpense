@@ -1,25 +1,9 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="margin_2">2dp</dimen>
-    <dimen name="margin_5">5dp</dimen>
-    <dimen name="margin_20">20dp</dimen>
-    <dimen name="margin_10">10dp</dimen>
-    <dimen name="margin_15">15dp</dimen>
-    <dimen name="padding_24">24dp</dimen>
-    <dimen name="padding_30">30dp</dimen>
-    <dimen name="padding_10">10dp</dimen>
-    <dimen name="padding_20">20dp</dimen>
-    <dimen name="padding_15">15dp</dimen>
-    <dimen name="padding_5">5dp</dimen>
-    <dimen name="padding_2">2dp</dimen>
-    <dimen name="elevation_0">0dp</dimen>
-    <dimen name="elevation_1">1dp</dimen>
-    <dimen name="radius_5">5dp</dimen>
+    <dimen name="dimen_0">0dp</dimen>
+    <dimen name="dimen_2">2dp</dimen>
+    <dimen name="dimen_1">1dp</dimen>
     <dimen name="dimen_5">5dp</dimen>
     <dimen name="dimen_10">10dp</dimen>
-    <dimen name="corner_radius_1">1dp</dimen>
-    <dimen name="calendar_layout_height">300dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
 </resources>

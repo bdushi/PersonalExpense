@@ -15,10 +15,6 @@ class SettingsViewModel(private val settingsDataSource: SettingsDataSource): Vie
         return settingsDataSource.updateIncomes(incomes)
     }
 
-    override fun updateBudget(budget: Double) {
-        return settingsDataSource.updateBudget(budget)
-    }
-
     override fun updateAuto(auto: Boolean) {
         return settingsDataSource.updateAuto(auto)
     }

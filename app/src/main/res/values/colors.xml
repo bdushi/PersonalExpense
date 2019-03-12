@@ -3,23 +3,16 @@
     <color name="colorPrimary">#344955</color>
     <color name="colorPrimaryDark">#232F34</color>
     <color name="colorAccent">#F9AA33</color>
-    <color name="reply_blue">#4A6572</color>
-    <color name="reply_blue_800">#232F34</color>
+
     <color name="red_a700">#d50000</color>
     <color name="white">#FFF</color>
+    <color name="null_color">#50ffffff</color>
+    <color name="expense_background_color">#00ffffff</color>
+    <color name="tertiary">#16843282</color>
     <color name="black">#000</color>
-    <color name="null_color">#00FFFFFF</color>
-    <color name="transparent">#80FFFFFF</color>
+    <color name="grey">#EEEEEE</color>
 
-    <color name="title_purple">#9c27b0</color>
-    <color name="title_teal">#009688</color>
-    <color name="title_amber">#ffc107</color>
-    <color name="title_light_green">#8bc34a</color>
-    <color name="title_deep_purple">#673ab7</color>
-    <color name="title_indigo">#3f51b5</color>
     <color name="teal_700">#00796B</color>
     <color name="cyan_700">#0097A7</color>
-    <color name="lime_700">#AFB42B</color>
-    <color name="light_green_700">#689F38</color>
     <color name="green_700">#388E3C</color>
 </resources>

@@ -1,13 +1,13 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.databinding.FragmentStatisticsBinding
+import al.bruno.personal.expense.entities.ChartDataObject
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.AppCompatTextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -16,88 +16,65 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.util.Utilities
+import al.bruno.personal.expense.observer.Observer
+import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.util.Utilities.month
-import al.bruno.personal.expense.util.Utilities.monthFormat
 import al.bruno.personal.expense.view.model.ExpenseViewModel
-import androidx.lifecycle.Observer
+import android.util.Log
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.crashlytics.android.Crashlytics
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 
-class StatisticsFragment : Fragment() {
-    private var calendar = Calendar.getInstance()
+class StatisticsFragment : Fragment(), Observer<Month> {
+    private val disposable : CompositeDisposable = CompositeDisposable()
+    private var fragmentStatisticsBinding: FragmentStatisticsBinding? = null
+    private val calendar = Calendar.getInstance()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_statistics, container, false)
+        fragmentStatisticsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
+        disposable.add(ViewModelProviders.of(this@StatisticsFragment)
+                [ExpenseViewModel::class.java]
+                .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .delay(50, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    fragmentStatisticsBinding!!.chartData = barData(it, calendar.timeInMillis)
+                },{
+                    Log.i(StatisticsFragment::class.java.name, it.message)
+                }))
+        return fragmentStatisticsBinding?.root
+    }
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                    run{
-                        onChanged(it, view.findViewById(R.id.chart))
-                    }
-                })
-        val date = view.findViewById<AppCompatTextView>(R.id.date)
-        date.text = monthFormat(calendar.timeInMillis)
-        view.findViewById<View>(R.id.decrement).setOnClickListener {
-            calendar.add(Calendar.MONTH, -1)
-            date.text = monthFormat(calendar.timeInMillis)
-            ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                        run{
-                            onChanged(it, view.findViewById(R.id.chart))
-                        }
-                    })
-        }
-        view.findViewById<View>(R.id.increment).setOnClickListener {
-            calendar.add(Calendar.MONTH, 1)
-            date.text = monthFormat(calendar.timeInMillis)
-            ViewModelProviders.of(this)[ExpenseViewModel::class.java]
-                    .expenses(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString()).observe(this, Observer {
-                        run{
-                            onChanged(it, view.findViewById(R.id.chart))
-                        }
-                    })
-        }
+    override fun update(t: Month) {
+        disposable.add(ViewModelProviders.of(this@StatisticsFragment)[ExpenseViewModel::class.java]
+                .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    fragmentStatisticsBinding!!.chartData = barData(it, t.calendar().timeInMillis)
+                },{
+                    Log.i(StatisticsFragment::class.java.name, it.message)
+                }))
     }
 
-    private fun onChanged(expenses: List<Expense>?, barChart: BarChart) {
-        if (expenses != null) {
-            if (!expenses.isEmpty()) {
-                val barData = BarData(barDataSets(expenses))
-                barChart.data = barData
-                barChart.animateXY(2000, 2000)
-                barChart.description.text = getString(R.string.app_name)
-                barChart.xAxis.valueFormatter = IndexAxisValueFormatter(getXAxisValues(expenses))
-                barChart.invalidate()
-            } else {
-                barChart.data = null
-                barChart.invalidate()
-            }
-        }
-    }
-
-    private fun barDataSets(expenses: List<Expense>): List<IBarDataSet> {
+    private fun barData(expenses: List<Expense>, date: Long): ChartDataObject<IndexAxisValueFormatter, BarData> {
         val barEntryList = ArrayList<BarEntry>()
-        var i = 1
-        for (expense in expenses) {
-            val barEntry = BarEntry(i.toFloat(), expense.amount.toFloat())
-            barEntryList.add(barEntry)
-            i++
+        val xAxis = ArrayList<String>()
+        for (i in expenses.indices) {
+            barEntryList.add(BarEntry(i.toFloat(), expenses[i].amount.toFloat()))
+            xAxis.add(expenses[i].category!!)
         }
-        val barDataSet = BarDataSet(barEntryList, month(expenses[0].date!!))
+        val barDataSet = BarDataSet(barEntryList, month(date))
         barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
         val dataSets = ArrayList<IBarDataSet>()
         dataSets.add(barDataSet)
-        return dataSets
+        return ChartDataObject(IndexAxisValueFormatter(xAxis), BarData(dataSets))
     }
 
-    private fun getXAxisValues(expenses: List<Expense>): Array<String?> {
-        val xAxis = arrayOfNulls<String>(expenses.size)
-        for (i in expenses.indices) {
-            xAxis[i] = expenses[i].expense
-        }
-        return xAxis
-    }
 }

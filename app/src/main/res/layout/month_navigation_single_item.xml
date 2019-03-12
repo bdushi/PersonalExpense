@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="month"
+            type="al.bruno.personal.expense.entities.Month"/>
+        <variable
+            name="onEditListener"
+            type="al.bruno.personal.expense.callback.OnEditListener&lt;al.bruno.personal.expense.entities.Month&gt;"/>
+    </data>
+    <androidx.appcompat.widget.AppCompatTextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{month.month()}"
+        android:onClick="@{() -> onEditListener.onEdit(month)}"
+        android:padding="@dimen/dimen_10"
+        style="@style/TextAppearance.AppCompat.Body1"/>
+</layout>

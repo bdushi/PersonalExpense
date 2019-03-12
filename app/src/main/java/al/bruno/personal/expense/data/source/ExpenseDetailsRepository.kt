@@ -3,21 +3,25 @@ package al.bruno.personal.expense.data.source
 import al.bruno.personal.expense.model.ExpenseDetails
 import io.reactivex.Single
 
-class ExpenseDetailsRepository(private val expenseDetailsDataSource: ExpenseDetailsDataSource): ExpenseDetailsDataSource {
+class ExpenseDetailsRepository(expenseDetailsDataSource: ExpenseDetailsDataSource) : ExpenseDetailsDataSource {
+    private var expenseDetailsDataSource: ExpenseDetailsDataSource? = null
+    init {
+        this.expenseDetailsDataSource = expenseDetailsDataSource
+    }
     companion object {
-        private var expenseDetailsDataSource: ExpenseDetailsDataSource? = null
-        fun getInstance(mExpenseDetailsDataSource: ExpenseDetailsDataSource):ExpenseDetailsDataSource? {
-            if(expenseDetailsDataSource == null) {
-                expenseDetailsDataSource = ExpenseDetailsRepository(mExpenseDetailsDataSource)
-            }
-            return expenseDetailsDataSource
+        private var INSTANCE: ExpenseDetailsDataSource? = null
+        fun getInstance (expenseMasterDataSource: ExpenseDetailsDataSource): ExpenseDetailsDataSource? {
+            if(INSTANCE == null)
+                INSTANCE = ExpenseDetailsRepository(expenseMasterDataSource)
+            return INSTANCE
         }
         fun destroyInstance() {
-            expenseDetailsDataSource = null
+            INSTANCE = null
         }
     }
-    override fun expense(): Single<ExpenseDetails> {
-        return expenseDetailsDataSource.expense()
+
+    override fun budgetDetails(month: String, year: String): Single<ExpenseDetails> {
+        return expenseDetailsDataSource!!.budgetDetails(month, year)
     }
 
 }

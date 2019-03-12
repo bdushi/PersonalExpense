@@ -6,6 +6,7 @@ import al.bruno.personal.expense.model.Categories
 import io.reactivex.Single
 
 class CategoriesLocalDataSource(private val categoriesDao: CategoriesDao): CategoriesDataSource {
+
     companion object {
         private var INSTANCE: CategoriesDataSource? = null
         fun getInstance (categoriesDao: CategoriesDao) : CategoriesDataSource? {
@@ -27,8 +28,8 @@ class CategoriesLocalDataSource(private val categoriesDao: CategoriesDao): Categ
         return categoriesDao.delete(categories)
     }
 
-    override fun categories(): Single<List<Categories>> {
-        return categoriesDao.categories()
+    override fun categories(type: String): Single<List<Categories>> {
+        return categoriesDao.categories(type)
     }
 
 }

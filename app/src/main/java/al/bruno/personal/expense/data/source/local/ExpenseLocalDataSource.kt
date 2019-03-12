@@ -24,17 +24,18 @@ class ExpenseLocalDataSource(private val expenseDao: ExpenseDao) : ExpenseDataSo
         return expenseDao.expense(id)
     }
 
-    override fun expenses(month: String): LiveData<List<Expense>> {
-        return expenseDao.expenses(month)
+    override fun expenses(month: String, year: String): Single<List<Expense>> {
+        return expenseDao.expenses(month, year)
     }
 
-    override fun expenses(month: String, year: String): LiveData<List<Expense>> {
-        return expenseDao.expenses(month, year)
+    override fun statistics(month: String, year: String): Single<List<Expense>> {
+        return expenseDao.statistics(month, year)
     }
 
     override fun date(): Single<Array<DateTime>> {
         return expenseDao.date()
     }
+
     override fun expenses(date: DateTime): Single<List<Expense>> {
         return expenseDao.expenses(date)
     }

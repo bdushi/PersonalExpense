@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="type"
+            type="al.bruno.personal.expense.entities.ExpenseType"/>
+    </data>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{type.type}"
+        android:textColor="@color/white"
+        android:padding="@dimen/dimen_5"
+        style="@style/Base.TextAppearance.AppCompat.Medium.White"/>
+</layout>

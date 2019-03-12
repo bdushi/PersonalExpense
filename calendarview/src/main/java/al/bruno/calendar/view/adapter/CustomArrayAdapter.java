@@ -35,4 +35,10 @@ public class CustomArrayAdapter <T, VM extends ViewDataBinding> extends Recycler
     public int getItemCount() {
         return t == null ? 0 : t.length;
     }
+
+
+    public void setT(T[] t) {
+        this.t = t;
+        notifyDataSetChanged();
+    }
 }

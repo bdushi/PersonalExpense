@@ -7,5 +7,5 @@ interface CategoriesDataSource {
     fun insert(categories: Categories) : Single<Long>
     fun update(categories: Categories) : Single<Int>
     fun delete(categories: Categories) : Single<Int>
-    fun categories() : Single<List<Categories>>
+    fun categories(type: String) : Single<List<Categories>>
 }

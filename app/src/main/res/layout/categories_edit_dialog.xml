@@ -24,30 +24,50 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_10">
-
+        android:padding="@dimen/dimen_10">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/edit_categories_title"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:drawableStart="@drawable/ic_alert_outline_red_36dp"
-            android:drawablePadding="@dimen/padding_5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:drawablePadding="@dimen/dimen_5"
             android:text="@{title}"
-            app:layout_constraintBottom_toTopOf="@+id/edit_categories_input_layout"
+            app:layout_constraintEnd_toStartOf="@id/edit_categories_cancel"
+            app:layout_constraintBottom_toBottomOf="@id/edit_categories_cancel"
+            app:layout_constraintTop_toTopOf="@id/edit_categories_cancel"
+            app:layout_constraintStart_toStartOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/edit_categories_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> onEditListeners.onDismiss(categories)}"
+            android:src="@drawable/ic_close_red_36dp"
+            app:layout_constraintStart_toEndOf="@id/edit_categories_title"
+            app:layout_constraintEnd_toStartOf="@id/edit_categories_save"
+            app:layout_constraintTop_toTopOf="@id/edit_categories_save"
+            app:layout_constraintBottom_toBottomOf="@id/edit_categories_save" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/edit_categories_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{categories.category.empty ? false : (enable ? false : true)}"
+            android:onClick="@{() -> onEditListeners.onEdit(categories)}"
+            android:src="@drawable/ic_done_accent_36dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/edit_categories_cancel"
+            app:layout_constraintBottom_toTopOf="@id/edit_categories_input_layout"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_categories_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/dimen_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_categories_title">
+            app:layout_constraintTop_toBottomOf="@id/edit_categories_title"
+            app:layout_constraintBottom_toBottomOf="parent">
             <androidx.appcompat.widget.AppCompatEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,26 +77,5 @@
                 android:text="@={categories.category}"
                 android:hint="@{hint}"/>
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/edit_categories_cancel"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:onClick="@{() -> onEditListeners.onDismiss(categories)}"
-            app:layout_constraintEnd_toStartOf="@id/edit_categories_save"
-            app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/edit_categories_save"
-            style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:enabled="@{categories.category.empty ? false : (enable ? false : true)}"
-            android:onClick="@{() -> onEditListeners.onEdit(categories)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edit_categories_input_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

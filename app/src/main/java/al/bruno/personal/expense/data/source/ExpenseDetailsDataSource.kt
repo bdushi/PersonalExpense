@@ -4,5 +4,5 @@ import al.bruno.personal.expense.model.ExpenseDetails
 import io.reactivex.Single
 
 interface ExpenseDetailsDataSource {
-    fun expense(): Single<ExpenseDetails>
+    fun budgetDetails(month: String , year: String) : Single<ExpenseDetails>
 }

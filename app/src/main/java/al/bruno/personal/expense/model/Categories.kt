@@ -21,6 +21,10 @@ class Categories() : Observable, Parcelable {
         field = value
         propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.category)
     }
+
+    @ColumnInfo(name = "_type")
+    var type: String = ""
+
     @Ignore
     var propertyChangeRegistry = PropertyChangeRegistry()
 
@@ -44,6 +48,10 @@ class Categories() : Observable, Parcelable {
         override fun newArray(size: Int): Array<Categories?> {
             return arrayOfNulls(size)
         }
+    }
+
+    override fun toString(): String {
+        return "$id-$category"
     }
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {

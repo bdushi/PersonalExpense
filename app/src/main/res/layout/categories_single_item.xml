@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="categories"
@@ -9,12 +9,18 @@
             name="onItemClickListener"
             type="al.bruno.personal.expense.callback.OnItemClickListener&lt;al.bruno.personal.expense.model.Categories&gt;"/>
     </data>
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_border"
-        android:padding="@dimen/padding_10"
-        android:text="@{categories.category}"
-        android:onLongClick="@{(v) ->onItemClickListener.onLongItemClick(categories)}"
-        style="@style/TextAppearance.AppCompat.Large"/>
+        android:layout_marginBottom="@dimen/dimen_5"
+        android:background="@color/null_color">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dimen_5"
+            android:paddingBottom="@dimen/dimen_5"
+            android:text="@{categories.category}"
+            android:onClick="@{(v) ->onItemClickListener.onItemClick(categories)}"
+            style="@style/TextAppearance.AppCompat.Large"/>
+    </androidx.cardview.widget.CardView>
 </layout>

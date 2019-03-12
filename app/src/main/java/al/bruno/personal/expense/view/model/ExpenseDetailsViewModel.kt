@@ -5,9 +5,12 @@ import al.bruno.personal.expense.model.ExpenseDetails
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 
-class ExpenseDetailsViewModel(private val expenseDetailsDataSource: ExpenseDetailsDataSource): ViewModel(), ExpenseDetailsDataSource {
-    override fun expense(): Single<ExpenseDetails> {
-        return expenseDetailsDataSource.expense();
+class ExpenseDetailsViewModel(val expenseDetailsDataSource: ExpenseDetailsDataSource) : ViewModel(), ExpenseDetailsDataSource {
+    override fun budgetDetails(month: String, year: String): Single<ExpenseDetails> {
+        return expenseDetailsDataSource.budgetDetails(month, year)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

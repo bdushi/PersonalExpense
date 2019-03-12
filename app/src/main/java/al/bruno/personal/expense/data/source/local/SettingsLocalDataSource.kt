@@ -3,6 +3,7 @@ package al.bruno.personal.expense.data.source.local
 import al.bruno.personal.expense.data.source.SettingsDataSource
 import al.bruno.personal.expense.data.source.local.dao.SettingsDao
 import al.bruno.personal.expense.model.Settings
+import android.content.Context
 import io.reactivex.Single
 
 class SettingsLocalDataSource(private val settingsDao: SettingsDao): SettingsDataSource {
@@ -20,10 +21,6 @@ class SettingsLocalDataSource(private val settingsDao: SettingsDao): SettingsDat
 
     override fun updateIncomes(incomes: Double) {
         return settingsDao.updateIncomes(incomes)
-    }
-
-    override fun updateBudget(budget: Double) {
-        return settingsDao.updateBudget(budget)
     }
 
     override fun updateAuto(auto: Boolean) {

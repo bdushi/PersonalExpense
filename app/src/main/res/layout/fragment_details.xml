@@ -20,8 +20,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margin_10"
-        android:layout_marginEnd="@dimen/margin_10">
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginEnd="@dimen/dimen_10">
         <al.bruno.calendar.view.CalendarView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginTop="@dimen/dimen_5"
             android:visibility="@{total != null ? View.VISIBLE : View.GONE}">
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="0dp"

@@ -1,7 +1,6 @@
 package al.bruno.personal.expense.dialog
 
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,9 @@ import al.bruno.personal.expense.model.Categories
 import android.os.Parcelable
 import android.text.TextUtils
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class EditCategoriesDialog : DialogFragment() {
+class EditCategoriesDialog : BottomSheetDialogFragment() {
     private var categories = Categories()
     private var categoriesList: List<Categories> = ArrayList()
     private var onEditListeners: OnEditListeners<Categories>? = null
@@ -70,7 +70,6 @@ class EditCategoriesDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.DialogStyle)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -90,19 +89,6 @@ class EditCategoriesDialog : DialogFragment() {
                 dismiss()
             }
         }
-        /*categories.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                for (c: Categories  in categoriesList) {
-                    if (TextUtils.equals(categories.category?.toLowerCase(), c.category.toString())) {
-                        categoriesEditDialogBinding.editCategoriesInputLayout.error = "Error"
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = false
-                    } else {
-                        categoriesEditDialogBinding.editCategoriesInputLayout.isErrorEnabled = false
-                        categoriesEditDialogBinding.editCategoriesSave.isEnabled = true
-                    }
-                }
-            }
-        })*/
         categoriesEditDialogBinding.onTextChangedListener = object : OnTextChangedListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 for (c: Categories  in categoriesList) {

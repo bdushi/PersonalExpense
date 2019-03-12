@@ -3,12 +3,14 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "al.bruno.personal.expense"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -51,23 +53,23 @@ android {
         //implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
         //google map
-        implementation 'com.google.android.gms:play-services-maps:16.0.0'
+        implementation 'com.google.android.gms:play-services-maps:16.1.0'
         implementation 'com.google.android.gms:play-services-location:16.0.0'
         //firebase core
         implementation 'com.google.firebase:firebase-core:16.0.6'
         //Crash Reporting
-        implementation 'com.google.firebase:firebase-crash:16.2.1'
+        implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+
 
         //charts
-        implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+        implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.2'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
         //debug
         //implementation 'org.apache.commons:commons-lang3:3.8.1'
-        debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
-        debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+        debugImplementation 'com.amitshekhar.android:debug-db:1.0.5'
         //debugImplementation'com.squareup.leakcanary:leakcanary-android:1.5.1'
         //releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
         //testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
@@ -77,7 +79,7 @@ android {
         implementation 'androidx.core:core-ktx:1.0.1'
 
         //DataBinding
-        kapt "androidx.databinding:databinding-compiler:3.3.0"
+        kapt "androidx.databinding:databinding-compiler:3.3.2"
 
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
@@ -94,7 +96,7 @@ android {
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
-        implementation 'android.arch.work:work-runtime:1.0.0-beta05'
+        implementation 'androidx.work:work-runtime-ktx:2.0.0-rc01'
         implementation project(':calendarview')
         implementation 'joda-time:joda-time:2.10.1'
     }
