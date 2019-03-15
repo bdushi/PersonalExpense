@@ -8,6 +8,7 @@ import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInst
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseMasterInjection
+import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ChartDataObject
 import al.bruno.personal.expense.entities.ExpenseChart
 import android.graphics.Color
@@ -108,10 +109,10 @@ class HomeFragment : Fragment(), Observer<Month> {
         disposable.addAll(
                 ViewModelProviders
                         .of(this, ViewModelProviderFactory(ExpenseChartViewModel(provideExpenseChartInjection(getInstance(context!!)))))[ExpenseChartViewModel::class.java]
-                        .expenseChart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding?.chartData = setLineData(it)
+                            fragmentHomeBinding?.chartData = chart(it)
                         },{
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
@@ -149,6 +150,26 @@ class HomeFragment : Fragment(), Observer<Month> {
             //Sort
             Collections.sort(entryList, EntryXComparator())
             val lineDataSet = LineDataSet(entryList, expenseChart.type)
+            lineDataSet.color = Utilities.randomColors()!!
+            lineDataSet.lineWidth = 2f
+            lineDataSet.circleRadius = 2f
+            dataSets.add(lineDataSet)
+        }
+        return ChartDataObject(dateXaxis, LineData(dataSets))
+    }
+    private fun chart(charts: List<Chart>): ChartDataObject<MutableList<String>, LineData>? {
+        val dataSets = ArrayList<ILineDataSet>()
+        val dateXaxis = ArrayList<String>()
+        for (chart in charts) {
+            val entryList = ArrayList<Entry>()
+            for (i in 0 until chart.expenses!!.size) {
+                val expense = chart.expenses!!.get(i)
+                entryList.add(Entry(i.toFloat(), expense.amount.toFloat()))
+                dateXaxis.add(Utilities.date(expense.date!!))
+            }
+            //Sort
+            Collections.sort(entryList, EntryXComparator())
+            val lineDataSet = LineDataSet(entryList, chart.type)
             lineDataSet.color = Utilities.randomColors()!!
             lineDataSet.lineWidth = 2f
             lineDataSet.circleRadius = 2f

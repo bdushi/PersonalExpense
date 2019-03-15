@@ -11,8 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
         entities = arrayOf(User::class, Categories::class, Settings::class, Expense::class),
-        views = arrayOf(ExpenseDetails::class),
-        version = 2)
+        views = arrayOf(ExpenseDetails::class, ExpenseChart::class),
+        version = 3)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
@@ -33,6 +33,20 @@ abstract class AppDatabase : RoomDatabase() {
                             .addMigrations(object : Migration(1, 2) {
                                 override fun migrate(database: SupportSQLiteDatabase) {
                                     database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
+                                }
+                            }, object : Migration(2, 3) {
+                                override fun migrate(database: SupportSQLiteDatabase) {
+                                    database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
+                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
+                                            "union all " +
+                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
+                                            "union all " +
+                                            "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
+                                                "select _amount, _date, _type from expense where _type = 'expenses' " +
+                                                "union all " +
+                                                "select -_amount, _date, _type from expense where _type = 'incomes'" +
+                                            ") " +
+                                            "GROUP BY _date)")
                                 }
                             })
                             .build()
