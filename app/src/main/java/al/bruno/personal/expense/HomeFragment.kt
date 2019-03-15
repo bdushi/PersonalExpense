@@ -54,10 +54,10 @@ class HomeFragment : Fragment(), Observer<Month> {
         disposable.addAll(
                 ViewModelProviders
                         .of(this, ViewModelProviderFactory(ExpenseChartViewModel(provideExpenseChartInjection(getInstance(context!!)))))[ExpenseChartViewModel::class.java]
-                        .expenseChart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding!!.chartData = setLineData(it)
+                            fragmentHomeBinding!!.chartData = chart(it)
                         },{
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
@@ -164,7 +164,7 @@ class HomeFragment : Fragment(), Observer<Month> {
             val entryList = ArrayList<Entry>()
             for (i in 0 until chart.expenses!!.size) {
                 val expense = chart.expenses!!.get(i)
-                entryList.add(Entry(i.toFloat(), expense.amount.toFloat()))
+                entryList.add(Entry(i.toFloat(), expense.amount))
                 dateXaxis.add(Utilities.date(expense.date!!))
             }
             //Sort
