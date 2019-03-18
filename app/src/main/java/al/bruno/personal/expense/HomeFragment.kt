@@ -11,25 +11,16 @@ import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideE
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ChartDataObject
 import al.bruno.personal.expense.entities.ExpenseChart
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import com.github.mikephil.charting.formatter.IValueFormatter
-import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.MPPointF
-
-import java.text.DecimalFormat
-
-import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.util.Utilities
-import al.bruno.personal.expense.util.Utilities.colors
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseChartViewModel

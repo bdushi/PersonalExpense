@@ -9,5 +9,4 @@ class ExpenseMasterViewModel(val expenseMasterDataSource: ExpenseMasterDataSourc
     override fun expenseMaster(month: String, year: String): Single<List<ExpenseMaster>> {
         return expenseMasterDataSource.expenseMaster(month = month, year = year)
     }
-
 }
