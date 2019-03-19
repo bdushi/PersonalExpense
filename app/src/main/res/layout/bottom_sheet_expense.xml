@@ -30,8 +30,8 @@
             android:text="@{expense.category}"
             android:gravity="start"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/close"
-            app:layout_constraintBottom_toBottomOf="@id/close"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/editor"
             app:layout_constraintEnd_toStartOf="@id/date"
             app:layout_constraintHorizontal_weight="3"
             style="@style/TextAppearance.AppCompat.Body2"/>
@@ -43,25 +43,32 @@
             android:onClick="@{() -> onDate.onClick()}"
             android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@id/categories"
-            app:layout_constraintTop_toTopOf="@id/close"
-            app:layout_constraintBottom_toBottomOf="@id/close"
+            app:layout_constraintTop_toTopOf="@id/categories"
+            app:layout_constraintBottom_toBottomOf="@id/categories"
             app:layout_constraintEnd_toStartOf="@id/close"
             app:layout_constraintHorizontal_weight="1"
             style="@style/TextAppearance.AppCompat.Body2"/>
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/done"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_done_accent_36dp"
-            android:onClick="@{() -> onClickListener.onClick(expense)}"
-            app:layout_constraintEnd_toEndOf="parent"/>
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_red_36dp"
             android:onClick="@{() -> onDismiss.onClick()}"
-            app:layout_constraintEnd_toStartOf="@id/done"/>
+            app:layout_constraintStart_toEndOf="@id/date"
+            app:layout_constraintEnd_toStartOf="@id/done"
+            app:layout_constraintTop_toTopOf="@id/categories"
+            app:layout_constraintBottom_toBottomOf="@id/categories"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_done_accent_36dp"
+            android:onClick="@{() -> onClickListener.onClick(expense)}"
+            app:layout_constraintStart_toEndOf="@id/close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/categories"
+            app:layout_constraintBottom_toBottomOf="@id/categories"/>
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editor"
             android:layout_width="match_parent"
@@ -70,6 +77,9 @@
             android:text="@={Converter.INSTANCE.stringToDouble(expense.amount)}"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/done"
             style="@style/TextAppearance.AppCompat.Large"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

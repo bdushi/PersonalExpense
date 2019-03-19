@@ -1,5 +1,6 @@
 package al.bruno.personal.expense.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -16,6 +17,7 @@ class FabScrollBehavior (context: Context, attrs: AttributeSet): FloatingActionB
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
         if (dyConsumed > 0 && child.visibility == View.VISIBLE) {
             child.hide(object : FloatingActionButton.OnVisibilityChangedListener() {
+                @SuppressLint("RestrictedApi")
                 override fun onHidden(fab: FloatingActionButton) {
                     super.onHidden(fab)
                     fab.visibility = View.INVISIBLE
