@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 
 import al.bruno.calendar.view.R;
 import al.bruno.calendar.view.adapter.BindingInterface;
