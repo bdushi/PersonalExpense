@@ -15,7 +15,7 @@ import androidx.databinding.PropertyChangeRegistry;
 
 public class LocalDateTime implements OnDateClickListener, Observable, Parcelable {
     private DateTime dateTime;
-    private DateTime currentDateTime = DateTime.now();
+    private DateTime currentDateTime = DateTime.now().withTime(0, 0, 0, 0);
     private boolean event;
     private PropertyChangeRegistry propertyChangeRegistry = new PropertyChangeRegistry();
 
