@@ -4,7 +4,6 @@ import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInst
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
 import al.bruno.personal.expense.util.ACTION_PROCESS_UPDATES
 import al.bruno.personal.expense.work.manager.WorkManagerService
-import android.app.Application
 import android.util.Log
 import androidx.work.WorkManager
 import androidx.work.PeriodicWorkRequest
@@ -14,10 +13,18 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import com.crashlytics.android.Crashlytics
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 
-class PersonalExpenseApplication : Application() {
+class PersonalExpenseApplication : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        //return DaggerAppComponent.builder().application(this).build();
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private val disposable : CompositeDisposable = CompositeDisposable()
+
     override fun onCreate() {
         super.onCreate()
         //log

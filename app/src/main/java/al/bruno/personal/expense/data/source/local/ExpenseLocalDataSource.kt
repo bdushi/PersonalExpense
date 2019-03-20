@@ -6,16 +6,11 @@ import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import org.joda.time.DateTime
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExpenseLocalDataSource(private val expenseDao: ExpenseDao) : ExpenseDataSource {
-    companion object {
-        private var INSTANCE : ExpenseDataSource? = null
-        fun getInstance(expenseDao: ExpenseDao) : ExpenseDataSource? {
-            if(INSTANCE == null)
-                INSTANCE = ExpenseLocalDataSource(expenseDao)
-            return INSTANCE
-        }
-    }
+@Singleton
+class ExpenseLocalDataSource constructor(@Inject private val expenseDao: ExpenseDao) : ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
         return expenseDao.insert(expense)
     }

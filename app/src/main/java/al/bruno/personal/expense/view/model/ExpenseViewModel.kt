@@ -1,43 +1,42 @@
 package al.bruno.personal.expense.view.model
 
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerExpenseInjection
 import al.bruno.personal.expense.data.source.ExpenseDataSource
-import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
+import al.bruno.personal.expense.data.source.ExpenseRepository
 import al.bruno.personal.expense.model.Expense
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 import org.joda.time.DateTime
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExpenseViewModel(application: Application) : AndroidViewModel(application), ExpenseDataSource {
-
-    private var expenseDataSource: ExpenseDataSource = providerExpenseInjection(getInstance(application))!!
+@Singleton
+class ExpenseViewModel constructor(@Inject private val expenseRepository: ExpenseRepository) : ViewModel(), ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
-        return expenseDataSource.insert(expense)
+        return expenseRepository.insert(expense)
     }
 
     override fun expense(id: Long): LiveData<Expense> {
-        return expenseDataSource.expense(id)
+        return expenseRepository.expense(id)
     }
 
     override fun expenses(month: String, year: String): Single<List<Expense>> {
-        return expenseDataSource.expenses(month, year)
+        return expenseRepository.expenses(month, year)
     }
 
     override fun statistics(month: String, year: String): Single<List<Expense>> {
-        return expenseDataSource.statistics(month, year)
+        return expenseRepository.statistics(month, year)
     }
 
     override fun date(): Single<Array<DateTime>> {
-        return expenseDataSource.date()
+        return expenseRepository.date()
     }
 
     override fun expenses(date: DateTime): Single<List<Expense>> {
-        return expenseDataSource.expenses(date)
+        return expenseRepository.expenses(date)
     }
 
     override fun total(date: DateTime): Single<String> {
-        return expenseDataSource.total(date)
+        return expenseRepository.total(date)
     }
 }

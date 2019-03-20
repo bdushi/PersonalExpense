@@ -4,20 +4,11 @@ import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
 import org.joda.time.DateTime
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExpenseRepository(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
-    companion object {
-        private var INSTANCE: ExpenseDataSource? = null
-        fun getInstance (expenseDataSource: ExpenseDataSource) : ExpenseDataSource? {
-            if(INSTANCE == null)
-                INSTANCE = ExpenseRepository(expenseDataSource)
-            return INSTANCE
-        }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
+@Singleton
+class ExpenseRepository constructor(@Inject private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
     }

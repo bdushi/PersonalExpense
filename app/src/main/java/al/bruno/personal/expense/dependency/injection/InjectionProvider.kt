@@ -17,9 +17,6 @@ object InjectionProvider {
     fun providerCategoriesInjection(@NonNull appDatabase :AppDatabase) : CategoriesDataSource? {
         return CategoriesRepository.getInstance(CategoriesLocalDataSource.getInstance(appDatabase.categoriesDao())!!)
     }
-    fun providerExpenseInjection(@NonNull appDatabase :AppDatabase) : ExpenseDataSource? {
-        return ExpenseRepository.getInstance(ExpenseLocalDataSource.getInstance(appDatabase.expenseDao())!!)
-    }
     fun providerSettingsInjection(@NonNull appDatabase :AppDatabase) : SettingsDataSource? {
         return SettingsRepository.getInstance(SettingsLocalDataSource.getInstance(appDatabase.settingsDao())!!)
     }
