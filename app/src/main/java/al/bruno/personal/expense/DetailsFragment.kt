@@ -57,7 +57,7 @@ class DetailsFragment : Fragment() {
         disposable.addAll(
                 ViewModelProviders
                         .of(this)[ExpenseViewModel::class.java]
-                        .expenses(DateTime.now().withTime(0, 0, 0, 0))
+                        .expenses(DateTime.now().withTime(1, 0, 0, 0))
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
@@ -70,7 +70,7 @@ class DetailsFragment : Fragment() {
                         }),
                 ViewModelProviders
                         .of(this)[ExpenseViewModel::class.java]
-                        .total(DateTime.now().withTime(0, 0, 0, 0))
+                        .total(DateTime.now().withTime(1, 0, 0, 0))
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentDetailsBinding.total = it

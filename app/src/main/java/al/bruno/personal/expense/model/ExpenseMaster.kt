@@ -10,6 +10,7 @@ import androidx.room.Ignore
 import androidx.room.Relation
 import org.joda.time.DateTime
 
+//@DatabaseView("SELECT _id, _type, _category, _amount, (_date / 10000) * 10000 AS _date FROM expense", viewName = "expense_master")
 class ExpenseMaster {
     @ColumnInfo(name = "_entity_id")
     var id: Long = 0

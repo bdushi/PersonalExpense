@@ -7,6 +7,7 @@ import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
+import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseDetailsInjection
 import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseMasterInjection
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ChartDataObject
@@ -24,6 +25,7 @@ import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
 import al.bruno.personal.expense.util.ViewModelProviderFactory
 import al.bruno.personal.expense.view.model.ExpenseChartViewModel
+import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
 import al.bruno.personal.expense.view.model.ExpenseMasterViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
@@ -49,6 +51,16 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentHomeBinding!!.chartData = chart(it)
+                        },{
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }),
+
+                ViewModelProviders
+                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(getInstance(context!!)))))[ExpenseDetailsViewModel::class.java]
+                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentHomeBinding?.expenseDetails = it
                         },{
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
@@ -104,6 +116,16 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentHomeBinding?.chartData = chart(it)
+                        },{
+                            Log.i(HomeFragment::class.java.name, it.message)
+                        }),
+
+                ViewModelProviders
+                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(getInstance(context!!)))))[ExpenseDetailsViewModel::class.java]
+                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            fragmentHomeBinding?.expenseDetails = it
                         },{
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
