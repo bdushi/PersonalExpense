@@ -20,6 +20,7 @@ import android.view.ViewGroup
 
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
+import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
@@ -122,11 +123,12 @@ class HomeFragment : Fragment(), Observer<Month> {
 
                 ViewModelProviders
                         .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(getInstance(context!!)))))[ExpenseDetailsViewModel::class.java]
-                        .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                        .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
                             fragmentHomeBinding?.expenseDetails = it
                         },{
+                            fragmentHomeBinding?.expenseDetails = ExpenseDetails()
                             Log.i(HomeFragment::class.java.name, it.message)
                         }),
 
