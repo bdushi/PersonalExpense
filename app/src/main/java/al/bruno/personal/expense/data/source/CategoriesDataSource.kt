@@ -1,6 +1,7 @@
 package al.bruno.personal.expense.data.source
 
 import al.bruno.personal.expense.model.Categories
+import dagger.Provides
 import io.reactivex.Single
 
 interface CategoriesDataSource {

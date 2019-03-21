@@ -1,5 +1,6 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui.expense
 
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.adapter.EditAdapter
 import al.bruno.personal.expense.callback.*
 import android.os.Bundle
@@ -12,26 +13,27 @@ import androidx.fragment.app.Fragment
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
+import al.bruno.personal.expense.di.Injectable
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.ExpenseObserver
-import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
-import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
+class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String>, Injectable {
     override fun update(t: List<Categories>, l:String) {
         when (l) {
             EXPENSES -> {
@@ -51,7 +53,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
             EXPENSES_KEY -> {
                 disposable.add(ViewModelProviders
                         .of(this)
-                        .get(CategoriesViewModel::class.java)
+                        .get(ExpenseViewModel::class.java)
                         .categories(EXPENSES)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -68,7 +70,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
             INCOMES_KEY -> {
                 disposable.add(ViewModelProviders
                         .of(this)
-                        .get(CategoriesViewModel::class.java)
+                        .get(ExpenseViewModel::class.java)
                         .categories(INCOMES)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -90,6 +92,9 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories>>()
     private var fragmentCategoriesBinding: FragmentCategoriesBinding? = null
 
+    @Inject
+    lateinit var mViewModelFactory: ViewModelProvider.Factory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -98,8 +103,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentCategoriesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_categories, container, false)
         disposable.add(ViewModelProviders
-                .of(this)
-                .get(CategoriesViewModel::class.java)
+                .of(this, mViewModelFactory)
+                [ExpenseViewModel::class.java]
                 .categories(EXPENSES)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -120,8 +125,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         val handler = Handler()
         val runnable = Runnable {
             ViewModelProviders
-                    .of(this)
-                    .get(CategoriesViewModel::class.java)
+                    .of(this, mViewModelFactory)[ExpenseViewModel::class.java]
                     .delete(t)
                     .subscribeOn(Schedulers.io())
                     .subscribe()
@@ -146,8 +150,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                         override fun onEdit(t: Categories) {
                             disposable.add(ViewModelProviders
-                                    .of(this@PersonalExpensesFragment)
-                                    .get(CategoriesViewModel::class.java)
+                                    .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                    [ExpenseViewModel::class.java]
                                     .insert(t)
                                     .subscribeOn(Schedulers.io())
                                     .doOnSubscribe {
@@ -170,8 +174,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                         override fun onEdit(t: Categories) {
                             disposable.add(ViewModelProviders
-                                    .of(this@PersonalExpensesFragment)
-                                    .get(CategoriesViewModel::class.java)
+                                    .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                    [ExpenseViewModel::class.java]
                                     .insert(t)
                                     .subscribeOn(Schedulers.io())
                                     .doOnSubscribe {
@@ -281,8 +285,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                 override fun onEdit(t: Categories) {
                                     t.type = INCOMES
                                     disposable.add(ViewModelProviders
-                                            .of(this@PersonalExpensesFragment)
-                                            .get(CategoriesViewModel::class.java)
+                                            .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                            [ExpenseViewModel::class.java]
                                             .insert(t)
                                             .subscribeOn(Schedulers.io())
                                             .doOnSubscribe {
@@ -315,8 +319,8 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                 override fun onEdit(t: Categories) {
                                     t.type = EXPENSES
                                     disposable.add(ViewModelProviders
-                                            .of(this@PersonalExpensesFragment)
-                                            .get(CategoriesViewModel::class.java)
+                                            .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                            [ExpenseViewModel::class.java]
                                             .insert(t)
                                             .subscribeOn(Schedulers.io())
                                             .doOnSubscribe {

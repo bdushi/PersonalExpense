@@ -1,14 +1,13 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui.home
 
+import al.bruno.personal.expense.ui.details.DetailsFragment
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseChartInjection
 import al.bruno.personal.expense.callback.OnClick
-import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseDetailsInjection
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.provideExpenseMasterInjection
+import al.bruno.personal.expense.di.Injectable
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ChartDataObject
 import al.bruno.personal.expense.entities.ExpenseChart
@@ -20,16 +19,13 @@ import android.view.ViewGroup
 
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
-import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.ExpenseMaster
+import al.bruno.personal.expense.ui.expense.PersonalExpensesFragment
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
-import al.bruno.personal.expense.util.ViewModelProviderFactory
-import al.bruno.personal.expense.view.model.ExpenseChartViewModel
-import al.bruno.personal.expense.view.model.ExpenseDetailsViewModel
-import al.bruno.personal.expense.view.model.ExpenseMasterViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
@@ -37,17 +33,21 @@ import com.github.mikephil.charting.utils.EntryXComparator
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import javax.inject.Inject
 
-class HomeFragment : Fragment(), Observer<Month> {
+class HomeFragment : Fragment(), Observer<Month>, Injectable {
     private val disposable : CompositeDisposable = CompositeDisposable()
     private var fragmentHomeBinding: FragmentHomeBinding? = null
     private val calendar = Calendar.getInstance()
+
+    @Inject
+    lateinit var mViewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         disposable.addAll(
                 ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseChartViewModel(provideExpenseChartInjection(getInstance(context!!)))))[ExpenseChartViewModel::class.java]
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -57,7 +57,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         }),
 
                 ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(getInstance(context!!)))))[ExpenseDetailsViewModel::class.java]
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -67,7 +67,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         }),
 
                 ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseMasterViewModel(provideExpenseMasterInjection(getInstance(context!!)))))[ExpenseMasterViewModel::class.java]
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -76,9 +76,9 @@ class HomeFragment : Fragment(), Observer<Month> {
                                     vm.master = t
                                 }
                             })
-                            Log.i(ExpenseMasterViewModel::class.java.name, it.toString())
+                            Log.i(HomeViewModel::class.java.name, it.toString())
                         },{
-                            Log.i(ExpenseMasterViewModel::class.java.name, it.message)
+                            Log.i(HomeViewModel::class.java.name, it.message)
                         })
         )
         fragmentHomeBinding?.incomesOnClick = object : OnClick {
@@ -111,8 +111,8 @@ class HomeFragment : Fragment(), Observer<Month> {
 
     override fun update(t: Month) {
         disposable.addAll(
-                ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseChartViewModel(provideExpenseChartInjection(getInstance(context!!)))))[ExpenseChartViewModel::class.java]
+                /*ViewModelProviders
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -122,7 +122,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         }),
 
                 ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseDetailsViewModel(provideExpenseDetailsInjection(getInstance(context!!)))))[ExpenseDetailsViewModel::class.java]
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -133,7 +133,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         }),
 
                 ViewModelProviders
-                        .of(this, ViewModelProviderFactory(ExpenseMasterViewModel(provideExpenseMasterInjection(getInstance(context!!)))))[ExpenseMasterViewModel::class.java]
+                        .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .expenseMaster(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -142,10 +142,11 @@ class HomeFragment : Fragment(), Observer<Month> {
                                     vm.master = t
                                 }
                             })
-                            Log.i(ExpenseMasterViewModel::class.java.name, it.toString())
+                            Log.i(HomeViewModel::class.java.name, it.toString())
                         },{
-                            Log.i(ExpenseMasterViewModel::class.java.name, it.message)
-                        }))
+                            Log.i(HomeViewModel::class.java.name, it.message)
+                        })*/
+        )
     }
 
     override fun onStop() {

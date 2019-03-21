@@ -1,5 +1,6 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui.map
 
+import al.bruno.personal.expense.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

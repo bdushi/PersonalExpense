@@ -1,65 +1,30 @@
 package al.bruno.personal.expense
 
-import al.bruno.personal.expense.data.source.local.AppDatabase.Companion.getInstance
-import al.bruno.personal.expense.dependency.injection.InjectionProvider.providerSettingsInjection
-import al.bruno.personal.expense.util.ACTION_PROCESS_UPDATES
-import al.bruno.personal.expense.work.manager.WorkManagerService
-import android.util.Log
-import androidx.work.WorkManager
-import androidx.work.PeriodicWorkRequest
-import java.util.concurrent.TimeUnit
-import androidx.work.ExistingPeriodicWorkPolicy
-import com.google.firebase.analytics.FirebaseAnalytics
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import android.app.Activity
+import android.app.Application
 import com.crashlytics.android.Crashlytics
 import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import io.fabric.sdk.android.Fabric
+import javax.inject.Inject
 
-class PersonalExpenseApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        //return DaggerAppComponent.builder().application(this).build();
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    private val disposable : CompositeDisposable = CompositeDisposable()
+class PersonalExpenseApplication : Application(), HasActivityInjector {
+    @Inject
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
-        //log
-        Log.i(PersonalExpenseApplication::class.java.name, PersonalExpenseApplication::class.java.name)
-        //analytics
-        FirebaseAnalytics.getInstance(this)
+        AppInjector.init(this)
+        //DaggerAppComponent.builder().application(this).build()
         Fabric.with(this, Crashlytics())
-
-        /*WorkManager
-                .getInstance()
-                .beginUniqueWork(ACTION_PROCESS_UPDATES, ExistingWorkPolicy.REPLACE,
-                        OneTimeWorkRequest.Builder(WorkManagerService::class.java).build())
-                .enqueue()*/
-        disposable.add(providerSettingsInjection(getInstance(this))!!.settings(1).subscribeOn(Schedulers.io()).subscribe({
-            if(it.auto){
-                WorkManager
-                    .getInstance()
-                    .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
-                            PeriodicWorkRequest
-                                    .Builder(WorkManagerService::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
-                                    .addTag(ACTION_PROCESS_UPDATES)
-                                    .build())
-            disposable
-                    .add(providerSettingsInjection(getInstance(this))
-                            !!.insert(it)
-                            .subscribeOn(Schedulers.io()).subscribe({
-
-                            }, {
-                                Log.i(PersonalExpenseApplication::class.java.name, it.message)
-                            }))
-            } else {
-                WorkManager.getInstance().cancelAllWork();
-            }
-        },{
-            Log.i(PersonalExpenseApplication::class.java.name, it.message)
-        }))
     }
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return activityDispatchingAndroidInjector
+    }
+
+    /*override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }*/
 }

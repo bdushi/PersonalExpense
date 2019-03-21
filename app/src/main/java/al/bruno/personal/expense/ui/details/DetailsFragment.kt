@@ -1,7 +1,8 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui.details
 
 import al.bruno.calendar.view.listener.OnDateClickListener
 import al.bruno.calendar.view.model.LocalDateTime
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.adapter.CustomAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding

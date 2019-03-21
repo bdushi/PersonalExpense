@@ -21,38 +21,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseChartDao(): ExpenseChartDao
     abstract fun expenseMasterDao(): ExpenseMasterDao
     abstract fun settingsDao() : SettingsDao
-    companion object {
-        private var INSTANCE: AppDatabase? = null
-        private val lock = Any()
-
-        fun getInstance(context: Context): AppDatabase {
-            synchronized(lock) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room
-                            .databaseBuilder(context, AppDatabase::class.java, "financa.db")
-                            .addMigrations(object : Migration(1, 2) {
-                                override fun migrate(database: SupportSQLiteDatabase) {
-                                    database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
-                                }
-                            }, object : Migration(2, 3) {
-                                override fun migrate(database: SupportSQLiteDatabase) {
-                                    database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
-                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
-                                            "union all " +
-                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
-                                            "union all " +
-                                            "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
-                                                "select _amount, _date, _type from expense where _type = 'expenses' " +
-                                                "union all " +
-                                                "select -_amount, _date, _type from expense where _type = 'incomes'" +
-                                            ") " +
-                                            "GROUP BY _date)")
-                                }
-                            })
-                            .build()
-                }
-                return INSTANCE!!
-            }
-        }
-    }
+    abstract fun homeDao() : HomeDao
 }

@@ -4,18 +4,11 @@ import al.bruno.personal.expense.data.source.CategoriesDataSource
 import al.bruno.personal.expense.data.source.local.dao.CategoriesDao
 import al.bruno.personal.expense.model.Categories
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CategoriesLocalDataSource(private val categoriesDao: CategoriesDao): CategoriesDataSource {
-
-    companion object {
-        private var INSTANCE: CategoriesDataSource? = null
-        fun getInstance (categoriesDao: CategoriesDao) : CategoriesDataSource? {
-            if(INSTANCE == null)
-                INSTANCE = CategoriesLocalDataSource(categoriesDao)
-            return INSTANCE
-        }
-    }
-    
+@Singleton
+class CategoriesLocalDataSource @Inject constructor(private val categoriesDao: CategoriesDao): CategoriesDataSource {
     override fun insert(categories: Categories): Single<Long> {
         return categoriesDao.insert(categories)
     }

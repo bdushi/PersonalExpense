@@ -5,16 +5,11 @@ import al.bruno.personal.expense.data.source.local.dao.ExpenseChartDao
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ExpenseChart
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExpenseChartLocalDataSource(private val expenseChartDao: ExpenseChartDao): ExpenseChartDataSource {
-    companion object {
-        private var INSTANCE: ExpenseChartDataSource? = null
-        fun getInstance (expenseChartDao: ExpenseChartDao) : ExpenseChartDataSource? {
-            if(INSTANCE == null)
-                INSTANCE = ExpenseChartLocalDataSource(expenseChartDao)
-            return INSTANCE
-        }
-    }
+@Singleton
+class ExpenseChartLocalDataSource @Inject constructor(private val expenseChartDao: ExpenseChartDao): ExpenseChartDataSource {
     override fun expenseChart(month: String, year: String): Single<List<ExpenseChart>> {
         return expenseChartDao.expenseChart(month, year)
     }

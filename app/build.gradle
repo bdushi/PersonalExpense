@@ -20,6 +20,9 @@ android {
     dataBinding {
         enabled = true
     }
+    kapt {
+        generateStubs = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -96,14 +99,19 @@ android {
         // optional - RxJava support
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
-        implementation 'androidx.work:work-runtime-ktx:2.0.0-rc01'
+        //WorkManager
+        def work_version = "2.0.0"
+        implementation "androidx.work:work-runtime-ktx:$work_version"
+        implementation "androidx.work:work-rxjava2:$work_version"
+        androidTestImplementation "androidx.work:work-testing:$work_version"
+
         implementation project(':calendarview')
         implementation 'joda-time:joda-time:2.10.1'
         //Dagger
         implementation "com.google.dagger:dagger:2.16"
-        annotationProcessor "com.google.dagger:dagger-compiler:2.16"
+        kapt "com.google.dagger:dagger-compiler:2.16"
         implementation "com.google.dagger:dagger-android:2.16"
         implementation "com.google.dagger:dagger-android-support:2.16"
-        annotationProcessor "com.google.dagger:dagger-android-processor:2.16"
+        kapt "com.google.dagger:dagger-android-processor:2.16"
     }
 }

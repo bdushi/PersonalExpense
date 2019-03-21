@@ -1,5 +1,6 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui
 
+import al.bruno.personal.expense.*
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.observer.Subject
 import al.bruno.personal.expense.adapter.CustomSpinnerAdapter
@@ -15,10 +16,14 @@ import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.observer.ExpenseSubject
+import al.bruno.personal.expense.ui.expense.PersonalExpensesFragment
+import al.bruno.personal.expense.ui.home.HomeFragment
+import al.bruno.personal.expense.ui.map.GoogleMapFragment
+import al.bruno.personal.expense.ui.settings.SettingsFragment
+import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
-import al.bruno.personal.expense.view.model.CategoriesViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,12 +35,28 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.Calendar
+import javax.inject.Inject
 
-class HostActivity : AppCompatActivity() {
+class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return activityDispatchingAndroidInjector
+    }
+
+    @Inject
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var mViewModelFactory: ViewModelProvider.Factory
+
     private var itemRoot: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
     private val monthRegistry = ArrayList<Observer<Month>>()
@@ -43,6 +64,7 @@ class HostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+        AndroidInjection.inject(this)
         val homeFragment = HomeFragment()
         monthSubject.registerObserver(homeFragment)
         supportFragmentManager
@@ -143,45 +165,19 @@ class HostActivity : AppCompatActivity() {
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                             customSpinnerAdapter.setSelection(p2)
                             val expenseType = (p0?.getItemAtPosition(p2) as ExpenseType)
-                            disposable.add(ViewModelProviders
-                                    .of(this@HostActivity)
-                                    .get(CategoriesViewModel::class.java)
-                                    .categories(expenseType.key)
-                                    .subscribeOn(Schedulers.io())
-                                    .subscribe({
-                                        expenseSubject.notifyObserver(t = it, l = expenseType.key)
-                                    }, {
-                                        Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                                        expenseSubject.notifyObserver(t = ArrayList(), l = expenseType.key)
-                                    }))
-                            /*when ((p0?.getItemAtPosition(p2) as ExpenseType).type) {
-                                EXPENSES_KEY -> {
-                                    disposable.add(ViewModelProviders
-                                            .of(this@HostActivity)
-                                            .get(CategoriesViewModel::class.java)
-                                            .categories(EXPENSES)
+                            disposable
+                                    .add(ViewModelProviders
+                                            .of(this@HostActivity, mViewModelFactory)
+                                            [HostViewModel::class.java]
+                                            .categories(expenseType.key)
                                             .subscribeOn(Schedulers.io())
                                             .subscribe({
-                                                expenseSubject.notifyObserver(t = it)
+                                                expenseSubject.notifyObserver(t = it, l = expenseType.key)
                                             }, {
                                                 Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                                                expenseSubject.notifyObserver(t = ArrayList())
-                                            }))
-                                }
-                                INCOMES_KEY -> {
-                                    disposable.add(ViewModelProviders
-                                            .of(this@HostActivity)
-                                            .get(CategoriesViewModel::class.java)
-                                            .categories(INCOMES)
-                                            .subscribeOn(Schedulers.io())
-                                            .subscribe({
-                                                expenseSubject.notifyObserver(t = it)
-                                            }, {
-                                                Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                                                expenseSubject.notifyObserver(t = ArrayList())
-                                            }))
-                                }
-                            }*/
+                                                expenseSubject.notifyObserver(t = ArrayList(), l = expenseType.key)
+                                            })
+                                    )
                         }
                     }
                     actionBarExpenseNavigationLayoutBinding.adapter = customSpinnerAdapter

@@ -1,5 +1,6 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.ui.statistic
 
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.databinding.FragmentStatisticsBinding
 import al.bruno.personal.expense.entities.ChartDataObject
 import android.os.Bundle
@@ -23,7 +24,6 @@ import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*

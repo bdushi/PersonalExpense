@@ -5,16 +5,11 @@ import al.bruno.personal.expense.data.source.local.dao.SettingsDao
 import al.bruno.personal.expense.model.Settings
 import android.content.Context
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SettingsLocalDataSource(private val settingsDao: SettingsDao): SettingsDataSource {
-    companion object {
-        private var INSTANCE: SettingsDataSource? = null
-        fun getInstance (settingsDao: SettingsDao):SettingsDataSource?  {
-            if(INSTANCE == null)
-                INSTANCE = SettingsLocalDataSource(settingsDao)
-            return INSTANCE
-        }
-    }
+@Singleton
+class SettingsLocalDataSource @Inject constructor(private val settingsDao: SettingsDao): SettingsDataSource {
     override fun insert(settings: Settings): Single<Long> {
         return settingsDao.insert(settings)
     }

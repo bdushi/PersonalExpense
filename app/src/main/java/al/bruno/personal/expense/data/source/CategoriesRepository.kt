@@ -2,26 +2,11 @@ package al.bruno.personal.expense.data.source
 
 import al.bruno.personal.expense.model.Categories
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CategoriesRepository(categoriesDataSource: CategoriesDataSource) : CategoriesDataSource {
-    private var categoriesDataSource: CategoriesDataSource
-
-    init {
-        this.categoriesDataSource = categoriesDataSource
-    }
-
-    companion object {
-        private var INSTANCE : CategoriesDataSource? = null
-        fun getInstance(categoriesDataSource: CategoriesDataSource) : CategoriesDataSource? {
-            if(INSTANCE == null)
-                INSTANCE = CategoriesRepository(categoriesDataSource)
-            return INSTANCE
-        }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
-    }
+@Singleton
+class CategoriesRepository @Inject constructor(private var categoriesDataSource: CategoriesDataSource) : CategoriesDataSource {
     override fun insert(categories: Categories): Single<Long> {
         return categoriesDataSource.insert(categories)
     }

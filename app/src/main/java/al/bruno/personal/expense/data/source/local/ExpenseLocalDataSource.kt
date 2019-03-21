@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExpenseLocalDataSource constructor(@Inject private val expenseDao: ExpenseDao) : ExpenseDataSource {
+class ExpenseLocalDataSource @Inject constructor(private val expenseDao: ExpenseDao) : ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
         return expenseDao.insert(expense)
     }

@@ -2,21 +2,11 @@ package al.bruno.personal.expense.data.source
 
 import al.bruno.personal.expense.model.Settings
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SettingsRepository(private val settingsDataSource: SettingsDataSource) : SettingsDataSource {
-    companion object {
-        private var settingsDataSource: SettingsDataSource? = null
-        fun getInstance(mSettingsDataSource: SettingsDataSource): SettingsDataSource? {
-            if(settingsDataSource == null)
-                settingsDataSource = SettingsRepository(mSettingsDataSource)
-            return settingsDataSource
-        }
-
-        fun destroyInstance() {
-            settingsDataSource = null
-        }
-    }
-
+@Singleton
+class SettingsRepository @Inject constructor(private val settingsDataSource: SettingsDataSource) : SettingsDataSource {
     override fun insert(settings: Settings): Single<Long> {
         return settingsDataSource.insert(settings)
     }

@@ -9,11 +9,10 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(
-        AndroidSupportInjectionModule::class,
-        AppModule::class,
-        DatabaseModule::class,
-        FragmentBuilder::class))
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    AppModule::class,
+    ActivityBuilder::class])
 interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
     fun inject(mainApplication: Application)
     @Component.Builder
@@ -22,4 +21,5 @@ interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
         fun application(application: Application): Builder
         fun build(): AppComponent
     }
+    //override fun inject(app: PersonalExpenseApplication)
 }
