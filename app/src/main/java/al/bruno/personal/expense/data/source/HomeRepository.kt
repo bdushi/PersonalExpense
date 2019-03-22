@@ -1,5 +1,6 @@
 package al.bruno.personal.expense.data.source
 
+import al.bruno.personal.expense.data.source.local.dao.HomeDao
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.ExpenseMaster
@@ -8,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HomeRepository @Inject constructor(private val homeDataSource: HomeDataSource) {
+class HomeRepository @Inject constructor(private val homeDataSource: HomeDao) {
     fun chart(): Single<List<Chart>> {
         return homeDataSource.chart();
     }

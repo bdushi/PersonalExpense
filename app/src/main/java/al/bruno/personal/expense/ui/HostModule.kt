@@ -7,9 +7,9 @@ class HostModule {
     /*@Provides
     fun hostViewModel(categoriesRepository: CategoriesRepository): CategoriesViewModel {
         return CategoriesViewModel(categoriesRepository)
-    }*/
+    }
 
-    /*@Provides
+    @Provides
     fun hostViewModelProvider(categoriesViewModel: CategoriesViewModel): ViewModelProvider.Factory {
         return ViewModelProviderFactory(categoriesViewModel)
     }*/

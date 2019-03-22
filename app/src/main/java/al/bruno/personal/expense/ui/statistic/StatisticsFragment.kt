@@ -20,14 +20,9 @@ import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.util.Utilities.month
-import al.bruno.personal.expense.view.model.ExpenseViewModel
-import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class StatisticsFragment : Fragment(), Observer<Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
@@ -35,7 +30,7 @@ class StatisticsFragment : Fragment(), Observer<Month> {
     private val calendar = Calendar.getInstance()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentStatisticsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
-        disposable.add(ViewModelProviders.of(this@StatisticsFragment)
+        /*disposable.add(ViewModelProviders.of(this@StatisticsFragment)
                 [ExpenseViewModel::class.java]
                 .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                 .delay(50, TimeUnit.MILLISECONDS)
@@ -44,7 +39,7 @@ class StatisticsFragment : Fragment(), Observer<Month> {
                     fragmentStatisticsBinding!!.chartData = barData(it, calendar.timeInMillis)
                 },{
                     Log.i(StatisticsFragment::class.java.name, it.message)
-                }))
+                }))*/
         return fragmentStatisticsBinding?.root
     }
     override fun onStop() {
@@ -53,14 +48,14 @@ class StatisticsFragment : Fragment(), Observer<Month> {
     }
 
     override fun update(t: Month) {
-        disposable.add(ViewModelProviders.of(this@StatisticsFragment)[ExpenseViewModel::class.java]
+       /* disposable.add(ViewModelProviders.of(this@StatisticsFragment)[ExpenseViewModel::class.java]
                 .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     fragmentStatisticsBinding!!.chartData = barData(it, t.calendar().timeInMillis)
                 },{
                     Log.i(StatisticsFragment::class.java.name, it.message)
-                }))
+                }))*/
     }
 
     private fun barData(expenses: List<Expense>, date: Long): ChartDataObject<IndexAxisValueFormatter, BarData> {

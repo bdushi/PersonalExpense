@@ -48,19 +48,21 @@ import java.util.Calendar
 import javax.inject.Inject
 
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return activityDispatchingAndroidInjector
-    }
-
-    @Inject
-    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     private var itemRoot: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
     private val monthRegistry = ArrayList<Observer<Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return fragmentInjector
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)

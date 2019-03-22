@@ -1,6 +1,5 @@
 package al.bruno.personal.expense.di
 
-import al.bruno.personal.expense.data.source.*
 import al.bruno.personal.expense.data.source.local.*
 import al.bruno.personal.expense.data.source.local.dao.*
 import android.app.Application
@@ -11,14 +10,15 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class])
+//@Module(includes = [ViewModelModule::class])
+@Module
 class AppModule {
     /*@Binds
     abstract fun provideApplication(app: Application): Application*/
-    @Provides
+    /*@Provides
     fun provideApplication(app: Application): Application {
         return app
-    }
+    }*/
     @Provides
     @Singleton
     fun providesDatabaseName(): String {
@@ -26,9 +26,9 @@ class AppModule {
     }
     @Provides
     @Singleton
-    fun providesDatabaseHelper(app: Application, name: String): AppDatabase {
+    fun providesDatabaseHelper(app: Application): AppDatabase {
         return Room
-                .databaseBuilder(app, AppDatabase::class.java, name)
+                .databaseBuilder(app, AppDatabase::class.java, "financa.db")
                 .addMigrations(
                         object : Migration(1, 2) {
                             override fun migrate(database: SupportSQLiteDatabase) {

@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
-import al.bruno.personal.expense.di.Injectable
 import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
+import android.content.Context
 import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
@@ -27,13 +27,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String>, Injectable {
+class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
     override fun update(t: List<Categories>, l:String) {
         when (l) {
             EXPENSES -> {
@@ -121,6 +122,17 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         fragmentCategoriesBinding?.onItemSwipeSelectListener = this
         return fragmentCategoriesBinding?.root
     }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
+
     override fun onItemSwipedLeft(t: Categories) {
         val handler = Handler()
         val runnable = Runnable {
@@ -216,11 +228,6 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
         for (observer in registry) {
             observer.update(t)
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        disposable.clear()
     }
 
     private val incomesItemsBinding = object : BindingData<Categories, CategoriesSingleItemBinding> {

@@ -6,18 +6,13 @@ import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
 import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.util.Utilities
-import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
 
 class EditExpenseBottomSheet : BottomSheetDialogFragment() {
@@ -50,7 +45,7 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
         fragmentExpenseBinding.expense = expense
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
-                disposable.add(ViewModelProviders.of(activity!!)
+                /*disposable.add(ViewModelProviders.of(activity!!)
                         .get(ExpenseViewModel::class.java)
                         .insert(t)
                         .subscribeOn(Schedulers.io())
@@ -65,7 +60,8 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
                         }, {
                             Log.i(EditExpenseBottomSheet::class.java.name, it.message)
                             //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-                        }))
+                        })
+                )*/
             }
         }
         fragmentExpenseBinding.onDismiss = object : OnClick {

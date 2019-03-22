@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    ActivityBuilder::class])
+    ActivityBindingModule::class])
 interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
     fun inject(mainApplication: Application)
     @Component.Builder

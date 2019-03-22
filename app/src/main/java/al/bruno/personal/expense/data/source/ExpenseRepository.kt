@@ -1,5 +1,6 @@
 package al.bruno.personal.expense.data.source
 
+import al.bruno.personal.expense.data.source.local.dao.ExpenseDao
 import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
 import io.reactivex.Single
@@ -8,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
+class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDao) : ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
     }

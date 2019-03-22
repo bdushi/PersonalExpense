@@ -1,5 +1,6 @@
 package al.bruno.personal.expense
 
+import al.bruno.personal.expense.di.DaggerAppComponent
 import android.app.Activity
 import android.app.Application
 import com.crashlytics.android.Crashlytics
@@ -11,20 +12,14 @@ import javax.inject.Inject
 
 class PersonalExpenseApplication : Application(), HasActivityInjector {
     @Inject
-    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     override fun onCreate() {
         super.onCreate()
-        AppInjector.init(this)
-        //DaggerAppComponent.builder().application(this).build()
+        DaggerAppComponent.builder().application(this).build().inject(this)
         Fabric.with(this, Crashlytics())
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return activityDispatchingAndroidInjector
+    override fun activityInjector(): AndroidInjector<Activity>? {
+        return activityInjector
     }
-
-    /*override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
 }

@@ -1,12 +1,13 @@
 package al.bruno.personal.expense.data.source
 
+import al.bruno.personal.expense.data.source.local.dao.SettingsDao
 import al.bruno.personal.expense.model.Settings
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsRepository @Inject constructor(private val settingsDataSource: SettingsDataSource) : SettingsDataSource {
+class SettingsRepository @Inject constructor(private val settingsDataSource: SettingsDao) : SettingsDataSource {
     override fun insert(settings: Settings): Single<Long> {
         return settingsDataSource.insert(settings)
     }

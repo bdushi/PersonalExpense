@@ -7,7 +7,6 @@ import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
-import al.bruno.personal.expense.di.Injectable
 import al.bruno.personal.expense.entities.Chart
 import al.bruno.personal.expense.entities.ChartDataObject
 import al.bruno.personal.expense.entities.ExpenseChart
@@ -23,6 +22,7 @@ import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.ui.expense.PersonalExpensesFragment
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
+import android.content.Context
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -30,12 +30,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.EntryXComparator
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
-class HomeFragment : Fragment(), Observer<Month>, Injectable {
+class HomeFragment : Fragment(), Observer<Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
     private var fragmentHomeBinding: FragmentHomeBinding? = null
     private val calendar = Calendar.getInstance()
@@ -152,6 +153,11 @@ class HomeFragment : Fragment(), Observer<Month>, Injectable {
     override fun onStop() {
         super.onStop()
         disposable.clear()
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
     private fun setLineData(expenseCharts: List<ExpenseChart>): ChartDataObject<MutableList<String>, LineData>? {
         val dataSets = ArrayList<ILineDataSet>()

@@ -3,24 +3,15 @@ package al.bruno.personal.expense.ui.details
 import al.bruno.calendar.view.listener.OnDateClickListener
 import al.bruno.calendar.view.model.LocalDateTime
 import al.bruno.personal.expense.R
-import al.bruno.personal.expense.adapter.CustomAdapter
-import al.bruno.personal.expense.callback.BindingData
-import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentDetailsBinding
-import al.bruno.personal.expense.model.Expense
-import al.bruno.personal.expense.view.model.ExpenseViewModel
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import org.joda.time.DateTime
 
 class DetailsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
@@ -28,7 +19,7 @@ class DetailsFragment : Fragment() {
         val fragmentDetailsBinding: FragmentDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
         fragmentDetailsBinding.onDateClickListener = object : OnDateClickListener {
             override fun setOnDateClickListener(view: View?, localDateTime: LocalDateTime?) {
-                disposable.addAll(
+                /*disposable.addAll(
                         ViewModelProviders
                                 .of(this@DetailsFragment)[ExpenseViewModel::class.java]
                                     .expenses(localDateTime!!.dateTime)
@@ -51,11 +42,12 @@ class DetailsFragment : Fragment() {
                                 },{
                                     fragmentDetailsBinding.total = null
                                     Log.i(DetailsFragment::class.java.name, it.message)
-                                }))
+                                })
+                )*/
             }
         }
 
-        disposable.addAll(
+        /*disposable.addAll(
                 ViewModelProviders
                         .of(this)[ExpenseViewModel::class.java]
                         .expenses(DateTime.now().withTime(1, 0, 0, 0))
@@ -86,7 +78,8 @@ class DetailsFragment : Fragment() {
                             fragmentDetailsBinding.event = it
                         }, {
                             Log.i(DetailsFragment::class.java.name, it.message)
-                        }))
+                        })
+        )*/
         return fragmentDetailsBinding.root
     }
 
