@@ -93,13 +93,6 @@ abstract class DataModule {
         fun provideSettingsDao(appDatabase: AppDatabase): SettingsDao {
             return appDatabase.settingsDao()
         }
-
-        @JvmStatic
-        @Singleton
-        @Provides
-        fun provideHomeDao(appDatabase: AppDatabase): HomeDao {
-            return appDatabase.homeDao()
-        }
     }
 
 
@@ -126,8 +119,4 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun provideSettingsDataSource(dataSource: SettingsLocalDataSource): SettingsDataSource
-
-    @Singleton
-    @Binds
-    abstract fun provideHomeDataSource(dataSource: HomeLocalDataSource): HomeDataSource
 }

@@ -83,5 +83,4 @@ class MonthNavigationFragment : Fragment() {
         }
         return fragmentMonthNavigationBinding.root
     }
-
 }

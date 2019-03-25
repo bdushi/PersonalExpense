@@ -1,6 +1,5 @@
 package al.bruno.personal.expense.data.source
 
-import al.bruno.personal.expense.data.source.local.dao.ExpenseDao
 import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
 import io.reactivex.Single

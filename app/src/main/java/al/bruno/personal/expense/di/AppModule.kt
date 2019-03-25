@@ -49,41 +49,36 @@ class AppModule {
     @Singleton
     @Provides
     fun provideExpenseDao(appDatabase: AppDatabase): ExpenseDao {
-        return appDatabase.expenseDao();
+        return appDatabase.expenseDao()
     }
 
     @Singleton
     @Provides
     fun provideCategoriesDao(appDatabase: AppDatabase): CategoriesDao {
-        return appDatabase.categoriesDao();
+        return appDatabase.categoriesDao()
     }
 
     @Singleton
     @Provides
     fun provideExpenseChartDao(appDatabase: AppDatabase): ExpenseChartDao {
-        return appDatabase.expenseChartDao();
+        return appDatabase.expenseChartDao()
     }
 
     @Singleton
     @Provides
     fun provideExpenseDetailsDao(appDatabase: AppDatabase): ExpenseDetailsDao {
-        return appDatabase.expenseDetailsDao();
+        return appDatabase.expenseDetailsDao()
     }
 
     @Singleton
     @Provides
     fun provideExpenseMasterDao(appDatabase: AppDatabase): ExpenseMasterDao {
-        return appDatabase.expenseMasterDao();
+        return appDatabase.expenseMasterDao()
     }
 
     @Singleton
     @Provides
     fun provideSettingsDao(appDatabase: AppDatabase): SettingsDao {
-        return appDatabase.settingsDao();
-    }
-    @Singleton
-    @Provides
-    fun provideHomeDao(appDatabase: AppDatabase): HomeDao {
-        return appDatabase.homeDao()
+        return appDatabase.settingsDao()
     }
 }
