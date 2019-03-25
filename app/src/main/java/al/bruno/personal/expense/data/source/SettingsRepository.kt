@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SettingsRepository @Inject constructor(private val settingsDataSource: SettingsDao) : SettingsDataSource {
+class SettingsRepository @Inject constructor(private val settingsDataSource: SettingsDataSource) : SettingsDataSource {
     override fun insert(settings: Settings): Single<Long> {
         return settingsDataSource.insert(settings)
     }

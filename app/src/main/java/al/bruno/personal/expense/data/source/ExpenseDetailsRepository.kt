@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExpenseDetailsRepository @Inject constructor(private var expenseDetailsDataSource: ExpenseDetailsDao) : ExpenseDetailsDataSource {
+class ExpenseDetailsRepository @Inject constructor(private var expenseDetailsDataSource: ExpenseDetailsDataSource) : ExpenseDetailsDataSource {
     override fun budgetDetails(month: String, year: String): Single<ExpenseDetails> {
         return expenseDetailsDataSource.budgetDetails(month, year)
     }

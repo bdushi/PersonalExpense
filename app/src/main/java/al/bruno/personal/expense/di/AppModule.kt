@@ -10,15 +10,8 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-//@Module(includes = [ViewModelModule::class])
 @Module
 class AppModule {
-    /*@Binds
-    abstract fun provideApplication(app: Application): Application*/
-    /*@Provides
-    fun provideApplication(app: Application): Application {
-        return app
-    }*/
     @Provides
     @Singleton
     fun providesDatabaseName(): String {
@@ -34,64 +27,24 @@ class AppModule {
                             override fun migrate(database: SupportSQLiteDatabase) {
                                 database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
                             }
-                        }, object : Migration(2, 3) { override fun migrate(database: SupportSQLiteDatabase) {
-                    database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
-                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
-                            "union all " +
-                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
-                            "union all " +
-                            "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
-                            "select _amount, _date, _type from expense where _type = 'expenses' " +
-                            "union all " +
-                            "select -_amount, _date, _type from expense where _type = 'incomes'" +
-                            ") " +
-                            "GROUP BY _date)")
-                }
-                })
+                        },
+                        object : Migration(2, 3) {
+                            override fun migrate(database: SupportSQLiteDatabase) {
+                                database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
+                                        "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
+                                        "union all " +
+                                        "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
+                                        "union all " +
+                                        "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
+                                        "select _amount, _date, _type from expense where _type = 'expenses' " +
+                                        "union all " +
+                                        "select -_amount, _date, _type from expense where _type = 'incomes'" +
+                                        ") " +
+                                        "GROUP BY _date)")
+                            }
+                        })
                 .build()
     }
-
-    /*@Singleton
-    @Provides
-    fun provideExpenseDao(appDatabase: AppDatabase): ExpenseDataSource {
-        return ExpenseLocalDataSource(appDatabase.expenseDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideCategoriesDao(appDatabase: AppDatabase): CategoriesDataSource {
-        return CategoriesLocalDataSource(appDatabase.categoriesDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideExpenseChartDao(appDatabase: AppDatabase): ExpenseChartDataSource {
-        return ExpenseChartLocalDataSource(appDatabase.expenseChartDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideExpenseDetailsDao(appDatabase: AppDatabase): ExpenseDetailsDataSource {
-        return ExpenseDetailsLocalDataSource(appDatabase.expenseDetailsDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideExpenseMasterDao(appDatabase: AppDatabase): ExpenseMasterDataSource {
-        return ExpenseMasterLocalDataSource(appDatabase.expenseMasterDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideSettingsDao(appDatabase: AppDatabase): SettingsDataSource {
-        return SettingsLocalDataSource(appDatabase.settingsDao())
-    }
-
-    @Singleton
-    @Provides
-    fun provideHomeDao(appDatabase: AppDatabase): HomeDataSource {
-        return HomeLocalDataSource(appDatabase.homeDao())
-    }*/
 
     @Singleton
     @Provides

@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDao) : ExpenseDataSource {
+class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
     }

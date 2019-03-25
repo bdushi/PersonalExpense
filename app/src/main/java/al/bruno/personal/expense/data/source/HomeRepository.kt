@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HomeRepository @Inject constructor(private val homeDataSource: HomeDao) {
+class HomeRepository @Inject constructor(private val homeDataSource: HomeDataSource) {
     fun chart(): Single<List<Chart>> {
         return homeDataSource.chart();
     }

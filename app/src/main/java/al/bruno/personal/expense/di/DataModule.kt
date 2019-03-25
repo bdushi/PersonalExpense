@@ -3,7 +3,7 @@ package al.bruno.personal.expense.di
 import al.bruno.personal.expense.data.source.*
 import al.bruno.personal.expense.data.source.local.*
 import al.bruno.personal.expense.data.source.local.dao.*
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -14,7 +14,6 @@ import javax.inject.Singleton
 
 @Module
 abstract class DataModule {
-
     @Module
     companion object {
         @JvmStatic
@@ -27,43 +26,44 @@ abstract class DataModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun providesDatabaseHelper(context: Context, name: String): AppDatabase {
+        fun providesDatabaseHelper(app: Application, name: String): AppDatabase {
             return Room
-                    .databaseBuilder(context, AppDatabase::class.java, name)
+                    .databaseBuilder(app, AppDatabase::class.java, name)
                     .addMigrations(
                             object : Migration(1, 2) {
                                 override fun migrate(database: SupportSQLiteDatabase) {
                                     database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
                                 }
-                            }, object : Migration(2, 3) { override fun migrate(database: SupportSQLiteDatabase) {
-                        database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
-                                "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
-                                "union all " +
-                                "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
-                                "union all " +
-                                "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
-                                "select _amount, _date, _type from expense where _type = 'expenses' " +
-                                "union all " +
-                                "select -_amount, _date, _type from expense where _type = 'incomes'" +
-                                ") " +
-                                "GROUP BY _date)")
-                    }
-                    })
-                    .build()
+                            },
+                            object : Migration(2, 3) {
+                                override fun migrate(database: SupportSQLiteDatabase) {
+                                    database.execSQL("CREATE VIEW expense_chart AS select _amount, _date, _type from (" +
+                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date " +
+                                            "union all " +
+                                            "select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date " +
+                                            "union all " +
+                                            "select TOTAL(_amount) AS _amount, _date, 'balance' from (" +
+                                            "select _amount, _date, _type from expense where _type = 'expenses' " +
+                                            "union all " +
+                                            "select -_amount, _date, _type from expense where _type = 'incomes'" +
+                                            ") " +
+                                            "GROUP BY _date)")
+                                }
+                            }).build()
         }
 
         @JvmStatic
         @Singleton
         @Provides
         fun provideExpenseDao(appDatabase: AppDatabase): ExpenseDao {
-            return appDatabase.expenseDao();
+            return appDatabase.expenseDao()
         }
 
         @JvmStatic
         @Singleton
         @Provides
         fun provideCategoriesDao(appDatabase: AppDatabase): CategoriesDao {
-            return appDatabase.categoriesDao();
+            return appDatabase.categoriesDao()
         }
 
         @JvmStatic
@@ -77,21 +77,28 @@ abstract class DataModule {
         @Singleton
         @Provides
         fun provideExpenseDetailsDao(appDatabase: AppDatabase): ExpenseDetailsDao {
-            return appDatabase.expenseDetailsDao();
+            return appDatabase.expenseDetailsDao()
         }
 
         @JvmStatic
         @Singleton
         @Provides
         fun provideExpenseMasterDao(appDatabase: AppDatabase): ExpenseMasterDao {
-            return appDatabase.expenseMasterDao();
+            return appDatabase.expenseMasterDao()
         }
 
         @JvmStatic
         @Singleton
         @Provides
         fun provideSettingsDao(appDatabase: AppDatabase): SettingsDao {
-            return appDatabase.settingsDao();
+            return appDatabase.settingsDao()
+        }
+
+        @JvmStatic
+        @Singleton
+        @Provides
+        fun provideHomeDao(appDatabase: AppDatabase): HomeDao {
+            return appDatabase.homeDao()
         }
     }
 
@@ -119,4 +126,8 @@ abstract class DataModule {
     @Singleton
     @Binds
     abstract fun provideSettingsDataSource(dataSource: SettingsLocalDataSource): SettingsDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideHomeDataSource(dataSource: HomeLocalDataSource): HomeDataSource
 }

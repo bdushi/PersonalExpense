@@ -12,14 +12,15 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
+    DataSourceModule::class,
     ActivityBindingModule::class])
 interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
-    fun inject(mainApplication: Application)
+    //fun inject(mainApplication: Application)
     @Component.Builder
     interface Builder {
         @BindsInstance
         fun application(application: Application): Builder
         fun build(): AppComponent
     }
-    //override fun inject(app: PersonalExpenseApplication)
+    override fun inject(app: PersonalExpenseApplication)
 }
