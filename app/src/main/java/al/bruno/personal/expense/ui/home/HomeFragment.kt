@@ -18,8 +18,9 @@ import android.view.ViewGroup
 
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.entities.Month
+import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.ExpenseMaster
-import al.bruno.personal.expense.ui.expense.PersonalExpensesFragment
+import al.bruno.personal.expense.ui.expense.ExpenseFragment
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
 import android.content.Context
@@ -101,7 +102,7 @@ class HomeFragment : Fragment(), Observer<Month> {
             override fun onClick() {
                 fragmentManager!!
                         .beginTransaction()
-                        .replace(R.id.host, PersonalExpensesFragment())
+                        .replace(R.id.host, ExpenseFragment())
                         .addToBackStack("EXPENSE_CATEGORIES_FRAGMENT")
                         .commit()
             }
@@ -112,7 +113,7 @@ class HomeFragment : Fragment(), Observer<Month> {
 
     override fun update(t: Month) {
         disposable.addAll(
-                /*ViewModelProviders
+                ViewModelProviders
                         .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
                         .subscribeOn(Schedulers.io())
@@ -146,7 +147,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                             Log.i(HomeViewModel::class.java.name, it.toString())
                         },{
                             Log.i(HomeViewModel::class.java.name, it.message)
-                        })*/
+                        })
         )
     }
 

@@ -6,14 +6,14 @@ import al.bruno.personal.expense.callback.*
 import android.os.Bundle
 
 import al.bruno.personal.expense.databinding.CategoriesSingleItemBinding
-import al.bruno.personal.expense.databinding.FragmentCategoriesBinding
 import al.bruno.personal.expense.dialog.EditCategoriesDialog
 import androidx.fragment.app.Fragment
 
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
-import al.bruno.personal.expense.dialog.EditExpenseBottomSheet
+import al.bruno.personal.expense.databinding.FragmentExpenseBinding
+import al.bruno.personal.expense.dialog.edit.expense.EditExpenseBottomSheet
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.util.EXPENSES
@@ -34,64 +34,26 @@ import org.joda.time.DateTime
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
+class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
     override fun update(t: List<Categories>, l:String) {
         when (l) {
             EXPENSES -> {
                 val adapter = EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                 registerObserver(adapter)
-                fragmentCategoriesBinding?.customAdapter = adapter
+                fragmentExpenseBinding?.customAdapter = adapter
             }
             INCOMES -> {
                 val adapter = EditAdapter(t, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
                 registerObserver(adapter)
-                fragmentCategoriesBinding?.customAdapter = adapter
+                fragmentExpenseBinding?.customAdapter = adapter
             }
         }
     }
-    /*override fun update(t: ExpenseType) {
-        when (t.type) {
-            EXPENSES_KEY -> {
-                disposable.add(ViewModelProviders
-                        .of(this)
-                        .get(ExpenseViewModel::class.java)
-                        .categories(EXPENSES)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            val adapter = EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }, {
-                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }))
-            }
-            INCOMES_KEY -> {
-                disposable.add(ViewModelProviders
-                        .of(this)
-                        .get(ExpenseViewModel::class.java)
-                        .categories(INCOMES)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            val adapter = EditAdapter(it, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }, {
-                            Log.i(PersonalExpensesFragment::class.java.name, it.message)
-                            val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
-                            registerObserver(adapter)
-                            fragmentCategoriesBinding?.customAdapter = adapter
-                        }))
-            }
-        }
-    }*/
 
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable: CompositeDisposable = CompositeDisposable()
     private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories>>()
-    private var fragmentCategoriesBinding: FragmentCategoriesBinding? = null
+    private var fragmentExpenseBinding: FragmentExpenseBinding? = null
 
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -102,25 +64,25 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentCategoriesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_categories, container, false)
+        fragmentExpenseBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_expense, container, false)
         disposable.add(ViewModelProviders
                 .of(this, mViewModelFactory)
                 [ExpenseViewModel::class.java]
                 .categories(EXPENSES)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    Log.i(PersonalExpensesFragment::class.java.name, it.toString())
+                    Log.i(ExpenseFragment::class.java.name, it.toString())
                     val adapter = EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                     registerObserver(adapter)
-                    fragmentCategoriesBinding?.customAdapter = adapter
+                    fragmentExpenseBinding?.customAdapter = adapter
                 }, {
-                    Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                    Log.i(ExpenseFragment::class.java.name, it.message)
                     val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                     registerObserver(adapter)
-                    fragmentCategoriesBinding?.customAdapter = adapter
+                    fragmentExpenseBinding?.customAdapter = adapter
                 }))
-        fragmentCategoriesBinding?.onItemSwipeSelectListener = this
-        return fragmentCategoriesBinding?.root
+        fragmentExpenseBinding?.onItemSwipeSelectListener = this
+        return fragmentExpenseBinding?.root
     }
 
     override fun onStop() {
@@ -162,7 +124,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                         override fun onEdit(t: Categories) {
                             disposable.add(ViewModelProviders
-                                    .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                    .of(this@ExpenseFragment, mViewModelFactory)
                                     [ExpenseViewModel::class.java]
                                     .insert(t)
                                     .subscribeOn(Schedulers.io())
@@ -175,7 +137,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                             notifyObserverChanged(t)
                         }
                     })
-                    .show(fragmentManager, PersonalExpensesFragment::class.java.name)
+                    .show(fragmentManager, ExpenseFragment::class.java.name)
         } else {
             EditCategoriesDialog
                     .Builder()
@@ -186,7 +148,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     .onCategoriesEditListener(onEditListeners = object : OnEditListeners<Categories> {
                         override fun onEdit(t: Categories) {
                             disposable.add(ViewModelProviders
-                                    .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                    .of(this@ExpenseFragment, mViewModelFactory)
                                     [ExpenseViewModel::class.java]
                                     .insert(t)
                                     .subscribeOn(Schedulers.io())
@@ -199,7 +161,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                             notifyObserverChanged(t)
                         }
                     })
-                    .show(fragmentManager, PersonalExpensesFragment::class.java.name)
+                    .show(fragmentManager, ExpenseFragment::class.java.name)
         }
     }
 
@@ -238,7 +200,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
-                    expense.date = DateTime.now().withTime(1, 0, 0, 0)
+                    expense.date = DateTime.now().withTime(7, 0, 0, 0)
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
@@ -262,7 +224,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                     val expense = Expense();
                     expense.category = t.category
                     expense.type = t.type
-                    expense.date = DateTime.now().withTime(1, 0, 0, 0)
+                    expense.date = DateTime.now().withTime(7, 0, 0, 0)
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
@@ -292,7 +254,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                 override fun onEdit(t: Categories) {
                                     t.type = INCOMES
                                     disposable.add(ViewModelProviders
-                                            .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                            .of(this@ExpenseFragment, mViewModelFactory)
                                             [ExpenseViewModel::class.java]
                                             .insert(t)
                                             .subscribeOn(Schedulers.io())
@@ -305,7 +267,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                     notifyObserverChanged(t)
                                 }
                             })
-                            .show(fragmentManager, PersonalExpensesFragment::class.java.name)
+                            .show(fragmentManager, ExpenseFragment::class.java.name)
                 }
             }
         }
@@ -326,7 +288,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                 override fun onEdit(t: Categories) {
                                     t.type = EXPENSES
                                     disposable.add(ViewModelProviders
-                                            .of(this@PersonalExpensesFragment, mViewModelFactory)
+                                            .of(this@ExpenseFragment, mViewModelFactory)
                                             [ExpenseViewModel::class.java]
                                             .insert(t)
                                             .subscribeOn(Schedulers.io())
@@ -339,7 +301,7 @@ class PersonalExpensesFragment : Fragment(), OnItemSwipeSelectListener<Categorie
                                     notifyObserverChanged(t)
                                 }
                             })
-                            .show(fragmentManager, PersonalExpensesFragment::class.java.name)
+                            .show(fragmentManager, ExpenseFragment::class.java.name)
                 }
             }
         }

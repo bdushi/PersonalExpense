@@ -6,5 +6,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ExpenseProvider {
     @ContributesAndroidInjector(modules = [ExpenseModule::class])
-    internal abstract fun providePersonalExpensesFragment(): PersonalExpensesFragment
+    internal abstract fun providePersonalExpensesFragment(): ExpenseFragment
 }

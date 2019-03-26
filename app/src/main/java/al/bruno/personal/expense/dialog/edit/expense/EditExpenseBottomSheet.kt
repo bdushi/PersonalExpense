@@ -1,23 +1,35 @@
-package al.bruno.personal.expense.dialog
+package al.bruno.personal.expense.dialog.edit.expense
 
 import al.bruno.personal.expense.R
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.BottomSheetExpenseBinding
+import al.bruno.personal.expense.dialog.DatePickerDialog
 import al.bruno.personal.expense.model.Expense
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import org.joda.time.DateTime
+import javax.inject.Inject
 
 class EditExpenseBottomSheet : BottomSheetDialogFragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
+    @Inject
+    lateinit var mViewModelFactory: ViewModelProvider.Factory
+
     var expense: Expense? = null
+
     companion object {
         class Builder {
             var expense: Expense? = null
@@ -45,8 +57,8 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
         fragmentExpenseBinding.expense = expense
         fragmentExpenseBinding.onClickListener = object : OnClickListener<Expense> {
             override fun onClick(t: Expense) {
-                /*disposable.add(ViewModelProviders.of(activity!!)
-                        .get(ExpenseViewModel::class.java)
+                disposable.add(ViewModelProviders.of(this@EditExpenseBottomSheet, mViewModelFactory)
+                        .get(EditExpenseViewModel::class.java)
                         .insert(t)
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -61,7 +73,7 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
                             Log.i(EditExpenseBottomSheet::class.java.name, it.message)
                             //Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
                         })
-                )*/
+                )
             }
         }
         fragmentExpenseBinding.onDismiss = object : OnClick {
@@ -74,12 +86,17 @@ class EditExpenseBottomSheet : BottomSheetDialogFragment() {
                 DatePickerDialog()
                         .onEditListener(object : OnEditListener<Long> {
                             override fun onEdit(t: Long) {
-                                expense?.date = DateTime(t).withTime(1,0,0,0)
+                                expense?.date = DateTime(t).withTime(7,0,0,0)
                             }
                         }).show(fragmentManager, "DATE_PICKER")
             }
         }
         return fragmentExpenseBinding.root
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onStop() {

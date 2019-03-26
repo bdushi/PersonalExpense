@@ -52,14 +52,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_general_label" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/dimen_20"
-            android:layout_marginBottom="@dimen/dimen_20"
-            android:src="@drawable/ic_add_white_36dp"/>
     </RelativeLayout>
 
 </layout>

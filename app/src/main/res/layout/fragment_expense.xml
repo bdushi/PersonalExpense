@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="customAdapter"
+            type="al.bruno.personal.expense.adapter.CustomEditAdapter"/>
+        <variable
+            name="onItemSwipeSelectListener"
+            type="al.bruno.personal.expense.callback.OnItemSwipeSelectListener"/>
+    </data>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_expense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adapter="@{customAdapter}"
+        android:layout_margin="@dimen/dimen_5"
+        bind:xMargin="@{@dimen/dimen_5}"
+        bind:drawableSwipeLeft="@{@drawable/ic_delete_black_36dp}"
+        bind:drawableSwipeRight="@{@drawable/ic_edit_white_36dp}"
+        bind:colorSwipeLeft="@{@color/red_a700}"
+        bind:colorSwipeRight="@{@color/green_700}"
+        bind:onLeftSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedLeft(customAdapter.item(p))}"
+        bind:onRightSwipeItemListener="@{(p)->onItemSwipeSelectListener.onItemSwipedRight(customAdapter.item(p))}"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+</layout>

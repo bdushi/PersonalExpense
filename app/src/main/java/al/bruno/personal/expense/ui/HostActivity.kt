@@ -16,7 +16,7 @@ import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.Categories
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.observer.ExpenseSubject
-import al.bruno.personal.expense.ui.expense.PersonalExpensesFragment
+import al.bruno.personal.expense.ui.expense.ExpenseFragment
 import al.bruno.personal.expense.ui.home.HomeFragment
 import al.bruno.personal.expense.ui.map.GoogleMapFragment
 import al.bruno.personal.expense.ui.settings.SettingsFragment
@@ -144,8 +144,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                     .commit()
                     }
                 }
-                else if(supportFragmentManager.findFragmentById(R.id.host) is PersonalExpensesFragment) {
-                    expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as PersonalExpensesFragment))
+                else if(supportFragmentManager.findFragmentById(R.id.host) is ExpenseFragment) {
+                    expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as ExpenseFragment))
                     val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding =
                             DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
                     val customSpinnerAdapter = CustomSpinnerAdapter(
@@ -176,7 +176,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                             .subscribe({
                                                 expenseSubject.notifyObserver(t = it, l = expenseType.key)
                                             }, {
-                                                Log.i(PersonalExpensesFragment::class.java.name, it.message)
+                                                Log.i(ExpenseFragment::class.java.name, it.message)
                                                 expenseSubject.notifyObserver(t = ArrayList(), l = expenseType.key)
                                             })
                                     )
@@ -231,7 +231,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         itemRoot = menu!!.findItem(R.id.root)
-        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is PersonalExpensesFragment
+        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is ExpenseFragment
         return super.onPrepareOptionsMenu(menu)
     }
 
