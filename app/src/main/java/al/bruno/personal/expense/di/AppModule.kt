@@ -3,6 +3,9 @@ package al.bruno.personal.expense.di
 import al.bruno.personal.expense.data.source.local.*
 import al.bruno.personal.expense.data.source.local.dao.*
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -12,6 +15,13 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+    @Provides
+    @Singleton
+    fun providesSharedPreferences(app: Application): SharedPreferences {
+        return PreferenceManager.getDefaultSharedPreferences(app)
+    }
+
     @Provides
     @Singleton
     fun providesDatabaseName(): String {
