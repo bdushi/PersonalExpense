@@ -7,6 +7,7 @@ import al.bruno.personal.expense.adapter.CustomSpinnerAdapter
 import al.bruno.personal.expense.callback.BindingData
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.callback.OnItemSelectedListener
+import al.bruno.personal.expense.data.source.local.ExpenseSharedPreferences
 import al.bruno.personal.expense.databinding.ActionBarExpenseNavigationLayoutBinding
 import al.bruno.personal.expense.databinding.ActionBarMonthNavigationLayoutBinding
 import al.bruno.personal.expense.databinding.ExpenseSpinnerSingleItemBinding
@@ -14,6 +15,7 @@ import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
 import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.Categories
+import al.bruno.personal.expense.widget.helper.MonthView
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.observer.ExpenseSubject
 import al.bruno.personal.expense.ui.expense.ExpenseFragment
@@ -24,7 +26,6 @@ import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,7 +35,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -93,17 +93,17 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     actionBarMonthNavigationLayoutBinding.date = monthFormat(Calendar.getInstance().timeInMillis)
                     supportActionBar!!.customView = actionBarMonthNavigationLayoutBinding.root
                     supportActionBar!!.customView.setOnClickListener {
-                        if (supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
+                        if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
                                     .add(R.id.host,
-                                            MonthNavigationFragment()
+                                            MonthView()
                                                     .setOnEditListener(onEditListener = object : OnEditListener<Month> {
                                                         override fun onEdit(t: Month) {
                                                             monthSubject.notifyObserver(t)
@@ -111,7 +111,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                                             supportFragmentManager
                                                                     .beginTransaction()
                                                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                         }
                                     }))
@@ -124,17 +124,17 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     actionBarMonthNavigationLayoutBinding.date = monthFormat(Calendar.getInstance().timeInMillis)
                     supportActionBar!!.customView = actionBarMonthNavigationLayoutBinding.root
                     supportActionBar!!.customView.setOnClickListener {
-                        if (supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
+                        if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
                                     .add(R.id.host,
-                                            MonthNavigationFragment()
+                                            MonthView()
                                                     .setOnEditListener(onEditListener = object : OnEditListener<Month> {
                                                         override fun onEdit(t: Month) {
                                                             monthSubject.notifyObserver(t)
@@ -142,7 +142,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                                             supportFragmentManager
                                                                     .beginTransaction()
                                                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                                                                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                                         }
                                                     }))
@@ -246,10 +246,10 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.findFragmentById(R.id.host) is MonthNavigationFragment)
+        if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
             supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
-                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthNavigationFragment)
+                    .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                     .commit()
         else if (supportFragmentManager.findFragmentById(R.id.host) is HomeFragment) {
             AlertDialog

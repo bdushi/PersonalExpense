@@ -1,4 +1,4 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.widget.helper
 
 import al.bruno.personal.expense.callback.OnSwipeItemListener
 import android.graphics.Canvas
@@ -28,24 +28,24 @@ class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.
         private var leftToRightColor: Int = 0
         private var leftToRightIcon: Drawable? = null
 
-        fun setXMarkMargin(float: Float): SimpleItemTouchHelper.Builder {
+        fun setXMarkMargin(float: Float): Builder {
             xMarkMargin = float
             return this
         }
 
-        fun setRightToLeftColor(int: Int): SimpleItemTouchHelper.Builder {
+        fun setRightToLeftColor(int: Int): Builder {
             rightToLeftColor = int
             return this
         }
-        fun setRightToLeftIcon(drawable: Drawable): SimpleItemTouchHelper.Builder {
+        fun setRightToLeftIcon(drawable: Drawable): Builder {
             rightToLeftIcon = drawable
             return this
         }
-        fun setLeftToRightColor(int: Int): SimpleItemTouchHelper.Builder {
+        fun setLeftToRightColor(int: Int): Builder {
             leftToRightColor = int
             return this
         }
-        fun setLeftToRightIcon(drawable: Drawable): SimpleItemTouchHelper.Builder {
+        fun setLeftToRightIcon(drawable: Drawable): Builder {
             leftToRightIcon = drawable
             return this
         }
@@ -56,7 +56,7 @@ class SimpleItemTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.
     }
 
     companion object {
-        private fun newInstance(xMarkMargin: Float, rightToLeftColor: Int, rightToLeftIcon: Drawable?, leftToRightColor: Int, leftToRightIcon: Drawable?) : SimpleItemTouchHelper{
+        private fun newInstance(xMarkMargin: Float, rightToLeftColor: Int, rightToLeftIcon: Drawable?, leftToRightColor: Int, leftToRightIcon: Drawable?) : SimpleItemTouchHelper {
             val simpleItemTouchHelper = SimpleItemTouchHelper()
             simpleItemTouchHelper.xMarkMargin = xMarkMargin;
             simpleItemTouchHelper.rightToLeftColor = rightToLeftColor;

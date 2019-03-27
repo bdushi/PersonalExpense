@@ -1,4 +1,4 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.data.source.local
 
 import android.content.SharedPreferences
 import javax.inject.Inject

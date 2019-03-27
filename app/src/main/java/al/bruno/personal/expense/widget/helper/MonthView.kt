@@ -1,7 +1,8 @@
-package al.bruno.personal.expense
+package al.bruno.personal.expense.widget.helper
 
 import al.bruno.calendar.view.adapter.BindingInterface
 import al.bruno.calendar.view.adapter.CustomArrayAdapter
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.databinding.FragmentMonthNavigationBinding
@@ -16,31 +17,31 @@ import java.util.*
 import al.bruno.personal.expense.util.Utilities.year
 import androidx.fragment.app.Fragment
 
-class MonthNavigationFragment : Fragment() {
+class MonthView : Fragment() {
     private var calendar = Calendar.getInstance()
     private var onEditListener: OnEditListener<Month>? = null
 
     public class Builder {
         private var calendar: Calendar? = null
-        fun setCalendar(calendar: Calendar): MonthNavigationFragment.Builder {
+        fun setCalendar(calendar: Calendar): Builder {
             this.calendar = calendar
             return this
         }
-        fun build() : MonthNavigationFragment {
+        fun build() : MonthView {
             return newInstance(calendar = calendar!!)
         }
     }
     companion object {
-        private fun newInstance(calendar: Calendar): MonthNavigationFragment {
+        private fun newInstance(calendar: Calendar): MonthView {
             val bundle = Bundle()
             bundle.putLong("CALENDAR", calendar.timeInMillis)
-            val fragment = MonthNavigationFragment()
+            val fragment = MonthView()
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    fun setOnEditListener(onEditListener: OnEditListener<Month>): MonthNavigationFragment {
+    fun setOnEditListener(onEditListener: OnEditListener<Month>): MonthView {
         this.onEditListener = onEditListener
         return this
     }

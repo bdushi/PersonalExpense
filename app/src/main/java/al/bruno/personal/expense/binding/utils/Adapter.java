@@ -5,30 +5,21 @@ import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import al.bruno.personal.expense.R;
-import al.bruno.personal.expense.SimpleItemTouchHelper;
+import al.bruno.personal.expense.widget.helper.SimpleItemTouchHelper;
 import al.bruno.personal.expense.callback.OnSwipeItemListener;
 import al.bruno.personal.expense.entities.ChartDataObject;
-import al.bruno.personal.expense.model.Expense;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER;
 
 public class Adapter {
     @BindingAdapter(value = {"bind:xMargin", "bind:drawableSwipeLeft", "bind:drawableSwipeRight", "bind:colorSwipeLeft", "bind:colorSwipeRight", "bind:onLeftSwipeItemListener", "bind:onRightSwipeItemListener"}, requireAll = false)
