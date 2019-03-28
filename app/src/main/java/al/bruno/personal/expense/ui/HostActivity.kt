@@ -3,8 +3,9 @@ package al.bruno.personal.expense.ui
 import al.bruno.personal.expense.*
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.observer.Subject
-import al.bruno.personal.expense.adapter.CustomSpinnerAdapter
-import al.bruno.personal.expense.callback.BindingData
+import al.bruno.adapter.BindingData
+import al.bruno.month.view.Month
+import al.bruno.month.view.MonthView
 import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.data.source.local.ExpenseSharedPreferences
@@ -13,9 +14,7 @@ import al.bruno.personal.expense.databinding.ActionBarMonthNavigationLayoutBindi
 import al.bruno.personal.expense.databinding.ExpenseSpinnerSingleItemBinding
 import al.bruno.personal.expense.databinding.SimpleSpinnerDropdownItemBinding
 import al.bruno.personal.expense.entities.ExpenseType
-import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.Categories
-import al.bruno.personal.expense.widget.helper.MonthView
 import al.bruno.personal.expense.observer.ExpenseObserver
 import al.bruno.personal.expense.observer.ExpenseSubject
 import al.bruno.personal.expense.ui.expense.ExpenseFragment
@@ -61,7 +60,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private var itemRoot: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
-    private val monthRegistry = ArrayList<Observer<Month>>()
+    private val monthRegistry = ArrayList<Observer<al.bruno.month.view.Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
@@ -104,8 +103,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
                                     .add(R.id.host,
                                             MonthView()
-                                                    .setOnEditListener(onEditListener = object : OnEditListener<Month> {
-                                                        override fun onEdit(t: Month) {
+                                                    .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<al.bruno.month.view.Month> {
+                                                        override fun onEdit(t: al.bruno.month.view.Month) {
                                                             monthSubject.notifyObserver(t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
@@ -135,8 +134,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                     .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
                                     .add(R.id.host,
                                             MonthView()
-                                                    .setOnEditListener(onEditListener = object : OnEditListener<Month> {
-                                                        override fun onEdit(t: Month) {
+                                                    .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<Month> {
+                                                        override fun onEdit(t: al.bruno.month.view.Month) {
                                                             monthSubject.notifyObserver(t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
@@ -153,7 +152,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     expenseSubject.registerObserver((supportFragmentManager.findFragmentById(R.id.host) as ExpenseFragment))
                     val actionBarExpenseNavigationLayoutBinding: ActionBarExpenseNavigationLayoutBinding =
                             DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_expense_navigation_layout, null, false)
-                    val customSpinnerAdapter = CustomSpinnerAdapter(
+                    val customSpinnerAdapter = al.bruno.adapter.CustomSpinnerAdapter(
                             this,
                             R.layout.expense_spinner_single_item,
                             R.layout.simple_spinner_dropdown_item,
@@ -286,17 +285,17 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    private val monthSubject = object : Subject<Month> {
-        override fun registerObserver(o: Observer<Month>) {
+    private val monthSubject = object : Subject<al.bruno.month.view.Month> {
+        override fun registerObserver(o: Observer<al.bruno.month.view.Month>) {
             monthRegistry.add(o)
         }
 
-        override fun removeObserver(o: Observer<Month>) {
+        override fun removeObserver(o: Observer<al.bruno.month.view.Month>) {
             if (monthRegistry.indexOf(o) >= 0)
                 monthRegistry.remove(o)
         }
 
-        override fun notifyObserver(t: Month) {
+        override fun notifyObserver(t: al.bruno.month.view.Month) {
             for (observer in monthRegistry) {
                 observer.update(t)
             }

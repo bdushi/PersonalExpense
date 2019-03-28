@@ -18,7 +18,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
-import al.bruno.personal.expense.entities.Month
+import al.bruno.month.view.Month
 import al.bruno.personal.expense.util.Utilities.month
 import android.content.Context
 import android.util.Log
@@ -32,7 +32,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class StatisticsFragment : Fragment(), Observer<Month> {
+class StatisticsFragment : Fragment(), Observer<al.bruno.month.view.Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
     private var fragmentStatisticsBinding: FragmentStatisticsBinding? = null
     private val calendar = Calendar.getInstance()
@@ -66,7 +66,7 @@ class StatisticsFragment : Fragment(), Observer<Month> {
     }
 
 
-    override fun update(t: Month) {
+    override fun update(t: al.bruno.month.view.Month) {
         disposable.add(ViewModelProviders
                 .of(this@StatisticsFragment, mViewModelFactory)[StatisticViewModel::class.java]
                 .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())

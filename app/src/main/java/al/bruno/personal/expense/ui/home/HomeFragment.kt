@@ -2,8 +2,7 @@ package al.bruno.personal.expense.ui.home
 
 import al.bruno.personal.expense.ui.details.DetailsFragment
 import al.bruno.personal.expense.R
-import al.bruno.personal.expense.adapter.CustomAdapter
-import al.bruno.personal.expense.callback.BindingData
+import al.bruno.adapter.BindingData
 import al.bruno.personal.expense.callback.OnClick
 import al.bruno.personal.expense.databinding.ExpenseMasterSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentHomeBinding
@@ -17,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import al.bruno.personal.expense.observer.Observer
-import al.bruno.personal.expense.entities.Month
 import al.bruno.personal.expense.model.ExpenseDetails
 import al.bruno.personal.expense.model.ExpenseMaster
 import al.bruno.personal.expense.ui.expense.ExpenseFragment
@@ -37,7 +35,7 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
-class HomeFragment : Fragment(), Observer<Month> {
+class HomeFragment : Fragment(), Observer<al.bruno.month.view.Month> {
     private val disposable : CompositeDisposable = CompositeDisposable()
     private var fragmentHomeBinding: FragmentHomeBinding? = null
     private val calendar = Calendar.getInstance()
@@ -73,7 +71,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding!!.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                            fragmentHomeBinding!!.logAdapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
                                 override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
                                     vm.master = t
                                 }
@@ -111,7 +109,7 @@ class HomeFragment : Fragment(), Observer<Month> {
         return fragmentHomeBinding?.root
     }
 
-    override fun update(t: Month) {
+    override fun update(t: al.bruno.month.view.Month) {
         disposable.addAll(
                 ViewModelProviders
                         .of(this, mViewModelFactory)[HomeViewModel::class.java]
@@ -139,7 +137,7 @@ class HomeFragment : Fragment(), Observer<Month> {
                         .expenseMaster(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentHomeBinding?.logAdapter = CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                            fragmentHomeBinding?.logAdapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
                                 override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
                                     vm.master = t
                                 }

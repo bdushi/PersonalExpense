@@ -5,7 +5,7 @@
     <data>
         <variable
             name="customAdapter"
-            type="al.bruno.personal.expense.adapter.CustomEditAdapter"/>
+            type="al.bruno.adapter.CustomEditAdapter"/>
         <variable
             name="onItemSwipeSelectListener"
             type="al.bruno.personal.expense.callback.OnItemSwipeSelectListener"/>

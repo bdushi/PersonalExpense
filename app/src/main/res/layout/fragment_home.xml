@@ -17,7 +17,7 @@
             type="al.bruno.personal.expense.callback.OnClick"/>
         <variable
             name="logAdapter"
-            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
+            type="al.bruno.adapter.CustomAdapter"/>
         <variable
             name="chartData"
             type="al.bruno.personal.expense.entities.ChartDataObject&lt;java.util.List&lt;String&gt;, com.github.mikephil.charting.data.LineData&gt;"/>

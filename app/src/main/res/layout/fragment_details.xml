@@ -3,7 +3,7 @@
     <data>
         <variable
             name="adapter"
-            type="al.bruno.personal.expense.adapter.CustomAdapter"/>
+            type="al.bruno.adapter.CustomAdapter"/>
         <variable
             name="onDateClickListener"
             type="al.bruno.calendar.view.listener.OnDateClickListener"/>

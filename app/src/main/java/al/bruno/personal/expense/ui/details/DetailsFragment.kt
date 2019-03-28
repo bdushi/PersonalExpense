@@ -2,8 +2,7 @@ package al.bruno.personal.expense.ui.details
 
 import al.bruno.calendar.view.listener.OnDateClickListener
 import al.bruno.personal.expense.R
-import al.bruno.personal.expense.adapter.CustomAdapter
-import al.bruno.personal.expense.callback.BindingData
+import al.bruno.adapter.BindingData
 import al.bruno.personal.expense.databinding.ExpenseSingleItemBinding
 import al.bruno.personal.expense.databinding.FragmentDetailsBinding
 import al.bruno.personal.expense.model.Expense
@@ -37,7 +36,7 @@ class DetailsFragment : Fragment() {
                             .expenses(localDateTime!!.dateTime)
                             .subscribeOn(Schedulers.io())
                             .subscribe({
-                                fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+                                fragmentDetailsBinding.adapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
                                     override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
                                         vm.expense = t
                                     }
@@ -64,7 +63,7 @@ class DetailsFragment : Fragment() {
                         .expenses(DateTime.now().withTime(7, 0, 0, 0))
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            fragmentDetailsBinding.adapter = CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
+                            fragmentDetailsBinding.adapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_single_item, object : BindingData<Expense, ExpenseSingleItemBinding> {
                                 override fun bindData(t: Expense, vm: ExpenseSingleItemBinding) {
                                     vm.expense = t
                                 }

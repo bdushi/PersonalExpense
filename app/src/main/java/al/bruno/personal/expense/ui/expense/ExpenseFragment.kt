@@ -1,7 +1,7 @@
 package al.bruno.personal.expense.ui.expense
 
+import al.bruno.adapter.BindingData
 import al.bruno.personal.expense.R
-import al.bruno.personal.expense.adapter.EditAdapter
 import al.bruno.personal.expense.callback.*
 import android.os.Bundle
 
@@ -10,7 +10,6 @@ import al.bruno.personal.expense.dialog.EditCategoriesDialog
 import androidx.fragment.app.Fragment
 
 import al.bruno.personal.expense.model.Categories
-import al.bruno.personal.expense.adapter.observer.Subject
 import al.bruno.personal.expense.databinding.AddNewItemBinding
 import al.bruno.personal.expense.databinding.FragmentExpenseBinding
 import al.bruno.personal.expense.dialog.edit.expense.EditExpenseBottomSheet
@@ -34,16 +33,16 @@ import org.joda.time.DateTime
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subject<Categories>, ExpenseObserver<List<Categories>, String> {
+class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, al.bruno.adapter.observer.Subject<Categories>, ExpenseObserver<List<Categories>, String> {
     override fun update(t: List<Categories>, l:String) {
         when (l) {
             EXPENSES -> {
-                val adapter = EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                val adapter = al.bruno.adapter.EditAdapter(t, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                 registerObserver(adapter)
                 fragmentExpenseBinding?.customAdapter = adapter
             }
             INCOMES -> {
-                val adapter = EditAdapter(t, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
+                val adapter = al.bruno.adapter.EditAdapter(t, R.layout.categories_single_item, incomesItemsBinding, R.layout.add_new_item, addIncomesItemBinding)
                 registerObserver(adapter)
                 fragmentExpenseBinding?.customAdapter = adapter
             }
@@ -52,7 +51,7 @@ class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subje
 
     //https://medium.com/fueled-engineering/swipe-drag-bind-recyclerview-817408125530
     private val disposable: CompositeDisposable = CompositeDisposable()
-    private val registry = ArrayList<al.bruno.personal.expense.adapter.observer.Observer<Categories>>()
+    private val registry = ArrayList<al.bruno.adapter.observer.Observer<Categories>>()
     private var fragmentExpenseBinding: FragmentExpenseBinding? = null
 
     @Inject
@@ -72,12 +71,12 @@ class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subje
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     Log.i(ExpenseFragment::class.java.name, it.toString())
-                    val adapter = EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                    val adapter = al.bruno.adapter.EditAdapter(it, R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                     registerObserver(adapter)
                     fragmentExpenseBinding?.customAdapter = adapter
                 }, {
                     Log.i(ExpenseFragment::class.java.name, it.message)
-                    val adapter = EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
+                    val adapter = al.bruno.adapter.EditAdapter(ArrayList(), R.layout.categories_single_item, expenseItemsBinding, R.layout.add_new_item, addExpenseItemsBinding)
                     registerObserver(adapter)
                     fragmentExpenseBinding?.customAdapter = adapter
                 }))
@@ -165,11 +164,11 @@ class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, Subje
         }
     }
 
-    override fun registerObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
+    override fun registerObserver(o: al.bruno.adapter.observer.Observer<Categories>) {
         registry.add(o)
     }
 
-    override fun removeObserver(o: al.bruno.personal.expense.adapter.observer.Observer<Categories>) {
+    override fun removeObserver(o: al.bruno.adapter.observer.Observer<Categories>) {
         if (registry.indexOf(o) >= 0)
             registry.remove(o)
     }

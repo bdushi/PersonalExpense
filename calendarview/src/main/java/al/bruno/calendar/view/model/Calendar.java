@@ -13,7 +13,6 @@ import al.bruno.calendar.view.adapter.CustomArrayAdapter;
 import al.bruno.calendar.view.adapter.MonthAdapter;
 import al.bruno.calendar.view.fragment.MonthFragment;
 import al.bruno.calendar.view.adapter.MonthPagerAdapter;
-import al.bruno.calendar.view.listener.NavigationListener;
 import al.bruno.calendar.view.observer.Observer;
 import al.bruno.calendar.view.observer.Subject;
 import al.bruno.calendar.view.util.Utilities;
