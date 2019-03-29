@@ -10,6 +10,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.List;
 
@@ -53,9 +54,14 @@ public class Adapter {
             lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
             lineChart.getXAxis().setAvoidFirstLastClipping(false);
             // Line chart Description
-            lineChart.getDescription().setText(lineChart.getContext().getString(R.string.expenses));
-            //
-            lineChart.getXAxis().setValueFormatter((value, axis) -> chartData.getLabel().get((int) value));
+            lineChart.getDescription().setText(lineChart.getContext().getString(R.string.app_name));
+            //return chartData.getLabel().get((int) value);
+            lineChart.getXAxis().setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return chartData.getLabel().get((int) value);
+                }
+            });
             lineChart.setMaxVisibleValueCount(chartData.getLabel().size());
             lineChart.setData(chartData.getData());
             lineChart.invalidate();
