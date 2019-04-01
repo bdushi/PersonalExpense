@@ -12,9 +12,7 @@
     <string name="expenses">Expenses</string>
     <string name="expenses_label">Expenses: </string>
     <string name="expense">Expense</string>
-    <string name="summary">Summary</string>
     <string name="balance">Balance</string>
-    <string name="remaining">REMAINING</string>
     <string name="smart_incomes">"Smart Incomes"</string>
     <string name="yes">"YES"</string>
     <string name="no">"NO"</string>

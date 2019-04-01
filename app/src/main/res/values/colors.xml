@@ -7,13 +7,9 @@
     <color name="red_a700">#d50000</color>
     <color name="white">#FFF</color>
     <color name="null_color">#50ffffff</color>
-    <color name="expense_background_color">#00ffffff</color>
-    <color name="tertiary">#16843282</color>
     <color name="black">#000</color>
     <color name="grey">#EEEEEE</color>
 
-    <color name="teal_700">#00796B</color>
-    <color name="cyan_700">#0097A7</color>
     <color name="green_700">#388E3C</color>
     <color name="ic_launcher_background">#4A6572</color>
 </resources>
