@@ -3,6 +3,7 @@ package al.bruno.personal.expense.ui.sign.`in`
 import al.bruno.personal.expense.R
 import al.bruno.personal.expense.callback.OnClickListener
 import al.bruno.personal.expense.databinding.ActivitySignInBinding
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,30 +11,27 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class SignInActivity : AppCompatActivity() {
     private val TAG = SignInActivity::class.java.name
     //Google Login Request Code
     private val RC_SIGN_IN = 9001
-    //Firebase Auth
+    @Inject
     private lateinit var auth: FirebaseAuth
+    @Inject
+    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var activitySignInBinding: ActivitySignInBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         activitySignInBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
-        auth = FirebaseAuth.getInstance()
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-        //Google Sign In Client
-        val googleSignInClient = GoogleSignIn.getClient(this@SignInActivity, googleSignInOptions)
-
         activitySignInBinding.onClick = object : OnClickListener<View> {
             override fun onClick(t: View) {
                 when (t.id) {
@@ -57,10 +55,9 @@ class SignInActivity : AppCompatActivity() {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithCredential:success")
                                 //val user = auth.currentUser
-                                activitySignInBinding.user = auth.currentUser
+                                setResult(Activity.RESULT_OK)
                             } else {
                                 // If sign in fails, display a message to the user.
-                                activitySignInBinding.user = null
                                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                                 Snackbar.make(findViewById(android.R.id.content), "Authentication Failed." + task.exception, Snackbar.LENGTH_SHORT).show()
                             }
@@ -75,10 +72,6 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        activitySignInBinding.user = auth.currentUser
-    }
     override fun onBackPressed() {
         finish()
     }

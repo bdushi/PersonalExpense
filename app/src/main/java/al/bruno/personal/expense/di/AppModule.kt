@@ -1,5 +1,6 @@
 package al.bruno.personal.expense.di
 
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.data.source.local.*
 import al.bruno.personal.expense.data.source.local.dao.*
 import android.app.Application
@@ -9,6 +10,10 @@ import android.preference.PreferenceManager
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -20,6 +25,21 @@ class AppModule {
     @Singleton
     fun providesSharedPreferences(app: Application): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(app)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGoogleSignInClient(app: Application): GoogleSignInClient {
+        return GoogleSignIn.getClient(app, GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(app.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build())
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
     }
 
     @Provides

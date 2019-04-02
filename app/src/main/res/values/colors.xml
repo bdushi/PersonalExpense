@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#232F34</color>
     <color name="colorAccent">#F9AA33</color>
 
+    <color name="colorProfilePrimary">#FFF</color>
+    <color name="colorProfilePrimaryDark">#AFAFAF</color>
+
     <color name="red_a700">#d50000</color>
     <color name="white">#FFF</color>
     <color name="null_color">#50ffffff</color>

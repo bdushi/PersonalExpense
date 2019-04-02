@@ -94,4 +94,8 @@ public class Adapter {
     public static void imageProvider(AppCompatImageView photoProfile, Uri photoUrl) {
         Picasso.get().load(photoUrl).into(photoProfile);
     }
+    @BindingAdapter("bind:image")
+    public static void imageProvider(AppCompatImageView photoProfile, String photoUrl) {
+        Picasso.get().load(photoUrl).into(photoProfile);
+    }
 }

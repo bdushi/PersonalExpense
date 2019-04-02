@@ -17,4 +17,5 @@
     <string name="yes">"YES"</string>
     <string name="no">"NO"</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
 </resources>

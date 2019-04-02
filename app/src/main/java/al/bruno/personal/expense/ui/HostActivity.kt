@@ -20,13 +20,18 @@ import al.bruno.personal.expense.observer.ExpenseSubject
 import al.bruno.personal.expense.ui.expense.ExpenseFragment
 import al.bruno.personal.expense.ui.home.HomeFragment
 import al.bruno.personal.expense.ui.map.GoogleMapFragment
+import al.bruno.personal.expense.ui.profile.ProfileActivity
 import al.bruno.personal.expense.ui.settings.SettingsFragment
 import al.bruno.personal.expense.ui.sign.`in`.SignInActivity
 import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,12 +47,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.auth.api.signin.SignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserInfo
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -60,6 +71,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var sharedPreferences: ExpenseSharedPreferences
+
+    @Inject
+    private lateinit var auth: FirebaseAuth
+    //Firebase Auth
+    private var userInfo: FirebaseUser? = null
+
+    private val RC_SIGN_IN_ACTIVITY = 7
 
     private var itemRoot: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
@@ -232,8 +250,12 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     .replace(R.id.host, SettingsFragment())
                     .addToBackStack("SETTINGS_FRAGMENT")
                     .commit()
-            R.id.sign_in ->
-                startActivityForResult(Intent(this, SignInActivity::class.java), 1);
+            R.id.sign_in ->{
+                if (userInfo != null)
+                    startActivity(Intent(this@HostActivity, ProfileActivity::class.java).putExtra("PROFILE", userInfo))
+                else
+                    startActivityForResult(Intent(this, SignInActivity::class.java), RC_SIGN_IN_ACTIVITY)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -241,12 +263,36 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         itemRoot = menu!!.findItem(R.id.root)
         itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is ExpenseFragment
+        val signIn = menu.findItem(R.id.sign_in)
+        if(userInfo != null) {
+            signIn.title = userInfo!!.displayName
+            /*Picasso
+                    .get()
+                    .load(userInfo!!.photoUrl)
+                    .into(object : Target {
+                        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+
+                        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+
+                        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                            signIn.icon = BitmapDrawable(resources, bitmap)
+                        }
+                    })*/
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onStop() {
         super.onStop()
         disposable.clear()
+    }
+    override fun onStart() {
+        super.onStart()
+        userInfo = auth.currentUser
     }
 
     override fun onBackPressed() {
@@ -270,6 +316,16 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         } else {
             supportFragmentManager.popBackStack()
             supportFragmentManager.executePendingTransactions()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == RC_SIGN_IN_ACTIVITY) {
+                if (userInfo != null)
+                    startActivity(Intent(this@HostActivity, ProfileActivity::class.java).putExtra("PROFILE", userInfo))
+            }
         }
     }
 

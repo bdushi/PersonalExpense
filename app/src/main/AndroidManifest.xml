@@ -37,5 +37,8 @@
         <activity
             android:name=".ui.sign.in.SignInActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:theme="@style/AppTheme.Profile"/>
     </application>
 </manifest>
