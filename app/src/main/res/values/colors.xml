@@ -12,6 +12,7 @@
     <color name="null_color">#50ffffff</color>
     <color name="black">#000</color>
     <color name="grey">#EEEEEE</color>
+    <color name="light">#FAFAFA</color>
 
     <color name="green_700">#388E3C</color>
     <color name="ic_launcher_background">#4A6572</color>

@@ -1,6 +1,8 @@
 package al.bruno.personal.expense.di
 
 import al.bruno.personal.expense.ui.HostActivity
+import al.bruno.personal.expense.ui.profile.ProfileActivity
+import al.bruno.personal.expense.ui.sign.`in`.SignInActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -14,4 +16,11 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [FragmentBuildersModule::class, ViewModelModule::class])
     abstract fun hostActivity(): HostActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun signInActivity(): SignInActivity
+    @ActivityScoped
+    @ContributesAndroidInjector
+    abstract fun profileActivity(): ProfileActivity
 }

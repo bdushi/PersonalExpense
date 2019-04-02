@@ -3,6 +3,7 @@ package al.bruno.personal.expense.binding.utils;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -96,6 +97,8 @@ public class Adapter {
     }
     @BindingAdapter("bind:image")
     public static void imageProvider(AppCompatImageView photoProfile, String photoUrl) {
-        Picasso.get().load(photoUrl).into(photoProfile);
+        if(!TextUtils.isEmpty(photoUrl)) {
+            Picasso.get().load(photoUrl).into(photoProfile);
+        }
     }
 }

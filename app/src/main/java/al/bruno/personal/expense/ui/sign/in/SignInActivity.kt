@@ -55,6 +55,7 @@ class SignInActivity : AppCompatActivity() {
                                 Log.d(TAG, "signInWithCredential:success")
                                 //val user = auth.currentUser
                                 setResult(Activity.RESULT_OK)
+                                finish()
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithCredential:failure", task.exception)
