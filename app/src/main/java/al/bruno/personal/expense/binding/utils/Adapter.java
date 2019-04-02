@@ -2,6 +2,7 @@ package al.bruno.personal.expense.binding.utils;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -11,6 +12,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import al.bruno.personal.expense.R;
 import al.bruno.personal.expense.widget.helper.SimpleItemTouchHelper;
 import al.bruno.personal.expense.callback.OnSwipeItemListener;
 import al.bruno.personal.expense.entities.ChartDataObject;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,5 +88,10 @@ public class Adapter {
             barChart.invalidate();
             barChart.setNoDataText("Nuk ka te dhena per kete raport");
         }
+    }
+
+    @BindingAdapter("bind:image")
+    public static void imageProvider(AppCompatImageView photoProfile, Uri photoUrl) {
+        Picasso.get().load(photoUrl).into(photoProfile);
     }
 }

@@ -16,4 +16,5 @@
     <string name="smart_incomes">"Smart Incomes"</string>
     <string name="yes">"YES"</string>
     <string name="no">"NO"</string>
+    <string name="sign_in">Sign In</string>
 </resources>

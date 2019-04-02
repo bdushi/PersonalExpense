@@ -21,10 +21,12 @@ import al.bruno.personal.expense.ui.expense.ExpenseFragment
 import al.bruno.personal.expense.ui.home.HomeFragment
 import al.bruno.personal.expense.ui.map.GoogleMapFragment
 import al.bruno.personal.expense.ui.settings.SettingsFragment
+import al.bruno.personal.expense.ui.sign.`in`.SignInActivity
 import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,6 +41,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.auth.api.signin.SignInAccount
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -229,6 +232,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     .replace(R.id.host, SettingsFragment())
                     .addToBackStack("SETTINGS_FRAGMENT")
                     .commit()
+            R.id.sign_in ->
+                startActivityForResult(Intent(this, SignInActivity::class.java), 1);
         }
         return super.onOptionsItemSelected(item)
     }

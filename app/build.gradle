@@ -67,8 +67,8 @@ android {
         implementation 'com.google.firebase:firebase-auth:16.2.0'
         //Crash Reporting
         implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
-
-
+        //Picasso
+        implementation 'com.squareup.picasso:picasso:2.71828'
         //charts
         implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
         testImplementation 'junit:junit:4.12'
