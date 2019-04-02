@@ -73,7 +73,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     lateinit var sharedPreferences: ExpenseSharedPreferences
 
     @Inject
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     //Firebase Auth
     private var userInfo: FirebaseUser? = null
 

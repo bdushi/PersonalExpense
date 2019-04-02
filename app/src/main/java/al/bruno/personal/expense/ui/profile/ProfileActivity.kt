@@ -15,9 +15,10 @@ import javax.inject.Inject
 
 class ProfileActivity : AppCompatActivity() {
     @Inject
-    private lateinit var googleSignInClient: GoogleSignInClient
+    lateinit var googleSignInClient: GoogleSignInClient
     @Inject
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)

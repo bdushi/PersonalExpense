@@ -21,17 +21,16 @@ import javax.inject.Inject
 
 class SignInActivity : AppCompatActivity() {
     private val TAG = SignInActivity::class.java.name
-    //Google Login Request Code
     private val RC_SIGN_IN = 9001
+
     @Inject
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     @Inject
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var activitySignInBinding: ActivitySignInBinding
+    lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
-        activitySignInBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in)
+        val activitySignInBinding = DataBindingUtil.setContentView<ActivitySignInBinding>(this, R.layout.activity_sign_in)
         activitySignInBinding.onClick = object : OnClickListener<View> {
             override fun onClick(t: View) {
                 when (t.id) {
