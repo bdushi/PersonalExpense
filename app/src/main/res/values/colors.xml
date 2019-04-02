@@ -13,6 +13,7 @@
     <color name="black">#000</color>
     <color name="grey">#EEEEEE</color>
     <color name="light">#FAFAFA</color>
+    <color name="border_color">#344955</color>
 
     <color name="green_700">#388E3C</color>
     <color name="ic_launcher_background">#4A6572</color>

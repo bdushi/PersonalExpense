@@ -25,6 +25,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Adapter {
     @BindingAdapter(value = {"bind:xMargin", "bind:drawableSwipeLeft", "bind:drawableSwipeRight", "bind:colorSwipeLeft", "bind:colorSwipeRight", "bind:onLeftSwipeItemListener", "bind:onRightSwipeItemListener"}, requireAll = false)
@@ -92,7 +93,7 @@ public class Adapter {
     }
 
     @BindingAdapter("bind:image")
-    public static void imageProvider(AppCompatImageView photoProfile, Uri photoUrl) {
+    public static void imageProvider(CircleImageView photoProfile, Uri photoUrl) {
         Picasso.get().load(photoUrl).into(photoProfile);
     }
     @BindingAdapter("bind:image")
