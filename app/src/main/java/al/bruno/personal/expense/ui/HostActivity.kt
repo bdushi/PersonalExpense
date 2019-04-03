@@ -74,12 +74,14 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var auth: FirebaseAuth
-    //Firebase Auth
+
     private var userInfo: FirebaseUser? = null
 
     private val RC_SIGN_IN_ACTIVITY = 7
+    private val RC_PROFILE_ACTIVITY = 8
 
     private var itemRoot: MenuItem? = null
+    private var signIn: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
     private val monthRegistry = ArrayList<Observer<al.bruno.month.view.Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
@@ -222,75 +224,12 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return super.onSupportNavigateUp()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.map -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.host, GoogleMapFragment())
-                    .addToBackStack("GOOGLE_MAP_FRAGMENT")
-                    .commit()
-            R.id.statistics -> {
-                val statisticsFragment = StatisticsFragment()
-                monthSubject.registerObserver(statisticsFragment)
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.host, statisticsFragment)
-                        .addToBackStack("STATISTICS_FRAGMENT")
-                        .commit()
-            }
-            R.id.settings -> supportFragmentManager.beginTransaction()
-                    .replace(R.id.host, SettingsFragment())
-                    .addToBackStack("SETTINGS_FRAGMENT")
-                    .commit()
-            R.id.sign_in ->{
-                if (userInfo != null)
-                    startActivity(Intent(this@HostActivity, ProfileActivity::class.java).putExtra("PROFILE", userInfo))
-                else
-                    startActivityForResult(Intent(this, SignInActivity::class.java), RC_SIGN_IN_ACTIVITY)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        itemRoot = menu!!.findItem(R.id.root)
-        itemRoot?.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is ExpenseFragment
-        val signIn = menu.findItem(R.id.sign_in)
-        if(userInfo != null) {
-            signIn.title = userInfo!!.displayName
-            /*Picasso
-                    .get()
-                    .load(userInfo!!.photoUrl)
-                    .into(object : Target {
-                        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                        }
-
-                        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                        }
-
-                        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                            signIn.icon = BitmapDrawable(resources, bitmap)
-                        }
-                    })*/
-        }
-        return super.onPrepareOptionsMenu(menu)
-    }
-
     override fun onStop() {
         super.onStop()
         disposable.clear()
     }
-    override fun onStart() {
+
+     override fun onStart() {
         super.onStart()
         userInfo = auth.currentUser
     }
@@ -319,12 +258,86 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.map -> {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.host, GoogleMapFragment())
+                        .addToBackStack("GOOGLE_MAP_FRAGMENT")
+                        .commit()
+                return true
+            } R.id.statistics -> {
+                val statisticsFragment = StatisticsFragment()
+                monthSubject.registerObserver(statisticsFragment)
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.host, statisticsFragment)
+                        .addToBackStack("STATISTICS_FRAGMENT")
+                        .commit()
+                return true
+            }
+            R.id.settings -> {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.host, SettingsFragment())
+                        .addToBackStack("SETTINGS_FRAGMENT")
+                        .commit()
+                return true
+            }
+
+            R.id.sign_in -> {
+                if (userInfo != null)
+                    startActivityForResult(Intent(this, ProfileActivity::class.java), RC_PROFILE_ACTIVITY)
+                else
+                    startActivityForResult(Intent(this, SignInActivity::class.java), RC_SIGN_IN_ACTIVITY)
+                return true
+            } else -> return super.onOptionsItemSelected(item)
+        }
+
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        itemRoot = menu!!.findItem(R.id.root)
+        signIn = menu.findItem(R.id.sign_in)
+        itemRoot!!.isVisible = supportFragmentManager.findFragmentById(R.id.host) !is ExpenseFragment
+        if(userInfo != null) {
+            signIn!!.title = userInfo!!.displayName
+            /*Picasso
+                    .get()
+                    .load(userInfo!!.photoUrl)
+                    .into(object : Target {
+                        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+
+                        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        }
+
+                        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                            signIn.icon = BitmapDrawable(resources, bitmap)
+                        }
+                    })*/
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
             if(requestCode == RC_SIGN_IN_ACTIVITY) {
-                if (userInfo != null)
-                    startActivity(Intent(this@HostActivity, ProfileActivity::class.java).putExtra("PROFILE", userInfo))
+                userInfo = auth.currentUser
+                signIn!!.title = userInfo!!.displayName
+            } else if(requestCode == RC_PROFILE_ACTIVITY) {
+                signIn!!.setTitle(R.string.sign_in)
             }
         }
     }

@@ -2,6 +2,7 @@ package al.bruno.personal.expense.ui.profile
 
 import al.bruno.personal.expense.R
 import al.bruno.personal.expense.databinding.ActivityProfileBinding
+import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -41,6 +42,7 @@ class ProfileActivity : AppCompatActivity() {
                 googleSignInClient
                         .signOut()
                         .addOnCompleteListener {
+                            setResult(Activity.RESULT_OK)
                             finish()
                         }
                 true
