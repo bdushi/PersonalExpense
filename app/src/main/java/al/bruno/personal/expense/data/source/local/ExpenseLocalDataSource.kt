@@ -32,15 +32,14 @@ class ExpenseLocalDataSource @Inject constructor(private val expenseDao: Expense
         return expenseDao.date()
     }
 
-    override fun expenses(): Single<Array<Expense>> {
-        return expenseDao.expenses()
-    }
-
     override fun expenses(date: DateTime): Single<List<Expense>> {
         return expenseDao.expenses(date)
     }
 
     override fun total(date: DateTime): Single<String> {
         return expenseDao.total(date)
+    }
+    override fun expenses(): Single<List<Expense>> {
+        return expenseDao.expenses()
     }
 }

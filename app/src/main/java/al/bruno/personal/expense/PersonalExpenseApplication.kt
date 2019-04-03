@@ -17,8 +17,8 @@ import javax.inject.Inject
 class PersonalExpenseApplication : Application(), HasActivityInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
-    /*@Inject
-    lateinit var workerFactory: SampleWorkerFactory*/
+    @Inject
+    lateinit var workerFactory: SampleWorkerFactory
     override fun onCreate() {
         super.onCreate()
         DaggerAppComponent
@@ -28,14 +28,9 @@ class PersonalExpenseApplication : Application(), HasActivityInjector {
                 .inject(this)
         Fabric
                 .with(this, Crashlytics())
-        /*WorkManager
+        WorkManager
                 .initialize(this, Configuration.Builder()
-                .setWorkerFactory(sampleWorkerFactory).build())*/
-        /*WorkManager
-                .getInstance()
-                .enqueue(OneTimeWorkRequestBuilder<WorkManagerService>()
-                        .addTag(UUID.randomUUID().toString())
-                        .build())*/
+                .setWorkerFactory(workerFactory).build())
     }
 
     override fun activityInjector(): AndroidInjector<Activity>? {

@@ -21,7 +21,7 @@ class ExpenseRepository @Inject constructor(private var expenseDataSource: Expen
     override fun expenses(month: String, year: String): Single<List<Expense>> {
         return expenseDataSource.expenses(month, year)
     }
-    override fun expenses(): Single<Array<Expense>> {
+    override fun expenses(): Single<List<Expense>> {
         return expenseDataSource.expenses()
     }
 

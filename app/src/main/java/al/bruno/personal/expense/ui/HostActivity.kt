@@ -27,6 +27,7 @@ import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
+import al.bruno.personal.expense.work.manager.WorkManagerService
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -46,6 +47,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.gms.auth.api.signin.SignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -59,7 +62,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.Exception
-import java.util.Calendar
+import java.util.*
 import javax.inject.Inject
 
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -230,8 +233,15 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
      override fun onStart() {
-        super.onStart()
-        userInfo = auth.currentUser
+         super.onStart()
+         userInfo = auth.currentUser
+         if(userInfo != null) {
+             WorkManager
+                     .getInstance()
+                     .enqueue(OneTimeWorkRequestBuilder<WorkManagerService>()
+                             .addTag(UUID.randomUUID().toString())
+                             .build())
+         }
     }
 
     override fun onBackPressed() {
