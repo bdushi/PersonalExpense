@@ -9,6 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
+
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)
     }
@@ -19,6 +20,9 @@ class ExpenseRepository @Inject constructor(private var expenseDataSource: Expen
 
     override fun expenses(month: String, year: String): Single<List<Expense>> {
         return expenseDataSource.expenses(month, year)
+    }
+    override fun expenses(): Single<Array<Expense>> {
+        return expenseDataSource.expenses()
     }
 
     override fun statistics(month: String, year: String): Single<List<Expense>> {

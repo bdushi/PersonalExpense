@@ -1,12 +1,12 @@
 package al.bruno.personal.expense.di
 
 import al.bruno.personal.expense.dialog.edit.expense.EditExpenseViewModel
+import al.bruno.personal.expense.factory.ViewModelProviderFactory
 import al.bruno.personal.expense.ui.home.HomeViewModel
 import al.bruno.personal.expense.ui.HostViewModel
 import al.bruno.personal.expense.ui.details.DetailsViewModel
 import al.bruno.personal.expense.ui.expense.ExpenseViewModel
 import al.bruno.personal.expense.ui.statistic.StatisticViewModel
-import al.bruno.personal.expense.util.ViewModelProviderFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds

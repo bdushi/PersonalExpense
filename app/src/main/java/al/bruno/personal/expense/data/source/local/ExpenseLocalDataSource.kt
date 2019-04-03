@@ -11,6 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ExpenseLocalDataSource @Inject constructor(private val expenseDao: ExpenseDao) : ExpenseDataSource {
+
     override fun insert(expense: Expense): Single<Long> {
         return expenseDao.insert(expense)
     }
@@ -29,6 +30,10 @@ class ExpenseLocalDataSource @Inject constructor(private val expenseDao: Expense
 
     override fun date(): Single<Array<DateTime>> {
         return expenseDao.date()
+    }
+
+    override fun expenses(): Single<Array<Expense>> {
+        return expenseDao.expenses()
     }
 
     override fun expenses(date: DateTime): Single<List<Expense>> {

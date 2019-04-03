@@ -1,6 +1,8 @@
 package al.bruno.personal.expense.di
 
 import al.bruno.personal.expense.PersonalExpenseApplication
+import al.bruno.personal.expense.work.manager.SampleAssistedInjectModule
+import al.bruno.personal.expense.work.manager.WorkerBindingModule
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
@@ -13,7 +15,8 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     AppModule::class,
     DataSourceModule::class,
-    ActivityBindingModule::class])
+    ActivityBindingModule::class,
+    WorkerBindingModule::class])
 interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
     //fun inject(mainApplication: Application)
     @Component.Builder
