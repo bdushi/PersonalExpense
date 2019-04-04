@@ -30,7 +30,4 @@ interface ExpenseDao {
 
     @Query("SELECT _date FROM expense")
     fun date() : Single<Array<DateTime>>
-
-    @Query("SELECT * FROM expense")
-    fun expenses() : Single<List<Expense>>
 }

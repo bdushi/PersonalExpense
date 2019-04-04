@@ -25,7 +25,7 @@ class Expense() : Parcelable, Observable {
     @ColumnInfo(name = "_category")
     var category: String? = null
     @ColumnInfo(name = "_memo")
-    var memo: String? = null
+    var memo: String? = ""
     @ColumnInfo(name = "_amount")
     var amount: Double = 0.0
     @get:Exclude

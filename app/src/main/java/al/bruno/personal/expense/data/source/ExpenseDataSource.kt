@@ -13,5 +13,4 @@ interface ExpenseDataSource {
     fun statistics(month: String, year: String) : Single<List<Expense>>
     fun date() : Single<Array<DateTime>>
     fun total(date: DateTime) : Single<String>
-    fun expenses() : Single<List<Expense>>
 }

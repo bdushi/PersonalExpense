@@ -23,7 +23,4 @@ class CategoriesRepository @Inject constructor(private var categoriesDataSource:
     override fun categories(type: String): Single<List<Categories>> {
         return categoriesDataSource.categories(type)
     }
-    override fun categories(): Single<List<Categories>> {
-        return categoriesDataSource.categories()
-    }
 }

@@ -26,7 +26,7 @@ import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
-import al.bruno.personal.expense.work.manager.PushExpense
+import al.bruno.personal.expense.sync.SyncService
 import al.bruno.personal.expense.work.manager.WorkManagerService
 import android.app.Activity
 import android.content.Intent
@@ -348,7 +348,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        val pushExpense = p0.getValue(PushExpense::class.java)
+                        val pushExpense = p0.getValue(SyncService::class.java)
                     }
 
                 })

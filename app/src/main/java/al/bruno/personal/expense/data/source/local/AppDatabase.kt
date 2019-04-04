@@ -18,4 +18,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseChartDao(): ExpenseChartDao
     abstract fun expenseMasterDao(): ExpenseMasterDao
     abstract fun settingsDao() : SettingsDao
+    abstract fun syncDao() : SyncDao
 }

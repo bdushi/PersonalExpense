@@ -111,4 +111,10 @@ class AppModule {
     fun provideSettingsDao(appDatabase: AppDatabase): SettingsDao {
         return appDatabase.settingsDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideSyncDao(appDatabase: AppDatabase): SyncDao {
+        return appDatabase.syncDao()
+    }
 }

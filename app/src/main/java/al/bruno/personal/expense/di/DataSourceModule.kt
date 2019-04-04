@@ -31,4 +31,8 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun provideSettingsDataSource(dataSource: SettingsLocalDataSource): SettingsDataSource
+
+    @Singleton
+    @Binds
+    abstract fun provideSyncDataSource(dataSource: SyncLocalDataSource): SyncDataSource
 }
