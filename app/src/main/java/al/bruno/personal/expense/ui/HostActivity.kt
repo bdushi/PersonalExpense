@@ -6,7 +6,6 @@ import al.bruno.personal.expense.observer.Subject
 import al.bruno.adapter.BindingData
 import al.bruno.month.view.Month
 import al.bruno.month.view.MonthView
-import al.bruno.personal.expense.callback.OnEditListener
 import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.data.source.local.ExpenseSharedPreferences
 import al.bruno.personal.expense.databinding.ActionBarExpenseNavigationLayoutBinding
@@ -27,12 +26,10 @@ import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
+import al.bruno.personal.expense.work.manager.PushExpense
 import al.bruno.personal.expense.work.manager.WorkManagerService
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -49,19 +46,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.android.gms.auth.api.signin.SignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserInfo
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -346,6 +342,16 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             if(requestCode == RC_SIGN_IN_ACTIVITY) {
                 userInfo = auth.currentUser
                 signIn!!.title = userInfo!!.displayName
+                FirebaseDatabase.getInstance().reference.child(userInfo!!.uid).addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.d(HostActivity::class.java.name, "onCancelled", p0.toException())
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val pushExpense = p0.getValue(PushExpense::class.java)
+                    }
+
+                })
             } else if(requestCode == RC_PROFILE_ACTIVITY) {
                 signIn!!.setTitle(R.string.sign_in)
             }

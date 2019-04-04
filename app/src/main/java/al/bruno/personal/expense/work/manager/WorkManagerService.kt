@@ -61,7 +61,7 @@ class WorkManagerService constructor(context: Context, workerParams: WorkerParam
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({
-                    expense["expenses"] = it.expense
+                    expense["expenses"] = it.expenses
                     expense["categories"] = it.categories
                     val user = HashMap<kotlin.String, Any>()
                     user[uid] = expense

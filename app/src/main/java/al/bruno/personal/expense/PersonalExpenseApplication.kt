@@ -29,8 +29,11 @@ class PersonalExpenseApplication : Application(), HasActivityInjector {
         Fabric
                 .with(this, Crashlytics())
         WorkManager
-                .initialize(this, Configuration.Builder()
-                .setWorkerFactory(workerFactory).build())
+                .initialize(this, Configuration
+                        .Builder()
+                        .setWorkerFactory(workerFactory)
+                        .build()
+                )
     }
 
     override fun activityInjector(): AndroidInjector<Activity>? {

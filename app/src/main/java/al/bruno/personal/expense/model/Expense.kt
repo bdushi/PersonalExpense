@@ -28,6 +28,7 @@ class Expense() : Parcelable, Observable {
     var memo: String? = null
     @ColumnInfo(name = "_amount")
     var amount: Double = 0.0
+    @get:Exclude
     @ColumnInfo(name = "_date")
     var date: DateTime? = null
         @Bindable
