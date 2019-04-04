@@ -24,5 +24,7 @@ class CategoriesLocalDataSource @Inject constructor(private val categoriesDao: C
     override fun categories(type: String): Single<List<Categories>> {
         return categoriesDao.categories(type)
     }
-
+    override fun categories(): Single<List<Categories>> {
+        return categoriesDao.categories()
+    }
 }

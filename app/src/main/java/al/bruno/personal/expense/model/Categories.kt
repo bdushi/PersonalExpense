@@ -6,6 +6,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
+import com.google.firebase.database.Exclude
 
 @Entity(tableName = "categories", indices = arrayOf(Index(value = arrayOf("_category") , unique = true)))
 class Categories() : Observable, Parcelable {
@@ -26,6 +27,7 @@ class Categories() : Observable, Parcelable {
     var type: String = ""
 
     @Ignore
+    @get:Exclude
     var propertyChangeRegistry = PropertyChangeRegistry()
 
     constructor(parcel: Parcel) : this() {

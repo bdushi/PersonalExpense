@@ -9,11 +9,11 @@ import java.util.*
 object Utilities {
 
     fun format(value: Double, int: Int) : String {
-        when (int) {
-            0 -> return DecimalFormat("###,###.### LEK").format(value)
-            1 -> return DecimalFormat("###").format(value)
-            2 -> return DecimalFormat("###,###.###").format(value)
-            else -> return DecimalFormat("###").format(value)
+        return when (int) {
+            0 -> DecimalFormat("###,###.### LEK").format(value)
+            1 -> DecimalFormat("###").format(value)
+            2 -> DecimalFormat("###,###.###").format(value)
+            else -> DecimalFormat("###").format(value)
         }
     }
 

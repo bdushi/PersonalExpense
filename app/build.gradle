@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.0-rc2'
     defaultConfig {
         applicationId "al.bruno.personal.expense"
         minSdkVersion 21

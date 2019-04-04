@@ -9,4 +9,5 @@ interface CategoriesDataSource {
     fun update(categories: Categories) : Single<Int>
     fun delete(categories: Categories) : Single<Int>
     fun categories(type: String) : Single<List<Categories>>
+    fun categories() : Single<List<Categories>>
 }
