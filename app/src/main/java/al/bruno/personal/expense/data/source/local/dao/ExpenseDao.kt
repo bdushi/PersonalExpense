@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime
 
@@ -12,6 +13,8 @@ import org.joda.time.DateTime
 interface ExpenseDao {
     @Insert
     fun insert(expense: Expense) : Single<Long>
+    @Insert
+    fun insert(expenses: List<Expense>) : Completable
 
     @Query("SELECT * FROM expense WHERE _id = :id")
     fun expense(id: Long) : LiveData<Expense>

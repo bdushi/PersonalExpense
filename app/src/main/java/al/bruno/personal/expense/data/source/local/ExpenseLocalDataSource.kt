@@ -4,6 +4,7 @@ import al.bruno.personal.expense.data.source.ExpenseDataSource
 import al.bruno.personal.expense.data.source.local.dao.ExpenseDao
 import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime
 import javax.inject.Inject
@@ -11,6 +12,9 @@ import javax.inject.Singleton
 
 @Singleton
 class ExpenseLocalDataSource @Inject constructor(private val expenseDao: ExpenseDao) : ExpenseDataSource {
+    override fun insert(expenses: List<Expense>): Completable {
+        return expenseDao.insert(expenses)
+    }
 
     override fun insert(expense: Expense): Single<Long> {
         return expenseDao.insert(expense)

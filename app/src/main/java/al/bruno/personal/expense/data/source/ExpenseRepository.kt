@@ -2,6 +2,7 @@ package al.bruno.personal.expense.data.source
 
 import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.LiveData
+import io.reactivex.Completable
 import io.reactivex.Single
 import org.joda.time.DateTime
 import javax.inject.Inject
@@ -9,6 +10,9 @@ import javax.inject.Singleton
 
 @Singleton
 class ExpenseRepository @Inject constructor(private var expenseDataSource: ExpenseDataSource) : ExpenseDataSource {
+    override fun insert(expenses: List<Expense>): Completable {
+        return expenseDataSource.insert(expenses)
+    }
 
     override fun insert(expense: Expense): Single<Long> {
         return expenseDataSource.insert(expense)

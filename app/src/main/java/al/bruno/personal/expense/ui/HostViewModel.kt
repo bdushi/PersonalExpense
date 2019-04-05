@@ -1,15 +1,26 @@
 package al.bruno.personal.expense.ui
 
 import al.bruno.personal.expense.data.source.CategoriesRepository
+import al.bruno.personal.expense.data.source.ExpenseRepository
 import al.bruno.personal.expense.model.Categories
+import al.bruno.personal.expense.model.Expense
 import androidx.lifecycle.ViewModel
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HostViewModel @Inject constructor(private val categoriesRepository: CategoriesRepository) : ViewModel() {
+class HostViewModel @Inject constructor(private val categoriesRepository: CategoriesRepository, private val expenseRepository: ExpenseRepository) : ViewModel() {
     fun categories(type: String): Single<List<Categories>> {
         return categoriesRepository.categories(type)
+    }
+
+    fun categories(categories: List<Categories>): Completable {
+        return categoriesRepository.insert(categories = categories)
+    }
+
+    fun expense(expenses: List<Expense>): Completable {
+        return expenseRepository.insert(expenses)
     }
 }

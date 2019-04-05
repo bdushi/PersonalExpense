@@ -3,12 +3,18 @@ package al.bruno.personal.expense.data.source.local
 import al.bruno.personal.expense.data.source.CategoriesDataSource
 import al.bruno.personal.expense.data.source.local.dao.CategoriesDao
 import al.bruno.personal.expense.model.Categories
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CategoriesLocalDataSource @Inject constructor(private val categoriesDao: CategoriesDao): CategoriesDataSource {
+
+    override fun insert(categories: List<Categories>): Completable {
+        return categoriesDao.insert(categories)
+    }
+
     override fun insert(categories: Categories): Single<Long> {
         return categoriesDao.insert(categories)
     }

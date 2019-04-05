@@ -52,11 +52,15 @@ class WorkManagerService constructor(context: Context, workerParams: WorkerParam
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({
-                    expense["expenses"] = it.expenses
-                    expense["categories"] = it.categories
-                    val user = HashMap<kotlin.String, Any>()
-                    user[uid] = expense
-                    databaseReference.updateChildren(user)
+                    if(it.expenses.isNotEmpty() || it.categories.isNotEmpty()) {
+                        expense["expenses"] = it.expenses
+                        expense["categories"] = it.categories
+                        val user = HashMap<kotlin.String, Any>()
+                        user[uid] = expense
+                        databaseReference.updateChildren(user)
+                    } else {
+                        Log.d(WorkManagerService::class.java.name, "No-data")
+                    }
                 },{
                     Log.d(WorkManagerService::class.java.name, it.message, it)
                 }))

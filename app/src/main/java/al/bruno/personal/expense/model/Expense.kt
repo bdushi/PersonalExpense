@@ -75,6 +75,13 @@ class Expense() : Parcelable, Observable {
         amount = parcel.readDouble()
         date = DateTime(parcel.readLong())
     }
+    constructor(type: String, category: String, memo: String, amount: Double, date: Long) : this() {
+        this.type = type
+        this.category = category
+        this.memo = memo
+        this.amount = amount
+        this.date = DateTime(date)
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)

@@ -349,6 +349,24 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
                     override fun onDataChange(p0: DataSnapshot) {
                         val pushExpense = p0.getValue(SyncService::class.java)
+                        disposable
+                                 .addAll(ViewModelProviders
+                                        .of(this@HostActivity, mViewModelFactory)
+                                        [HostViewModel::class.java]
+                                        .expense(pushExpense!!.expenseConvert())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe {
+
+                                        },
+                                        ViewModelProviders
+                                                .of(this@HostActivity, mViewModelFactory)
+                                                [HostViewModel::class.java]
+                                                .categories(pushExpense.categoriesConvert())
+                                                .subscribeOn(Schedulers.io())
+                                                .subscribe {
+
+                                                }
+                                )
                     }
 
                 })

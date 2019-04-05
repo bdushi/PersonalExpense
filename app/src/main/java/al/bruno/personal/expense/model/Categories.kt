@@ -8,7 +8,7 @@ import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
 import com.google.firebase.database.Exclude
 
-@Entity(tableName = "categories", indices = arrayOf(Index(value = arrayOf("_category") , unique = true)))
+@Entity(tableName = "categories", indices = [Index(value = arrayOf("_category") , unique = true)])
 class Categories() : Observable, Parcelable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
@@ -24,7 +24,7 @@ class Categories() : Observable, Parcelable {
     }
 
     @ColumnInfo(name = "_type")
-    var type: String = ""
+    var type: String? = ""
 
     @Ignore
     @get:Exclude
@@ -32,10 +32,19 @@ class Categories() : Observable, Parcelable {
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
+        category = parcel.readString()
+        type = parcel.readString()
+    }
+
+    constructor(category: String, type: String) : this() {
+        this.category = category
+        this.type = type
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
+        parcel.writeString(category)
+        parcel.writeString(type)
     }
 
     override fun describeContents(): Int {
