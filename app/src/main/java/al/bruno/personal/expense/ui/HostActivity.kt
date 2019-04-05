@@ -44,7 +44,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -59,6 +61,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -234,9 +237,14 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
          if(userInfo != null) {
              WorkManager
                      .getInstance()
-                     .enqueue(OneTimeWorkRequestBuilder<WorkManagerService>()
-                             .addTag(UUID.randomUUID().toString())
-                             .build())
+                     .enqueueUniquePeriodicWork(
+                             UUID.randomUUID().toString(),
+                             ExistingPeriodicWorkPolicy.KEEP,
+                             PeriodicWorkRequestBuilder<WorkManagerService>(1, TimeUnit.HOURS)
+                                     .addTag(UUID.randomUUID().toString())
+                                     .build())
+         } else {
+             WorkManager.getInstance().cancelAllWork()
          }
     }
 
