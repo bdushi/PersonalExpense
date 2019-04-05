@@ -45,7 +45,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
@@ -240,7 +239,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                      .enqueueUniquePeriodicWork(
                              UUID.randomUUID().toString(),
                              ExistingPeriodicWorkPolicy.KEEP,
-                             PeriodicWorkRequestBuilder<WorkManagerService>(1, TimeUnit.HOURS)
+                             PeriodicWorkRequestBuilder<WorkManagerService>(15, TimeUnit.MINUTES)
                                      .addTag(UUID.randomUUID().toString())
                                      .build())
          } else {
@@ -356,23 +355,24 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        val pushExpense = p0.getValue(SyncService::class.java)
+                        p0.value.toString()
+                        val syncService = p0.getValue(SyncService::class.java)
                         disposable
                                  .addAll(ViewModelProviders
                                         .of(this@HostActivity, mViewModelFactory)
                                         [HostViewModel::class.java]
-                                        .expense(pushExpense!!.expenseConvert())
+                                        .expense(syncService!!.expenseConvert())
                                         .subscribeOn(Schedulers.io())
                                         .subscribe {
-
+                                            Log.d(HostActivity::class.java.name, "Expense synced")
                                         },
                                         ViewModelProviders
                                                 .of(this@HostActivity, mViewModelFactory)
                                                 [HostViewModel::class.java]
-                                                .categories(pushExpense.categoriesConvert())
+                                                .categories(syncService.categoriesConvert())
                                                 .subscribeOn(Schedulers.io())
                                                 .subscribe {
-
+                                                    Log.d(HostActivity::class.java.name, "Categories synced")
                                                 }
                                 )
                     }
