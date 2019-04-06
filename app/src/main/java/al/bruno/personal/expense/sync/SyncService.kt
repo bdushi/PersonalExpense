@@ -6,14 +6,14 @@ data class SyncService (val expenses: List<Expense>, val categories: List<Catego
     fun expenseConvert(): List<al.bruno.personal.expense.model.Expense> {
         val ex: ArrayList<al.bruno.personal.expense.model.Expense> = ArrayList()
         for (expense in expenses) {
-            ex.add(al.bruno.personal.expense.model.Expense(expense.type, expense.category, expense.memo, expense.amount, expense.date))
+            ex.add(al.bruno.personal.expense.model.Expense(type = expense.type, category = expense.category, memo =  expense.memo, amount =  expense.amount, date =  expense.date, syncTime =  expense.syncTime))
         }
         return ex
     }
     fun categoriesConvert(): List<al.bruno.personal.expense.model.Categories> {
         val ex: ArrayList<al.bruno.personal.expense.model.Categories> = ArrayList()
         for (category in categories) {
-            ex.add(al.bruno.personal.expense.model.Categories(category.type, category.category))
+            ex.add(al.bruno.personal.expense.model.Categories(category = category.category, type = category.type, syncTime = category.syncTime))
         }
         return ex
     }

@@ -9,14 +9,13 @@ import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.room.*
-import com.google.firebase.database.Exclude
 import org.joda.time.DateTime
 
+//Index(value = arrayOf("_date", "_id") , unique = true),
 @Entity(
         tableName = "expense",
-        indices = [Index(value = arrayOf("_date", "_id") , unique = true)])
+        indices = [Index(value = ["_sync_time"], unique = true)])
 class Expense() : Parcelable, Observable {
-    @get:Exclude
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
     var id: Long = 0
@@ -28,7 +27,6 @@ class Expense() : Parcelable, Observable {
     var memo: String? = ""
     @ColumnInfo(name = "_amount")
     var amount: Double = 0.0
-    @get:Exclude
     @ColumnInfo(name = "_date")
     var date: DateTime? = null
         @Bindable
@@ -38,32 +36,29 @@ class Expense() : Parcelable, Observable {
             propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.date)
             propertyChangeRegistry.notifyChange(this, al.bruno.personal.expense.BR.expenseDate)
         }
-    @get:Exclude
+    @ColumnInfo(name = "_sync_time")
+    var syncTime: Long = 0.toLong()
     @Ignore
     var amountStr: String = ""
         get() {
         return format(amount, 0)
     }
-    @get:Exclude
     @Ignore
     var idStr : String = ""
     get() {
         return id.toString()
     }
-    @get:Exclude
     @Ignore
     var dateStr : String = ""
     get() {
         return dateFormat(date!!)
     }
-    @get:Exclude
     @Ignore
     var expenseDate : String = ""
         @Bindable
         get() {
             return Utilities.expenseDate(date!!)
         }
-    @get:Exclude
     @Ignore
     var propertyChangeRegistry = PropertyChangeRegistry()
 
@@ -74,13 +69,15 @@ class Expense() : Parcelable, Observable {
         memo = parcel.readString()
         amount = parcel.readDouble()
         date = DateTime(parcel.readLong())
+        syncTime = parcel.readLong()
     }
-    constructor(type: String, category: String, memo: String, amount: Double, date: Long) : this() {
+    constructor(type: String, category: String, memo: String, amount: Double, date: Long, syncTime: Long) : this() {
         this.type = type
         this.category = category
         this.memo = memo
         this.amount = amount
         this.date = DateTime(date)
+        this.syncTime = syncTime
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -90,6 +87,7 @@ class Expense() : Parcelable, Observable {
         parcel.writeString(memo)
         parcel.writeDouble(amount)
         parcel.writeLong(date!!.millis)
+        parcel.writeLong(syncTime)
     }
 
     override fun describeContents(): Int {
@@ -112,6 +110,6 @@ class Expense() : Parcelable, Observable {
         propertyChangeRegistry.add(callback)
     }
     override fun toString(): String {
-        return "$id-$type:$category:$memo:$amount:$date"
+        return "$id-$type:$category:$memo:$amount:$date-$syncTime"
     }
 }

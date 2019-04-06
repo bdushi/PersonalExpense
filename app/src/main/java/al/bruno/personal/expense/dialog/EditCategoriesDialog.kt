@@ -13,6 +13,7 @@ import android.os.Parcelable
 import android.text.TextUtils
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.joda.time.DateTime
 
 class EditCategoriesDialog : BottomSheetDialogFragment() {
     private var categories = Categories()
@@ -81,10 +82,12 @@ class EditCategoriesDialog : BottomSheetDialogFragment() {
         categoriesList = arguments?.getParcelableArrayList("CATEGORIES")!!
         categoriesEditDialogBinding.onEditListeners = object : OnEditListeners<Categories> {
             override fun onEdit(t: Categories) {
+                t.syncTime = DateTime.now().millis
                 onEditListeners!!.onEdit(t)
                 dismiss()
             }
             override fun onDismiss(t: Categories) {
+                t.syncTime = DateTime.now().millis
                 onEditListeners!!.onDismiss(t)
                 dismiss()
             }
