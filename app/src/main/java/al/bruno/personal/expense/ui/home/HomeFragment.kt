@@ -22,7 +22,6 @@ import al.bruno.personal.expense.ui.expense.ExpenseFragment
 import al.bruno.personal.expense.util.Utilities
 import al.bruno.personal.expense.util.Utilities.month
 import android.content.Context
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -31,7 +30,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.EntryXComparator
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
@@ -45,7 +43,29 @@ class HomeFragment : Fragment(), Observer<al.bruno.month.view.Month> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        disposable.addAll(
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<ExpenseDetails> {
+                    fragmentHomeBinding?.expenseDetails = it
+                })
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<List<Chart>> {
+                    fragmentHomeBinding!!.chartData = chart(it)
+                })
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<List<ExpenseMaster>> {
+                    fragmentHomeBinding!!.logAdapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                        override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
+                            vm.master = t
+                        }
+                    })
+                })
+        /*disposable.addAll(
                 ViewModelProviders
                         .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
@@ -80,7 +100,7 @@ class HomeFragment : Fragment(), Observer<al.bruno.month.view.Month> {
                         },{
                             Log.i(HomeViewModel::class.java.name, it.message)
                         })
-        )
+        )*/
         fragmentHomeBinding?.incomesOnClick = object : OnClick {
             override fun onClick() {
                 //TODO
@@ -110,7 +130,35 @@ class HomeFragment : Fragment(), Observer<al.bruno.month.view.Month> {
     }
 
     override fun update(t: al.bruno.month.view.Month) {
-        disposable.addAll(
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .budgetDetails(month(t.calendar().get(Calendar.MONTH)), t.calendar()[Calendar.YEAR].toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<ExpenseDetails> {
+                    fragmentHomeBinding?.expenseDetails = it
+                })
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .budgetDetails(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<ExpenseDetails> {
+                    fragmentHomeBinding?.expenseDetails = it
+                })
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<List<Chart>> {
+                    fragmentHomeBinding!!.chartData = chart(it)
+                })
+        ViewModelProviders
+                .of(this, mViewModelFactory)[HomeViewModel::class.java]
+                .expenseMaster(month(calendar.get(Calendar.MONTH)), calendar[Calendar.YEAR].toString())
+                .observe(this@HomeFragment, androidx.lifecycle.Observer<List<ExpenseMaster>> {
+                    fragmentHomeBinding!!.logAdapter = al.bruno.adapter.CustomAdapter(it, R.layout.expense_master_single_item, object : BindingData<ExpenseMaster, ExpenseMasterSingleItemBinding> {
+                        override fun bindData(t: ExpenseMaster, vm: ExpenseMasterSingleItemBinding) {
+                            vm.master = t
+                        }
+                    })
+                })
+        /*disposable.addAll(
                 ViewModelProviders
                         .of(this, mViewModelFactory)[HomeViewModel::class.java]
                         .chart(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
@@ -146,7 +194,7 @@ class HomeFragment : Fragment(), Observer<al.bruno.month.view.Month> {
                         },{
                             Log.i(HomeViewModel::class.java.name, it.message)
                         })
-        )
+        )*/
     }
 
     override fun onStop() {
