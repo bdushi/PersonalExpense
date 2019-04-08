@@ -358,15 +358,16 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                         p0.value.toString()
                         val syncService = p0.getValue(SyncService::class.java)
                         disposable
-                                 .addAll(ViewModelProviders
-                                        .of(this@HostActivity, mViewModelFactory)
-                                        [HostViewModel::class.java]
-                                        .expense(syncService!!.expenseConvert())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe {
-                                            Log.d(HostActivity::class.java.name, "Expense synced")
-                                        },
-                                        ViewModelProviders
+                                 .addAll(
+                                         ViewModelProviders
+                                                 .of(this@HostActivity, mViewModelFactory)
+                                                 [HostViewModel::class.java]
+                                                 .expense(syncService!!.expenseConvert())
+                                                 .subscribeOn(Schedulers.io())
+                                                 .subscribe {
+                                                     Log.d(HostActivity::class.java.name, "Expense synced")
+                                                 },
+                                         ViewModelProviders
                                                 .of(this@HostActivity, mViewModelFactory)
                                                 [HostViewModel::class.java]
                                                 .categories(syncService.categoriesConvert())
