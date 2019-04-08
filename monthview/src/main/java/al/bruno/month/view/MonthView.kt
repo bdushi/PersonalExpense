@@ -17,7 +17,7 @@ class MonthView : Fragment() {
     private var calendar = Calendar.getInstance()
     private var onEditListener: OnEditListener<Month>? = null
 
-    public class Builder {
+    class Builder {
         private var calendar: Calendar? = null
         fun setCalendar(calendar: Calendar): Builder {
             this.calendar = calendar
@@ -81,6 +81,12 @@ class MonthView : Fragment() {
                     Month(calendar.timeInMillis)
                 })
                 fragmentMonthNavigationBinding.date.text = year(calendar.timeInMillis)
+            }
+        }
+        fragmentMonthNavigationBinding.dismissOnClick = object : OnClick {
+            override fun onClick() {
+                fragmentManager!!.beginTransaction()
+                        .remove(this@MonthView).commit()
             }
         }
         return fragmentMonthNavigationBinding.root
