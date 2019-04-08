@@ -8,9 +8,11 @@ import io.reactivex.Single
 
 @Dao
 interface SyncDao {
-    @Query("SELECT * FROM categories")
+    //strftime('%s', 'now') AS
+    @Query("SELECT _category, _type, _sync_time FROM categories")
     fun categories() : Single<List<Categories>>
 
-    @Query("SELECT * FROM expense")
+    //strftime('%s', 'now') AS
+    @Query("SELECT _category, _type, _memo, _amount, _date, _sync_time FROM expense")
     fun expenses() : Single<List<Expense>>
 }

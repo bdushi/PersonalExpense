@@ -9,7 +9,7 @@ import androidx.room.Database
 @Database(
         entities = arrayOf(User::class, Categories::class, Settings::class, Expense::class),
         views = arrayOf(ExpenseDetails::class, ExpenseChart::class),
-        version = 3)
+        version = 1)
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao

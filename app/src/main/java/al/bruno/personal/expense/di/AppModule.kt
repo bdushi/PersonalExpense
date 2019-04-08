@@ -52,7 +52,7 @@ class AppModule {
     fun providesDatabaseHelper(app: Application): AppDatabase {
         return Room
                 .databaseBuilder(app, AppDatabase::class.java, "financa.db")
-                .addMigrations(
+                /*.addMigrations(
                         object : Migration(1, 2) {
                             override fun migrate(database: SupportSQLiteDatabase) {
                                 database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
@@ -72,7 +72,14 @@ class AppModule {
                                         ") " +
                                         "GROUP BY _date)")
                             }
-                        })
+                        },
+                        object : Migration(3, 4) {
+                            override fun migrate(database: SupportSQLiteDatabase) {
+                                database.execSQL("ALTER TABLE expense ADD COLUMN _sync_time INTEGER UNIQUE")
+                                database.execSQL("ALTER TABLE expense ADD COLUMN categories INTEGER UNIQUE")
+                            }
+
+                        })*/
                 .build()
     }
 

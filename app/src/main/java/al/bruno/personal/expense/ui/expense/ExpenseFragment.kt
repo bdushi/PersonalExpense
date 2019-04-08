@@ -196,10 +196,11 @@ class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, al.br
             vm.categories = t
             vm.onItemClickListener = object : OnItemClickListener<Categories> {
                 override fun onItemClick(t: Categories) {
-                    val expense = Expense();
+                    val expense = Expense()
                     expense.category = t.category
                     expense.type = t.type
                     expense.date = DateTime.now().withTime(7, 0, 0, 0)
+                    expense.syncTime = DateTime.now().millis
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
@@ -220,10 +221,11 @@ class ExpenseFragment : Fragment(), OnItemSwipeSelectListener<Categories>, al.br
             vm.categories = t
             vm.onItemClickListener = object : OnItemClickListener<Categories> {
                 override fun onItemClick(t: Categories) {
-                    val expense = Expense();
+                    val expense = Expense()
                     expense.category = t.category
                     expense.type = t.type
                     expense.date = DateTime.now().withTime(7, 0, 0, 0)
+                    expense.syncTime = DateTime.now().millis
                     EditExpenseBottomSheet
                             .Companion
                             .Builder()
