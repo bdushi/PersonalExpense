@@ -64,7 +64,7 @@ android {
         //Realtime Database
         implementation 'com.google.firebase:firebase-database:16.1.0'
         //implementation 'com.firebaseui:firebase-ui-database:1.0.0'
-        implementation 'com.google.firebase:firebase-auth:16.2.0'
+        implementation 'com.google.firebase:firebase-auth:16.2.1'
         //Crash Reporting
         implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
         //Picasso

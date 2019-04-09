@@ -86,6 +86,7 @@ class MonthView : Fragment() {
         fragmentMonthNavigationBinding.dismissOnClick = object : OnClick {
             override fun onClick() {
                 fragmentManager!!.beginTransaction()
+                        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                         .remove(this@MonthView).commit()
             }
         }
