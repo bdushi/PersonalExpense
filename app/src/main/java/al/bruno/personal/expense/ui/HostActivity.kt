@@ -118,13 +118,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     supportActionBar!!.customView.setOnClickListener {
                         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .add(R.id.host,
                                             MonthView()
                                                     .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<al.bruno.month.view.Month> {
@@ -133,7 +133,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
                                                                     .beginTransaction()
-                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                         }
@@ -149,13 +149,13 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     supportActionBar!!.customView.setOnClickListener {
                         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .add(R.id.host,
                                             MonthView()
                                                     .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<Month> {
@@ -164,7 +164,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
                                                                     .beginTransaction()
-                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                                         }
@@ -250,7 +250,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
             supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                     .commit()
         else if (supportFragmentManager.findFragmentById(R.id.host) is HomeFragment) {
