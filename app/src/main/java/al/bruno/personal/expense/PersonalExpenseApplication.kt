@@ -6,7 +6,6 @@ import android.app.Activity
 import android.app.Application
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import com.crashlytics.android.Crashlytics
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
