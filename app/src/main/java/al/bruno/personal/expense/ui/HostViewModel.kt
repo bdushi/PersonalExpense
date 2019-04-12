@@ -11,16 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HostViewModel @Inject constructor(private val categoriesRepository: CategoriesRepository, private val expenseRepository: ExpenseRepository) : ViewModel() {
+class HostViewModel @Inject constructor(private val categoriesRepository: CategoriesRepository) : ViewModel() {
     fun categories(type: String): Single<List<Categories>> {
         return categoriesRepository.categories(type)
-    }
-
-    fun categories(categories: List<Categories>): Completable {
-        return categoriesRepository.insert(categories = categories)
-    }
-
-    fun expense(expenses: List<Expense>): Completable {
-        return expenseRepository.insert(expenses)
     }
 }

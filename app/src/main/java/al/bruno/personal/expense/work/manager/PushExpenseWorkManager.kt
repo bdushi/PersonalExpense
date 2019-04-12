@@ -18,7 +18,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class WorkManagerService @AssistedInject constructor(@Assisted private val context: Context, @Assisted  private val workerParams: WorkerParameters, private val syncRepository: SyncRepository) : Worker(context, workerParams) {
+class PushExpenseWorkManager @AssistedInject constructor(@Assisted private val context: Context, @Assisted  private val workerParams: WorkerParameters, private val syncRepository: SyncRepository) : Worker(context, workerParams) {
     //, private val expenseRepository: ExpenseRepository, private val databaseReference: DatabaseReference
     /*@Inject
     lateinit var databaseReference: DatabaseReference
@@ -40,7 +40,7 @@ class WorkManagerService @AssistedInject constructor(@Assisted private val conte
                     childUpdates["/expense/$key"] = expense
                     databaseReference.updateChildren(expense)
                 }, {
-                    Log.d(WorkManagerService::class.java.name, it.message, it)
+                    Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
                 })*/
         val expense = HashMap<String, Any>()
         val receiveLockObservable = Single.zip(
@@ -58,10 +58,10 @@ class WorkManagerService @AssistedInject constructor(@Assisted private val conte
                         user[uid] = expense
                         databaseReference.updateChildren(user)
                     } else {
-                        Log.d(WorkManagerService::class.java.name, "No-data")
+                        Log.d(PushExpenseWorkManager::class.java.name, "No-data")
                     }
                 },{
-                    Log.d(WorkManagerService::class.java.name, it.message, it)
+                    Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
                 }))
         return Result.success()
         /*if((calendar[Calendar.MONTH] == 1 ||
@@ -103,7 +103,7 @@ class WorkManagerService @AssistedInject constructor(@Assisted private val conte
 
     /*class Factory @Inject constructor(private val syncRepository: Provider<SyncRepository>) : SimpleWorkerFactory {
         override fun create(context: Context, workerParams: WorkerParameters): ListenableWorker {
-            return WorkManagerService(context, workerParams, syncRepository.get())
+            return PushExpenseWorkManager(context, workerParams, syncRepository.get())
         }
     }*/
 

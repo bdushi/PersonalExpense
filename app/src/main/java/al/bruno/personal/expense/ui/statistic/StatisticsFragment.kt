@@ -18,7 +18,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 
 import al.bruno.personal.expense.model.Expense
 import al.bruno.personal.expense.observer.Observer
-import al.bruno.month.view.Month
+import al.bruno.personal.expense.ui.MyRxBus
 import al.bruno.personal.expense.util.Utilities.month
 import android.content.Context
 import android.util.Log
@@ -29,54 +29,63 @@ import dagger.android.support.AndroidSupportInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.Calendar.getInstance
 import java.util.concurrent.TimeUnit
+import java.util.function.Consumer
 import javax.inject.Inject
 
-class StatisticsFragment : Fragment(), Observer<al.bruno.month.view.Month> {
+class StatisticsFragment : Fragment() {
     private val disposable : CompositeDisposable = CompositeDisposable()
     private var fragmentStatisticsBinding: FragmentStatisticsBinding? = null
-    private val calendar = Calendar.getInstance()
-
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fragmentStatisticsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
-        disposable.add(ViewModelProviders
-                .of(this@StatisticsFragment, mViewModelFactory)[StatisticViewModel::class.java]
-                .statistics(month(calendar.get(Calendar.MONTH)), calendar.get(Calendar.YEAR).toString())
-                .delay(50, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe({
-                    fragmentStatisticsBinding!!.chartData = barData(it, calendar.timeInMillis)
-                },{
-                    Log.i(StatisticsFragment::class.java.name, it.message)
-                }))
-        return fragmentStatisticsBinding?.root
-    }
+    @Inject
+    lateinit var myRxBus: MyRxBus
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
     }
 
-    override fun onStop() {
-        super.onStop()
-        disposable.clear()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        fragmentStatisticsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
+        return fragmentStatisticsBinding?.root
     }
 
-
-    override fun update(t: al.bruno.month.view.Month) {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         disposable.add(ViewModelProviders
                 .of(this@StatisticsFragment, mViewModelFactory)[StatisticViewModel::class.java]
-                .statistics(month(t.calendar().get(Calendar.MONTH)), t.calendar().get(Calendar.YEAR).toString())
+                .statistics(month(getInstance().get(Calendar.MONTH)), getInstance().get(Calendar.YEAR).toString())
                 .delay(50, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    fragmentStatisticsBinding!!.chartData = barData(it, t.calendar().timeInMillis)
+                    fragmentStatisticsBinding!!.chartData = barData(it, getInstance().timeInMillis)
                 },{
                     Log.i(StatisticsFragment::class.java.name, it.message)
                 }))
+        disposable.add(
+                myRxBus.getEvents().subscribe({
+                    disposable.add(ViewModelProviders
+                            .of(this@StatisticsFragment, mViewModelFactory)[StatisticViewModel::class.java]
+                            .statistics(month(it.calendar().get(Calendar.MONTH)), it.calendar().get(Calendar.YEAR).toString())
+                            .delay(50, TimeUnit.MILLISECONDS)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({ expense ->
+                                fragmentStatisticsBinding!!.chartData = barData(expense, it.calendar().timeInMillis)
+                            },{
+                                Log.i(StatisticsFragment::class.java.name, it.message)
+                            }))
+                }, {
+                    Log.i(StatisticsFragment::class.java.name, it.message)
+                })
+        )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.clear()
     }
 
     private fun barData(expenses: List<Expense>, date: Long): ChartDataObject<IndexAxisValueFormatter, BarData> {

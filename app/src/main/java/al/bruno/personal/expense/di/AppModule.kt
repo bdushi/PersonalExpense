@@ -3,6 +3,7 @@ package al.bruno.personal.expense.di
 import al.bruno.personal.expense.R
 import al.bruno.personal.expense.data.source.local.*
 import al.bruno.personal.expense.data.source.local.dao.*
+import al.bruno.personal.expense.ui.MyRxBus
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -20,6 +21,13 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+
+    @Provides
+    @Singleton
+    fun providesMyRxBus(): MyRxBus {
+        return MyRxBus()
+    }
 
     @Provides
     @Singleton

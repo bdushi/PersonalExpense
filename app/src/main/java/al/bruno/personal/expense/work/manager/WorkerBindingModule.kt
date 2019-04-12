@@ -8,6 +8,10 @@ import dagger.multibindings.IntoMap
 internal interface WorkerBindingModule {
     @Binds
     @IntoMap
-    @WorkerKey(WorkManagerService::class)
-    fun bindWorkManagerService(factory: WorkManagerService.Factory): ChildWorkerFactory
+    @WorkerKey(PushExpenseWorkManager::class)
+    fun bindWorkManagerService(factory: PushExpenseWorkManager.Factory): ChildWorkerFactory
+    @Binds
+    @IntoMap
+    @WorkerKey(PullExpenseWorkManager::class)
+    fun bindPullExpenseWorkManager(factory: PullExpenseWorkManager.Factory): ChildWorkerFactory
 }
