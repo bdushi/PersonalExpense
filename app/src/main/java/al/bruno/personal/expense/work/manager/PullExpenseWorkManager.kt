@@ -31,24 +31,25 @@ class PullExpenseWorkManager @AssistedInject constructor(
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                p0.value.toString()
                 val syncService = p0.getValue(SyncService::class.java)
-                disposable
-                        .addAll(
-                                expenseRepository.insert(syncService!!.expenseConvert())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe {
-                                            Log.d(HostActivity::class.java.name, "Expense synced")
-                                        },
-                                categoriesRepository
-                                        .insert(syncService.categoriesConvert())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe {
-                                            Log.d(HostActivity::class.java.name, "Categories synced")
-                                        }
-                        )
+                if (syncService != null) {
+                    disposable
+                            .addAll(
+                                    expenseRepository.insert(syncService.expenseConvert())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe {
+                                                Log.d(HostActivity::class.java.name, "Expense synced")
+                                            },
+                                    categoriesRepository
+                                            .insert(syncService.categoriesConvert())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe {
+                                                Log.d(HostActivity::class.java.name, "Categories synced")
+                                            }
+                            )
+                }
+                Log.d(HostActivity::class.java.name, "onDataChange$syncService")
             }
-
         })
         return Result.success()
     }
