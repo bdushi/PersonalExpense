@@ -18,30 +18,15 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class PushExpenseWorkManager @AssistedInject constructor(@Assisted private val context: Context, @Assisted  private val workerParams: WorkerParameters, private val syncRepository: SyncRepository) : Worker(context, workerParams) {
-    //, private val expenseRepository: ExpenseRepository, private val databaseReference: DatabaseReference
-    /*@Inject
-    lateinit var databaseReference: DatabaseReference
-    @Inject
-    lateinit var expenseRepository: ExpenseRepository*/
-    private val calendar = Calendar.getInstance()
+class PushExpenseWorkManager @AssistedInject constructor(
+        @Assisted private val context: Context,
+        @Assisted  private val workerParams: WorkerParameters,
+        private val syncRepository: SyncRepository) : Worker(context, workerParams) {
     private val disposable = CompositeDisposable()
     private val databaseReference = FirebaseDatabase.getInstance().reference
     private val uid = FirebaseAuth.getInstance().currentUser!!.uid
 
     override fun doWork(): Result {
-        /*expenseRepository
-                .expenses()
-                .subscribeOn(Schedulers.io())
-                .subscribe ({
-                    expense["expenses"] = it
-                    val key = databaseReference.child("expense").push().key
-                    val childUpdates = HashMap<kotlin.String, kotlin.Any>()
-                    childUpdates["/expense/$key"] = expense
-                    databaseReference.updateChildren(expense)
-                }, {
-                    Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
-                })*/
         val expense = HashMap<String, Any>()
         val receiveLockObservable = Single.zip(
                 syncRepository.expenses().subscribeOn(Schedulers.io()),
@@ -64,38 +49,6 @@ class PushExpenseWorkManager @AssistedInject constructor(@Assisted private val c
                     Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
                 }))
         return Result.success()
-        /*if((calendar[Calendar.MONTH] == 1 ||
-                        calendar[Calendar.MONTH] == 2 ||
-                        calendar[Calendar.MONTH] == 3 ||
-                        calendar[Calendar.MONTH] == 4 ||
-                        calendar[Calendar.MONTH] == 5 ||
-                        calendar[Calendar.MONTH] == 6 ||
-                        calendar[Calendar.MONTH] == 7 ||
-                        calendar[Calendar.MONTH] == 8 ||
-                        calendar[Calendar.MONTH] == 9 ||
-                        calendar[Calendar.MONTH] == 10 ||
-                        calendar[Calendar.MONTH] == 11 ||
-                        calendar[Calendar.MONTH] == 12) &&
-                calendar[Calendar.DAY_OF_MONTH] == 1) {
-            disposable
-                    .addAll(settingsDao!!
-                    .settings(1)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ b ->
-                val budget = Incomes()
-                budget.incomes = b.incomes
-                budget.date = DateTime(calendar.timeInMillis).withTimeAtStartOfDay()
-                disposable.add(provideBudgetInjection(context)!!.insert(budget).subscribeOn(Schedulers.io()).subscribe({
-                }, {
-
-                }))
-            }, {
-
-            }))
-            return Result.success()
-        } else {
-            return Result.failure()
-        }*/
     }
 
     @AssistedInject.Factory

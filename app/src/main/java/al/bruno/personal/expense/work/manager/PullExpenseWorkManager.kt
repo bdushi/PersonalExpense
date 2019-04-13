@@ -25,32 +25,36 @@ class PullExpenseWorkManager @AssistedInject constructor(
     private val disposable = CompositeDisposable()
     override fun doWork(): Result {
         //userInfo!!.uid
-        FirebaseDatabase.getInstance().reference.child(inputData.getString("UID")!!).addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.d(HostActivity::class.java.name, "onCancelled", p0.toException())
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val syncService = p0.getValue(SyncService::class.java)
-                if (syncService != null) {
-                    disposable
-                            .addAll(
-                                    expenseRepository.insert(syncService.expenseConvert())
-                                            .subscribeOn(Schedulers.io())
-                                            .subscribe {
-                                                Log.d(HostActivity::class.java.name, "Expense synced")
-                                            },
-                                    categoriesRepository
-                                            .insert(syncService.categoriesConvert())
-                                            .subscribeOn(Schedulers.io())
-                                            .subscribe {
-                                                Log.d(HostActivity::class.java.name, "Categories synced")
-                                            }
-                            )
-                }
-                Log.d(HostActivity::class.java.name, "onDataChange$syncService")
-            }
-        })
+        FirebaseDatabase
+                .getInstance()
+                .reference
+                .child(inputData.getString("UID")!!)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.d(HostActivity::class.java.name, "onCancelled", p0.toException())
+                    }
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val syncService = p0.getValue(SyncService::class.java)
+                        if (syncService != null) {
+                            disposable
+                                    .addAll(
+                                        expenseRepository
+                                                .insert(syncService.expenseConvert())
+                                                .subscribeOn(Schedulers.io())
+                                                .subscribe {
+                                                    Log.d(HostActivity::class.java.name, "Expense synced")
+                                                },
+                                        categoriesRepository
+                                                .insert(syncService.categoriesConvert())
+                                                .subscribeOn(Schedulers.io())
+                                                .subscribe {
+                                                    Log.d(HostActivity::class.java.name, "Categories synced")
+                                                }
+                                    )
+                        }
+                        Log.d(HostActivity::class.java.name, "onDataChange$syncService")
+                    }
+                })
         return Result.success()
     }
 
