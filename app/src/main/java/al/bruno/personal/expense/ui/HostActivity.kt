@@ -1,11 +1,11 @@
 package al.bruno.personal.expense.ui
 
-import al.bruno.personal.expense.*
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.observer.Subject
 import al.bruno.adapter.BindingData
 import al.bruno.month.view.Month
 import al.bruno.month.view.MonthView
+import al.bruno.personal.expense.R
 import al.bruno.personal.expense.callback.OnItemSelectedListener
 import al.bruno.personal.expense.data.source.local.ExpenseSharedPreferences
 import al.bruno.personal.expense.databinding.ActionBarExpenseNavigationLayoutBinding
@@ -26,8 +26,8 @@ import al.bruno.personal.expense.ui.statistic.StatisticsFragment
 import al.bruno.personal.expense.util.EXPENSES
 import al.bruno.personal.expense.util.INCOMES
 import al.bruno.personal.expense.util.Utilities.monthFormat
-import al.bruno.personal.expense.sync.SyncService
-import al.bruno.personal.expense.work.manager.WorkManagerService
+import al.bruno.personal.expense.work.manager.PullExpenseWorkManager
+import al.bruno.personal.expense.work.manager.PushExpenseWorkManager
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -44,15 +44,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -60,6 +54,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
+import java.util.Calendar.getInstance
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -76,6 +71,10 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var auth: FirebaseAuth
 
+
+    @Inject
+    lateinit var myRxBus: MyRxBus
+
     private var userInfo: FirebaseUser? = null
 
     private val RC_SIGN_IN_ACTIVITY = 7
@@ -86,6 +85,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
     private val monthRegistry = ArrayList<Observer<al.bruno.month.view.Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
+    private lateinit var homeFragment: HomeFragment
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentInjector
@@ -95,11 +95,10 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
         AndroidInjection.inject(this)
-        val homeFragment = HomeFragment()
-        monthSubject.registerObserver(homeFragment)
+
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.host, homeFragment)
+                .replace(R.id.host, HomeFragment())
                 .addToBackStack("HOME_FRAGMENT")
                 .commit()
         supportFragmentManager.addOnBackStackChangedListener {
@@ -113,27 +112,27 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     supportActionBar!!.setDisplayShowTitleEnabled(false)
                     supportActionBar!!.setDisplayShowCustomEnabled(true)
                     val actionBarMonthNavigationLayoutBinding: ActionBarMonthNavigationLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.action_bar_month_navigation_layout, null, false)
-                    actionBarMonthNavigationLayoutBinding.date = monthFormat(Calendar.getInstance().timeInMillis)
+                    actionBarMonthNavigationLayoutBinding.date = monthFormat(getInstance().timeInMillis)
                     supportActionBar!!.customView = actionBarMonthNavigationLayoutBinding.root
                     supportActionBar!!.customView.setOnClickListener {
                         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .add(R.id.host,
                                             MonthView()
                                                     .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<al.bruno.month.view.Month> {
                                                         override fun onEdit(t: al.bruno.month.view.Month) {
-                                                            monthSubject.notifyObserver(t)
+                                                            myRxBus.setMonth(month = t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
                                                                     .beginTransaction()
-                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                         }
@@ -149,22 +148,22 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     supportActionBar!!.customView.setOnClickListener {
                         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
                             supportFragmentManager.beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                     .commit()
                         else
                             supportFragmentManager
                                     .beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .add(R.id.host,
                                             MonthView()
                                                     .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<Month> {
                                                         override fun onEdit(t: al.bruno.month.view.Month) {
-                                                            monthSubject.notifyObserver(t)
+                                                            myRxBus.setMonth(month = t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
                                                                     .beginTransaction()
-                                                                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                                                                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                                                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                                                                     .commit()
                                                         }
@@ -239,7 +238,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                      .enqueueUniquePeriodicWork(
                              UUID.randomUUID().toString(),
                              ExistingPeriodicWorkPolicy.KEEP,
-                             PeriodicWorkRequestBuilder<WorkManagerService>(15, TimeUnit.MINUTES)
+                             PeriodicWorkRequestBuilder<PushExpenseWorkManager>(15, TimeUnit.MINUTES)
                                      .addTag(UUID.randomUUID().toString())
                                      .build())
          } else {
@@ -250,7 +249,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onBackPressed() {
         if (supportFragmentManager.findFragmentById(R.id.host) is MonthView)
             supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_down, R.anim.slide_up)
+                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                     .remove(supportFragmentManager.findFragmentById(R.id.host) as MonthView)
                     .commit()
         else if (supportFragmentManager.findFragmentById(R.id.host) is HomeFragment) {
@@ -290,10 +289,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                         .commit()
                 return true
             } R.id.statistics -> {
-                val statisticsFragment = StatisticsFragment()
-                monthSubject.registerObserver(statisticsFragment)
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.host, statisticsFragment)
+                        .replace(R.id.host, StatisticsFragment())
                         .addToBackStack("STATISTICS_FRAGMENT")
                         .commit()
                 return true
@@ -349,35 +346,11 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
             if(requestCode == RC_SIGN_IN_ACTIVITY) {
                 userInfo = auth.currentUser
                 signIn!!.title = userInfo!!.displayName
-                FirebaseDatabase.getInstance().reference.child(userInfo!!.uid).addValueEventListener(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                        Log.d(HostActivity::class.java.name, "onCancelled", p0.toException())
-                    }
-
-                    override fun onDataChange(p0: DataSnapshot) {
-                        p0.value.toString()
-                        val syncService = p0.getValue(SyncService::class.java)
-                        disposable
-                                 .addAll(ViewModelProviders
-                                        .of(this@HostActivity, mViewModelFactory)
-                                        [HostViewModel::class.java]
-                                        .expense(syncService!!.expenseConvert())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe {
-                                            Log.d(HostActivity::class.java.name, "Expense synced")
-                                        },
-                                        ViewModelProviders
-                                                .of(this@HostActivity, mViewModelFactory)
-                                                [HostViewModel::class.java]
-                                                .categories(syncService.categoriesConvert())
-                                                .subscribeOn(Schedulers.io())
-                                                .subscribe {
-                                                    Log.d(HostActivity::class.java.name, "Categories synced")
-                                                }
-                                )
-                    }
-
-                })
+                WorkManager
+                        .getInstance()
+                        .enqueue(OneTimeWorkRequestBuilder<PullExpenseWorkManager>()
+                                .setInputData(Data.Builder().putString("UID", userInfo!!.uid).build())
+                                .build())
             } else if(requestCode == RC_PROFILE_ACTIVITY) {
                 signIn!!.setTitle(R.string.sign_in)
             }
@@ -397,23 +370,6 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
         override fun notifyObserver(t: List<Categories>, l: String) {
             for (observer in registry) {
                 observer.update(t, l)
-            }
-        }
-    }
-
-    private val monthSubject = object : Subject<al.bruno.month.view.Month> {
-        override fun registerObserver(o: Observer<al.bruno.month.view.Month>) {
-            monthRegistry.add(o)
-        }
-
-        override fun removeObserver(o: Observer<al.bruno.month.view.Month>) {
-            if (monthRegistry.indexOf(o) >= 0)
-                monthRegistry.remove(o)
-        }
-
-        override fun notifyObserver(t: al.bruno.month.view.Month) {
-            for (observer in monthRegistry) {
-                observer.update(t)
             }
         }
     }

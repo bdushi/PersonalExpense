@@ -6,20 +6,19 @@ import al.bruno.personal.expense.sync.Expense
 import al.bruno.personal.expense.sync.SyncService
 import android.content.Context
 import android.util.Log
-import androidx.work.ListenableWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import java.util.*
-import javax.inject.Inject
-import javax.inject.Provider
 
-class WorkManagerService constructor(context: Context, workerParams: WorkerParameters, private val syncRepository: SyncRepository) : Worker(context, workerParams) {
+class PushExpenseWorkManager @AssistedInject constructor(@Assisted private val context: Context, @Assisted  private val workerParams: WorkerParameters, private val syncRepository: SyncRepository) : Worker(context, workerParams) {
     //, private val expenseRepository: ExpenseRepository, private val databaseReference: DatabaseReference
     /*@Inject
     lateinit var databaseReference: DatabaseReference
@@ -41,7 +40,7 @@ class WorkManagerService constructor(context: Context, workerParams: WorkerParam
                     childUpdates["/expense/$key"] = expense
                     databaseReference.updateChildren(expense)
                 }, {
-                    Log.d(WorkManagerService::class.java.name, it.message, it)
+                    Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
                 })*/
         val expense = HashMap<String, Any>()
         val receiveLockObservable = Single.zip(
@@ -59,10 +58,10 @@ class WorkManagerService constructor(context: Context, workerParams: WorkerParam
                         user[uid] = expense
                         databaseReference.updateChildren(user)
                     } else {
-                        Log.d(WorkManagerService::class.java.name, "No-data")
+                        Log.d(PushExpenseWorkManager::class.java.name, "No-data")
                     }
                 },{
-                    Log.d(WorkManagerService::class.java.name, it.message, it)
+                    Log.d(PushExpenseWorkManager::class.java.name, it.message, it)
                 }))
         return Result.success()
         /*if((calendar[Calendar.MONTH] == 1 ||
@@ -99,14 +98,14 @@ class WorkManagerService constructor(context: Context, workerParams: WorkerParam
         }*/
     }
 
-    /*@AssistedInject.Factory
-    interface Factory : ChildWorkerFactory*/
+    @AssistedInject.Factory
+    interface Factory : ChildWorkerFactory
 
-    class Factory @Inject constructor(private val syncRepository: Provider<SyncRepository>) : ChildWorkerFactory {
+    /*class Factory @Inject constructor(private val syncRepository: Provider<SyncRepository>) : SimpleWorkerFactory {
         override fun create(context: Context, workerParams: WorkerParameters): ListenableWorker {
-            return WorkManagerService(context, workerParams, syncRepository.get())
+            return PushExpenseWorkManager(context, workerParams, syncRepository.get())
         }
-    }
+    }*/
 
     override fun onStopped() {
         disposable.clear()

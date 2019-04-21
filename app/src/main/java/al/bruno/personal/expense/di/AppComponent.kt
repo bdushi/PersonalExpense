@@ -16,7 +16,8 @@ import javax.inject.Singleton
     AppModule::class,
     DataSourceModule::class,
     ActivityBindingModule::class,
-    WorkerBindingModule::class])
+    WorkerBindingModule::class,
+    SampleAssistedInjectModule::class])
 interface AppComponent : AndroidInjector<PersonalExpenseApplication> {
     //fun inject(mainApplication: Application)
     @Component.Builder

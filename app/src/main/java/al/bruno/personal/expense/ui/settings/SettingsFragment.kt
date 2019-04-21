@@ -5,7 +5,7 @@ import al.bruno.personal.expense.databinding.FragmentSettingsBinding
 import al.bruno.personal.expense.model.Settings
 import al.bruno.personal.expense.observer.Observer
 import al.bruno.personal.expense.util.ACTION_PROCESS_UPDATES
-import al.bruno.personal.expense.work.manager.WorkManagerService
+import al.bruno.personal.expense.work.manager.PushExpenseWorkManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -46,7 +46,7 @@ class SettingsFragment : Fragment(), Observer<Settings> {
                     .getInstance()
                     .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
                             PeriodicWorkRequest
-                                    .Builder(WorkManagerService::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
+                                    .Builder(PushExpenseWorkManager::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
                                     .addTag(ACTION_PROCESS_UPDATES)
                                     .build())
             /*disposable
