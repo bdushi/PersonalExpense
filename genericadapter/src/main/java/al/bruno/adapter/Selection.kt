@@ -1,5 +1,5 @@
 package al.bruno.adapter
 
 interface Selection {
-    fun selection(selectio: Boolean)
+    fun selection(selection: Boolean)
 }

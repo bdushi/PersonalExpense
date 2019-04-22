@@ -89,7 +89,7 @@ android {
         implementation 'androidx.core:core-ktx:1.0.1'
 
         //DataBinding
-        kapt "androidx.databinding:databinding-compiler:3.3.2"
+        kapt "androidx.databinding:databinding-compiler:3.4.0"
 
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
