@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
-    buildToolsVersion '29.0.0-rc2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "al.bruno.personal.expense"
         minSdkVersion 21
@@ -89,7 +89,7 @@ android {
         implementation 'androidx.core:core-ktx:1.0.1'
 
         //DataBinding
-        kapt "androidx.databinding:databinding-compiler:3.3.2"
+        kapt "androidx.databinding:databinding-compiler:3.4.0"
 
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
@@ -107,7 +107,7 @@ android {
         implementation "androidx.paging:paging-rxjava2-ktx:$paging_version" // use -ktx for Kotlin
 
         //WorkManager
-        def work_version = "2.0.0"
+        def work_version = "2.0.1"
         implementation "androidx.work:work-runtime-ktx:$work_version"
         implementation "androidx.work:work-rxjava2:$work_version"
         androidTestImplementation "androidx.work:work-testing:$work_version"
@@ -118,13 +118,15 @@ android {
 
         implementation 'joda-time:joda-time:2.10.1'
         //Dagger
-        implementation "com.google.dagger:dagger:2.16"
-        kapt "com.google.dagger:dagger-compiler:2.16"
-        implementation "com.google.dagger:dagger-android:2.16"
-        implementation "com.google.dagger:dagger-android-support:2.16"
-        kapt "com.google.dagger:dagger-android-processor:2.16"
-        // Assisted Inject
-        compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:0.3.2"
-        kapt "com.squareup.inject:assisted-inject-processor-dagger2:0.3.2"
+        def dagger = "2.22.1"
+        implementation "com.google.dagger:dagger:$dagger"
+        kapt "com.google.dagger:dagger-compiler:$dagger"
+        implementation "com.google.dagger:dagger-android:$dagger"
+        implementation "com.google.dagger:dagger-android-support:$dagger"
+        kapt "com.google.dagger:dagger-android-processor:$dagger"
+        //Assisted Inject
+        def assisted_inject = "0.4.0"
+        compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_inject"
+        kapt "com.squareup.inject:assisted-inject-processor-dagger2:$assisted_inject"
     }
 }
