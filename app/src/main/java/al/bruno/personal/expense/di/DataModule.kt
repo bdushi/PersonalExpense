@@ -29,7 +29,7 @@ abstract class DataModule {
         fun providesDatabaseHelper(app: Application, name: String): AppDatabase {
             return Room
                     .databaseBuilder(app, AppDatabase::class.java, name)
-                    .addMigrations(
+                    /*.addMigrations(
                             object : Migration(1, 2) {
                                 override fun migrate(database: SupportSQLiteDatabase) {
                                     database.execSQL("ALTER TABLE expense ADD COLUMN _memo TEXT")
@@ -49,7 +49,8 @@ abstract class DataModule {
                                             ") " +
                                             "GROUP BY _date)")
                                 }
-                            }).build()
+                            })*/
+                    .build()
         }
 
         @JvmStatic
