@@ -35,3 +35,17 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// Define versions in a single place
+ext {
+    //WorkManager
+    work_version = '2.0.1'
+    //Dagger
+    dagger = '2.22.1'
+
+    //Assisted Inject
+    assisted_inject = '0.4.0'
+    paging_version = '2.1.0'
+    room = "2.1.0-alpha06"
+    data_binding = "3.4.0"
+}
