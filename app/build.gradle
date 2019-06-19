@@ -5,12 +5,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.0'
     defaultConfig {
         applicationId "al.bruno.personal.expense"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -55,18 +55,18 @@ android {
         //implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 
         //google map
-        implementation 'com.google.android.gms:play-services-maps:16.1.0'
-        implementation 'com.google.android.gms:play-services-location:16.0.0'
+        implementation 'com.google.android.gms:play-services-maps:17.0.0'
+        implementation 'com.google.android.gms:play-services-location:17.0.0'
         //oauth
-        implementation 'com.google.android.gms:play-services-auth:16.0.1'
+        implementation 'com.google.android.gms:play-services-auth:17.0.0'
         //Analytics
-        implementation 'com.google.firebase:firebase-core:16.0.8'
+        implementation 'com.google.firebase:firebase-core:17.0.0'
         //Realtime Database
-        implementation 'com.google.firebase:firebase-database:16.1.0'
+        implementation 'com.google.firebase:firebase-database:18.0.0'
         //implementation 'com.firebaseui:firebase-ui-database:1.0.0'
-        implementation 'com.google.firebase:firebase-auth:16.2.1'
+        implementation 'com.google.firebase:firebase-auth:18.0.0'
         //Crash Reporting
-        implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+        implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
         //Picasso
         implementation 'com.squareup.picasso:picasso:2.71828'
         //
@@ -86,10 +86,10 @@ android {
         //implementation 'pub.devrel:easypermissions:0.3.1'
 
         //ktx
-        implementation 'androidx.core:core-ktx:1.0.1'
+        implementation 'androidx.core:core-ktx:1.0.2'
 
         //DataBinding
-        kapt "androidx.databinding:databinding-compiler:$rootProject.data_binding"
+        //kapt "androidx.databinding:databinding-compiler:$rootProject.data_binding"
 
         //Architecture component
         //http://developer.android.youdaxue.com/reference/androidx/room/DatabaseView
