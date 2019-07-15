@@ -30,7 +30,7 @@ class ExpenseMaster {
             return dayFormat(date!!)
         }
     fun adapter(): CustomAdapter<Expense, LogSingleItemBinding> {
-       return CustomAdapter<Expense, LogSingleItemBinding>(expenses, R.layout.log_single_item, BindingInterface<Expense, LogSingleItemBinding> { t, vm -> vm.expense = t })
+       return CustomAdapter(expenses, R.layout.log_single_item, BindingInterface<Expense, LogSingleItemBinding> { t, vm -> vm.expense = t })
     }
     override fun toString(): String {
         return "$id-$incomes:$expense:$expenses:$date"

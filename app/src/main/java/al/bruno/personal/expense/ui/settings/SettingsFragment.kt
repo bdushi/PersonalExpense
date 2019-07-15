@@ -43,7 +43,7 @@ class SettingsFragment : Fragment(), Observer<Settings> {
         Log.i(SettingsFragment::javaClass.name, t.toString())
         if(t.auto) {
             WorkManager
-                    .getInstance()
+                    .getInstance(context!!)
                     .enqueueUniquePeriodicWork(ACTION_PROCESS_UPDATES, ExistingPeriodicWorkPolicy.KEEP,
                             PeriodicWorkRequest
                                     .Builder(PushExpenseWorkManager::class.java, 24, TimeUnit.HOURS, 3, TimeUnit.HOURS)
@@ -59,7 +59,7 @@ class SettingsFragment : Fragment(), Observer<Settings> {
 
                             }))*/
         } else {
-            WorkManager.getInstance().cancelAllWork();
+            WorkManager.getInstance(context!!).cancelAllWork();
         }
     }
     override fun onStop() {

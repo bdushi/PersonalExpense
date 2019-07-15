@@ -1,7 +1,5 @@
 package al.bruno.personal.expense.ui
 
-import al.bruno.personal.expense.observer.Observer
-import al.bruno.personal.expense.observer.Subject
 import al.bruno.adapter.BindingData
 import al.bruno.month.view.Month
 import al.bruno.month.view.MonthView
@@ -57,6 +55,7 @@ import java.util.*
 import java.util.Calendar.getInstance
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
@@ -83,9 +82,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private var itemRoot: MenuItem? = null
     private var signIn: MenuItem? = null
     private val registry = ArrayList<ExpenseObserver<List<Categories>, String>>()
-    private val monthRegistry = ArrayList<Observer<al.bruno.month.view.Month>>()
     private val disposable: CompositeDisposable = CompositeDisposable()
-    private lateinit var homeFragment: HomeFragment
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return fragmentInjector
@@ -126,8 +123,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                     .setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out)
                                     .add(R.id.host,
                                             MonthView()
-                                                    .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<al.bruno.month.view.Month> {
-                                                        override fun onEdit(t: al.bruno.month.view.Month) {
+                                                    .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<Month> {
+                                                        override fun onEdit(t: Month) {
                                                             myRxBus.setMonth(month = t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
@@ -158,7 +155,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                     .add(R.id.host,
                                             MonthView()
                                                     .setOnEditListener(onEditListener = object : al.bruno.month.view.OnEditListener<Month> {
-                                                        override fun onEdit(t: al.bruno.month.view.Month) {
+                                                        override fun onEdit(t: Month) {
                                                             myRxBus.setMonth(month = t)
                                                             actionBarMonthNavigationLayoutBinding.date = t.monthFormat()
                                                             supportFragmentManager
@@ -234,7 +231,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
          userInfo = auth.currentUser
          if(userInfo != null) {
              WorkManager
-                     .getInstance()
+                     .getInstance(this)
                      .enqueueUniquePeriodicWork(
                              UUID.randomUUID().toString(),
                              ExistingPeriodicWorkPolicy.KEEP,
@@ -242,7 +239,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                                      .addTag(UUID.randomUUID().toString())
                                      .build())
          } else {
-             WorkManager.getInstance().cancelAllWork()
+             WorkManager.getInstance(this).cancelAllWork()
          }
     }
 
@@ -259,8 +256,8 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                     .setMessage(R.string.app_name)
                     .setIcon(R.drawable.alert_outline)
                     .setPositiveButton(R.string.yes) { dialog, _ ->
-                        System.exit(0)
                         dialog.dismiss()
+                        exitProcess(0)
                     }
                     .setNegativeButton(R.string.no) { dialog, _ ->  dialog.dismiss()}
                     .show()
@@ -347,7 +344,7 @@ class HostActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 userInfo = auth.currentUser
                 signIn!!.title = userInfo!!.displayName
                 WorkManager
-                        .getInstance()
+                        .getInstance(this)
                         .enqueue(OneTimeWorkRequestBuilder<PullExpenseWorkManager>()
                                 .setInputData(Data.Builder().putString("UID", userInfo!!.uid).build())
                                 .build())
