@@ -141,6 +141,7 @@ class HomeFragment : Fragment() {
         disposable.clear()
     }
 
+    // Transfer into ViewModel, notify the view
     private fun chart(charts: List<Chart>): ChartDataObject<MutableList<String>, LineData>? {
         val dataSets = ArrayList<ILineDataSet>()
         val dateXaxis = ArrayList<String>()

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6e427e6b267a8aeb8aa1e4e397d4b2f3",
+    "identityHash": "264bd041abb397df190d4d167d7a4a3e",
     "entities": [
       {
         "tableName": "user",
@@ -64,14 +64,14 @@
             "columnNames": [
               "_username"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_user__username` ON `${TABLE_NAME}` (`_username`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_user__username` ON `${TABLE_NAME}` (`_username`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_category` TEXT, `_type` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_category` TEXT, `_type` TEXT, `_sync_time` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -89,6 +89,12 @@
             "fieldPath": "type",
             "columnName": "_type",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "syncTime",
+            "columnName": "_sync_time",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -100,12 +106,13 @@
         },
         "indices": [
           {
-            "name": "index_categories__category",
+            "name": "index_categories__category__sync_time",
             "unique": true,
             "columnNames": [
-              "_category"
+              "_category",
+              "_sync_time"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_categories__category` ON `${TABLE_NAME}` (`_category`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_categories__category__sync_time` ON `${TABLE_NAME}` (`_category`, `_sync_time`)"
           }
         ],
         "foreignKeys": []
@@ -152,14 +159,14 @@
             "columnNames": [
               "_id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_settings__id` ON `${TABLE_NAME}` (`_id`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_settings__id` ON `${TABLE_NAME}` (`_id`)"
           }
         ],
         "foreignKeys": []
       },
       {
         "tableName": "expense",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_type` TEXT, `_category` TEXT, `_memo` TEXT, `_amount` REAL NOT NULL, `_date` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_type` TEXT, `_category` TEXT, `_memo` TEXT, `_amount` REAL NOT NULL, `_date` INTEGER, `_sync_time` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -196,6 +203,12 @@
             "columnName": "_date",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "syncTime",
+            "columnName": "_sync_time",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -206,13 +219,12 @@
         },
         "indices": [
           {
-            "name": "index_expense__date__id",
+            "name": "index_expense__sync_time",
             "unique": true,
             "columnNames": [
-              "_date",
-              "_id"
+              "_sync_time"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_expense__date__id` ON `${TABLE_NAME}` (`_date`, `_id`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_expense__sync_time` ON `${TABLE_NAME}` (`_sync_time`)"
           }
         ],
         "foreignKeys": []
@@ -221,12 +233,16 @@
     "views": [
       {
         "viewName": "expense_details",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e._date AS _date, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) AS _income, TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _expenses, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _remain, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _balance FROM expense AS e"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e._date AS _date, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) AS _income, TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _expenses, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _remain, TOTAL(CASE WHEN e._type = 'incomes' THEN  e._amount ELSE 0 END) - TOTAL(CASE WHEN e._type = 'expenses' THEN  e._amount ELSE 0 END) AS _balance FROM expense AS e GROUP BY strftime('%m%Y', datetime(e._date/1000, 'unixepoch'))"
+      },
+      {
+        "viewName": "expense_chart",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS select _amount, _date, _type from (select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'expenses' GROUP BY _date union all select TOTAL(_amount) AS _amount, _date, _type from expense where _type = 'incomes'  GROUP BY _date union all select TOTAL(_amount) AS _amount, _date, 'balance' from (select _amount, _date, _type from expense where _type = 'expenses' union all select -_amount, _date, _type from expense where _type = 'incomes') GROUP BY _date)"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6e427e6b267a8aeb8aa1e4e397d4b2f3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '264bd041abb397df190d4d167d7a4a3e')"
     ]
   }
 }
